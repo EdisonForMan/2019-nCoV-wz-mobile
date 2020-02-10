@@ -52,7 +52,7 @@
           </div>
         </div>
         <div class="img" v-show="show" @click="imgShow()">
-          <img :src="`${this.server}img/map/${this.title}_${$window.nCov_luchengData.mobile.fk_imgtag}.png`" @error="errorImg()" />
+          <img :src="`${this.server}img/map/${this.title}_${fk_imgtag}.png`" @error="errorImg()" />
         </div>
         <!-- <div class="mapDiv" v-if="title=='永嘉县'">
           <div id="xq-map"></div>
@@ -103,7 +103,11 @@
       </p>
       <span style="font-size: 13px;">温州设计集团勘测院&nbsp&nbsp&nbsp出品</span>
     </div>
-    <bigimg v-if="showImg" @clickit="viewImg" :imgSrc="`${this.server}img/map/${this.title}_${$window.nCov_luchengData.mobile.fk_imgtag}.png`"></bigimg>
+    <bigimg
+      v-if="showImg"
+      @clickit="viewImg"
+      :imgSrc="`${this.server}img/map/${this.title}_${fk_imgtag}.png`"
+    ></bigimg>
   </div>
 </template>
 
@@ -126,7 +130,8 @@ export default {
       title: "",
       context,
       date,
-      server: "https://lysb.lucheng.gov.cn/other/m_t/",
+      fk_imgtag: 10,
+      server: "https://lysb.lucheng.gov.cn/other/",
       show: true,
       showImg: false,
       chart: undefined,
