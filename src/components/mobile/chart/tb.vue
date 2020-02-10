@@ -45,68 +45,7 @@ export default {
   methods: {
     zxtChart() {
       this.chart = this.$echarts.init(document.getElementById("zxt"));
-      var data = [
-        {
-          name: "2020-01-25",
-          value: 18
-        },
-        {
-          name: "2020-01-26",
-          value: 14
-        },
-        {
-          name: "2020-01-27",
-          value: 28
-        },
-        {
-          name: "2020-01-28",
-          value: 54
-        },
-        {
-          name: "2020-01-29",
-          value: 58
-        },
-        {
-          name: "2020-01-30",
-          value: 55
-        },
-        {
-          name: "2020-01-31",
-          value: 14
-        },
-        {
-          name: "2020-02-01",
-          value: 24
-        },
-        {
-          name: "2020-02-02",
-          value: 26
-        },
-        {
-          name: "2020-02-03",
-          value: 49
-        },
-        {
-          name: "2020-02-04",
-          value: 24
-        },
-        {
-          name: "2020-02-05",
-          value: 32
-        },
-        {
-          name: "2020-02-06",
-          value: 25
-        },
-        {
-          name: "2020-02-07",
-          value: 17
-        },
-        {
-          name: "2020-02-08",
-          value: 10
-        }
-      ];
+      var data = window.nCov_qushiData.zxt;
       this.chart.setOption({
         // backgroundColor: "rgb(13,25,49)",
         grid: {
@@ -190,68 +129,7 @@ export default {
     },
     mrzyChart() {
       this.chart = this.$echarts.init(document.getElementById("mrzy"));
-      var data = [
-        {
-          name: "2020-01-25",
-          value: 0
-        },
-        {
-          name: "2020-01-26",
-          value: 0
-        },
-        {
-          name: "2020-01-27",
-          value: 0
-        },
-        {
-          name: "2020-01-28",
-          value: 0
-        },
-        {
-          name: "2020-01-29",
-          value: 0
-        },
-        {
-          name: "2020-01-30",
-          value: 7
-        },
-        {
-          name: "2020-01-31",
-          value: 1
-        },
-        {
-          name: "2020-02-01",
-          value: 2
-        },
-        {
-          name: "2020-02-02",
-          value: 3
-        },
-        {
-          name: "2020-02-03",
-          value: 3
-        },
-        {
-          name: "2020-02-04",
-          value: 11
-        },
-        {
-          name: "2020-02-05",
-          value: 0
-        },
-        {
-          name: "2020-02-06",
-          value: 8
-        },
-        {
-          name: "2020-02-07",
-          value: 13
-        },
-        {
-          name: "2020-02-08",
-          value: 21
-        }
-      ];
+      var data = window.nCov_qushiData.mrzy;
       this.chart.setOption({
         // backgroundColor: "rgb(13,25,49)",
         grid: {
@@ -336,64 +214,7 @@ export default {
     },
     zztChart() {
       this.chart = this.$echarts.init(document.getElementById("zzt"));
-      var data = [
-        {
-          name: "鹿城",
-          value: "63"
-        },
-        {
-          name: "龙湾",
-          value: "16"
-        },
-        {
-          name: "瓯海",
-          value: "33"
-        },
-        {
-          name: "洞头",
-          value: "5"
-        },
-        {
-          name: "乐清",
-          value: "155"
-        },
-        {
-          name: "瑞安",
-          value: "71"
-        },
-        {
-          name: "永嘉",
-          value: "46"
-        },
-        {
-          name: "平阳",
-          value: "30"
-        },
-        {
-          name: "苍南",
-          value: "9"
-        },
-        {
-          name: "文成",
-          value: "10"
-        },
-        {
-          name: "泰顺",
-          value: "16"
-        },
-        {
-          name: "龙港",
-          value: "8"
-        },
-        {
-          name: "浙南产业集聚区",
-          value: "1"
-        },
-        {
-          name: "瓯江口",
-          value: "1"
-        }
-      ];
+      var data = window.nCov_qushiData.zzt;
       this.chart.setOption({
         // backgroundColor: "rgb(13, 25, 49)",
         tooltip: {
@@ -478,64 +299,7 @@ export default {
     },
     zzblChart() {
       this.chart = this.$echarts.init(document.getElementById("zybl"));
-      var data = [
-        {
-          name: "鹿城",
-          value: "10"
-        },
-        {
-          name: "龙湾",
-          value: "1"
-        },
-        {
-          name: "瓯海",
-          value: "3"
-        },
-        {
-          name: "洞头",
-          value: "0"
-        },
-        {
-          name: "乐清",
-          value: "23"
-        },
-        {
-          name: "瑞安",
-          value: "29"
-        },
-        {
-          name: "永嘉",
-          value: "7"
-        },
-        {
-          name: "平阳",
-          value: "2"
-        },
-        {
-          name: "苍南",
-          value: "0"
-        },
-        {
-          name: "文成",
-          value: "1"
-        },
-        {
-          name: "泰顺",
-          value: "2"
-        },
-        {
-          name: "龙港",
-          value: "0"
-        },
-        {
-          name: "浙南产业集聚区",
-          value: "0"
-        },
-        {
-          name: "瓯江口",
-          value: "0"
-        }
-      ];
+      var data = window.nCov_qushiData.zybl;
       this.chart.setOption({
         // backgroundColor: "rgb(13,25,49)",
         grid: {
@@ -620,64 +384,7 @@ export default {
     },
     mrqxqzChart() {
       this.chart = this.$echarts.init(document.getElementById("mrqxqz"));
-      var data = [
-        {
-          name: "鹿城",
-          value: "2"
-        },
-        {
-          name: "龙湾",
-          value: "0"
-        },
-        {
-          name: "瓯海",
-          value: "2"
-        },
-        {
-          name: "洞头",
-          value: "0"
-        },
-        {
-          name: "乐清",
-          value: "4"
-        },
-        {
-          name: "瑞安",
-          value: "0"
-        },
-        {
-          name: "永嘉",
-          value: "2"
-        },
-        {
-          name: "平阳",
-          value: "0"
-        },
-        {
-          name: "苍南",
-          value: "0"
-        },
-        {
-          name: "文成",
-          value: "0"
-        },
-        {
-          name: "泰顺",
-          value: "6"
-        },
-        {
-          name: "龙港",
-          value: "0"
-        },
-        {
-          name: "浙南产业集聚区",
-          value: "0"
-        },
-        {
-          name: "瓯江口",
-          value: "0"
-        }
-      ];
+      var data = window.nCov_qushiData.mrqxqz;
       this.chart.setOption({
         // backgroundColor: "rgb(13,25,49)",
         grid: {
@@ -761,64 +468,7 @@ export default {
     },
     mrqxzyChart() {
       this.chart = this.$echarts.init(document.getElementById("mrqxzy"));
-      var data = [
-        {
-          name: "鹿城",
-          value: "2"
-        },
-        {
-          name: "龙湾",
-          value: "0"
-        },
-        {
-          name: "瓯海",
-          value: "0"
-        },
-        {
-          name: "洞头",
-          value: "0"
-        },
-        {
-          name: "乐清",
-          value: "2"
-        },
-        {
-          name: "瑞安",
-          value: "1"
-        },
-        {
-          name: "永嘉",
-          value: "2"
-        },
-        {
-          name: "平阳",
-          value: "1"
-        },
-        {
-          name: "苍南",
-          value: "0"
-        },
-        {
-          name: "文成",
-          value: "0"
-        },
-        {
-          name: "泰顺",
-          value: "0"
-        },
-        {
-          name: "龙港",
-          value: "0"
-        },
-        {
-          name: "浙南产业集聚区",
-          value: "0"
-        },
-        {
-          name: "瓯江口",
-          value: "0"
-        }
-      ];
+      var data = window.nCov_qushiData.mrqxzy;
       this.chart.setOption({
         // backgroundColor: "rgb(13,25,49)",
         grid: {
