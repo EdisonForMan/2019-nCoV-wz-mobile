@@ -2,7 +2,6 @@
   <div class="map">
     <div class="title">
       <span>温州市新冠肺炎防控作战地图</span>
-      <!-- <p style="font-size: 12px;">（注：洞头区确诊病例数包含瓯江口产业集聚区）</p> -->
     </div>
     <header class="app_header">
       <ul class="app_toptab">
@@ -19,14 +18,14 @@
         </li>
       </ul>
     </header>
-    <div class="isGk isGkActive" @click="gkChange">管控力指标</div>
-    <div class="kind">
+    <div class="isGk isGkActive" @click="gkChange" v-if="current != 2">管控力指标</div>
+    <div class="kind" v-if="current != 2">
       <div class="t1">一类区域</div>
       <div class="t2">二类区域</div>
       <div class="t3">三类区域</div>
       <div class="t4">四类区域</div>
     </div>
-    <div class="bottom">
+    <div class="bottom" v-if="current != 2">
       <p>
         <span class="text">截至</span> 2020年 2月
         <span class="time">{{date}}</span>日
@@ -35,6 +34,7 @@
     </div>
     <fk v-if="current == 0" />
     <bl v-if="current == 1" />
+    <tb v-if="current == 2" />
   </div>
 </template>
 
@@ -43,13 +43,14 @@
 
 import bl from "./chart/bl";
 import fk from "./chart/fk";
+import tb from "./chart/tb";
 import wx from "weixin-js-sdk";
 import axios from "axios";
 import { date } from "./mapdata";
 
 export default {
   name: "Mobile",
-  components: { bl, fk },
+  components: { bl, fk, tb },
   data() {
     return {
       toptab: [
@@ -87,6 +88,7 @@ export default {
   },
   created() {
     this.getToken();
+    this.refresh();
   },
   watch: {
     isGk(n, o) {
@@ -95,12 +97,24 @@ export default {
   },
   methods: {
     goPage(index) {
-      index > 1 && alert("建设中");
-      index < 2 && (this.current = index);
+      index > 2 && alert("建设中，敬请期待！");
+      index < 3 && (this.current = index);
     },
     gkChange() {
       this.$router.push({
         path: "/MobileGK"
+      });
+    },
+    refresh() {
+      $(document).ready(function() {
+        // if (location.href.indexOf("#reloaded") == -1) {
+        //   location.href = location.href + "#reloaded";
+        //   location.reload();
+        // }
+        if (!sessionStorage.getItem("shallRefresh")) {
+          sessionStorage.setItem("shallRefresh", true);
+          location.reload();
+        }
       });
     },
     //信用分后台认证
@@ -352,7 +366,5 @@ export default {
       margin: 0;
     }
   }
-  
 }
-
 </style>

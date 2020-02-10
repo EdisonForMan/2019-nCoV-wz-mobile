@@ -4,13 +4,24 @@
       <div>
         <div>累计确诊病例</div>
         <div>
-          <i class="ill">438</i> 例
+          <i class="ill">{{this.num[0].value}}</i> 例
         </div>
       </div>
       <div style="margin-bottom: 8px;">
         <div>累计出院病例</div>
         <div>
-          <i class="cure">49</i> 例
+          <i class="cure">{{this.num[2].value}}</i> 例
+        </div>
+      </div>
+       <div style="margin-bottom: 8px;">
+        <div>当日新增确诊</div>
+        <div>
+          <i class="ill">16</i> 例
+        </div>
+      </div><div style="margin-bottom: 8px;">
+        <div>当日新增出院</div>
+        <div>
+          <i class="cure">8</i> 例
         </div>
       </div>
       <!-- <div>
@@ -33,7 +44,7 @@
 </template>
 
 <script>
-import wenzhouMap from "../WenZhou";
+import wenzhouMap from "../geoJson/WenZhou";
 import { mapdata, date, num } from "../mapdata";
 
 export default {
@@ -70,33 +81,33 @@ export default {
             }
           }
         },
-        visualMap: {
-          show: false,
-          min: 0,
-          max: this.mapdata
-            .map(item => {
-              return {
-                name: item.name,
-                value: item.value[0],
-                coord: item.coord
-              };
-            })
-            .sort((a, b) => b.value - a.value)[0].value,
-          inRange: {
-            color: [
-              "#ffffff",
-              "#feeeef",
-              "#fcc7b7",
-              "#ff9d88",
-              "#ff6c4a",
-              "#ff3b07"
-            ]
-          },
-          textStyle: {
-            color: "#FFF"
-          },
-          calculable: true
-        },
+        // visualMap: {
+        //   show: false,
+        //   min: 0,
+        //   max: this.mapdata
+        //     .map(item => {
+        //       return {
+        //         name: item.name,
+        //         value: item.value[0],
+        //         coord: item.coord
+        //       };
+        //     })
+        //     .sort((a, b) => b.value - a.value)[0].value,
+        //   inRange: {
+        //     color: [
+        //       "#ffffff",
+        //       "#feeeef",
+        //       "#fcc7b7",
+        //       "#ff9d88",
+        //       "#ff6c4a",
+        //       "#ff3b07"
+        //     ]
+        //   },
+        //   textStyle: {
+        //     color: "#FFF"
+        //   },
+        //   calculable: true
+        // },
         series: [
           {
             type: "map",
@@ -128,6 +139,9 @@ export default {
               return {
                 name: item.name,
                 value: item.value[0],
+                itemStyle: {
+                  color: item.color || "#fff"
+                },
                 coord: item.coord
               };
             }),
@@ -206,7 +220,7 @@ export default {
 .TOP_DATA {
   position: absolute;
   z-index: 2;
-  top: 160px;
+  top: 132px;
   left: 12px;
   > p {
     font-size: 12px;
@@ -214,25 +228,25 @@ export default {
     width: 130px;
   }
   > div {
-    height: 46px;
+    height: 35px;
     font-size: 16px;
     font-weight: 900;
     margin-bottom: 10px;
     color: rgb(255, 255, 255);
     width: 150px;
     div {
-      margin-left: 10px;
+      margin-left: 1px;
       i {
         font-style: normal;
       }
     }
     > div:first-child {
-      height: 20px;
+      height: 16px;
       line-height: 20px;
     }
     > div:last-child {
       height: 26px;
-      font-size: 22px;
+      font-size: 16px;
       line-height: 26px;
     }
     .ill {

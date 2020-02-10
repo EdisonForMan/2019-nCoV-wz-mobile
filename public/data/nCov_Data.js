@@ -3,6 +3,10 @@
  * created by eds 2020/2/2
  */
 const nCov_luchengData = {
+    mobile: {
+        fk_imgtag: 9,           //  防控作战图片下标
+        bl_imgtag: 9,           //  病例分布图片下标    
+    },
     /** 防疫布控  */
     macroscopic: {
         updateTime: "2020年2月6日12点",

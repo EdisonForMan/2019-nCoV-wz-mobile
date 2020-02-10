@@ -7,7 +7,12 @@
       </div>
       <!--<span v-else style="font-size:10px;line-height:15px">表中病例信息来源“健康温州”公众号于2020年1月28日起至今公布的信息，且并无删减出院病例。</span> -->
     </div>
-    <img :src="forceImg" style="width:100%;" />
+    <!-- <img :src="forceImg" style="width:100%;" /> -->
+    <img
+      style="width:100%;"
+      :src="`${this.server}img/estate/${this.title}_${$window.nCov_luchengData.mobile.bl_imgtag}.png`"
+      @error="errorImg()"
+    />
     <p>病例信息</p>
     <ul class="xq1">
       <li v-for="(bitem,bindex) in xq" :key="bindex">
@@ -39,20 +44,7 @@ export default {
       flagnum: [],
       title: "",
       forceImg: undefined,
-      苍南县: require("./img/estate/苍南县.png"),
-      洞头区: require("./img/estate/洞头区.png"),
-      乐清市: require("./img/estate/乐清市.png"),
-      龙港市: require("./img/estate/龙港市.png"),
-      龙湾区: require("./img/estate/龙湾区.png"),
-      鹿城区: require("./img/estate/鹿城区.png"),
-      瓯海区: require("./img/estate/瓯海区.png"),
-      瓯江口集聚区: require("./img/estate/瓯江口产业集聚区.png"),
-      平阳县: require("./img/estate/平阳县.png"),
-      瑞安市: require("./img/estate/瑞安市.png"),
-      泰顺县: require("./img/estate/泰顺县.png"),
-      文成县: require("./img/estate/文成县.png"),
-      永嘉县: require("./img/estate/永嘉县.png"),
-      浙南集聚区: require("./img/estate/浙南产业集聚区.png")
+      server: "https://lysb.lucheng.gov.cn/other/"
     };
   },
   mounted() {

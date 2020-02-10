@@ -12,6 +12,7 @@ import Mobile from "./components/mobile/map.vue"
 import MobileXq from "./components/mobile/xq.vue"
 import MobileGK from "./components/mobile/gk.vue"
 import BlImg from "./components/mobile/blImg.vue"
+// import tb from "./components/mobile/tb.vue";
 
 Vue.use(Router);
 
@@ -46,5 +47,10 @@ export default new Router({
         name: "monitor",
         component: Monitor
       },
+      // {
+      //   path: "/tb",
+      //   name: "tb",
+      //   component: tb
+      // }
     ]
 });

@@ -19,42 +19,60 @@
             </div>
           </li>
         </ul>
-        <div class="Flagbl" style="text-align: left;font-size: 16px;margin-bottom: 4px;">
+        <div
+          class="Flagbl"
+          style="text-align: left;font-size: 16px;margin-bottom: 4px;height: 80px;"
+        >
           <ul style="list-style: none;">
             <li v-for="(fitem,findex) in flagnum" :key="findex">
-              <div>
-                <span>当前<span style="color:red;">红旗</span></span>
-                <br />
-                <span>{{fitem.red}}</span>
-              </div>
-
               <div>
                 <span>当前白旗</span>
                 <br />
                 <span>{{fitem.white}}</span>
               </div>
-              <!-- <span class="flags" style="color:red;;">
-                当前红旗
+              <div>
+                <span>
+                  当前
+                  <span style="color:red;">红旗</span>
+                </span>
                 <br />
-                {{fitem.red}}
-              </span>-->
-              <!-- <span class="flags" style="float: right">
-                当前白旗
-                <br />
-                {{fitem.white}}
-              </span>-->
-              <!-- <img src="./img/red.png" />
-              <span style="padding-right: 10px">{{fitem.red}}</span>
-              <img  style="padding-left: 10px" src="./img/white.png" />
-              <span>{{fitem.white}}</span>-->
+                <span>{{fitem.red}}</span>
+              </div>
             </li>
           </ul>
-          <!-- <span style="padding-right: 20px;">红：4</span>
-          <span>白：21</span>-->
+          <div class="Flagbl_tip">
+            <div>
+              <p class="red">红旗（红色阵地）</p>
+              <p>三天内无新增确诊病例</p>
+            </div>
+            <div>
+              <p>白旗（白色阵地）</p>
+              <p>三天内出现新增确诊病例</p>
+            </div>
+          </div>
         </div>
         <div class="img" v-show="show" @click="imgShow()">
-          <img :src="`${this.server}img/map/${this.title}.png`" @error="errorImg()" />
+          <img :src="`${this.server}img/map/${this.title}_${$window.nCov_luchengData.mobile.fk_imgtag}.png`" @error="errorImg()" />
         </div>
+        <!-- <div class="mapDiv" v-if="title=='永嘉县'">
+          <div id="xq-map"></div>
+        </div>
+        <div class="msg" v-if="title=='永嘉县'">
+          <table>
+            <thead>
+              <tr>
+                <th>街道</th>
+                <th>详情</th>
+              </tr>
+            </thead>
+            <tbody v-for="(item,index) in DATA_YONGJIA" :key="index">
+              <tr v-for="(_item,_index) in item.value" :key="_index">
+                <td>{{ item.name }}</td>
+                <td>{{ _item}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>-->
       </div>
       <!-- <div class="head">
       <p>{{this.title}}疫情小报</p>
@@ -76,7 +94,6 @@
         <br />
         <span style="font-size:10px;line-height:15px">表中病例信息来源“健康温州”公众号于2020年1月28日起至今公布的信息，部分病例信息缺失。</span>
       </div>
-      <!-- <span v-else style="font-size:10px;line-height:15px">表中病例信息来源“健康温州”公众号于2020年1月28日起至今公布的信息，且并无删减出院病例。</span> -->
     </div>
     <div class="footer">
       <p>
@@ -95,6 +112,9 @@
 import context from "./xq";
 import { date } from "./mapdata";
 import bigimg from "./bigImg";
+// import MAP_YONGJIA from "./geoJson/map_YongJia";
+// import MAP_YONGJIA from "`./geoJson/${title}`";
+import { DATA_YONGJIA, GEO_YONGJIA } from "./data/chart_Data";
 
 export default {
   name: "sbDate",
@@ -108,7 +128,10 @@ export default {
       date,
       server: "https://lysb.lucheng.gov.cn/other/",
       show: true,
-      showImg: false
+      showImg: false,
+      chart: undefined,
+      DATA_YONGJIA,
+      GEO_YONGJIA
     };
   },
   props: {},
@@ -116,7 +139,12 @@ export default {
   created() {
     this.xqxx();
   },
-  mounted() {},
+  mounted() {
+    // if (this.title == "永嘉县") {
+    //   this.XQMapInit();
+    //   this.XQMap();
+    // }
+  },
   components: { bigimg },
   methods: {
     xqxx() {
@@ -135,7 +163,6 @@ export default {
       this.show = false;
     },
     viewImg() {
-      console.log(111);
       this.showImg = false;
     },
     imgShow() {
@@ -143,6 +170,171 @@ export default {
     },
     back() {
       this.$router.go(-1);
+    },
+    XQMapInit() {
+      this.chart = this.$echarts.init(document.getElementById("xq-map"));
+      this.$echarts.registerMap("wenzhou", MAP_YONGJIA);
+    },
+    XQMap() {
+      const that = this;
+      this.chart.setOption({
+        geo: {
+          map: "wenzhou",
+          zoom: 1.2,
+          label: {
+            normal: {
+              show: false
+            },
+            emphasis: {
+              show: false
+            }
+          }
+        },
+        series: [
+          {
+            name: "散点",
+            type: "scatter",
+            coordinateSystem: "geo",
+            data: this.DATA_YONGJIA.map(item => {
+              return {
+                name: item.name,
+                value: this.GEO_YONGJIA[item.name].concat(item.value.length)
+              };
+            }),
+            symbolSize: function(val) {
+              return val[2] / 10;
+            },
+            label: {
+              normal: {
+                formatter: "{b}",
+                position: "right",
+                show: true
+              },
+              emphasis: {
+                show: true
+              }
+            },
+            itemStyle: {
+              normal: {
+                color: "#fff"
+              }
+            }
+          },
+          {
+            type: "map",
+            map: "wenzhou",
+            zoom: 1.2,
+            emphasis: {
+              label: {
+                show: true
+              }
+            },
+            label: {
+              normal: {
+                show: false,
+                textStyle: {
+                  color: "#fff"
+                }
+              },
+              emphasis: {
+                show: false,
+                textStyle: {
+                  color: "#fff"
+                }
+              }
+            },
+            itemStyle: {
+              normal: {
+                areaColor: "#031525",
+                borderColor: "#3B5077"
+              },
+              emphasis: {
+                areaColor: "#2B91B7"
+              }
+            },
+            textFixed: {
+              Alaska: [200, 0]
+            },
+            // data: this.GEO_YONGJIA.map(item => {
+            //   return {
+            //     name: item.name,
+            //     itemStyle: {
+            //       color: item.color || "#fff"
+            //     },
+            //     coord: item.coord
+            //   };
+            // })
+            data: []
+          },
+          // {
+          //   id: "point",
+          //   name: "",
+          //   type: "effectScatter",
+          //   coordinateSystem: "geo",
+          //   label: {
+          //     normal: {
+          //       show: true,
+          //       textStyle: {
+          //         color: "#000"
+          //       },
+          //       formatter: "{b}",
+          //       position: "bottom"
+          //     }
+          //   },
+          //   itemStyle: {
+          //     color: "#FFFF00"
+          //   },
+          //   zlevel: 6,
+          //   data: this.DATA_YONGJIA.map(item => {
+          //     return {
+          //       name: item.name,
+          //       value: item.value.length
+          //     };
+          //   })
+          // },
+          {
+            name: "Top 5",
+            type: "effectScatter",
+            coordinateSystem: "geo",
+            data: this.DATA_YONGJIA.map(item => {
+              return {
+                name: item.name,
+                value: this.GEO_YONGJIA[item.name].concat(item.value.length)
+              };
+            }),
+            symbolSize: function(val) {
+              return val[2] / 10;
+            },
+            showEffectOn: "render",
+            rippleEffect: {
+              brushType: "stroke"
+            },
+            hoverAnimation: true,
+            label: {
+              normal: {
+                formatter: "{b}",
+                position: "left",
+                show: false
+              }
+            },
+            itemStyle: {
+              normal: {
+                color: "yellow",
+                shadowBlur: 10,
+                shadowColor: "yellow"
+              }
+            },
+            zlevel: 6
+          }
+        ]
+      });
+
+      that.chart.getZr().on("click", function(event) {
+        if (event.target && event.target.seriesIndex == 1) {
+          const ds = that.DATA_YONGJIA[event.target.dataIndex].value;
+          console.log(ds);
+        }
+      });
     }
   }
 };
@@ -160,6 +352,26 @@ export default {
   background-size: 100% 100%;
   overflow-y: auto;
   .Flagbl {
+    position: relative;
+    .Flagbl_tip {
+      > div:first-child {
+        position: absolute;
+        left: 0;
+      }
+      > div:last-child {
+        p {
+          text-align: right;
+        }
+        position: absolute;
+        right: 0;
+      }
+      p {
+        font-size: 12px !important;
+      }
+      .red {
+        color: red;
+      }
+    }
     ul {
       li {
         div {
@@ -259,6 +471,26 @@ export default {
       height: 100%;
     }
   }
+
+  .mapDiv {
+    height: 400px;
+
+    #xq-map {
+      height: 100%;
+    }
+  }
+
+  .msg {
+    table {
+      width: 100%;
+      border: 1px solid #ccc;
+
+      td {
+        border-top: 1px solid #ccc;
+      }
+    }
+  }
+
   .xq_contain {
     width: 100%;
     // display: flex;
