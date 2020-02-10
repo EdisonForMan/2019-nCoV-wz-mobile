@@ -7,7 +7,7 @@
       </div>
       <!--<span v-else style="font-size:10px;line-height:15px">表中病例信息来源“健康温州”公众号于2020年1月28日起至今公布的信息，且并无删减出院病例。</span> -->
     </div>
-    <img :src="imgSrc" style="width:100%;"/>
+    <img :src="imgSrc" style="width:100%;" />
   </div>
 </template>
 
@@ -37,6 +37,7 @@ export default {
   background-repeat: no-repeat;
   background-size: 100% 100%;
   overflow-y: auto;
+  padding: 10px;
   .Flagbl {
     ul {
       li {
