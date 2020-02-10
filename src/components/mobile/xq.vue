@@ -184,7 +184,7 @@ export default {
       title: "",
       context,
       date,
-      server: "https://lysb.lucheng.gov.cn/other/",
+      server: "https://lysb.lucheng.gov.cn/other/m_test/",
       fk_imgtag: 9,
       show: true,
       showImg: false,
