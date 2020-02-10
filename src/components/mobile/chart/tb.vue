@@ -1,12 +1,15 @@
 <template>
   <div class="tb">
     <div style="position: relative;">
-      <div id="zxt"></div>
-      <div class="tb-title">每日确诊病例图</div>
+      <div id="mapqushi"></div>
+      <div class="mapqushi-date">
+        <div class="mapqushi-date-duration">{{ duration }}</div>
+        <div class="mapqushi-date-current" ref="current">当前：{{ mapDateArr[index] }}</div>
+      </div>
     </div>
     <div style="position: relative;">
-      <div id="mrzy"></div>
-      <div class="tb-title">每日治愈病例图</div>
+      <div id="zxt"></div>
+      <div class="tb-title">每日确诊治愈图</div>
     </div>
     <div style="position: relative;">
       <div id="zzt"></div>
@@ -28,22 +31,174 @@
 </template>
 
 <script>
+import {NEW_WENZHOU_JSON} from '../geoJson/newWenzhouJson.js';
 export default {
   data() {
     return {
-      chart: undefined
+      chart: undefined,
+      index: 0,
+      duration: window.nCov_qushiData.mapDate,
+      mapDateArr: window.nCov_qushiData.mapDateArr,
+      timeoutFlag: null
     };
   },
   mounted() {
-    this.zxtChart(); //调用地图
-    this.mrzyChart(); //调用地图
+    this.$echarts.registerMap('qushiWZ', NEW_WENZHOU_JSON);
+    this.mapqushiChart();
+    this.zxtmrzyChart(); //调用地图
     this.zztChart(); //调用地图
     this.zzblChart(); //调用地图
     this.mrqxqzChart();
     this.mrqxzyChart();
   },
+  beforeDestroy () {
+    if (this.timeoutFlag) {
+      clearTimeout(this.timeoutFlag);
+      this.timeoutFlag = null;
+    } 
+  },
   methods: {
-    zxtChart() {
+    mapqushiChart () {
+      this.chart = this.$echarts.init(document.getElementById("mapqushi"));
+      const geoCoordMap = {
+          "鹿城": [120.489894, 28.082536], 
+          "龙湾": [120.853894, 27.910969], 
+          "瓯海": [120.501369, 27.996593],  
+          "洞头": [121.113762, 27.832626], 
+          "瑞安": [120.365572, 27.901998], 
+          "乐清": [120.978579, 28.220666], 
+          "永嘉": [120.642158, 28.330733], 
+          "文成": [119.982316, 27.807567], 
+          "平阳": [120.280537, 27.623857], 
+          "泰顺": [119.877783, 27.481151], 
+          "苍南": [120.452814, 27.381237], 
+          "龙港": [120.6099323, 27.52166944], 
+          "浙聚区": [120.770894, 27.830969], 
+          "瓯江口": [120.9299323, 27.98166944]
+      };
+      var heat = window.nCov_qushiData.mapReLi[this.mapDateArr[this.index]] ? window.nCov_qushiData.mapReLi[this.mapDateArr[this.index]] : [];
+      this.$refs.current.innerText = '当前：' + this.mapDateArr[this.index];
+      let mapData = window.nCov_qushiData.mapData;
+      let seriesData = Object.keys(mapData).map((item) => {
+          return {
+              name: item,
+              value: mapData[item].qz
+          }
+      });
+      let convertData = function(data) {
+          let scatterData = [];
+          for (var i = 0; i < data.length; i++) {
+              var geoCoord = geoCoordMap[data[i].name];
+              if (geoCoord) {
+                  scatterData.push({
+                      name: data[i].name,
+                      value: geoCoord.concat(data[i].value)
+                  });
+              }
+          }
+          return scatterData;
+      };
+      this.chart.setOption({
+          tooltip: { //提示框组件。
+              formatter: function (param) {
+                  return [param.name,
+                  '累计确诊: ' + mapData[param.name].qz + '例',
+                  '重症: ' + mapData[param.name].zz + '例',
+                  '治愈: ' + mapData[param.name].zy + '例',
+                  '上日确诊: ' + mapData[param.name].srqz + '例',
+                  '上日治愈: ' + mapData[param.name].srzy + '例'].join('\n');
+              },
+              extraCssText:'white-space:pre-wrap;text-align:left;',
+              textStyle: {
+                  fontSize: '14'
+              }
+          },
+          geo: {
+              map: 'qushiWZ',
+              zoom: 1.2
+          },
+          visualMap: { //颜色的设置  dataRange
+              show: false,
+              x: 'right',
+              y: 'bottom',
+              seriesIndex: [0],
+              color: ['red', 'rgb(255, 127, 0)', 'white'],
+              text: ['例', ''],
+              textStyle: {
+                  color: '#fff'
+              }
+          },
+          series: [{
+            name: 'AQI',
+            type: 'heatmap',
+            coordinateSystem: 'geo',
+            pointSize: 10,
+            blurSize: 6,
+            data: heat,
+            zlevel: 2,
+          }, {
+                  name: '温州',
+                  type: 'map',
+                  zoom: 1.2,
+                  mapType: 'qushiWZ',
+                  roam: false, //是否开启鼠标缩放和平移漫游
+                  itemStyle: { //地图区域的多边形 图形样式
+                      normal: { //是图形在默认状态下的样式
+                          label: {
+                              show: false
+                          }
+                      },
+                      emphasis: { //是图形在高亮状态下的样式,比如在鼠标悬浮或者图例联动高亮时
+                          label: {
+                              show: false
+                          },
+                          borderColor: '#3baced',
+                          // areaColor: '#0b558e',
+                      }
+                  },
+                  data: seriesData
+              },
+              {
+                  name: '',
+                  type: 'scatter',
+                  coordinateSystem: 'geo',
+                  symbolSize: 1,
+                  symbol: 'circle',
+                  tooltip: {
+                      show: true
+                  },
+                  label: {
+                      normal: {
+                          formatter: function (param) {
+                              return param.name + ' ' + param.value[2];
+                          },
+                          show: true,
+                          position: 'inside',
+                          textStyle: {
+                              color: 'rgb(194, 53, 49)',
+                              fontSize: 11,
+                              fontWeight: 'bold',
+                              padding: [0,0,0,3]
+                          }
+                      }
+                  },
+                  itemStyle: {
+                      normal: {
+                          color: 'rgb(0,254,5)', //标志颜色
+                      }
+                  },
+                  zlevel: 1,
+                  data: convertData(seriesData),
+              }
+          ]
+      });
+      this.timeoutFlag = setTimeout(() => {
+        this.index++;
+        if (this.index >= this.mapDateArr.length) this.index = 0;
+        this.mapqushiChart();
+      }, 5000);
+    },
+    zxtmrzyChart() {
       this.chart = this.$echarts.init(document.getElementById("zxt"));
       var data = window.nCov_qushiData.zxt;
       this.chart.setOption({
@@ -53,6 +208,15 @@ export default {
           bottom: "30%",
           left: "12%",
           right: "4%"
+        },
+        legend: {
+          show: true,
+          right: '4%',
+          top: '20%',
+          textStyle: {
+            color: '#fff'
+          },
+          data: [{name: '确诊'}, {name: '治愈'}]
         },
         tooltip: {
           trigger: "axis",
@@ -112,6 +276,7 @@ export default {
         },
         series: [
           {
+            name: '确诊',
             type: "line",
             symbol: "circle",
             symbolSize: 7,
@@ -123,79 +288,9 @@ export default {
               show: true
             },
             data: data.map(item => item.value)
-          }
-        ]
-      });
-    },
-    mrzyChart() {
-      this.chart = this.$echarts.init(document.getElementById("mrzy"));
-      var data = window.nCov_qushiData.mrzy;
-      this.chart.setOption({
-        // backgroundColor: "rgb(13,25,49)",
-        grid: {
-          top: "30%",
-          bottom: "30%",
-          left: "12%",
-          right: "4%"
-        },
-        tooltip: {
-          trigger: "axis",
-          label: {
-            show: true
-          }
-        },
-        xAxis: {
-          boundaryGap: true, //默认，坐标轴留白策略
-          axisLine: {
-            show: true,
-            lineStyle: {
-              color: "#fff"
-            }
           },
-          splitLine: {
-            show: false
-          },
-          axisTick: {
-            show: true,
-            lineStyle: {
-              color: "#fff"
-            },
-            alignWithLabel: true
-          },
-          axisLabel: {
-            interval: 0,
-            margin: 13,
-            rotate: 45
-          },
-          data: data.map(item => item.name)
-        },
-        yAxis: {
-          axisLine: {
-            show: true,
-            lineStyle: {
-              color: "#fff"
-            }
-          },
-          splitLine: {
-            show: false,
-            lineStyle: {
-              type: "dashed",
-              color: "rgba(33,148,246,0.2)"
-            }
-          },
-          name: "例",
-          axisTick: {
-            show: true,
-            lineStyle: {
-              color: "#fff"
-            }
-          },
-          splitArea: {
-            show: false
-          }
-        },
-        series: [
           {
+            name: '治愈',
             type: "line",
             symbol: "circle",
             symbolSize: 7,
@@ -207,7 +302,7 @@ export default {
             label: {
               show: true
             },
-            data: data.map(item => item.value)
+            data: window.nCov_qushiData.mrzy.map(item => item.value)
           }
         ]
       });
@@ -562,15 +657,7 @@ export default {
   position: fixed;
   top: 137px;
   overflow: auto;
-  div {
-    width: 100%;
-    height: 300px;
-  }
   #zxt {
-    width: 100%;
-    height: 300px;
-  }
-  #mrzy {
     width: 100%;
     height: 300px;
   }
@@ -598,5 +685,23 @@ export default {
     background: url(../img/title_bg.png) center no-repeat;
     background-size: 100% 100%;
   }
+  #mapqushi {
+    height: 400px;
+  }
+}
+.tb > div > div {
+  width: 100%;
+  height: 300px;
+}
+.tb div.mapqushi-date {
+  position: absolute;
+  left: 2%;
+  top: 2%;
+  height: auto;
+  width: auto;
+  font-size: 18px;
+}
+.tb div.mapqushi-date .mapqushi-date-duration {
+  padding-bottom: 5px;
 }
 </style>
