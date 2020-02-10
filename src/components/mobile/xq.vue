@@ -103,7 +103,7 @@
       </p>
       <span style="font-size: 13px;">温州设计集团勘测院&nbsp&nbsp&nbsp出品</span>
     </div>
-    <bigimg v-if="showImg" @clickit="viewImg" :imgSrc="`${this.server}img/map/${this.title}.png`"></bigimg>
+    <bigimg v-if="showImg" @clickit="viewImg" :imgSrc="`${this.server}img/map/${this.title}_${$window.nCov_luchengData.mobile.fk_imgtag}.png`"></bigimg>
   </div>
 </template>
 
@@ -126,7 +126,7 @@ export default {
       title: "",
       context,
       date,
-      server: "https://lysb.lucheng.gov.cn/other/",
+      server: "https://lysb.lucheng.gov.cn/other/m_t/",
       show: true,
       showImg: false,
       chart: undefined,
