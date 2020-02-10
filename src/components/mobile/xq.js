@@ -1,7 +1,7 @@
 ﻿const context = {
     鹿城区:{
 		flag:[
-            {white:4,red:10}
+            {white:4,red:10,wr:1,rw:0}
         ],
         bl:[
             {label:"确诊病例",value:63,color:"#f67a32"},
@@ -64,7 +64,7 @@
     },
     龙湾区:{
 		flag:[
-            {white:0,red:6}
+            {white:0,red:6,wr:1,rw:0}
         ],
         bl:[
             {label:"确诊病例",value:16,color:"#f67a32"},
@@ -89,7 +89,7 @@
     },
     瓯海区:{
 		flag:[
-            {white:2,red:11}
+            {white:2,red:11,wr:1,rw:-2}
         ],
         bl:[
             {label:"确诊病例",value:33,color:"#f67a32"},
@@ -131,7 +131,7 @@
     },
     洞头区:{
 		flag:[
-            {white:1,red:5}
+            {white:1,red:5,wr:1,rw:0}
         ],
         bl:[
             {label:"确诊病例",value:5,color:"#f67a32"},
@@ -149,7 +149,7 @@
     },
     瑞安市:{
 		flag:[
-            {white:4,red:19}
+            {white:4,red:19,wr:0,rw:0}
         ],
         bl:[
             {label:"确诊病例",value:71,color:"#f67a32"},
@@ -231,7 +231,7 @@
     },
     乐清市:{
 		flag:[
-            {white:7,red:18}
+            {white:7,red:18,wr:4,rw:-1}
         ],
         bl:[
             {label:"确诊病例",value:151,color:"#f67a32"},
@@ -390,7 +390,7 @@
     },
     龙港市:{
 		flag:[
-            {white:0,red:1}
+            {white:0,red:1,wr:0,rw:0}
         ],
         bl:[
             {label:"确诊病例",value:8,color:"#f67a32"},
@@ -411,7 +411,7 @@
     },
     永嘉县:{
 		flag:[
-            {white:3,red:19}
+            {white:3,red:19,wr:0,rw:-1}
         ],
         bl:[
             {label:"确诊病例",value:46,color:"#f67a32"},
@@ -464,7 +464,7 @@
     },
     平阳县:{
 		flag:[
-            {white:0,red:16}
+            {white:0,red:16,wr:2,rw:0}
         ],
         bl:[
             {label:"确诊病例",value:30,color:"#f67a32"},
@@ -505,7 +505,7 @@
     },
     苍南县:{
 		flag:[
-            {white:0,red:18}
+            {white:0,red:18,wr:0,rw:0}
         ],
         bl:[
             {label:"确诊病例",value:9,color:"#f67a32"},
@@ -526,7 +526,7 @@
     },
     文成县:{
 		flag:[
-            {white:1,red:16}
+            {white:1,red:16,wr:0,rw:0}
         ],
         bl:[
             {label:"确诊病例",value:10,color:"#f67a32"},
@@ -548,7 +548,7 @@
     },
     泰顺县:{
 		flag:[
-            {white:1,red:18}
+            {white:1,red:18,wr:1,rw:0}
         ],
         bl:[
             {label:"确诊病例",value:16,color:"#f67a32"},
@@ -571,7 +571,7 @@
     },
     浙南集聚区:{
 		flag:[
-            {white:0,red:4}
+            {white:0,red:4,wr:0,rw:0}
         ],
         bl:[
             {label:"确诊病例",value:1,color:"#f67a32"},
@@ -585,7 +585,7 @@
     },
     瓯江口:{
 		flag:[
-            {white:0,red:1}
+            {white:0,red:1,wr:0,rw:0}
         ],
         bl:[
             {label:"确诊病例",value:1,color:"#f67a32"},

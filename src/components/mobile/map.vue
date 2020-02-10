@@ -18,6 +18,39 @@
         </li>
       </ul>
     </header>
+    <div class="qz" v-if="current!=2">
+      <p>今日全市</p>
+      <div class="qz_num">
+        <ul>
+          <li>
+            <img src="./img/rflag.png" style="position: relative;
+    left: -47px;" />
+            <span style="position: relative;
+    left: -50px;
+    color: red;">{{qz_num[0].red}}</span>
+            <img src="./img/wflag.png" style="position: relative;
+    right: -15px;" />
+            <span style="position: relative;
+    right: -15px;">{{qz_num[0].white}}</span>
+          </li>
+          <li>
+            <img src="./img/wflag.png" />
+            <img src="./img/zx.png" />
+            <img src="./img/rflag.png" />
+            <span>{{qz_num[1].rw}}</span>
+
+            <img src="./img/rflag.png" style="position: relative;
+    right: -15px;" />
+            <img src="./img/zx.png" style="position: relative;
+    right: -15px;" />
+            <img src="./img/wflag.png" style="position: relative;
+    right: -15px;" />
+            <span style="position: relative;
+    right: -15px;color: red;">{{qz_num[1].wr}}</span>
+          </li>
+        </ul>
+      </div>
+    </div>
     <div class="isGk isGkActive" @click="gkChange" v-if="current != 2">管控力指标</div>
     <div class="kind" v-if="current != 2">
       <div class="t1">一类区域</div>
@@ -25,6 +58,7 @@
       <div class="t3">三类区域</div>
       <div class="t4">四类区域</div>
     </div>
+    <div class="sjlz" v-if="current != 2">数据来源：温州市新型冠状病毒感染的肺炎疫情防控工作领导小组</div>
     <div class="bottom" v-if="current != 2">
       <p>
         <span class="text">截至</span> 2020年 2月
@@ -32,8 +66,8 @@
         <span class="time">24</span>时
       </p>
     </div>
-    <fk v-if="current == 0" />
-    <bl v-if="current == 1" />
+    <fk v-if="current == 0" ref="fk" />
+    <bl v-if="current == 1" ref="bl" />
     <tb v-if="current == 2" />
   </div>
 </template>
@@ -45,8 +79,9 @@ import bl from "./chart/bl";
 import fk from "./chart/fk";
 import tb from "./chart/tb";
 import wx from "weixin-js-sdk";
+// import dd from "dingtalk-jsapi";
 import axios from "axios";
-import { date } from "./mapdata";
+import { date, qz_num } from "./mapdata";
 
 export default {
   name: "Mobile",
@@ -76,6 +111,7 @@ export default {
         }
       ],
       current: 0,
+      reloadFlag: null,
       date,
       token: "",
       access_token: "",
@@ -83,7 +119,9 @@ export default {
       nonceStr: "Wm3WZYTPz0wzccnC",
       timestamp: 1414587466,
       wx,
-      isGk: false
+      // dd,
+      isGk: false,
+      qz_num
     };
   },
   created() {
@@ -100,21 +138,34 @@ export default {
       index > 2 && alert("建设中，敬请期待！");
       index < 3 && (this.current = index);
     },
+    refresh() {
+      $(document).ready(function() {
+        if (location.href.indexOf("#reloaded") == -1) {
+          location.href = location.href + "#reloaded";
+          location.reload();
+        }
+      });
+      // var timestamp=new Date().getTime();
+      // window.location.reload();
+    },
     gkChange() {
       this.$router.push({
         path: "/MobileGK"
       });
     },
-    refresh() {
-      $(document).ready(function() {
-        // if (location.href.indexOf("#reloaded") == -1) {
-        //   location.href = location.href + "#reloaded";
-        //   location.reload();
-        // }
-        if (!sessionStorage.getItem("shallRefresh")) {
-          sessionStorage.setItem("shallRefresh", true);
-          location.reload();
-        }
+    //获取钉钉用户
+    getUser() {
+      this.dd.ready(function() {
+        this.dd.util.domainStorage.setItem({
+          name: "syl", // 存储信息的key值
+          value: "鹿城区", // 存储信息的Value值
+          onSuccess: function(info) {
+            alert(JSON.stringify(info));
+          },
+          onFail: function(err) {
+            alert(JSON.stringify(err));
+          }
+        });
       });
     },
     //信用分后台认证
@@ -328,6 +379,46 @@ export default {
       -webkit-text-fill-color: transparent;
     }
   }
+  .sjlz {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    bottom: 5%;
+    font-size: 12px;
+  }
+  .qz {
+    position: absolute;
+    bottom: 8%;
+    left: 24px;
+    width: 200px;
+    height: 135px;
+    box-sizing: border-box;
+    z-index: 2;
+    p {
+      font-weight: bold;
+    }
+    .qz_num {
+      width: 100%;
+      background-color: rgb(23, 21, 115);
+      box-sizing: border-box;
+      padding: 10px;
+      border-radius: 13px;
+      border: 1px solid rgb(25, 22, 130);
+      ul {
+        list-style: none;
+        li {
+          img {
+            width: 16px;
+            padding-right: 5px;
+          }
+          span {
+            font-size: 16px;
+            font-weight: bold;
+          }
+        }
+      }
+    }
+  }
   .bottom {
     position: absolute;
     width: 100%;
@@ -339,7 +430,7 @@ export default {
     }
     p {
       color: #fff;
-      font-size: 20px;
+      font-size: 16px;
       font-weight: bolder;
       margin: 0;
 

@@ -7,12 +7,27 @@
       </div>
       <!--<span v-else style="font-size:10px;line-height:15px">表中病例信息来源“健康温州”公众号于2020年1月28日起至今公布的信息，且并无删减出院病例。</span> -->
     </div>
-    <!-- <img :src="forceImg" style="width:100%;" /> -->
-    <img
-      style="width:100%;"
-      :src="`${this.server}img/estate/${this.title}_${$window.nCov_luchengData.mobile.bl_imgtag}.png`"
-      @error="errorImg()"
-    />
+    <img :src="forceImg" style="width:100%;" v-if="title!='永嘉县'" />
+    <div class="mapDiv" v-if="title=='永嘉县'">
+      <div id="bl-map"></div>
+    </div>
+    <p v-if="title=='永嘉县'">病例小区详情</p>
+    <div class="msg" v-if="title=='永嘉县'">
+      <table>
+        <thead>
+          <tr>
+            <th>街道</th>
+            <th>小区</th>
+          </tr>
+        </thead>
+        <tbody v-for="(item,index) in TEST_DATA_YONGJIA" :key="index">
+          <tr v-for="(_item,_index) in item.value" :key="_index">
+            <td>{{ item.name }}</td>
+            <td>{{ _item}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
     <p>病例信息</p>
     <ul class="xq1">
       <li v-for="(bitem,bindex) in xq" :key="bindex">
@@ -23,8 +38,7 @@
     <div class="slipe">
       <span>
         下滑可查看更多
-        <img src="./img/jt.png" style="position: relative;
-    top: 5px;" />
+        <img src="./img/jt.png" style="position: relative; top: 5px;" />
       </span>
       <br />
       <span style="font-size:10px;line-height:15px">表中病例信息来源“健康温州”公众号于2020年1月28日起至今公布的信息，部分病例信息缺失。</span>
@@ -33,7 +47,14 @@
 </template>
 
 <script>
+/* eslint-disable */
 import context from "./xq";
+
+import MAP_YONGJIA from "./geoJson/map_YongJia";
+
+import { GEO_YONGJIA } from "./data/geo_Data";
+
+import { DATA_YONGJIA, TEST_DATA_YONGJIA } from "./data/chart_Data";
 export default {
   name: "gk",
   data() {
@@ -44,12 +65,39 @@ export default {
       flagnum: [],
       title: "",
       forceImg: undefined,
-      server: "https://lysb.lucheng.gov.cn/other/"
+      苍南县: require("./img/estate/苍南县.png"),
+      洞头区: require("./img/estate/洞头区.png"),
+      乐清市: require("./img/estate/乐清市.png"),
+      龙港市: require("./img/estate/龙港市.png"),
+      龙湾区: require("./img/estate/龙湾区.png"),
+      鹿城区: require("./img/estate/鹿城区.png"),
+      瓯海区: require("./img/estate/瓯海区.png"),
+      瓯江口集聚区: require("./img/estate/瓯江口产业集聚区.png"),
+      平阳县: require("./img/estate/平阳县.png"),
+      瑞安市: require("./img/estate/瑞安市.png"),
+      泰顺县: require("./img/estate/泰顺县.png"),
+      文成县: require("./img/estate/文成县.png"),
+      永嘉县: require("./img/estate/永嘉县.png"),
+      浙南集聚区: require("./img/estate/浙南产业集聚区.png"),
+      chart: undefined,
+      msgObj: null,
+      GEO_YONGJIA,
+      DATA_YONGJIA,
+      TEST_DATA_YONGJIA
     };
   },
-  mounted() {
+  created() {
     this.forceImg = this[this.$route.query.name];
     this.xqxx();
+  },
+  mounted() {
+    // this.forceImg = this[this.$route.query.name];
+    // this.xqxx();
+
+    if (this.title == "永嘉县") {
+      this.BLMapInit();
+      this.BLMap();
+    }
   },
   methods: {
     back() {
@@ -63,8 +111,120 @@ export default {
           this.xq = this.context[o].xq;
           this.flagnum = this.context[o].flag;
           this.title = o;
+
+          // console.log(o);
         }
       }
+    },
+    BLMapInit() {
+      this.chart = this.$echarts.init(document.getElementById("bl-map"));
+      this.$echarts.registerMap("wenzhou", MAP_YONGJIA);
+    },
+    BLMap() {
+      const that = this;
+      this.chart.setOption({
+        tooltip: {
+          trigger: "item",
+          position: "top",
+          backgroundColor: "#021739",
+          formatter: function(params) {
+            if (params.seriesIndex == 1) {
+              const ds = that.TEST_DATA_YONGJIA[params.dataIndex];
+              return [
+                `<span style='color: #0eade0; font-weight: bolder;'>${ds.name}（<span style='color: #b2ac88;'>${ds.value.length}</span>）</span>`,
+                ds.value.join("<br />")
+              ].join("<br />");
+            }
+          }
+        },
+        geo: {
+          map: "wenzhou",
+          zoom: 1.2,
+          label: {
+            normal: {
+              show: false
+            },
+            emphasis: {
+              show: false
+            }
+          }
+        },
+        series: [
+          {
+            type: "map",
+            map: "wenzhou",
+            zoom: 1.2,
+            emphasis: {
+              label: {
+                show: true
+              }
+            },
+            label: {
+              normal: {
+                show: false,
+                textStyle: {
+                  color: "#fff"
+                }
+              },
+              emphasis: {
+                show: false,
+                textStyle: {
+                  color: "#fff"
+                }
+              }
+            },
+            textFixed: {
+              Alaska: [200, 0]
+            },
+            data: this.DATA_YONGJIA.map(item => {
+              return {
+                name: item.name,
+                value: item.value,
+                coord: this.GEO_YONGJIA[item.name],
+                itemStyle: {
+                  color: item.color || "#fff"
+                }
+              };
+            })
+          },
+          {
+            id: "point",
+            name: "",
+            type: "effectScatter",
+            coordinateSystem: "geo",
+            label: {
+              normal: {
+                show: true,
+                textStyle: {
+                  color: "#10bef1"
+                },
+                formatter: "{b}",
+                position: "bottom"
+              }
+            },
+            itemStyle: {
+              color: "#00f6bf"
+            },
+            rippleEffect: {
+              color: "#7fba9e"
+            },
+            data: this.TEST_DATA_YONGJIA.map(item => {
+              return {
+                name: item.name,
+                value: this.GEO_YONGJIA[item.name].concat(item.value.length)
+              };
+            })
+          }
+        ]
+      });
+
+      that.chart.getZr().on("click", function(event) {
+        if (event.target && event.target.seriesIndex == 1) {
+          const ds = that.TEST_DATA_YONGJIA[event.target.dataIndex];
+          that.msgObj = ds;
+          // console.log(ds);
+        }
+      });
     }
   }
 };
@@ -153,6 +313,30 @@ export default {
       height: 100%;
     }
   }
+
+  .mapDiv {
+    height: 400px;
+    margin: 13px 5px;
+
+    #bl-map {
+      height: 100%;
+    }
+  }
+
+  .msg {
+    margin: 13px 5px;
+    table {
+      width: 100%;
+      border: 1px solid #ccc;
+      border-collapse: collapse;
+
+      td {
+        border-top: 1px solid #ccc;
+        padding: 3px;
+      }
+    }
+  }
+
   .xq_contain {
     width: 100%;
     // display: flex;

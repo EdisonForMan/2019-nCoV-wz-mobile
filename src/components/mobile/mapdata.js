@@ -182,7 +182,10 @@ export const num = [{
         value: 312
     }
 ]
-
+export const qz_num =[
+    {red:162,white:23},//红旗数量，白旗数量
+    {rw:-4,wr:11}//红转白，白转红
+]
 
 // window.mapdata = mapdata;
 // window.date = date;

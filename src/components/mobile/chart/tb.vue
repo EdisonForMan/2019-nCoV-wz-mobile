@@ -1,29 +1,11 @@
 <template>
   <div class="tb">
-    <div style="position: relative;">
-      <div id="zxt"></div>
-      <div class="tb-title">每日确诊病例图</div>
-    </div>
-    <div style="position: relative;">
-      <div id="mrzy"></div>
-      <div class="tb-title">每日治愈病例图</div>
-    </div>
-    <div style="position: relative;">
-      <div id="zzt"></div>
-      <div class="tb-title">各区县累计确诊病例图</div>
-    </div>
-    <div style="position: relative;">
-      <div id="zybl"></div>
-      <div class="tb-title">各区县累计治愈病例图</div>
-    </div>
-    <div style="position: relative;">
-      <div id="mrqxqz"></div>
-      <div class="tb-title">上日各区县确诊病例图</div>
-    </div>
-    <div style="position: relative;">
-      <div id="mrqxzy"></div>
-      <div class="tb-title">上日各区县治愈病例图</div>
-    </div>
+    <div id="zxt"></div>
+    <div id="mrzy"></div>
+    <div id="zzt"></div>
+    <div id="zybl"></div>
+    <div id="mrqxqz"></div>
+    <div id="mrqxzy"></div>
   </div>
 </template>
 
@@ -109,6 +91,15 @@ export default {
       ];
       this.chart.setOption({
         // backgroundColor: "rgb(13,25,49)",
+        title: {
+          text: "每日确诊病例图",
+          textStyle: {
+            color: "#fff",
+            fontSize: 18
+          },
+          x: "center",
+          y: "4%"
+        },
         grid: {
           top: "30%",
           bottom: "30%",
@@ -254,6 +245,15 @@ export default {
       ];
       this.chart.setOption({
         // backgroundColor: "rgb(13,25,49)",
+        title: {
+          text: "每日治愈病例图",
+          textStyle: {
+            color: "#fff",
+            fontSize: 18
+          },
+          x: "center",
+          y: "4%"
+        },
         grid: {
           top: "30%",
           bottom: "30%",
@@ -396,6 +396,15 @@ export default {
       ];
       this.chart.setOption({
         // backgroundColor: "rgb(13, 25, 49)",
+        title: {
+          text: "各区县累计确诊病例图",
+          textStyle: {
+            color: "#fff",
+            fontSize: 18
+          },
+          x: "center",
+          y: 0
+        },
         tooltip: {
           trigger: "axis",
           axisPointer: {
@@ -537,6 +546,15 @@ export default {
         }
       ];
       this.chart.setOption({
+        title: {
+          text: "各区县累计治愈病例图",
+          textStyle: {
+            color: "#fff",
+            fontSize: 18
+          },
+          x: "center",
+          y: 0
+        },
         // backgroundColor: "rgb(13,25,49)",
         grid: {
           top: "30%",
@@ -680,6 +698,15 @@ export default {
       ];
       this.chart.setOption({
         // backgroundColor: "rgb(13,25,49)",
+        title: {
+          text: "上日各区县确诊病例图",
+          textStyle: {
+            color: "#fff",
+            fontSize: 18
+          },
+          x: "center",
+          y: "4%"
+        },
         grid: {
           top: "30%",
           bottom: "30%",
@@ -821,6 +848,15 @@ export default {
       ];
       this.chart.setOption({
         // backgroundColor: "rgb(13,25,49)",
+        title: {
+          text: "上日各区县治愈病例图",
+          textStyle: {
+            color: "#fff",
+            fontSize: 18
+          },
+          x: "center",
+          y: "4%"
+        },
         grid: {
           top: "30%",
           bottom: "30%",
@@ -931,22 +967,6 @@ export default {
   #zybl {
     width: 100%;
     height: 300px;
-  }
-  .tb-title {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    top: 4%;
-    z-index: 10;
-    color: #fff;
-    font-size: 18px;
-    padding: 2px 50px;
-    white-space: nowrap;
-    height: auto;
-    width: auto;
-    font-weight: bold;
-    background: url(../img/title_bg.png) center no-repeat;
-    background-size: 100% 100%;
   }
 }
 </style>
