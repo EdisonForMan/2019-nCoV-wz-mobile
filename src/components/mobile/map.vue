@@ -1,8 +1,8 @@
 <template>
   <div class="map">
-    <div class="title">
+    <!-- <div class="title">
       <span>温州市新冠肺炎防控作战地图</span>
-    </div>
+    </div>-->
     <header class="app_header">
       <ul class="app_toptab">
         <li
@@ -18,53 +18,50 @@
         </li>
       </ul>
     </header>
-    <div class="qz" v-if="current!=2">
+    <div class="qz" v-if="current == 0">
       <p>今日全市</p>
       <div class="qz_num">
         <ul>
           <li>
-            <img src="./img/rflag.png" style="position: relative;
-    left: -47px;" />
-            <span style="position: relative;
-    left: -50px;
-    color: red;">{{qz_num[0].red}}</span>
-            <img src="./img/wflag.png" style="position: relative;
-    right: -15px;" />
-            <span style="position: relative;
-    right: -15px;">{{qz_num[0].white}}</span>
-          </li>
-          <li>
-            <img src="./img/wflag.png" />
-            <img src="./img/zx.png" />
-            <img src="./img/rflag.png" />
-            <span>{{qz_num[1].rw}}</span>
-
-            <img src="./img/rflag.png" style="position: relative;
-    right: -15px;" />
-            <img src="./img/zx.png" style="position: relative;
-    right: -15px;" />
-            <img src="./img/wflag.png" style="position: relative;
-    right: -15px;" />
-            <span style="position: relative;
-    right: -15px;color: red;">{{qz_num[1].wr}}</span>
+            <div style="width: 20%;">
+              <img src="./img/rflag.png" />
+              <span style="color: red;">{{qz_num[0].red}}</span>
+            </div>
+            <div style="width: 20%;">
+              <img src="./img/wflag.png" />
+              <span>{{qz_num[0].white}}</span>
+            </div>
+            <div style="width: 30%;">
+              <img src="./img/wflag.png" />
+              <span style="padding-right:7px">转</span>
+              <img src="./img/rflag.png" />
+              <span>{{qz_num[1].rw}}</span>
+            </div>
+            <div style="width: 30%;">
+              <img src="./img/rflag.png" />
+              <span style="padding-right:7px">转</span>
+              <img src="./img/wflag.png" />
+              <span style="color: red;">{{qz_num[1].wr}}</span>
+            </div>
           </li>
         </ul>
       </div>
     </div>
-    <div class="isGk isGkActive" @click="gkChange" v-if="current != 2">管控力指标</div>
+    <div class="isGk isGkActive" @click="gkChange" v-if="current == 0">管控力</div>
     <div class="kind" v-if="current != 2">
       <div class="t1">一类区域</div>
       <div class="t2">二类区域</div>
       <div class="t3">三类区域</div>
       <div class="t4">四类区域</div>
     </div>
-    <div class="sjlz" v-if="current != 2">数据来源：温州市新型冠状病毒感染的肺炎疫情防控工作领导小组</div>
+    <div class="sjlz" v-if="current != 2">数据来源：温州市新冠肺炎工作领导小组</div>
     <div class="bottom" v-if="current != 2">
       <p>
         <span class="text">截至</span> 2020年 2月
         <span class="time">{{date}}</span>日
         <span class="time">24</span>时
       </p>
+      <img src="./img/logo.png" />
     </div>
     <fk v-if="current == 0" ref="fk" />
     <bl v-if="current == 1" ref="bl" />
@@ -269,15 +266,15 @@ export default {
   background-size: 100% 100%;
   .isGk {
     position: fixed;
-    bottom: 100px;
-    right: 20px;
+    top: 75px;
+    left: 19px;
     color: #fff;
-    height: 30px;
+    height: 27px;
+    font-size: 14px;
     line-height: 30px;
     border-radius: 6px;
-    border: 1px rgb(48, 170, 273) solid;
+    border: 1px #30aaff solid;
     padding: 0 6px;
-    background-color: rgba(48, 170, 273, 0.3);
     z-index: 2;
   }
   .isGkActive {
@@ -320,7 +317,7 @@ export default {
   }
   .app_header {
     position: fixed;
-    top: 80px;
+    top: 20px;
     height: @MaxHeight;
     padding: 4px;
     background: rgba(0, 0, 0, 0);
@@ -388,32 +385,39 @@ export default {
   }
   .qz {
     position: absolute;
-    bottom: 8%;
-    left: 24px;
-    width: 200px;
+    bottom: 2%;
+    width: 100%;
     height: 135px;
     box-sizing: border-box;
     z-index: 2;
     p {
       font-weight: bold;
+      width: 105px;
+      font-size: 12px;
     }
     .qz_num {
       width: 100%;
-      background-color: rgb(23, 21, 115);
       box-sizing: border-box;
       padding: 10px;
-      border-radius: 13px;
-      border: 1px solid rgb(25, 22, 130);
       ul {
         list-style: none;
+        border-radius: 13px;
+        border: 1px solid #191682;
+        background-color: #171573;
+        padding: 5px;
         li {
-          img {
-            width: 16px;
-            padding-right: 5px;
-          }
-          span {
-            font-size: 16px;
-            font-weight: bold;
+          display: flex;
+          flex-direction: row;
+          width: 100%;
+          div {
+            img {
+              width: 12px;
+              padding-right: 7px;
+            }
+            span {
+              font-size: 12px;
+              font-weight: bold;
+            }
           }
         }
       }
@@ -430,7 +434,7 @@ export default {
     }
     p {
       color: #fff;
-      font-size: 16px;
+      font-size: 12px;
       font-weight: bolder;
       margin: 0;
 
@@ -441,6 +445,13 @@ export default {
       .time {
         color: #f3f998;
       }
+    }
+    img {
+      font-size: 12px;
+      width: 12px;
+      position: fixed;
+      right: 28%;
+      bottom: 2%;
     }
   }
 

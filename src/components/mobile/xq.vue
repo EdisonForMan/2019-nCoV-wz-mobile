@@ -2,11 +2,7 @@
   <div class="xq">
     <div class="redFlag">
       <div class="head">
-        <p>
-          {{this.title}}
-          <span class="red">红</span>
-          <span class="white">白</span>阵地分布图
-        </p>
+        <p>{{this.title}}红白阵地分布图</p>
         <span @click="back()"><<&nbsp&nbsp返回</span>
       </div>
       <div class="xq_contain">
@@ -78,8 +74,12 @@
         <!-- <div class="img" v-show="show" @click="imgShow()">
           <img :src="`${this.server}img/map/${this.title}.png`" @error="errorImg()" />
         </div>-->
-        <div class="img" v-show="show" @click="imgShow()">
+        <!-- <div class="img" v-show="show" @click="imgShow()">
           <img :src="`${this.server}img/map/${title}_${fk_imgtag}.png`" @error="errorImg()" />
+        </div>-->
+        <div class="mapDiv">
+          <div id="xq-map"></div>
+          <div id="xq-map2" v-if="title == '瑞安市' || title == '平阳县'"></div>
         </div>
         <span style="font-size: 12px;">
           下滑可查看更多
@@ -139,6 +139,8 @@ import MAP_TAISHUN from "./geoJson/map_TaiShun";
 import MAP_CANGNAN from "./geoJson/map_CangNan";
 import MAP_WENCHENG from "./geoJson/map_WenCheng";
 import MAP_PINGYANG from "./geoJson/map_PingYang";
+import MAP_RUIAN2 from "./geoJson/map_RuiAn2";
+import MAP_PINGYANG2 from "./geoJson/map_PingYang2";
 
 import {
   GEO_LUCHENG,
@@ -184,11 +186,12 @@ export default {
       title: "",
       context,
       date,
-      server: "https://lysb.lucheng.gov.cn/other/m_test/",
+      server: "https://lysb.lucheng.gov.cn/other/",
       fk_imgtag: 9,
       show: true,
       showImg: false,
       chart: undefined,
+      chart2: undefined,
       mapHash: {
         鹿城区: [MAP_LUCHENG, GEO_LUCHENG, DATA_LUCHENG],
         瓯海区: [MAP_OUHAI, GEO_OUHAI, DATA_OUHAI],
@@ -198,14 +201,15 @@ export default {
         泰顺县: [MAP_TAISHUN, GEO_TAISHUN, DATA_TAISHUN],
         苍南县: [MAP_CANGNAN, GEO_CANGNAN, DATA_CANGNAN],
         文成县: [MAP_WENCHENG, GEO_WENCHENG, DATA_WENCHENG],
-        平阳县: [MAP_PINGYANG, GEO_PINGYANG, DATA_PINGYANG],
+        平阳县: [MAP_PINGYANG, GEO_PINGYANG, DATA_PINGYANG, MAP_PINGYANG2],
         乐清市: [MAP_YUEQING, GEO_YUEQING, DATA_YUEQING],
-        瑞安市: [MAP_RUIAN, GEO_RUIAN, DATA_RUIAN],
+        瑞安市: [MAP_RUIAN, GEO_RUIAN, DATA_RUIAN, MAP_RUIAN2],
         龙港市: [MAP_LONGGANG, GEO_LONGGANG, DATA_LONGGANG],
-        浙南集聚区: [MAP_ZHENAN, GEO_ZHENAN, DATA_ZHENAN],
+        浙南: [MAP_ZHENAN, GEO_ZHENAN, DATA_ZHENAN],
         瓯江口: [MAP_OUJIANGKOU, GEO_OUJIANGKOU, DATA_OUJIANGKOU]
       },
       cur_map: null,
+      cur_map2: null,
       cur_geo: null,
       cur_data: null
     };
@@ -221,8 +225,15 @@ export default {
     this.cur_map = map;
     this.cur_geo = geo;
     this.cur_data = data;
-    // this.XQMapInit();
-    // this.XQMap();
+    this.XQMapInit();
+    this.XQMap();
+
+    if (this.title == "瑞安市" || this.title == "平阳县") {
+      this.cur_map2 = this.mapHash[this.title][3];
+
+      this.XQMapInit2();
+      this.XQMap2();
+    }
   },
   components: { bigimg },
   methods: {
@@ -234,7 +245,7 @@ export default {
           this.xq = this.context[o].xq;
           this.flagnum = this.context[o].flag;
           this.title = o;
-          console.log(this.bl, this.xq, this.flagnum, this.title);
+          // console.log(this.bl, this.xq, this.flagnum, this.title);
         }
       }
     },
@@ -259,7 +270,27 @@ export default {
       this.chart.setOption({
         geo: {
           map: "wenzhou",
-          zoom: this.title == "洞头区" ? 0.7 : 1,
+          zoom:
+            this.title == "洞头区"
+              ? 1
+              : this.title == "苍南县"
+              ? 1.5
+              : ["永嘉县", "文成县"].indexOf(this.title)
+              ? 1.2
+              : ["鹿城区", "瓯海区", "泰顺县", "平阳县"].indexOf(this.title)
+              ? 1.2
+              : this.title == "瑞安市"
+              ? 1.2
+              : this.title == "乐清市"
+              ? 1.15
+              : 1.1,
+          top:
+            this.title == "洞头区"
+              ? "35%"
+              : this.title == "苍南县"
+              ? "35%"
+              : "middle",
+          left: this.title == "苍南县" ? "20%" : "center",
           label: {
             normal: {
               show: false
@@ -273,7 +304,27 @@ export default {
           {
             type: "map",
             map: "wenzhou",
-            zoom: this.title == "洞头区" ? 0.7 : 1,
+            zoom:
+              this.title == "洞头区"
+                ? 1
+                : this.title == "苍南县"
+                ? 1.5
+                : ["永嘉县", "文成县"].indexOf(this.title)
+                ? 1.2
+                : ["鹿城区", "瓯海区", "泰顺县", "平阳县"].indexOf(this.title)
+                ? 1.2
+                : this.title == "瑞安市"
+                ? 1.2
+                : this.title == "乐清市"
+                ? 1.15
+                : 1.1,
+            top:
+              this.title == "洞头区"
+                ? "35%"
+                : this.title == "苍南县"
+                ? "35%"
+                : "middle",
+            left: this.title == "苍南县" ? "20%" : "center",
             emphasis: {
               label: {
                 show: true
@@ -296,7 +347,7 @@ export default {
             itemStyle: {
               areaColor:
                 this.title == "龙港市" || this.title == "瓯江口"
-                  ? "#f82727"
+                  ? "#fff2d2"
                   : null
             },
             // textFixed: {
@@ -308,7 +359,8 @@ export default {
                 value: item.value,
                 coord: this.cur_geo[item.name],
                 itemStyle: {
-                  color: item.new == 0 ? "#fff" : "#f82727"
+                  // color: item.new == 0 ? "#fff" : "#f82727"
+                  color: "#fff2d2"
                 }
               };
             })
@@ -327,12 +379,12 @@ export default {
                 textStyle: {
                   color: "#000",
                   fontSize: 10,
-                  fontWeight: "bolder"
+                  fontWeight: "bolder",
+                  textBorderColor: "#fff",
+                  textBorderWidth: 1
                 },
                 formatter: function(params) {
-                  return (
-                    params.name.replace("街道", "") + " " + params.value[2]
-                  );
+                  return params.name.replace("街道", "") + params.value[2];
                 },
                 position: "bottom"
               }
@@ -363,12 +415,216 @@ export default {
                 textStyle: {
                   color: "#000",
                   fontSize: 10,
-                  fontWeight: "bolder"
+                  fontWeight: "bolder",
+                  textBorderColor: "#fff",
+                  textBorderWidth: 1
                 },
                 formatter: function(params) {
-                  return (
-                    params.name.replace("街道", "") + " " + params.value[2]
-                  );
+                  return params.name.replace("街道", "") + params.value[2];
+                },
+                position: "bottom"
+              }
+            },
+            itemStyle: {
+              opacity: 1
+            },
+            data: this.cur_data
+              .filter(item => item.new != 0)
+              .map(item => {
+                return {
+                  name: item.name,
+                  value: this.cur_geo[item.name].concat(item.value)
+                };
+              })
+          }
+        ]
+      });
+    },
+    XQMapInit2() {
+      this.chart2 = this.$echarts.init(document.getElementById("xq-map2"));
+      this.$echarts.registerMap("wenzhou2", this.cur_map2);
+    },
+    XQMap2() {
+      const that = this;
+      this.chart2.setOption({
+        geo: {
+          map: "wenzhou2",
+          zoom:
+            this.title == "洞头区"
+              ? 1
+              : this.title == "永嘉县"
+              ? 1.2
+              : this.title == "文成县"
+              ? 1.2
+              : this.title == "苍南县"
+              ? 1.5
+              : this.title == "泰顺县"
+              ? 1.25
+              : this.title == "瑞安市"
+              ? 1.2
+              : this.title == "鹿城区"
+              ? 1.25
+              : this.title == "瓯海区"
+              ? 1.25
+              : this.title == "龙湾区"
+              ? 1.1
+              : 0.15,
+          // top:
+          //   this.title == "平阳县"
+          //     ? "45%"
+          //     : // : this.title == "乐清市"
+          //       // ? "20%"
+          //       "middle",
+          // left:
+          //   this.title == "苍南县"
+          //     ? "20%"
+          //     : // : this.title == "乐清市"
+          //       // ? "20%"
+          //       "center",
+          right: "right",
+          label: {
+            normal: {
+              show: false
+            },
+            emphasis: {
+              show: false
+            }
+          }
+        },
+        series: [
+          {
+            type: "map",
+            map: "wenzhou2",
+            zoom:
+              this.title == "洞头区"
+                ? 1
+                : this.title == "永嘉县"
+                ? 1.2
+                : this.title == "文成县"
+                ? 1.2
+                : this.title == "苍南县"
+                ? 1.5
+                : this.title == "泰顺县"
+                ? 1.25
+                : this.title == "瑞安市"
+                ? 1.2
+                : this.title == "鹿城区"
+                ? 1.25
+                : this.title == "瓯海区"
+                ? 1.25
+                : this.title == "龙湾区"
+                ? 1.1
+                : 0.15,
+            // top:
+            //   this.title == "平阳县"
+            //     ? "45%"
+            //     : // : this.title == "乐清市"
+            //       // ? "20%"
+            //       "middle",
+
+            // left:
+            //   this.title == "苍南县"
+            //     ? "20%"
+            //     : // : this.title == "乐清市"
+            //       // ? "20%"
+            //       "center",
+            right: "right",
+            emphasis: {
+              label: {
+                show: true
+              }
+            },
+            label: {
+              normal: {
+                show: false,
+                textStyle: {
+                  color: "#fff"
+                }
+              },
+              emphasis: {
+                show: false,
+                textStyle: {
+                  color: "#fff"
+                }
+              }
+            },
+            itemStyle: {
+              areaColor:
+                this.title == "龙港市" || this.title == "瓯江口"
+                  ? "#fff2d2"
+                  : null
+            },
+            // textFixed: {
+            //   Alaska: [200, 0]
+            // },
+            data: this.cur_data.map(item => {
+              return {
+                name: item.name,
+                value: item.value,
+                coord: this.cur_geo[item.name],
+                itemStyle: {
+                  // color: item.new == 0 ? "#fff" : "#f82727"
+                  color: "#fff2d2"
+                }
+              };
+            })
+          },
+          {
+            id: "红旗",
+            name: "",
+            type: "scatter",
+            symbol:
+              "image://data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAhCAYAAACxzQkrAAABIklEQVRYhe3XIUtDURiH8d+VgUVwWBaMxoUDghaVNYPdL2AZLFg0aTcahIUVP4htqB9gwegHsOgEDQa5hp0whXm2XRXDeeAt9/x573M4L5x7i7IsTaLdbkMJF/3+xNxPsvAnb5mBLJQiC6XIQimyUIoslCILpfh3QrUZssWvWYwxtdBhq6XX6/2mC/7hkWWhFFkoRRZKkYVSFN1ud+LiYDAg/rmiCCFM1bTT6cwtNH51LGILO2hiLYTQiFJCCCWGeMUD7nGHa9zibW6LL0J1nOIAK4l8PdYq1rEfnz/iEmd4qip0hY0qTYw2cowWNqsKvX8XmHZuIpU/URawh3Oj+ZiXYeyxW1WoZnTmRzjBdqwm1tDAEpZj/hkvPg/1TawfGeoPZMIzUjM1AqcAAAAASUVORK5CYII=",
+            symbolSize: [12, 12],
+            coordinateSystem: "geo",
+            label: {
+              normal: {
+                show: true,
+                textStyle: {
+                  color: "#000",
+                  fontSize: 10,
+                  fontWeight: "bolder",
+                  textBorderColor: "#fff",
+                  textBorderWidth: 1
+                },
+                formatter: function(params) {
+                  return params.name.replace("街道", "") + params.value[2];
+                },
+                position: "bottom"
+              }
+            },
+            itemStyle: {
+              opacity: 1
+            },
+            data: this.cur_data
+              .filter(item => item.new == 0)
+              .map(item => {
+                return {
+                  name: item.name,
+                  value: this.cur_geo[item.name].concat(item.value)
+                };
+              })
+          },
+          {
+            id: "白旗",
+            name: "",
+            type: "scatter",
+            symbol:
+              "image://data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACUAAAAhCAYAAABeD2IVAAABFElEQVRYhe3XoU7DUBiG4afLEgQknMwgkEgcCRggOASeG0DOgiq+cm6WC8ECl4DkAjCsJCAQpAhOCExsZ2lHJs6b/Kb58vdN+yU9LZqmMYuqqqCBsixnZrui9y93WZAslUqWSiVLpZKlUslSqWSpVFZSqr9gvliKxRQLPal4tlo6K/n6slQqWSqVLJVKlkqlGI/HMwN1XRP/kFGEEOYuHQ6HraR+f/vWcIhj7GIHWyGE9SgmhDDBO57xhEfc4QEfrUympAKucYHBnHyIs409nMfrL7hBhUkXUrfYb7lngCuc4KALqc95oZQeRTo52vRwhhHqFnvquOO0C6m+7w5cosRRnJ+iYwObMf+KN3+Lfh+ns6J/AfA2MDMsqM06AAAAAElFTkSuQmCC",
+            symbolSize: [12, 12],
+            coordinateSystem: "geo",
+            label: {
+              normal: {
+                show: true,
+                textStyle: {
+                  color: "#000",
+                  fontSize: 10,
+                  fontWeight: "bolder",
+                  textBorderColor: "#fff",
+                  textBorderWidth: 1
+                },
+                formatter: function(params) {
+                  return params.name.replace("街道", "") + params.value[2];
                 },
                 position: "bottom"
               }
@@ -427,7 +683,7 @@ export default {
     ul {
       li {
         div {
-          background-color: #483088;
+          // background-color: #483088;
           width: 73px;
           height: 56px;
           border-radius: 5px;
@@ -467,32 +723,32 @@ export default {
     width: 100%;
     height: 30px;
     cursor: pointer;
-    .red {
-      float: unset !important;
-      font-size: 20px !important;
-      background-image: -webkit-gradient(
-        linear,
-        0 0,
-        0 bottom,
-        from(#f44336),
-        to(#f44336)
-      );
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .white {
-      float: unset !important;
-      font-size: 20px !important;
-      background-image: -webkit-gradient(
-        linear,
-        0 0,
-        0 bottom,
-        from(#fff),
-        to(#fff)
-      );
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
+    // .red {
+    //   float: unset !important;
+    //   font-size: 20px !important;
+    //   background-image: -webkit-gradient(
+    //     linear,
+    //     0 0,
+    //     0 bottom,
+    //     from(#f44336),
+    //     to(#f44336)
+    //   );
+    //   -webkit-background-clip: text;
+    //   -webkit-text-fill-color: transparent;
+    // }
+    // .white {
+    //   float: unset !important;
+    //   font-size: 20px !important;
+    //   background-image: -webkit-gradient(
+    //     linear,
+    //     0 0,
+    //     0 bottom,
+    //     from(#fff),
+    //     to(#fff)
+    //   );
+    //   -webkit-background-clip: text;
+    //   -webkit-text-fill-color: transparent;
+    // }
     p {
       float: left;
       text-align: left;
@@ -525,10 +781,20 @@ export default {
   }
 
   .mapDiv {
-    height: 400px;
+    position: relative;
+    height: 500px;
 
     #xq-map {
       height: 100%;
+    }
+
+    #xq-map2 {
+      position: absolute;
+      width: 60%;
+      height: 80px;
+      bottom: 5%;
+      right: 1%;
+      border: 1px solid #fff;
     }
   }
 
@@ -554,7 +820,7 @@ export default {
       height: 60px;
       padding-top: 10px;
       li {
-        background-color: #483088;
+        // background-color: #483088;
         width: 73px;
         height: 40px;
         border-radius: 5px;
@@ -573,11 +839,11 @@ export default {
       list-style: none;
       // display: flex;
       flex-direction: column;
-      height: 500px;
+      height: 241px;
       overflow: auto;
       li {
         width: 97%;
-        border: 1px solid #4e5fd5;
+        // border: 1px solid #4e5fd5;
         padding: 4px;
         line-height: 20px;
         margin-bottom: 10px;
@@ -595,7 +861,7 @@ export default {
   .footer {
     p {
       color: #fff;
-      font-size: 16px;
+      font-size: 12px;
       font-weight: bolder;
       margin: 0;
 
@@ -612,7 +878,7 @@ export default {
     list-style: none;
     // display: flex;
     flex-direction: column;
-    height: 500px;
+    height: 241px;
     overflow: auto;
     li {
       width: 97%;

@@ -33,7 +33,7 @@ export const mapdata = [{
         name: "乐清市",
         value: [155, 23],
         color: "#f92728",
-        coord: [120.978579, 28.220666]
+        coord: [120.978579, 28.420666]
     },
     {
         name: "永嘉县",
@@ -68,7 +68,7 @@ export const mapdata = [{
         coord: [120.6099323, 27.52166944]
     },
     {
-        name: "浙南集聚区",
+        name: "浙南",
         value: [1, 0],
         coord: [120.770894, 27.800969]
     },
@@ -180,11 +180,33 @@ export const num = [{
     {
         label: "累计病例小区",
         value: 312
+    },
+    {
+        label: "确诊新增",
+        value: 5
+    },
+    {
+        label: "出院新增",
+        value: 5
+    },
+    {
+        label: "重症新增",
+        value: 5
+    },
+
+    {
+        label: "死亡新增",
+        value: 0
     }
 ]
-export const qz_num =[
-    {red:162,white:23},//红旗数量，白旗数量
-    {rw:-4,wr:11}//红转白，白转红
+export const qz_num = [{
+        red: 162,
+        white: 23
+    }, //红旗数量，白旗数量
+    {
+        rw: 4,
+        wr: 11
+    } //红转白，白转红
 ]
 
 // window.mapdata = mapdata;
