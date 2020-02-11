@@ -166,12 +166,14 @@ export default {
       });
       that.chart.getZr().on("click", function(event) {
         if (event.target) {
-          that.$router.push({
-            path: "/MobileXq",
-            query: {
-              label: that.mapdata[event.target.dataIndex].name
-            }
-          });
+          const label = that.mapdata[event.target.dataIndex].name;
+          that.$util.getDDArea(label) &&
+            that.$router.push({
+              path: "/MobileXq",
+              query: {
+                label
+              }
+            });
         }
       });
     }

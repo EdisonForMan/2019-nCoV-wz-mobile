@@ -11,7 +11,7 @@
         截至2020年2月
         <i>8</i>日
         <i>24</i>时
-      </div> -->
+      </div>-->
       <!-- <p>(注:图中管控力指标为近15日确诊病例/常住人口)</p> -->
     </div>
     <div id="nyjj-map"></div>
@@ -132,12 +132,13 @@ export default {
       that.chart.getZr().on("click", function(event) {
         if (event.target) {
           const name = mapdata_bl[event.target.dataIndex].name;
-          that.$router.push({
-            path: "/BlImg",
-            query: {
-              name
-            }
-          });
+          that.$util.getDDArea(label) &&
+            that.$router.push({
+              path: "/BlImg",
+              query: {
+                name
+              }
+            });
         }
       });
     }

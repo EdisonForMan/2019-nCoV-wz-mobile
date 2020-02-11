@@ -8,6 +8,8 @@ import echarts from "echarts";
 import { auth_token, auth_token_info } from "./api/beans/auth";
 import Mint from 'mint-ui';
 import 'mint-ui/lib/style.css'
+import { ddInit, ddInit_ } from "./dd";
+
 Vue.use(Mint);
 // filter production infos
 Vue.prototype.$echarts = echarts;
@@ -17,7 +19,7 @@ Vue.prototype.$ajax = $.ajax;
 Vue.prototype.$window = window;
 
 //路由跳转
-Vue.prototype.$goRoute = function(index) {
+Vue.prototype.$goRoute = function (index) {
   this.$router.push({ name: index, params: { Jump: false } });
 };
 
@@ -47,7 +49,7 @@ const app = async fn => {
   // } else if (location.host.includes("172.20.89.68")){
   //   await auth_token("admin");
   // }else{
-    
+
   // }
   // await auth_token("admin");
   // const [{ au_username, group, style, au_userid }] = await auth_token_info();
@@ -71,6 +73,7 @@ const app = async fn => {
   //         ]
   //       : style
   // };
+  await ddInit();
   fn && fn();
 };
 app(() => {

@@ -105,16 +105,37 @@ export default {
     const localVal = window.localStorage.getItem(val);
     return isJson ? JSON.parse(localVal) : localVal;
   },
-
+  getDDArea(item) {
+    if (window.ddArea && (~window.ddArea.split(",").indexOf(item) || ~window.ddArea.split(",").indexOf('温州市'))) {
+      return true;
+    } else {
+      alert("无该地区查看权限!")
+      return false;
+    }
+  },
   /**
  * 
  * @param {*} val 
  * @param {*} isJson 
  */
-  removeStorage(key, ) {
+  removeStorage(key) {
     window.localStorage.removeItem(key);
+  },
+  getNowFormatDate() {
+    var date = new Date();
+    var seperator1 = "_";
+    var year = date.getFullYear();
+    var month = date.getMonth() + 1;
+    var strDate = date.getDate();
+    if (month >= 1 && month <= 9) {
+      month = "0" + month;
+    }
+    if (strDate >= 0 && strDate <= 9) {
+      strDate = "0" + strDate;
+    }
+    var currentdate = year + seperator1 + month + seperator1 + strDate;
+    return currentdate;
   }
-
 };
 
 
