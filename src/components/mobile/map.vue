@@ -286,14 +286,14 @@ export default {
           .toFather();
           border-radius: 14px;
           background-color: rgb(48, 170, 237);
-          font-size: 14px;
+          font-size: 12px;
           font-weight: 700;
           display: block;
           color: rgb(255, 255, 255);
           cursor: pointer;
           > * {
             display: inline-block;
-            height: 20px;
+            height: 14px;
             line-height: 20px;
             vertical-align: middle;
             font-style: normal;

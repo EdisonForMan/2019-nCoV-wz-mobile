@@ -10,7 +10,13 @@
     <!-- <img :src="forceImg" style="width:100%;" /> -->
     <img
       style="width:100%;"
-      :src="`${this.server}img/estate/${this.title}_${$window.nCov_luchengData.mobile.bl_imgtag}.png`"
+      :src="`${this.server}img/estate/${this.title}_${bl_imgtag}.png`"
+      @error="errorImg()"
+    />
+    <img
+    v-show="title == '乐清市'"
+      style="width:100%;"
+      :src="`${this.server}img/estate/${this.title}1.png`"
       @error="errorImg()"
     />
     <p>病例信息</p>
@@ -44,7 +50,8 @@ export default {
       flagnum: [],
       title: "",
       forceImg: undefined,
-      server: "https://lysb.lucheng.gov.cn/other/"
+      server: "https://lysb.lucheng.gov.cn/other/",
+      bl_imgtag:10
     };
   },
   mounted() {

@@ -101,7 +101,7 @@
         <span class="time">{{date}}</span>日
         <span class="time">24</span>时
       </p>
-      <span style="font-size: 13px;">温州设计集团勘测院&nbsp&nbsp&nbsp出品</span>
+      <span style="font-size: 8px;">温州设计集团勘测院&nbsp&nbsp&nbsp编制</span>
     </div>
     <bigimg
       v-if="showImg"
@@ -502,18 +502,24 @@ export default {
     flex-direction: column;
     .bl {
       list-style: none;
-      display: flex;
-      justify-content: space-between;
+      display: block;
       height: 60px;
       padding-top: 10px;
       li {
-        background-color: #483088;
-        width: 73px;
+        width: 25%;
         height: 40px;
         border-radius: 5px;
-        span {
-          font-size: 14px;
-          color: #fff;
+        float: left;
+        box-sizing: border-box;
+        padding: 0 5px;
+        div {
+          background-color: #483088;
+          width: 100%;
+          border-radius: 5px;
+          span {
+            font-size: 14px;
+            color: #fff;
+          }
         }
       }
     }

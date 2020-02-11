@@ -13,15 +13,16 @@
           <i class="cure">{{this.num[2].value}}</i> 例
         </div>
       </div>
-       <div style="margin-bottom: 8px;">
+      <div style="margin-bottom: 8px;">
         <div>当日新增确诊</div>
         <div>
-          <i class="ill">16</i> 例
+          <i class="ill">10</i> 例
         </div>
-      </div><div style="margin-bottom: 8px;">
+      </div>
+      <div style="margin-bottom: 8px;">
         <div>当日新增出院</div>
         <div>
-          <i class="cure">8</i> 例
+          <i class="cure">21</i> 例
         </div>
       </div>
       <!-- <div>
@@ -220,7 +221,7 @@ export default {
 .TOP_DATA {
   position: absolute;
   z-index: 2;
-  top: 132px;
+  top: 151px;
   left: 12px;
   > p {
     font-size: 12px;
@@ -228,12 +229,12 @@ export default {
     width: 130px;
   }
   > div {
-    height: 35px;
-    font-size: 16px;
+    height: 32px;
+    font-size: 14px;
     font-weight: 900;
     margin-bottom: 10px;
-    color: rgb(255, 255, 255);
-    width: 150px;
+    color: #ffffff;
+    width: 115px;
     div {
       margin-left: 1px;
       i {
@@ -246,8 +247,8 @@ export default {
     }
     > div:last-child {
       height: 26px;
-      font-size: 16px;
-      line-height: 26px;
+      font-size: 15px;
+      line-height: 23px;
     }
     .ill {
       color: rgb(254, 93, 25);

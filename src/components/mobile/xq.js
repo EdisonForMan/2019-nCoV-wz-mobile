@@ -1,12 +1,12 @@
 ﻿const context = {
     鹿城区:{
 		flag:[
-            {white:4,red:10}
+            {white:3,red:11,wr:1,rw:0}
         ],
         bl:[
-            {label:"确诊病例",value:63,color:"#f67a32"},
-            {label:"重症病例",value:1,color:"rgb(255,79,85)"},
-            {label:"出院病例",value:10,color:"rgb(9,252,255)"},
+            {label:"确诊病例",value:64,color:"#f67a32"},
+            {label:"重症病例",value:4,color:"rgb(255,79,85)"},
+            {label:"出院病例",value:12,color:"rgb(9,252,255)"},
             {label:"死亡病例",value:0,color:"rgb(255,246,11)"}
         ],
         xq:[
@@ -64,7 +64,7 @@
     },
     龙湾区:{
 		flag:[
-            {white:0,red:6}
+            {white:0,red:6,wr:0,rw:0}
         ],
         bl:[
             {label:"确诊病例",value:16,color:"#f67a32"},
@@ -89,12 +89,12 @@
     },
     瓯海区:{
 		flag:[
-            {white:2,red:11}
+            {white:2,red:11,wr:0,rw:0}
         ],
         bl:[
             {label:"确诊病例",value:33,color:"#f67a32"},
-            {label:"重症病例",value:3,color:"rgb(255,79,85)"},
-            {label:"出院病例",value:3,color:"rgb(9,252,255)"},
+            {label:"重症病例",value:0,color:"rgb(255,79,85)"},
+            {label:"出院病例",value:4,color:"rgb(9,252,255)"},
             {label:"死亡病例",value:0,color:"rgb(255,246,11)"}
         ],
         xq:[
@@ -131,7 +131,7 @@
     },
     洞头区:{
 		flag:[
-            {white:1,red:5}
+            {white:0,red:6,wr:1,rw:0}
         ],
         bl:[
             {label:"确诊病例",value:5,color:"#f67a32"},
@@ -149,12 +149,12 @@
     },
     瑞安市:{
 		flag:[
-            {white:4,red:19}
+            {white:1,red:22,wr:3,rw:0}
         ],
         bl:[
             {label:"确诊病例",value:71,color:"#f67a32"},
             {label:"重症病例",value:1,color:"rgb(255,79,85)"},
-            {label:"出院病例",value:29,color:"rgb(9,252,255)"},
+            {label:"出院病例",value:39,color:"rgb(9,252,255)"},
             {label:"死亡病例",value:0,color:"rgb(255,246,11)"}
         ],
         xq:[
@@ -231,12 +231,12 @@
     },
     乐清市:{
 		flag:[
-            {white:7,red:18}
+            {white:6,red:19,wr:1,rw:0}
         ],
         bl:[
-            {label:"确诊病例",value:151,color:"#f67a32"},
-            {label:"重症病例",value:15,color:"rgb(255,79,85)"},
-            {label:"出院病例",value:23,color:"rgb(9,252,255)"},
+            {label:"确诊病例",value:159,color:"#f67a32"},
+            {label:"重症病例",value:12,color:"rgb(255,79,85)"},
+            {label:"出院病例",value:26,color:"rgb(9,252,255)"},
             {label:"死亡病例",value:0,color:"rgb(255,246,11)"}
         ],
         xq:[
@@ -390,7 +390,7 @@
     },
     龙港市:{
 		flag:[
-            {white:0,red:1}
+            {white:0,red:1,wr:0,rw:0}
         ],
         bl:[
             {label:"确诊病例",value:8,color:"#f67a32"},
@@ -411,12 +411,12 @@
     },
     永嘉县:{
 		flag:[
-            {white:3,red:19}
+            {white:4,red:18,wr:1,rw:2}
         ],
         bl:[
-            {label:"确诊病例",value:46,color:"#f67a32"},
-            {label:"重症病例",value:6,color:"rgb(255,79,85)"},
-            {label:"出院病例",value:7,color:"rgb(9,252,255)"},
+            {label:"确诊病例",value:50,color:"#f67a32"},
+            {label:"重症病例",value:5,color:"rgb(255,79,85)"},
+            {label:"出院病例",value:9,color:"rgb(9,252,255)"},
             {label:"死亡病例",value:0,color:"rgb(255,246,11)"}
         ],
         xq:[
@@ -464,12 +464,12 @@
     },
     平阳县:{
 		flag:[
-            {white:0,red:16}
+            {white:0,red:16,wr:0,rw:0}
         ],
         bl:[
             {label:"确诊病例",value:30,color:"#f67a32"},
             {label:"重症病例",value:1,color:"rgb(255,79,85)"},
-            {label:"出院病例",value:2,color:"rgb(9,252,255)"},
+            {label:"出院病例",value:5,color:"rgb(9,252,255)"},
             {label:"死亡病例",value:0,color:"rgb(255,246,11)"}
         ],
         xq:[
@@ -505,11 +505,11 @@
     },
     苍南县:{
 		flag:[
-            {white:0,red:18}
+            {white:0,red:18,wr:0,rw:0}
         ],
         bl:[
             {label:"确诊病例",value:9,color:"#f67a32"},
-            {label:"重症病例",value:1,color:"rgb(255,79,85)"},
+            {label:"重症病例",value:0,color:"rgb(255,79,85)"},
             {label:"出院病例",value:0,color:"rgb(9,252,255)"},
             {label:"死亡病例",value:0,color:"rgb(255,246,11)"}
         ],
@@ -526,11 +526,11 @@
     },
     文成县:{
 		flag:[
-            {white:1,red:16}
+            {white:0,red:17,wr:1,rw:0}
         ],
         bl:[
             {label:"确诊病例",value:10,color:"#f67a32"},
-            {label:"重症病例",value:2,color:"rgb(255,79,85)"},
+            {label:"重症病例",value:0,color:"rgb(255,79,85)"},
             {label:"出院病例",value:1,color:"rgb(9,252,255)"},
             {label:"死亡病例",value:0,color:"rgb(255,246,11)"}
         ],
@@ -548,11 +548,11 @@
     },
     泰顺县:{
 		flag:[
-            {white:1,red:18}
+            {white:1,red:18,wr:0,rw:0}
         ],
         bl:[
-            {label:"确诊病例",value:16,color:"#f67a32"},
-            {label:"重症病例",value:0,color:"rgb(255,79,85)"},
+            {label:"确诊病例",value:17,color:"#f67a32"},
+            {label:"重症病例",value:1,color:"rgb(255,79,85)"},
             {label:"出院病例",value:2,color:"rgb(9,252,255)"},
             {label:"死亡病例",value:0,color:"rgb(255,246,11)"}
         ],
@@ -571,7 +571,7 @@
     },
     浙南集聚区:{
 		flag:[
-            {white:0,red:4}
+            {white:0,red:4,wr:0,rw:0}
         ],
         bl:[
             {label:"确诊病例",value:1,color:"#f67a32"},
@@ -585,7 +585,7 @@
     },
     瓯江口:{
 		flag:[
-            {white:0,red:1}
+            {white:0,red:1,wr:0,rw:0}
         ],
         bl:[
             {label:"确诊病例",value:1,color:"#f67a32"},
