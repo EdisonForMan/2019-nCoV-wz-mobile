@@ -139,18 +139,22 @@ export default {
               };
             }),
             markPoint: {
-              symbol: upurl,
-              symbolSize: [86, isGk ? 76 : 42],
-              //symbolOffset:['-20%','10%'],
+              // symbol: upurl,
+              symbol: "circle",
+              // symbolSize: [86, isGk ? 76 : 42],
+              symbolSize: 1,
+              // symbolOffset:['-20%','10%'],
               label: {
                 normal: {
                   show: true,
                   fontSize: 10,
-                  offset: [0, isGk ? -8 : -4],
+                  // offset: [0, isGk ? -8 : -4],
+                  offset: [-5, -4],
                   textStyle: {
                     color: "#000",
                     fontWeight: "bold"
                   },
+                  position: "right",
                   formatter: (isGk
                     ? [
                         "{title|{b}}",
@@ -217,8 +221,8 @@ export default {
 .TOP_DATA {
   position: absolute;
   z-index: 2;
-  top: 126px;
-  left: -14px;
+  top: 145px;
+  left: -5px;
   > p {
     font-size: 12px;
     display: block;
@@ -240,7 +244,7 @@ export default {
         font-size: 12px;
         font-weight: normal;
         position: fixed;
-        left: 12px;
+        left: 22px;
       }
     }
     > div:first-child {

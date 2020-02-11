@@ -322,7 +322,7 @@ export default {
       this.chart.setOption({
         // backgroundColor: "rgb(13, 25, 49)",
         title: {
-          text: "各区县累计确诊病例图",
+          // text: "各区县累计确诊病例图",
           textStyle: {
             color: "#fff",
             fontSize: 18
@@ -415,7 +415,7 @@ export default {
       var data = window.nCov_qushiData.zybl;
       this.chart.setOption({
         title: {
-          text: "各区县累计治愈病例图",
+          // text: "各区县累计治愈病例图",
           textStyle: {
             color: "#fff",
             fontSize: 18
@@ -510,7 +510,7 @@ export default {
       this.chart.setOption({
         // backgroundColor: "rgb(13,25,49)",
         title: {
-          text: "上日各区县确诊病例图",
+          // text: "上日各区县确诊病例图",
           textStyle: {
             color: "#fff",
             fontSize: 18

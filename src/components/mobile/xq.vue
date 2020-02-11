@@ -10,7 +10,6 @@
           <li v-for="(bitem,bindex) in bl" :key="bindex">
             <div>
               <span>{{bitem.label}}</span>
-              <br />
               <span :style="{color:bitem.color}">{{bitem.value}}例</span>
             </div>
           </li>
@@ -813,20 +812,25 @@ export default {
     width: 100%;
     // display: flex;
     flex-direction: column;
-    .bl {
+.bl {
       list-style: none;
-      display: flex;
-      justify-content: space-between;
+      display: block;
       height: 60px;
       padding-top: 10px;
       li {
-        // background-color: #483088;
-        width: 73px;
+        width: 25%;
         height: 40px;
         border-radius: 5px;
-        span {
-          font-size: 14px;
-          color: #fff;
+        float: left;
+        box-sizing: border-box;
+        padding: 0 5px;
+        div {
+          width: 100%;
+          border-radius: 5px;
+          span {
+            font-size: 14px;
+            color: #fff;
+          }
         }
       }
     }

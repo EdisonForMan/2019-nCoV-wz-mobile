@@ -407,7 +407,7 @@ export default {
     list-style: none;
     // display: flex;
     flex-direction: column;
-    height: 500px;
+    height: 241px;
     overflow: auto;
     box-sizing: border-box;
     padding: 0 10px;
