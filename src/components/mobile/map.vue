@@ -56,12 +56,15 @@
     </div>
     <div class="sjlz" v-if="current != 2">数据来源：温州市新冠肺炎工作领导小组</div>
     <div class="bottom" v-if="current != 2">
+      <div class="float" v-show="logoshow">
+        <span>温州设计集团勘察院</span>
+      </div>
       <p>
         <span class="text">截至</span> 2020年 2月
         <span class="time">{{date}}</span>日
         <span class="time">24</span>时
       </p>
-      <img src="./img/logo.png" />
+      <img src="./img/logo.png" @click="showLogo()" />
     </div>
     <fk v-if="current == 0" ref="fk" />
     <bl v-if="current == 1" ref="bl" />
@@ -118,7 +121,8 @@ export default {
       wx,
       // dd,
       isGk: false,
-      qz_num
+      qz_num,
+      logoshow: false
     };
   },
   created() {
@@ -142,8 +146,16 @@ export default {
           location.reload();
         }
       });
-      // var timestamp=new Date().getTime();
-      // window.location.reload();
+    },
+    showLogo() {
+      this.logoshow = true;
+      this.timeOut();
+    },
+    timeOut() {
+      const that = this;
+      setTimeout(function() {
+        that.logoshow = false;
+      }, 3000);
     },
     gkChange() {
       this.$router.push({
@@ -266,7 +278,7 @@ export default {
   background-size: 100% 100%;
   .isGk {
     position: fixed;
-    top: 75px;
+    top: 79px;
     left: 19px;
     color: #fff;
     height: 27px;
@@ -334,14 +346,14 @@ export default {
           .toFather();
           border-radius: 14px;
           background-color: rgb(48, 170, 237);
-          font-size: 14px;
+          font-size: 12px;
           font-weight: 700;
           display: block;
           color: rgb(255, 255, 255);
           cursor: pointer;
           > * {
             display: inline-block;
-            height: 20px;
+            height: 14px;
             line-height: 20px;
             vertical-align: middle;
             font-style: normal;
@@ -385,9 +397,9 @@ export default {
   }
   .qz {
     position: absolute;
-    bottom: 2%;
+    bottom: 13%;
     width: 100%;
-    height: 135px;
+    // height: 135px;
     box-sizing: border-box;
     z-index: 2;
     p {
@@ -428,6 +440,7 @@ export default {
     width: 100%;
     text-align: center;
     bottom: 2%;
+    z-index: 2;
     .tips {
       width: 313px;
       font-size: 14px;
@@ -437,6 +450,8 @@ export default {
       font-size: 12px;
       font-weight: bolder;
       margin: 0;
+      display: inline-block;
+      width: 152px;
 
       .text {
         color: #a7ecf7;
@@ -446,12 +461,24 @@ export default {
         color: #f3f998;
       }
     }
+    .float {
+      position: relative;
+      right: -53%;
+      width: 126px;
+      display: block;
+      background-color: blue;
+      box-sizing: border-box;
+      padding: 5px;
+      border-radius: 10px;
+      span {
+        font-size: 12px;
+      }
+    }
     img {
       font-size: 12px;
       width: 12px;
-      position: fixed;
-      right: 28%;
-      bottom: 2%;
+      position: relative;
+      top: 2px;
     }
   }
 

@@ -282,7 +282,7 @@ const nCov_luchengData = {
 
 window.nCov_luchengData = nCov_luchengData;
 
-
+//趋势分析
 window.nCov_qushiData = {
     mapDate: '2020-01-21 ~ 至今',
     mapDateArr: [
@@ -795,6 +795,7 @@ window.nCov_qushiData = {
         ["121.032043", "28.205988", 50],
       ]
     },
+    //热力图的数据 qz:确诊 zz:治愈 zy:重症 srqz：上日确诊 srzy:上日治愈
     mapData: {
       '鹿城': {
         qz: 63,

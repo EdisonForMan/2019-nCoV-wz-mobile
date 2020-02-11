@@ -338,6 +338,18 @@ export default {
       var data = window.nCov_qushiData.zzt;
       this.chart.setOption({
         // backgroundColor: "rgb(13, 25, 49)",
+<<<<<<< HEAD
+=======
+        title: {
+          // text: "各区县累计确诊病例图",
+          textStyle: {
+            color: "#fff",
+            fontSize: 18
+          },
+          x: "center",
+          y: 0
+        },
+>>>>>>> 60c848d7034101f4703f8d714f9871da2595dcc9
         tooltip: {
           trigger: "axis",
           axisPointer: {
@@ -422,6 +434,18 @@ export default {
       this.chart = this.$echarts.init(document.getElementById("zybl"));
       var data = window.nCov_qushiData.zybl;
       this.chart.setOption({
+<<<<<<< HEAD
+=======
+        title: {
+          // text: "各区县累计治愈病例图",
+          textStyle: {
+            color: "#fff",
+            fontSize: 18
+          },
+          x: "center",
+          y: 0
+        },
+>>>>>>> 60c848d7034101f4703f8d714f9871da2595dcc9
         // backgroundColor: "rgb(13,25,49)",
         grid: {
           top: "30%",
@@ -508,6 +532,18 @@ export default {
       var data = window.nCov_qushiData.mrqxqz;
       this.chart.setOption({
         // backgroundColor: "rgb(13,25,49)",
+<<<<<<< HEAD
+=======
+        title: {
+          // text: "上日各区县确诊病例图",
+          textStyle: {
+            color: "#fff",
+            fontSize: 18
+          },
+          x: "center",
+          y: "4%"
+        },
+>>>>>>> 60c848d7034101f4703f8d714f9871da2595dcc9
         grid: {
           top: "30%",
           bottom: "30%",

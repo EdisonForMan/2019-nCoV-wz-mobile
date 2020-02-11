@@ -131,22 +131,22 @@
             rw: -2
         }],
         bl: [{
-                label: "确诊-",
+                label: "确诊病例",
                 value: 33,
                 color: "#f67a32"
             },
             {
-                label: "重症-",
+                label: "重症病例",
                 value: 3,
                 color: "rgb(255,79,85)"
             },
             {
-                label: "出院-",
+                label: "出院病例",
                 value: 3,
                 color: "rgb(9,252,255)"
             },
             {
-                label: "死亡-",
+                label: "死亡病例",
                 value: 0,
                 color: "rgb(255,246,11)"
             }
@@ -191,22 +191,22 @@
             rw: 0
         }],
         bl: [{
-                label: "确诊-",
+                label: "确诊病例",
                 value: 5,
                 color: "#f67a32"
             },
             {
-                label: "重症-",
+                label: "重症病例",
                 value: 0,
                 color: "rgb(255,79,85)"
             },
             {
-                label: "出院-",
+                label: "出院病例",
                 value: 0,
                 color: "rgb(9,252,255)"
             },
             {
-                label: "死亡-",
+                label: "死亡病例",
                 value: 0,
                 color: "rgb(255,246,11)"
             }
@@ -227,22 +227,22 @@
             rw: 0
         }],
         bl: [{
-                label: "确诊-",
+                label: "确诊病例",
                 value: 71,
                 color: "#f67a32"
             },
             {
-                label: "重症-",
+                label: "重症病例",
                 value: 1,
                 color: "rgb(255,79,85)"
             },
             {
-                label: "出院-",
+                label: "出院病例",
                 value: 29,
                 color: "rgb(9,252,255)"
             },
             {
-                label: "死亡-",
+                label: "死亡病例",
                 value: 0,
                 color: "rgb(255,246,11)"
             }
@@ -327,22 +327,22 @@
             rw: -1
         }],
         bl: [{
-                label: "确诊-",
+                label: "确诊病例",
                 value: 151,
                 color: "#f67a32"
             },
             {
-                label: "重症-",
+                label: "重症病例",
                 value: 15,
                 color: "rgb(255,79,85)"
             },
             {
-                label: "出院-",
+                label: "出院病例",
                 value: 23,
                 color: "rgb(9,252,255)"
             },
             {
-                label: "死亡-",
+                label: "死亡病例",
                 value: 0,
                 color: "rgb(255,246,11)"
             }
@@ -504,22 +504,22 @@
             rw: 0
         }],
         bl: [{
-                label: "确诊-",
+                label: "确诊病例",
                 value: 8,
                 color: "#f67a32"
             },
             {
-                label: "重症-",
+                label: "重症病例",
                 value: 0,
                 color: "rgb(255,79,85)"
             },
             {
-                label: "出院-",
+                label: "出院病例",
                 value: 0,
                 color: "rgb(9,252,255)"
             },
             {
-                label: "死亡-",
+                label: "死亡病例",
                 value: 0,
                 color: "rgb(255,246,11)"
             }
@@ -543,22 +543,22 @@
             rw: -1
         }],
         bl: [{
-                label: "确诊-",
+                label: "确诊病例",
                 value: 46,
                 color: "#f67a32"
             },
             {
-                label: "重症-",
+                label: "重症病例",
                 value: 6,
                 color: "rgb(255,79,85)"
             },
             {
-                label: "出院-",
+                label: "出院病例",
                 value: 7,
                 color: "rgb(9,252,255)"
             },
             {
-                label: "死亡-",
+                label: "死亡病例",
                 value: 0,
                 color: "rgb(255,246,11)"
             }
@@ -614,22 +614,22 @@
             rw: 0
         }],
         bl: [{
-                label: "确诊-",
+                label: "确诊病例",
                 value: 30,
                 color: "#f67a32"
             },
             {
-                label: "重症-",
+                label: "重症病例",
                 value: 1,
                 color: "rgb(255,79,85)"
             },
             {
-                label: "出院-",
+                label: "出院病例",
                 value: 2,
                 color: "rgb(9,252,255)"
             },
             {
-                label: "死亡-",
+                label: "死亡病例",
                 value: 0,
                 color: "rgb(255,246,11)"
             }
@@ -673,22 +673,22 @@
             rw: 0
         }],
         bl: [{
-                label: "确诊-",
+                label: "确诊病例",
                 value: 9,
                 color: "#f67a32"
             },
             {
-                label: "重症-",
+                label: "重症病例",
                 value: 1,
                 color: "rgb(255,79,85)"
             },
             {
-                label: "出院-",
+                label: "出院病例",
                 value: 0,
                 color: "rgb(9,252,255)"
             },
             {
-                label: "死亡-",
+                label: "死亡病例",
                 value: 0,
                 color: "rgb(255,246,11)"
             }
@@ -712,22 +712,22 @@
             rw: 0
         }],
         bl: [{
-                label: "确诊-",
+                label: "确诊病例",
                 value: 10,
                 color: "#f67a32"
             },
             {
-                label: "重症-",
+                label: "重症病例",
                 value: 2,
                 color: "rgb(255,79,85)"
             },
             {
-                label: "出院-",
+                label: "出院病例",
                 value: 1,
                 color: "rgb(9,252,255)"
             },
             {
-                label: "死亡-",
+                label: "死亡病例",
                 value: 0,
                 color: "rgb(255,246,11)"
             }
@@ -752,22 +752,22 @@
             rw: 0
         }],
         bl: [{
-                label: "确诊-",
+                label: "确诊病例",
                 value: 16,
                 color: "#f67a32"
             },
             {
-                label: "重症-",
+                label: "重症病例",
                 value: 0,
                 color: "rgb(255,79,85)"
             },
             {
-                label: "出院-",
+                label: "出院病例",
                 value: 2,
                 color: "rgb(9,252,255)"
             },
             {
-                label: "死亡-",
+                label: "死亡病例",
                 value: 0,
                 color: "rgb(255,246,11)"
             }
@@ -793,22 +793,22 @@
             rw: 0
         }],
         bl: [{
-                label: "确诊-",
+                label: "确诊病例",
                 value: 1,
                 color: "#f67a32"
             },
             {
-                label: "重症-",
+                label: "重症病例",
                 value: 0,
                 color: "rgb(255,79,85)"
             },
             {
-                label: "出院-",
+                label: "出院病例",
                 value: 0,
                 color: "rgb(9,252,255)"
             },
             {
-                label: "死亡-",
+                label: "死亡病例",
                 value: 0,
                 color: "rgb(255,246,11)"
             }
@@ -825,22 +825,22 @@
             rw: 0
         }],
         bl: [{
-                label: "确诊-",
+                label: "确诊病例",
                 value: 1,
                 color: "#f67a32"
             },
             {
-                label: "重症-",
+                label: "重症病例",
                 value: 0,
                 color: "rgb(255,79,85)"
             },
             {
-                label: "出院-",
+                label: "出院病例",
                 value: 0,
                 color: "rgb(9,252,255)"
             },
             {
-                label: "死亡-",
+                label: "死亡病例",
                 value: 0,
                 color: "rgb(255,246,11)"
             }
@@ -857,22 +857,22 @@
             rw: 0
         }],
         bl: [{
-                label: "确诊-",
+                label: "确诊病例",
                 value: 1,
                 color: "#f67a32"
             },
             {
-                label: "重症-",
+                label: "重症病例",
                 value: 0,
                 color: "rgb(255,79,85)"
             },
             {
-                label: "出院-",
+                label: "出院病例",
                 value: 0,
                 color: "rgb(9,252,255)"
             },
             {
-                label: "死亡-",
+                label: "死亡病例",
                 value: 0,
                 color: "rgb(255,246,11)"
             }
