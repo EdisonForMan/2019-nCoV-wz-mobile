@@ -27,6 +27,22 @@
       <div id="mrqxzy"></div>
       <div class="tb-title">上日各区县治愈病例图</div>
     </div>
+    <div style="position: relative;">
+      <div id="mrqxxz"></div>
+      <div class="tb-title">每日各区县新增确诊病例图</div>
+    </div>
+    <div style="position: relative;">
+      <div id="mrqxlj"></div>
+      <div class="tb-title">每日各区县累计确诊病例图</div>
+    </div>
+    <div style="position: relative;">
+      <div id="mrqxxzzy"></div>
+      <div class="tb-title">每日各区县新增治愈病例图</div>
+    </div>
+    <div style="position: relative;">
+      <div id="mrqxljzy"></div>
+      <div class="tb-title">每日各区县累计治愈病例图</div>
+    </div>
   </div>
 </template>
 
@@ -50,6 +66,10 @@ export default {
     this.zzblChart(); //调用地图
     this.mrqxqzChart();
     this.mrqxzyChart();
+    this.mrqxxzChart();
+    this.mrqxljChart();
+    this.mrqxxzzyChart();
+    this.mrqxljzyChart();
   },
   beforeDestroy () {
     if (this.timeoutFlag) {
@@ -76,7 +96,13 @@ export default {
           "浙聚区": [120.770894, 27.830969], 
           "瓯江口": [120.9299323, 27.98166944]
       };
-      var heat = window.nCov_qushiData.mapReLi[this.mapDateArr[this.index]] ? window.nCov_qushiData.mapReLi[this.mapDateArr[this.index]] : [];
+      var heat = [];
+      for (let i = 0; i <= this.index; i++) {
+        var mamReli = window.nCov_qushiData.mapReLi[this.mapDateArr[i]] ? window.nCov_qushiData.mapReLi[this.mapDateArr[i]] : [];
+        mamReli.map((item) => {
+          heat.push(item);
+        });
+      }
       this.$refs.current.innerText = '当前：' + this.mapDateArr[this.index];
       let mapData = window.nCov_qushiData.mapData;
       let seriesData = Object.keys(mapData).map((item) => {
@@ -196,22 +222,13 @@ export default {
         this.index++;
         if (this.index >= this.mapDateArr.length) this.index = 0;
         this.mapqushiChart();
-      }, 5000);
+      }, 2000);
     },
     zxtmrzyChart() {
       this.chart = this.$echarts.init(document.getElementById("zxt"));
       var data = window.nCov_qushiData.zxt;
       this.chart.setOption({
         // backgroundColor: "rgb(13,25,49)",
-        title: {
-          text: "每日确诊病例图",
-          textStyle: {
-            color: "#fff",
-            fontSize: 18
-          },
-          x: "center",
-          y: "4%"
-        },
         grid: {
           top: "30%",
           bottom: "30%",
@@ -321,15 +338,6 @@ export default {
       var data = window.nCov_qushiData.zzt;
       this.chart.setOption({
         // backgroundColor: "rgb(13, 25, 49)",
-        title: {
-          text: "各区县累计确诊病例图",
-          textStyle: {
-            color: "#fff",
-            fontSize: 18
-          },
-          x: "center",
-          y: 0
-        },
         tooltip: {
           trigger: "axis",
           axisPointer: {
@@ -414,15 +422,6 @@ export default {
       this.chart = this.$echarts.init(document.getElementById("zybl"));
       var data = window.nCov_qushiData.zybl;
       this.chart.setOption({
-        title: {
-          text: "各区县累计治愈病例图",
-          textStyle: {
-            color: "#fff",
-            fontSize: 18
-          },
-          x: "center",
-          y: 0
-        },
         // backgroundColor: "rgb(13,25,49)",
         grid: {
           top: "30%",
@@ -509,15 +508,6 @@ export default {
       var data = window.nCov_qushiData.mrqxqz;
       this.chart.setOption({
         // backgroundColor: "rgb(13,25,49)",
-        title: {
-          text: "上日各区县确诊病例图",
-          textStyle: {
-            color: "#fff",
-            fontSize: 18
-          },
-          x: "center",
-          y: "4%"
-        },
         grid: {
           top: "30%",
           bottom: "30%",
@@ -602,15 +592,6 @@ export default {
       var data = window.nCov_qushiData.mrqxzy;
       this.chart.setOption({
         // backgroundColor: "rgb(13,25,49)",
-        title: {
-          text: "上日各区县治愈病例图",
-          textStyle: {
-            color: "#fff",
-            fontSize: 18
-          },
-          x: "center",
-          y: "4%"
-        },
         grid: {
           top: "30%",
           bottom: "30%",
@@ -690,6 +671,374 @@ export default {
           }
         ]
       });
+    },
+    mrqxxzChart () {
+      this.chart = this.$echarts.init(document.getElementById("mrqxxz"));
+      var series = [];
+      var legendData = [];
+      series = window.nCov_qushiData.mrqxxz.data.map((quxian) => {
+          legendData.push({ name: quxian[0] });
+          return {
+            name: quxian[0],
+            type: "line",
+            symbol: "circle",
+            symbolSize: 4,
+            label: {
+              show: false
+            },
+            data: quxian.slice(1)
+          }
+      })
+      this.chart.setOption({
+        color: ['#ff66ff','#4ff9f6', '#ff276e', '#fc9010', '#6cc24e', '#30b8ff', '#29daa2', '#f3ff36', '#823fd6','#f19ec2','#0075a9','#0066ff','#93e2ba','#9e3f3f'],
+        grid: {
+          top: "55%",
+          bottom: "15%",
+          left: "12%",
+          right: "4%"
+        },
+        legend: {
+          show: true,
+          right: '4%',
+          top: '20%',
+          textStyle: {
+            color: '#fff'
+          },
+          data: legendData
+        },
+        tooltip: {
+          trigger: "axis",
+          label: {
+            show: true
+          }
+        },
+        xAxis: {
+          boundaryGap: true, //默认，坐标轴留白策略
+          axisLine: {
+            show: true,
+            lineStyle: {
+              color: "#fff"
+            }
+          },
+          splitLine: {
+            show: false
+          },
+          axisTick: {
+            show: true,
+            lineStyle: {
+              color: "#fff"
+            },
+            alignWithLabel: true
+          },
+          axisLabel: {
+            margin: 13,
+            rotate: 45
+          },
+          data: window.nCov_qushiData.mrqxxz.dateArr
+        },
+        yAxis: {
+          axisLine: {
+            show: true,
+            lineStyle: {
+              color: "#fff"
+            }
+          },
+          splitLine: {
+            show: false,
+            lineStyle: {
+              type: "dashed",
+              color: "rgba(33,148,246,0.2)"
+            }
+          },
+          name: "例",
+          axisTick: {
+            show: true,
+            lineStyle: {
+              color: "#fff"
+            }
+          },
+          splitArea: {
+            show: false
+          }
+        },
+        series: series
+      });
+    },
+    mrqxljChart () {
+      this.chart = this.$echarts.init(document.getElementById("mrqxlj"));
+      var series = [];
+      var legendData = [];
+      series = window.nCov_qushiData.mrqxlj.data.map((quxian) => {
+          legendData.push({ name: quxian[0] });
+          return {
+            name: quxian[0],
+            type: "line",
+            symbol: "circle",
+            symbolSize: 4,
+            label: {
+              show: false
+            },
+            data: quxian.slice(1)
+          }
+      })
+      this.chart.setOption({
+        color: ['#ff66ff','#4ff9f6', '#ff276e', '#fc9010', '#6cc24e', '#30b8ff', '#29daa2', '#f3ff36', '#823fd6','#f19ec2','#0075a9','#0066ff','#93e2ba','#9e3f3f'],
+        grid: {
+          top: "55%",
+          bottom: "15%",
+          left: "12%",
+          right: "4%"
+        },
+        legend: {
+          show: true,
+          right: '4%',
+          top: '20%',
+          textStyle: {
+            color: '#fff'
+          },
+          data: legendData
+        },
+        tooltip: {
+          trigger: "axis",
+          label: {
+            show: true
+          }
+        },
+        xAxis: {
+          boundaryGap: true, //默认，坐标轴留白策略
+          axisLine: {
+            show: true,
+            lineStyle: {
+              color: "#fff"
+            }
+          },
+          splitLine: {
+            show: false
+          },
+          axisTick: {
+            show: true,
+            lineStyle: {
+              color: "#fff"
+            },
+            alignWithLabel: true
+          },
+          axisLabel: {
+            margin: 13,
+            rotate: 45
+          },
+          data: window.nCov_qushiData.mrqxlj.dateArr
+        },
+        yAxis: {
+          axisLine: {
+            show: true,
+            lineStyle: {
+              color: "#fff"
+            }
+          },
+          splitLine: {
+            show: false,
+            lineStyle: {
+              type: "dashed",
+              color: "rgba(33,148,246,0.2)"
+            }
+          },
+          name: "例",
+          axisTick: {
+            show: true,
+            lineStyle: {
+              color: "#fff"
+            }
+          },
+          splitArea: {
+            show: false
+          }
+        },
+        series: series
+      });
+    },
+    mrqxxzzyChart () {
+      this.chart = this.$echarts.init(document.getElementById("mrqxxzzy"));
+      var series = [];
+      var legendData = [];
+      series = window.nCov_qushiData.mrqxxzzy.data.map((quxian) => {
+          legendData.push({ name: quxian[0] });
+          return {
+            name: quxian[0],
+            type: "line",
+            symbol: "circle",
+            symbolSize: 4,
+            label: {
+              show: false
+            },
+            data: quxian.slice(1)
+          }
+      })
+      this.chart.setOption({
+        color: ['#ff66ff','#4ff9f6', '#ff276e', '#fc9010', '#6cc24e', '#30b8ff', '#29daa2', '#f3ff36', '#823fd6','#f19ec2','#0075a9','#0066ff','#93e2ba','#9e3f3f'],
+        grid: {
+          top: "55%",
+          bottom: "15%",
+          left: "12%",
+          right: "4%"
+        },
+        legend: {
+          show: true,
+          right: '4%',
+          top: '20%',
+          textStyle: {
+            color: '#fff'
+          },
+          data: legendData
+        },
+        tooltip: {
+          trigger: "axis",
+          label: {
+            show: true
+          }
+        },
+        xAxis: {
+          boundaryGap: true, //默认，坐标轴留白策略
+          axisLine: {
+            show: true,
+            lineStyle: {
+              color: "#fff"
+            }
+          },
+          splitLine: {
+            show: false
+          },
+          axisTick: {
+            show: true,
+            lineStyle: {
+              color: "#fff"
+            },
+            alignWithLabel: true
+          },
+          axisLabel: {
+            margin: 13,
+            rotate: 45
+          },
+          data: window.nCov_qushiData.mrqxxzzy.dateArr
+        },
+        yAxis: {
+          axisLine: {
+            show: true,
+            lineStyle: {
+              color: "#fff"
+            }
+          },
+          splitLine: {
+            show: false,
+            lineStyle: {
+              type: "dashed",
+              color: "rgba(33,148,246,0.2)"
+            }
+          },
+          name: "例",
+          axisTick: {
+            show: true,
+            lineStyle: {
+              color: "#fff"
+            }
+          },
+          splitArea: {
+            show: false
+          }
+        },
+        series: series
+      });
+    },
+    mrqxljzyChart () {
+      this.chart = this.$echarts.init(document.getElementById("mrqxljzy"));
+      var series = [];
+      var legendData = [];
+      series = window.nCov_qushiData.mrqxljzy.data.map((quxian) => {
+          legendData.push({ name: quxian[0] });
+          return {
+            name: quxian[0],
+            type: "line",
+            symbol: "circle",
+            symbolSize: 4,
+            label: {
+              show: false
+            },
+            data: quxian.slice(1)
+          }
+      })
+      this.chart.setOption({
+        color: ['#ff66ff','#4ff9f6', '#ff276e', '#fc9010', '#6cc24e', '#30b8ff', '#29daa2', '#f3ff36', '#823fd6','#f19ec2','#0075a9','#0066ff','#93e2ba','#9e3f3f'],
+        grid: {
+          top: "55%",
+          bottom: "15%",
+          left: "12%",
+          right: "4%"
+        },
+        legend: {
+          show: true,
+          right: '4%',
+          top: '20%',
+          textStyle: {
+            color: '#fff'
+          },
+          data: legendData
+        },
+        tooltip: {
+          trigger: "axis",
+          label: {
+            show: true
+          }
+        },
+        xAxis: {
+          boundaryGap: true, //默认，坐标轴留白策略
+          axisLine: {
+            show: true,
+            lineStyle: {
+              color: "#fff"
+            }
+          },
+          splitLine: {
+            show: false
+          },
+          axisTick: {
+            show: true,
+            lineStyle: {
+              color: "#fff"
+            },
+            alignWithLabel: true
+          },
+          axisLabel: {
+            margin: 13,
+            rotate: 45
+          },
+          data: window.nCov_qushiData.mrqxljzy.dateArr
+        },
+        yAxis: {
+          axisLine: {
+            show: true,
+            lineStyle: {
+              color: "#fff"
+            }
+          },
+          splitLine: {
+            show: false,
+            lineStyle: {
+              type: "dashed",
+              color: "rgba(33,148,246,0.2)"
+            }
+          },
+          name: "例",
+          axisTick: {
+            show: true,
+            lineStyle: {
+              color: "#fff"
+            }
+          },
+          splitArea: {
+            show: false
+          }
+        },
+        series: series
+      });
     }
   }
 };
@@ -732,6 +1081,9 @@ export default {
   }
   #mapqushi {
     height: 400px;
+  }
+  #mrqxxz #mrqxlj #mrqxxzzy #mrqxljzy {
+    height: 450px;
   }
 }
 .tb > div > div {
