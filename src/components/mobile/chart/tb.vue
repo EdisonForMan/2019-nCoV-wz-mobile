@@ -3,6 +3,7 @@
     <div style="position: relative;">
       <div id="mapqushi"></div>
       <div class="mapqushi-date">
+        确诊热力图
         <div class="mapqushi-date-duration">{{ duration }}</div>
         <div class="mapqushi-date-current" ref="current">当前：{{ mapDateArr[index] }}</div>
       </div>
@@ -26,6 +27,10 @@
     <div style="position: relative;">
       <div id="mrqxzy"></div>
       <div class="tb-title">上日各区县治愈病例图</div>
+    </div>
+    <div style="position: relative;">
+      <div id="mrqzzyl"></div>
+      <div class="tb-title">每日确诊治愈率统计图</div>
     </div>
     <div style="position: relative;">
       <div id="mrqxxz"></div>
@@ -70,6 +75,7 @@ export default {
     this.mrqxljChart();
     this.mrqxxzzyChart();
     this.mrqxljzyChart();
+    this.mrqzzylChart();
   },
   beforeDestroy () {
     if (this.timeoutFlag) {
@@ -144,12 +150,11 @@ export default {
               zoom: 1.2
           },
           visualMap: { //颜色的设置  dataRange
-              show: false,
+              show: true,
               x: 'right',
               y: 'bottom',
               seriesIndex: [0],
-              color: ['red', 'rgb(255, 127, 0)', 'white'],
-              text: ['例', ''],
+              color: ['red', 'rgb(30, 255, 149)'],
               textStyle: {
                   color: '#fff'
               }
@@ -158,7 +163,7 @@ export default {
             name: 'AQI',
             type: 'heatmap',
             coordinateSystem: 'geo',
-            pointSize: 10,
+            pointSize: 4,
             blurSize: 6,
             data: heat,
             zlevel: 2,
@@ -222,7 +227,7 @@ export default {
         this.index++;
         if (this.index >= this.mapDateArr.length) this.index = 0;
         this.mapqushiChart();
-      }, 2000);
+      }, 600);
     },
     zxtmrzyChart() {
       this.chart = this.$echarts.init(document.getElementById("zxt"));
@@ -1036,6 +1041,99 @@ export default {
           }
         },
         series: series
+      });
+    },
+    mrqzzylChart () {
+      this.chart = this.$echarts.init(document.getElementById("mrqzzyl"));
+      this.chart.setOption({
+        // backgroundColor: "rgb(13,25,49)",
+        grid: {
+          top: "30%",
+          bottom: "30%",
+          left: "12%",
+          right: "4%"
+        },
+        legend: {
+          show: true,
+          right: '4%',
+          top: '20%',
+          textStyle: {
+            color: '#fff'
+          },
+          data: [{name: '治愈率'}]
+        },
+        tooltip: {
+          trigger: "axis",
+          label: {
+            show: true
+          }
+        },
+        xAxis: {
+          boundaryGap: true, //默认，坐标轴留白策略
+          axisLine: {
+            show: true,
+            lineStyle: {
+              color: "#fff"
+            }
+          },
+          splitLine: {
+            show: false
+          },
+          axisTick: {
+            show: true,
+            lineStyle: {
+              color: "#fff"
+            },
+            alignWithLabel: true
+          },
+          axisLabel: {
+            margin: 13,
+            rotate: 45
+          },
+          data: window.nCov_qushiData.mrqzzyl.date
+        },
+        yAxis: {
+          axisLine: {
+            show: true,
+            lineStyle: {
+              color: "#fff"
+            }
+          },
+          splitLine: {
+            show: false,
+            lineStyle: {
+              type: "dashed",
+              color: "rgba(33,148,246,0.2)"
+            }
+          },
+          name: "率(%)",
+          axisTick: {
+            show: true,
+            lineStyle: {
+              color: "#fff"
+            }
+          },
+          splitArea: {
+            show: false
+          }
+        },
+        series: [
+          {
+            name: '治愈率',
+            type: "line",
+            symbol: "circle",
+            symbolSize: 7,
+            color: "rgb(30, 255, 149)",
+            itemStyle: {
+              borderWidth: 1,
+              borderColor: "#FFF"
+            },
+            label: {
+              show: false
+            },
+            data: window.nCov_qushiData.mrqzzyl.data.map((item) => {return (item * 100).toFixed(2);})
+          }
+        ]
       });
     }
   }
