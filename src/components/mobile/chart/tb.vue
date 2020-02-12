@@ -1143,10 +1143,10 @@ export default {
 <style lang="less" scoped>
 .tb {
   width: 100%;
-  height: 560px;
   position: fixed;
   top: 75px;
   overflow: auto;
+  bottom: 22px;
   #zxt {
     width: 100%;
     height: 300px;
