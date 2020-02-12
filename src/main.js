@@ -42,6 +42,10 @@ tokenCatch();
  * outside  游客
  */
 const app = async fn => {
+  if (!sessionStorage.getItem("shallRefresh")) {
+    sessionStorage.setItem("shallRefresh", true);
+    location.reload();
+  }
   // if (location.host.includes("localhost")) {
   //   await auth_token("admin");
   // } else if (location.host.includes("lysb.lucheng.gov.cn")) {
@@ -74,11 +78,13 @@ const app = async fn => {
   //       : style
   // };
   await ddInit();
-  fn && fn();
+  setTimeout(() => {
+    fn && fn();
+  }, 0)
 };
 app(() => {
   new Vue({
     router,
     render: h => h(App)
-  }).$mount("#app");
+  }).$mount('#app')
 });

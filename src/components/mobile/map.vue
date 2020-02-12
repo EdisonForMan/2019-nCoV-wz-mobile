@@ -123,7 +123,6 @@ export default {
   },
   created() {
     this.getToken();
-    this.refresh();
   },
   watch: {
     isGk(n, o) {
@@ -134,16 +133,6 @@ export default {
     goPage(index) {
       index > 2 && alert("建设中，敬请期待！");
       index < 3 && (this.current = index);
-    },
-    refresh() {
-      $(document).ready(function() {
-        if (location.href.indexOf("#reloaded") == -1) {
-          location.href = location.href + "#reloaded";
-          location.reload();
-        }
-      });
-      // var timestamp=new Date().getTime();
-      // window.location.reload();
     },
     gkChange() {
       this.$router.push({
