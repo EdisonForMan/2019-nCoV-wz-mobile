@@ -1,7 +1,5 @@
 <template>
   <div class="xq">
-    <!-- 弹框 -->
-    <pop ref="pop" />
     <div class="head">
       <img src="./img/back.png" @click="back()" />
       <p>{{this.title}}红白阵地分布图</p>
@@ -19,7 +17,7 @@
                   </p>
                 </div>
                 <div style="width: 26%;">
-                  <img @click="showzd" style="width:100%;margin-top: 5px;" src="./img/zd.png" />
+                  <img style="width:100%;margin-top: 5px;" src="./img/zd.png" />
                 </div>
                 <div style="width: 37%;position: relative;">
                   <img style="width: 65%;float: right;" src="./img/bq.png" />
@@ -33,47 +31,117 @@
         </div>
         <ul class="bl">
           <li v-for="(bitem,bindex) in bl" :key="bindex">
-            <div :class="`${bitem.imgurl}`"></div>
+            <div :class="`${bitem.color}`"></div>
             <span>{{bitem.label}}</span>
             <span
-              :style="`color:${bitem.color};font-size: 23px;font-weight: bold;`"
+              :style="`color:${bitem.color1};font-size: 23px;font-weight: bold;`"
             >{{bitem.value}}</span>
             <span>例</span>
           </li>
         </ul>
+        <div
+          class="Flagbl"
+          style="text-align: left;font-size: 16px;margin-bottom: 4px;height: 100px;"
+        >
+          <ul style="list-style: none;">
+            <li style="display: flex;flex-direction: row;justify-content: space-between;">
+              <div>
+                <span style="line-height: 29px;">
+                  当前
+                  <span style="color:red;">红旗</span>
+                </span>
+                <br />
+                <span>{{qz_flag.red}}</span>
+              </div>
+              <div>
+                <span style="line-height: 29px;">当前白旗</span>
+                <br />
+                <span>{{qz_flag.white}}</span>
+              </div>
+              <div>
+                <img src="./img/rflag.png" style="position: relative;
+    right: 0px;" />
+                <img src="./img/zx.png" style="position: relative;
+    right: 0px;" />
+                <img src="./img/wflag.png" style="position: relative;
+    right: -4px;" />
+                <br />
+                <span>{{qz_flag.rw}}</span>
+              </div>
+              <div>
+                <img src="./img/rflag.png" style="position: relative;
+    left: 0px;" />
+                <img src="./img/zx.png" style="position: relative;
+    right: 0px;" />
+                <img src="./img/wflag.png" style="position: relative;
+    right: 0px;" />
+                <br />
+                <span>{{qz_flag.wr}}</span>
+              </div>
+            </li>
+          </ul>
+          <div class="Flagbl_tip">
+            <div>
+              <p class="red">红旗（红色阵地）</p>
+              <p>三天内无新增确诊病例</p>
+            </div>
+            <div>
+              <p>白旗（白色阵地）</p>
+              <p>三天内出现新增确诊病例</p>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="img" v-show="show" @click="imgShow()">
+          <img :src="`${this.server}img/map/${this.title}.png`" @error="errorImg()" />
+        </div>-->
+        <!-- <div class="img" v-show="show" @click="imgShow()">
+          <img :src="`${this.server}img/map/${title}_${fk_imgtag}.png`" @error="errorImg()" />
+        </div>-->
         <div class="mapDiv">
           <div id="xq-map"></div>
           <div id="xq-map2" v-if="title == '瑞安市' || title == '平阳县'"></div>
         </div>
+        <!-- <span style="font-size: 12px;">
+          下滑可查看更多
+          <img src="./img/jt.png" style="position: relative; top: 5px;width: 20px;" />
+        </span>-->
         <div class="bltitle">
           <img src="./img/blxq.png" />
           <p>病例信息</p>
         </div>
+
+        <p>病例信息</p>
         <ul class="xq1">
           <li v-for="(bitem,bindex) in xq" :key="bindex">
-            <div>
-              <span>{{++bindex}}</span>
-            </div>
-            <div>
-              <span>{{bitem.dzzssj.split(" ")[0]}}确诊，{{bitem.xb}}，现住{{bitem.xq}}，</span>
-              <span>{{bitem.bz}}</span>
-            </div>
+            <span>{{++bindex}}</span>
+            <span>.{{bitem.dzzssj.split(" ")[0]}}确诊，{{bitem.xb}}，现住{{bitem.xq}}，{{bitem.bz}}</span>
           </li>
         </ul>
-      </div>
-      <div class="bottom">
-        <div class="sjlz">数据来源：温州市新冠肺炎工作领导小组</div>
-        <div class="float" v-show="logoshow">
-          <span>温州设计集团勘察院</span>
+        <div class="slipe">
+          <!-- <span>
+          下滑可查看更多
+          <img src="./img/jt.png" style="position: relative;
+    top: 5px;" />
+          </span>-->
+          <!-- <span
+            style="font-size:10px;line-height:15px"
+          >温州市新冠肺炎工作领导小组表中病例信息来源温州市新型冠状病毒感染的肺炎疫情防控工作领导小组于2020年1月28日起至今公布的信息，部分病例信息缺失。</span>-->
+          <span
+            style="font-size:10px;line-height:15px"
+          >表中病例信息来源温州市新冠肺炎工作领导小组于2020年1月28日起至今公布的信息，部分病例信息缺失。</span>
         </div>
+      </div>
+      <div class="footer">
         <p>
-          <img style src="./img/logo.png" @click="showLogo()" />
           <span class="text">截至</span> 2020年 2月
           <span class="time">{{date}}</span>日
           <span class="time">24</span>时
         </p>
+        <span style="font-size: 13px;">温州设计集团勘测院&nbsp&nbsp&nbsp制作</span>
       </div>
     </div>
+
+    <!-- <bigimg v-if="showImg" @clickit="viewImg" :imgSrc="`${this.server}img/map/${this.title}.png`"></bigimg> -->
   </div>
 </template>
 
@@ -81,7 +149,7 @@
 /* eslint-disable */
 import context from "./xq";
 import { date, qz_num } from "./mapdata";
-import pop from "./chart/popDiv"; //阵地详情弹框
+import bigimg from "./bigImg";
 import { mapState } from "vuex";
 import MAP_YONGJIA from "./geoJson/map_YongJia";
 import MAP_LUCHENG from "./geoJson/map_LuCheng";
@@ -170,8 +238,7 @@ export default {
       cur_map2: null,
       cur_geo: null,
       cur_data: null,
-      flag_data: null,
-      logoshow:false
+      flag_data: null
     };
   },
   computed: {
@@ -191,7 +258,7 @@ export default {
       this.xqxx();
     });
   },
-  components: { pop },
+  components: { bigimg },
   watch: {
     blList() {
       this.xqxx();
@@ -215,10 +282,10 @@ export default {
       this.qz_flag = qz_flag;
       //  病例
       const bl = [
-        { label: "确诊", value: 0, color: "#f67a32",imgurl:"qz" },
-        { label: "重症", value: 0, color: "rgb(255,79,85)",imgurl:"zz" },
-        { label: "出院", value: 0, color: "rgb(9,252,255)" ,imgurl:"cy"},
-        // { label: "死亡", value: 0, color: "rgb(255,246,11)" }
+        { label: "确诊", value: 0, color: "#f67a32" },
+        { label: "重症", value: 0, color: "rgb(255,79,85)" },
+        { label: "出院", value: 0, color: "rgb(9,252,255)" },
+        { label: "死亡", value: 0, color: "rgb(255,246,11)" }
       ];
       const mapData = {};
       const mapArr = [];
@@ -244,21 +311,14 @@ export default {
         this.XQMap2();
       }
     },
+    errorImg() {
+      this.show = false;
+    },
     viewImg() {
       this.showImg = false;
     },
     imgShow() {
       this.showImg = true;
-    },
-    showLogo() {
-      this.logoshow = true;
-       const that = this;
-      setTimeout(function() {
-        that.logoshow = false;
-      }, 3000);
-    },
-    showzd(){
-      this.$refs.pop.popzdShowFun();
     },
     back() {
       this.$router.go(-1);
@@ -278,7 +338,7 @@ export default {
               : this.title == "苍南县"
               ? 1.5
               : ~["永嘉县", "文成县"].indexOf(this.title)
-              ? 1.1
+              ? 1.2
               : ~["鹿城区", "瓯海区", "泰顺县", "平阳县"].indexOf(this.title)
               ? 1.2
               : this.title == "瑞安市"
@@ -312,7 +372,7 @@ export default {
                 : this.title == "苍南县"
                 ? 1.5
                 : ~["永嘉县", "文成县"].indexOf(this.title)
-                ? 1.1
+                ? 1.2
                 : ~["鹿城区", "瓯海区", "泰顺县", "平阳县"].indexOf(this.title)
                 ? 1.2
                 : this.title == "瑞安市"
@@ -371,7 +431,7 @@ export default {
             name: "",
             type: "scatter",
             symbol:
-              "image://data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAhCAYAAACxzQkrAAABIklEQVRYhe3XIUtDURiH8d+VgUVwWBaMxoUDghaVNYPdL2AZLFg0aTcahIUVP4htqB9gwegHsOgEDQa5hp0whXm2XRXDeeAt9/x573M4L5x7i7IsTaLdbkMJF/3+xNxPsvAnb5mBLJQiC6XIQimyUIoslCILpfh3QrUZssWvWYwxtdBhq6XX6/2mC/7hkWWhFFkoRRZKkYVSFN1ud+LiYDAg/rmiCCFM1bTT6cwtNH51LGILO2hiLYTQiFJCCCWGeMUD7nGHa9zibW6LL0J1nOIAK4l8PdYq1rEfnz/iEmd4qip0hY0qTYw2cowWNqsKvX8XmHZuIpU/URawh3Oj+ZiXYeyxW1WoZnTmRzjBdqwm1tDAEpZj/hkvPg/1TawfGeoPZMIzUjM1AqcAAAAASUVORK5CYII=",
+              "image://data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAAAoCAYAAACIC2hQAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAKqADAAQAAAABAAAAKAAAAACu2vZrAAABu0lEQVRYCWNkwAMiMzP+w6Tn79sPY9KV5rh5E2wfE11tpcCyUYdSEHhYtY6GKNZgoUBwNEQpCDysWkdDFGuwUCA4GqIUBB5WraMhijVYKBAcDVEKAg+r1tEQxRosFAiyEKsX1tImVj211Q2ZqCc6RKEhxEjtkCLWvCEToqMOJTZKiVU3GqLEhhSx6kZDlNiQIlbdaIgSG1LEqhsNUWJDilh1KHX9zJkzWe/fvmHPwPDXmoGRQf/hl18o5lSW5r75z8D4hpHhP4h+xfCf4SIDA/NRRVWNg+np6b9RFFOZA25kVFUVSP77/a+cgeF/AtByfpgdD78i7F4+fQZDRUkuTAqVZmT4yMDAuICJlamzrW3Cc1RJ6vCYqsvzbf7/+neF4f//fGRHkmQ8yHNA/SBzKksLrEnSS6Riln9//80Hjn8LYVMvz80KF8YZmnAVwPhg+C/E+P/vAqCQKpIwVZhDJ9czMTMlMjIwvqOGt0HmgMyjhlnoZjAfPnrykZ2D5eL//xhYgDldE6iAA10RQT4oMzEyzmRiY4pu65h4jaB6MhSgdC3QiydgMSQGLIZEgLQIMFcDS4P/HweqeAIAULZyhSyru3QAAAAASUVORK5CYII=",
             symbolSize: [12, 12],
             coordinateSystem: "geo",
             label: {
@@ -407,7 +467,7 @@ export default {
             name: "",
             type: "scatter",
             symbol:
-              "image://data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACUAAAAhCAYAAABeD2IVAAABFElEQVRYhe3XoU7DUBiG4afLEgQknMwgkEgcCRggOASeG0DOgiq+cm6WC8ECl4DkAjCsJCAQpAhOCExsZ2lHJs6b/Kb58vdN+yU9LZqmMYuqqqCBsixnZrui9y93WZAslUqWSiVLpZKlUslSqWSpVFZSqr9gvliKxRQLPal4tlo6K/n6slQqWSqVLJVKlkqlGI/HMwN1XRP/kFGEEOYuHQ6HraR+f/vWcIhj7GIHWyGE9SgmhDDBO57xhEfc4QEfrUympAKucYHBnHyIs409nMfrL7hBhUkXUrfYb7lngCuc4KALqc95oZQeRTo52vRwhhHqFnvquOO0C6m+7w5cosRRnJ+iYwObMf+KN3+Lfh+ns6J/AfA2MDMsqM06AAAAAElFTkSuQmCC",
+              "image://data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAAAoCAYAAACIC2hQAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAKqADAAQAAAABAAAAKAAAAACu2vZrAAABvElEQVRYCWNkwAMiMzP+w6SXTZsOY9KVZmRkBNvHRFdbKbBs1KEUBB5WraMhijVYKBAcDVEKAg+r1tEQxRosFAiOhigFgYdV62iIYg0WCgRHQ5SCwMOqdTREsQYLBYIsxOqFtbSJVU9tdUMm6okOUWgIQTow1A4uIswbMiE66lAiYpMkJaMhSlJwEaF4NESJCCSSlIyGKEnBRYTi0RAlIpBIUoJS18+cOZP1/u0b9gwMf60ZGBn0H375hWJYZWnum/8MjG8YGf6D6FcM/xkuMjAwH1VU1TiYnp7+G0UxlTngRkZVVYHkv9//yhkY/icALeeH2fHwK8Lu5dNnMFSU5MKkUGlGho8MDIwLmFiZOtvaJjxHlaQOj6m6PN/m/69/Vxj+/89HdiRJxoM8B9QPMqeytMCaJL1EKmb59/fffOD4txA29fLcrHBhnKEJVwGMD4b/Qoz//y4ACqkiCVOFOXRyPRMzUyIjA+M7angbZA7IPGqYhW4G8+GjJx/ZOVgu/v+PgQWY0zWBCjjQFRHkgzITI+NMJjam6LaOidcIqidDAUrXAr14AhZDYsBiSARIiwBzNbA0+P9xoIonAAAXbs5yUf12AAAAAElFTkSuQmCC",
             symbolSize: [12, 12],
             coordinateSystem: "geo",
             label: {
@@ -454,7 +514,7 @@ export default {
             this.title == "洞头区"
               ? 1
               : this.title == "永嘉县"
-              ? 1.1
+              ? 1.2
               : this.title == "文成县"
               ? 1.2
               : this.title == "苍南县"
@@ -488,7 +548,7 @@ export default {
               this.title == "洞头区"
                 ? 1
                 : this.title == "永嘉县"
-                ? 1.1
+                ? 1.2
                 : this.title == "文成县"
                 ? 1.2
                 : this.title == "苍南县"
@@ -629,6 +689,7 @@ export default {
 <style scoped  lang="less">
 .xq {
   box-sizing: border-box;
+
   height: 100%;
   background-image: url("./img/bg.jpg");
   background-repeat: no-repeat;
@@ -663,17 +724,28 @@ export default {
   .redFlag {
     padding: 15px;
 
+    .msg {
+      table {
+        width: 100%;
+        border: 1px solid #ccc;
+
+        td {
+          border-top: 1px solid #ccc;
+        }
+      }
+    }
+
     .xq_contain {
       width: 100%;
-      margin-bottom: 5px;
       .qz {
         width: 100%;
-        top: 8%;
-        // height: 135px;
         box-sizing: border-box;
         z-index: 2;
+        height: 80px;
         p {
           position: absolute;
+          top: 17px;
+          font-size: 14px;
           color: #ff4242;
         }
         .qz_num {
@@ -712,12 +784,8 @@ export default {
         display: block;
         height: 14px;
         margin-bottom: 7px;
-        width: 100%;
-        li:nth-child(1){
-          width: 35%;
-        }
         li {
-          width: 30%;
+          width: 31%;
           height: 100%;
           float: left;
           box-sizing: border-box;
@@ -823,71 +891,39 @@ export default {
           line-height: 20px;
           // margin-bottom: 10px;
           text-align: left;
-          div:nth-child(1) {
-            display: inline-block;
-            width: 5%;
-            vertical-align: top;
-            box-sizing: border-box;
-            padding-top: 8px;
-            span {
-              font-size: 16px;
-              color: rgb(9, 252, 255);
-            }
+          span {
+            font-size: 16px;
+            color: #fff;
           }
-          div:nth-child(2) {
+          div {
             display: inline-block;
-            width: 85%;
+            width: 89%;
             padding: 5px 10px;
             // border-bottom: 1px solid rgb(39, 45, 119);
             span {
               font-size: 14px;
             }
-            span:nth-child(1) {
-              color: rgb(9, 252, 255);
-            }
+          }
+          span:nth-child(1) {
+            color: rgb(9, 252, 255);
           }
         }
       }
     }
-    .bottom {
-      width: 100%;
-      text-align: center;
-      z-index: 2;
-      .sjlz {
-        width: 100%;
-        text-align: center;
-        font-size: 12px;
-      }
-      .tips {
-        width: 313px;
-        font-size: 14px;
-      }
+    .footer {
       p {
         color: #fff;
         font-size: 12px;
         font-weight: bolder;
         margin: 0;
-        display: inline-block;
-        width: 100%;
-      }
-      .float {
-        position: absolute;
-        right: 53%;
-        bottom: 5%;
-        width: 126px;
-        background-color: blue;
-        box-sizing: border-box;
-        padding: 5px;
-        border-radius: 10px;
-        span {
-          font-size: 12px;
+
+        .text {
+          color: #a7ecf7;
         }
-      }
-      img {
-        font-size: 12px;
-        width: 12px;
-        position: relative;
-        top: 2px;
+
+        .time {
+          color: #f3f998;
+        }
       }
     }
   }
