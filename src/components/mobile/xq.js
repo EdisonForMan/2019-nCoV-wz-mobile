@@ -7,25 +7,28 @@
             rw: 0
         }],
         bl: [{
-                label: "确诊-",
+                label: "确诊",
                 value: 63,
-                color: "#f67a32"
+                color: "qz",
+                color1: "#f67a32"
             },
             {
-                label: "重症-",
+                label: "重症",
                 value: 1,
-                color: "rgb(255,79,85)"
+                color: "zz",
+                color1: "rgb(255,79,85)"
             },
             {
-                label: "出院-",
+                label: "出院",
                 value: 10,
-                color: "rgb(9,252,255)"
+                color: "cy",
+                color1: "rgb(9,252,255)"
             },
-            {
-                label: "死亡-",
-                value: 0,
-                color: "rgb(255,246,11)"
-            }
+            // {
+            //     label: "治愈",
+            //     value: 0,
+            //    color: "zy"
+            // }
         ],
         xq: [
             "2月8日确诊：女，62岁，现住鹿城区，有温州银泰世贸店购物史， 2月6日出现发热症状，现在定点医疗机构隔离治疗。",
@@ -88,25 +91,28 @@
             rw: 0
         }],
         bl: [{
-                label: "确诊-",
+                label: "确诊",
                 value: 16,
-                color: "#f67a32"
+                color: "qz",
+                color1: "#f67a32"
             },
             {
-                label: "重症-",
+                label: "重症",
                 value: 0,
-                color: "rgb(255,79,85)"
+                color: "zz",
+                color1: "rgb(255,79,85)"
             },
             {
-                label: "出院-",
+                label: "出院",
                 value: 1,
-                color: "rgb(9,252,255)"
+                color: "cy",
+                color1: "rgb(9,252,255)"
             },
-            {
-                label: "死亡-",
-                value: 0,
-                color: "rgb(255,246,11)"
-            }
+            // {
+            //     label: "治愈",
+            //     value: 0,
+            //    color: "zy"
+            // }
         ],
         xq: [
             "2月6日确诊：女，57岁，现住龙湾区，有确诊病例接触史，2月5日出现发热症状，现在定点医疗机构隔离治疗。",
@@ -131,25 +137,28 @@
             rw: -2
         }],
         bl: [{
-                label: "确诊-",
+                label: "确诊",
                 value: 33,
-                color: "#f67a32"
+                color: "qz",
+                color1: "#f67a32"
             },
             {
-                label: "重症-",
+                label: "重症",
                 value: 3,
-                color: "rgb(255,79,85)"
+                color: "zz",
+                color1: "rgb(255,79,85)"
             },
             {
-                label: "出院-",
+                label: "出院",
                 value: 3,
-                color: "rgb(9,252,255)"
+                color: "cy",
+                color1: "rgb(9,252,255)"
             },
-            {
-                label: "死亡-",
-                value: 0,
-                color: "rgb(255,246,11)"
-            }
+            // {
+            //     label: "治愈",
+            //     value: 0,
+            //    color: "zy"
+            // }
         ],
         xq: [
             "2月6日确诊：男，51岁，现住瓯海区，有确诊病例接触史，2月5日出现发热症状，现在定点医疗机构隔离治疗。",
@@ -191,25 +200,28 @@
             rw: 0
         }],
         bl: [{
-                label: "确诊-",
+                label: "确诊",
                 value: 5,
-                color: "#f67a32"
+                color: "qz",
+                color1: "#f67a32"
             },
             {
-                label: "重症-",
+                label: "重症",
                 value: 0,
-                color: "rgb(255,79,85)"
+                color: "zz",
+                color1: "rgb(255,79,85)"
             },
             {
-                label: "出院-",
+                label: "出院",
                 value: 0,
-                color: "rgb(9,252,255)"
+                color: "cy",
+                color1: "rgb(9,252,255)"
             },
-            {
-                label: "死亡-",
-                value: 0,
-                color: "rgb(255,246,11)"
-            }
+            // {
+            //     label: "治愈",
+            //     value: 0,
+            //    color: "zy"
+            // }
         ],
         xq: [
             "2月7日确诊：女，32岁，现住洞头区，2月7日出现发热症状，感染来源调查中，现在定点医疗机构隔离治疗。",
@@ -227,25 +239,28 @@
             rw: 0
         }],
         bl: [{
-                label: "确诊-",
+                label: "确诊",
                 value: 71,
-                color: "#f67a32"
+                color: "qz",
+                color1: "#f67a32"
             },
             {
-                label: "重症-",
+                label: "重症",
                 value: 1,
-                color: "rgb(255,79,85)"
+                color: "zz",
+                color1: "rgb(255,79,85)"
             },
             {
-                label: "出院-",
+                label: "出院",
                 value: 29,
-                color: "rgb(9,252,255)"
+                color: "cy",
+                color1: "rgb(9,252,255)"
             },
-            {
-                label: "死亡-",
-                value: 0,
-                color: "rgb(255,246,11)"
-            }
+            // {
+            //     label: "治愈",
+            //     value: 0,
+            //    color: "zy"
+            // }
         ],
         xq: [
             "2月8日确诊：男，62岁，现住瑞安市，有湖北回乡人员接触史，1月22日出现发热症状，现在定点医疗机构隔离治疗。",
@@ -327,25 +342,28 @@
             rw: -1
         }],
         bl: [{
-                label: "确诊-",
+                label: "确诊",
                 value: 151,
-                color: "#f67a32"
+                color: "qz",
+                color1: "#f67a32"
             },
             {
-                label: "重症-",
+                label: "重症",
                 value: 15,
-                color: "rgb(255,79,85)"
+                color: "zz",
+                color1: "rgb(255,79,85)"
             },
             {
-                label: "出院-",
+                label: "出院",
                 value: 23,
-                color: "rgb(9,252,255)"
+                color: "cy",
+                color1: "rgb(9,252,255)"
             },
-            {
-                label: "死亡-",
-                value: 0,
-                color: "rgb(255,246,11)"
-            }
+            // {
+            //     label: "治愈",
+            //     value: 0,
+            //    color: "zy"
+            // }
         ],
         xq: [
             "2月8日确诊：男，45岁，现住乐清市，有确诊病例接触史，2月8日CT显示肺部感染，现在定点医疗机构隔离治疗。",
@@ -504,25 +522,28 @@
             rw: 0
         }],
         bl: [{
-                label: "确诊-",
+                label: "确诊",
                 value: 8,
-                color: "#f67a32"
+                color: "qz",
+                color1: "#f67a32"
             },
             {
-                label: "重症-",
+                label: "重症",
                 value: 0,
-                color: "rgb(255,79,85)"
+                color: "zz",
+                color1: "rgb(255,79,85)"
             },
             {
-                label: "出院-",
+                label: "出院",
                 value: 0,
-                color: "rgb(9,252,255)"
+                color: "cy",
+                color1: "rgb(9,252,255)"
             },
-            {
-                label: "死亡-",
-                value: 0,
-                color: "rgb(255,246,11)"
-            }
+            // {
+            //     label: "治愈",
+            //     value: 0,
+            //    color: "zy"
+            // }
         ],
         xq: [
             "1月30日确诊：男，41岁，现住龙港市，1月25日从武汉回温，1月22日出现畏寒、喉咙疼痛、腹泻，现在定点医疗机构隔离治疗。",
@@ -543,25 +564,28 @@
             rw: -1
         }],
         bl: [{
-                label: "确诊-",
+                label: "确诊",
                 value: 46,
-                color: "#f67a32"
+                color: "qz",
+                color1: "#f67a32"
             },
             {
-                label: "重症-",
+                label: "重症",
                 value: 6,
-                color: "rgb(255,79,85)"
+                color: "zz",
+                color1: "rgb(255,79,85)"
             },
             {
-                label: "出院-",
+                label: "出院",
                 value: 7,
-                color: "rgb(9,252,255)"
+                color: "cy",
+                color1: "rgb(9,252,255)"
             },
-            {
-                label: "死亡-",
-                value: 0,
-                color: "rgb(255,246,11)"
-            }
+            // {
+            //     label: "治愈",
+            //     value: 0,
+            //    color: "zy"
+            // }
         ],
         xq: [
             "2月8日确诊：男，57岁，现住永嘉县，1月20日湖北回温，1月25日出现发热症状，现在定点医疗机构隔离治疗。",
@@ -614,25 +638,28 @@
             rw: 0
         }],
         bl: [{
-                label: "确诊-",
+                label: "确诊",
                 value: 30,
-                color: "#f67a32"
+                color: "qz",
+                color1: "#f67a32"
             },
             {
-                label: "重症-",
+                label: "重症",
                 value: 1,
-                color: "rgb(255,79,85)"
+                color: "zz",
+                color1: "rgb(255,79,85)"
             },
             {
-                label: "出院-",
+                label: "出院",
                 value: 2,
-                color: "rgb(9,252,255)"
+                color: "cy",
+                color1: "rgb(9,252,255)"
             },
-            {
-                label: "死亡-",
-                value: 0,
-                color: "rgb(255,246,11)"
-            }
+            // {
+            //     label: "治愈",
+            //     value: 0,
+            //    color: "zy"
+            // }
         ],
         xq: [
             "2月6日确诊：女，49岁，现住平阳县，1月16日出现发热症状，感染来源调查中，现在定点医疗机构隔离治疗。",
@@ -673,25 +700,28 @@
             rw: 0
         }],
         bl: [{
-                label: "确诊-",
+                label: "确诊",
                 value: 9,
-                color: "#f67a32"
+                color: "qz",
+                color1: "#f67a32"
             },
             {
-                label: "重症-",
+                label: "重症",
                 value: 1,
-                color: "rgb(255,79,85)"
+                color: "zz",
+                color1: "rgb(255,79,85)"
             },
             {
-                label: "出院-",
+                label: "出院",
                 value: 0,
-                color: "rgb(9,252,255)"
+                color: "cy",
+                color1: "rgb(9,252,255)"
             },
-            {
-                label: "死亡-",
-                value: 0,
-                color: "rgb(255,246,11)"
-            }
+            // {
+            //     label: "治愈",
+            //     value: 0,
+            //    color: "zy"
+            // }
         ],
         xq: [
             "2月4日确诊：男，37岁，现住苍南县，无武汉旅居史，无确诊病例接触史，1月28日出现咳嗽症状，感染来源调查中,现在定点医疗机构隔离治疗。",
@@ -712,25 +742,28 @@
             rw: 0
         }],
         bl: [{
-                label: "确诊-",
+                label: "确诊",
                 value: 10,
-                color: "#f67a32"
+                color: "qz",
+                color1: "#f67a32"
             },
             {
-                label: "重症-",
+                label: "重症",
                 value: 2,
-                color: "rgb(255,79,85)"
+                color: "zz",
+                color1: "rgb(255,79,85)"
             },
             {
-                label: "出院-",
+                label: "出院",
                 value: 1,
-                color: "rgb(9,252,255)"
+                color: "cy",
+                color1: "rgb(9,252,255)"
             },
-            {
-                label: "死亡-",
-                value: 0,
-                color: "rgb(255,246,11)"
-            }
+            // {
+            //     label: "治愈",
+            //     value: 0,
+            //    color: "zy"
+            // }
         ],
         xq: [
             "2月7日确诊：女，25岁，现住文成县，有确诊病例接触史，无症状，现在定点医疗机构隔离治疗。",
@@ -752,25 +785,28 @@
             rw: 0
         }],
         bl: [{
-                label: "确诊-",
+                label: "确诊",
                 value: 16,
-                color: "#f67a32"
+                color: "qz",
+                color1: "#f67a32"
             },
             {
-                label: "重症-",
+                label: "重症",
                 value: 0,
-                color: "rgb(255,79,85)"
+                color: "zz",
+                color1: "rgb(255,79,85)"
             },
             {
-                label: "出院-",
+                label: "出院",
                 value: 2,
-                color: "rgb(9,252,255)"
+                color: "cy",
+                color1: "rgb(9,252,255)"
             },
-            {
-                label: "死亡-",
-                value: 0,
-                color: "rgb(255,246,11)"
-            }
+            // {
+            //     label: "治愈",
+            //     value: 0,
+            //    color: "zy"
+            // }
         ],
         xq: [
             "2月7日确诊：女，28岁，现住泰顺县，有确诊病例接触史，2月4日出现咳嗽症状，现在定点医疗机构隔离治疗。",
@@ -785,38 +821,6 @@
             "1月27日确诊：男，44岁，现住泰顺县，1月18日从武汉回温，1月20日出现咽痛不适，体温37.7℃，无咳嗽咳痰等症状，现在泰顺县定点医疗机构隔离治疗。"
         ]
     },
-    浙南集聚区: {
-        flag: [{
-            white: 0,
-            red: 4,
-            wr: 0,
-            rw: 0
-        }],
-        bl: [{
-                label: "确诊-",
-                value: 1,
-                color: "#f67a32"
-            },
-            {
-                label: "重症-",
-                value: 0,
-                color: "rgb(255,79,85)"
-            },
-            {
-                label: "出院-",
-                value: 0,
-                color: "rgb(9,252,255)"
-            },
-            {
-                label: "死亡-",
-                value: 0,
-                color: "rgb(255,246,11)"
-            }
-        ],
-        xq: [
-            "2月2日确诊：男，21岁，现住浙南集聚区，无武汉旅居史，1月28日出现发热、咳嗽、头痛等症状，感染来源不明，有待进一步溯源，现在定点医疗机构隔离治疗。"
-        ]
-    },
     浙南: {
         flag: [{
             white: 0,
@@ -825,25 +829,28 @@
             rw: 0
         }],
         bl: [{
-                label: "确诊-",
+                label: "确诊",
                 value: 1,
-                color: "#f67a32"
+                color: "qz",
+                color1: "#f67a32"
             },
             {
-                label: "重症-",
+                label: "重症",
                 value: 0,
-                color: "rgb(255,79,85)"
+                color: "zz",
+                color1: "rgb(255,79,85)"
             },
             {
-                label: "出院-",
+                label: "出院",
                 value: 0,
-                color: "rgb(9,252,255)"
+                color: "cy",
+                color1: "rgb(9,252,255)"
             },
-            {
-                label: "死亡-",
-                value: 0,
-                color: "rgb(255,246,11)"
-            }
+            // {
+            //     label: "治愈",
+            //     value: 0,
+            //    color: "zy"
+            // }
         ],
         xq: [
             "2月2日确诊：男，21岁，现住浙南集聚区，无武汉旅居史，1月28日出现发热、咳嗽、头痛等症状，感染来源不明，有待进一步溯源，现在定点医疗机构隔离治疗。"
@@ -857,25 +864,28 @@
             rw: 0
         }],
         bl: [{
-                label: "确诊-",
+                label: "确诊",
                 value: 1,
-                color: "#f67a32"
+                color: "qz",
+                color1: "#f67a32"
             },
             {
-                label: "重症-",
+                label: "重症",
                 value: 0,
-                color: "rgb(255,79,85)"
+                color: "zz",
+                color1: "rgb(255,79,85)"
             },
             {
-                label: "出院-",
+                label: "出院",
                 value: 0,
-                color: "rgb(9,252,255)"
+                color: "cy",
+                color1: "rgb(9,252,255)"
             },
-            {
-                label: "死亡-",
-                value: 0,
-                color: "rgb(255,246,11)"
-            }
+            // {
+            //     label: "治愈",
+            //     value: 0,
+            //    color: "zy"
+            // }
         ],
         xq: [
             "1月28日确诊：男，32岁，现住瓯江口集聚区，1月21日武汉返回温州，1月21日出现发热，体温38.5℃，伴咳嗽，现在温州市定点医疗机构隔离治疗。"

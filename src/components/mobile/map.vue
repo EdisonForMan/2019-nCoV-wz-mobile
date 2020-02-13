@@ -13,25 +13,31 @@
         >
           <span>
             <img :src="item.icon" />
-            <i>{{item.label}}</i>
+            <!-- <i>{{item.label}}</i> -->
           </span>
         </li>
       </ul>
     </header>
     <div class="qz" v-if="current == 0">
-      <p>今日全市</p>
       <div class="qz_num">
         <ul>
           <li>
-            <div style="width: 20%;">
-              <img src="./img/rflag.png" />
-              <span style="color: red;">{{qz_num.red}}</span>
+            <div style="width: 37%;position: relative;">
+              <img style="width: 65%;float: left;" src="./img/hq.png" />
+              <p style="left: 64%;bottom: 7%;">
+                <span>{{qz_num.red}}</span>
+              </p>
             </div>
-            <div style="width: 20%;">
-              <img src="./img/wflag.png" />
-              <span>{{qz_num.white}}</span>
+            <div style="width: 26%;">
+              <img @click="showzd" style="width:100%;margin-top: 5px;" src="./img/zd.png" />
             </div>
-            <div style="width: 30%;">
+            <div style="width: 37%;position: relative;">
+              <img style="width: 65%;float: right;" src="./img/bq.png" />
+              <p style="right: 64%;bottom: 7%;color:#fff">
+                <span>{{qz_num.white}}</span>
+              </p>
+            </div>
+            <!-- <div style="width: 30%;">
               <img src="./img/wflag.png" />
               <span style="padding-right:7px">转</span>
               <img src="./img/rflag.png" />
@@ -41,13 +47,15 @@
               <img src="./img/rflag.png" />
               <span style="padding-right:7px">转</span>
               <img src="./img/wflag.png" />
-              <span style="color: red;">{{qz_num.rw}}</span>
-            </div>
+              <span style="color: red;">{{qz_num[1].wr}}</span>
+            </div>-->
           </li>
         </ul>
       </div>
     </div>
-    <div class="isGk isGkActive" @click="gkChange" v-if="current == 0">管控力</div>
+    <div class="isGk isGkActive" @click="gkChange" v-if="current == 0">
+      <img style="vertical-align: sub;width: 15px;" src="./img/gkl.png" /> 管控力指标
+    </div>
     <div class="kind" v-if="current != 2">
       <div class="t1">一类区域</div>
       <div class="t2">二类区域</div>
@@ -60,12 +68,14 @@
         <span>温州设计集团勘察院</span>
       </div>
       <p>
-        <span class="text">截至</span> 2020年 2月
+        <img style src="./img/logo.png" @click="showLogo()" />
+        <span class="text"> 截至</span> 2020年 2月
         <span class="time">{{date}}</span>日
         <span class="time">24</span>时
       </p>
-      <img src="./img/logo.png" @click="showLogo()" />
     </div>
+    <!-- 弹框 -->
+    <pop ref="pop" />
     <fk v-if="current == 0" ref="fk" />
     <bl v-if="current == 1" ref="bl" />
     <tb v-if="current == 2" />
@@ -78,6 +88,8 @@
 import bl from "./chart/bl";
 import fk from "./chart/fk";
 import tb from "./chart/tb";
+import pop from "./chart/popDiv"; //阵地详情弹框
+
 import wx from "weixin-js-sdk";
 // import dd from "dingtalk-jsapi";
 import axios from "axios";
@@ -86,29 +98,29 @@ import { mapState, mapActions } from "vuex";
 
 export default {
   name: "Mobile",
-  components: { bl, fk, tb },
+  components: { bl, fk, tb, pop },
   data() {
     return {
       toptab: [
         {
           label: "防控作战",
           name: "Map",
-          icon: require("./img/Map.png")
+          icon: require("./img/fk.png")
         },
         {
           label: "病例分布",
           name: "Estate",
-          icon: require("./img/Estate.png")
+          icon: require("./img/bl.png")
         },
         {
           label: "疫情趋势",
           name: "Analyze",
-          icon: require("./img/Analyze.png")
+          icon: require("./img/yq.png")
         },
         {
           label: "区域风险",
           name: "Risk",
-          icon: require("./img/Risk.png")
+          icon: require("./img/qy.png")
         }
       ],
       current: 0,
@@ -172,6 +184,95 @@ export default {
       this.$router.push({
         path: "/MobileGK"
       });
+    },
+    showzd() {
+      this.$refs.pop.popzdShowFun();
+    },
+    //获取钉钉用户
+    getUser() {
+      this.dd.ready(function() {
+        this.dd.util.domainStorage.setItem({
+          name: "syl", // 存储信息的key值
+          value: "鹿城区", // 存储信息的Value值
+          onSuccess: function(info) {
+            alert(JSON.stringify(info));
+          },
+          onFail: function(err) {
+            alert(JSON.stringify(err));
+          }
+        });
+      });
+    },
+    //信用分后台认证
+    getToken() {
+      const that = this;
+      $.ajax({
+        url: "http://115.223.34.189:8099/xypt/zww/settoken",
+        type: "Post",
+        data: {
+          idcard: "test",
+          username: "syl",
+          phoneum: "123456"
+        },
+        dataType: "json",
+        success: function(data) {
+          window.localStorage.setItem("token", data.responseText);
+          that.getaccess();
+        },
+        error: function(data) {
+          window.localStorage.setItem("token", data.responseText);
+          that.getaccess();
+        }
+      });
+    },
+    //获取Access_Token
+    getaccess() {
+      const that = this;
+      $.ajax({
+        url: "http://115.223.34.189:8099/xypt/wx/getsign",
+        type: "Post",
+        data: {
+          url: location.href.split("#")[0],
+          token: window.localStorage.getItem("token")
+        },
+        dataType: "json",
+        success: function(data) {
+          const signature = data.signature;
+          const noncestr = data.noncestr;
+          const timestamp = data.timestamp;
+          that.WXshare(signature, noncestr, timestamp);
+        },
+        error: function(data) {
+          console.log(data);
+        }
+      });
+    },
+    WXshare(signature, noncestr, timestamp) {
+      const that = this;
+      this.wx.config({
+        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来
+
+        appId: "wx7eeb4eea87cf3ce6", // 必填，企业微信的corpID
+        timestamp: timestamp, // 必填，生成签名的时间戳
+
+        nonceStr: noncestr, // 必填，生成签名的随机串 必填，生成签名的随机串
+
+        signature: signature, //
+        jsApiList: ["updateAppMessageShareData"]
+      });
+      this.wx.ready(function() {
+        // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中。
+        that.wx.updateAppMessageShareData({
+          title: "温州市疫情分布动态地图", // 分享标题
+          desc: "抗击疫情，我们在一起，温州加油！", // 分享描述
+          link: location.href, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+          imgUrl: "", // 分享图标
+          success: function() {
+            // 设置成功
+          }
+        });
+      });
+      this.wx.error(function(res) {});
     }
   }
 };
@@ -202,17 +303,19 @@ export default {
   background-repeat: no-repeat;
   background-size: 100% 100%;
   .isGk {
-    position: fixed;
-    top: 79px;
-    left: 19px;
+    position: absolute;
+    top: 45%;
+    left: 2%;
     color: #fff;
     height: 27px;
     font-size: 14px;
     line-height: 30px;
-    border-radius: 6px;
+    border-radius: 15px;
     border: 1px #30aaff solid;
-    padding: 0 6px;
+    padding: 1px 12px;
     z-index: 2;
+    font-weight: bold;
+    opacity: 0.9;
   }
   .isGkActive {
     background-color: rgba(48, 170, 273, 0.6);
@@ -254,7 +357,7 @@ export default {
   }
   .app_header {
     position: fixed;
-    top: 20px;
+    top: 15px;
     height: @MaxHeight;
     padding: 4px;
     background: rgba(0, 0, 0, 0);
@@ -269,8 +372,7 @@ export default {
         opacity: 0.65;
         > span {
           .toFather();
-          border-radius: 14px;
-          background-color: rgb(48, 170, 237);
+          border-radius: 17px;
           font-size: 12px;
           font-weight: 700;
           display: block;
@@ -278,13 +380,11 @@ export default {
           cursor: pointer;
           > * {
             display: inline-block;
-            height: 14px;
             line-height: 20px;
             vertical-align: middle;
             font-style: normal;
-          }
-          i {
-            margin-left: 2px;
+            font-size: 17px;
+            width: 100%;
           }
         }
       }
@@ -322,15 +422,14 @@ export default {
   }
   .qz {
     position: absolute;
-    bottom: 13%;
     width: 100%;
+    top: 8%;
     // height: 135px;
     box-sizing: border-box;
     z-index: 2;
     p {
-      font-weight: bold;
-      width: 105px;
-      font-size: 12px;
+      position: absolute;
+      color: #ff4242;
     }
     .qz_num {
       width: 100%;
@@ -338,21 +437,19 @@ export default {
       padding: 10px;
       ul {
         list-style: none;
-        border-radius: 13px;
-        border: 1px solid #191682;
-        background-color: #171573;
-        padding: 5px;
+        background-image: linear-gradient(to right, #15005b, #4855d6, #15005b);
+        padding: 8px;
         li {
           display: flex;
           flex-direction: row;
           width: 100%;
           div {
-            img {
-              width: 12px;
-              padding-right: 7px;
-            }
+            // img {
+            //   width: 12px;
+            //   padding-right: 7px;
+            // }
             span {
-              font-size: 12px;
+              font-size: 21px;
               font-weight: bold;
             }
           }
@@ -376,15 +473,7 @@ export default {
       font-weight: bolder;
       margin: 0;
       display: inline-block;
-      width: 152px;
-
-      .text {
-        color: #a7ecf7;
-      }
-
-      .time {
-        color: #f3f998;
-      }
+      width: 100%;
     }
     .float {
       position: relative;
