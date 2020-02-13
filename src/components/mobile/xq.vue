@@ -572,13 +572,10 @@ export default {
               .map(item => {
                 return {
                   name: item,
-                  value: this.cur_geo[item].concat(
-                    this.cur_data[item] ? this.cur_data[item].value : 0
-                  ),
-                  new: this.cur_data[item] ? this.cur_data[item].new : 0
+                  value: this.cur_geo[item].concat(this.flag_data[item] || 0)
                 };
               })
-              .filter(item => item.new == 0)
+              .filter(item => item.value[2] == 0)
           },
           {
             id: "白旗",
@@ -611,13 +608,10 @@ export default {
               .map(item => {
                 return {
                   name: item,
-                  value: this.cur_geo[item].concat(
-                    this.cur_data[item] ? this.cur_data[item].value : 0
-                  ),
-                  new: this.cur_data[item] ? this.cur_data[item].new : 0
+                  value: this.cur_geo[item].concat(this.flag_data[item] || 0)
                 };
               })
-              .filter(item => item.new != 0)
+              .filter(item => item.value[2] != 0)
           }
         ]
       });

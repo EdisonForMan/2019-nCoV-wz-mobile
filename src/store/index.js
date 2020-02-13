@@ -22,7 +22,7 @@ export default new Vuex.Store({
       state.flagList = val;
     },
     updateCommunityList(state, val) {
-      state.flagList = val;
+      state.communityList = val;
     }
   },
   actions: {
@@ -33,6 +33,10 @@ export default new Vuex.Store({
     async fetchCyList({ state, commit }, option) {
       const { data } = await wz_bqztb();
       commit('updateCyList', data)
+    },
+    async fetchFlagList({ state, commit }, option) {
+      const { data } = await wz_jdqdhbqb();
+      commit('updateFlagList', data)
     },
     async fetchCommunityList({ state, commit }, option) {
       const { data } = await wz_jdqdhbqb();
