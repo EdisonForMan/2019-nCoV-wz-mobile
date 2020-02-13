@@ -37,18 +37,6 @@
                 <span>{{qz_num[0].white}}</span>
               </p>
             </div>
-            <!-- <div style="width: 30%;">
-              <img src="./img/wflag.png" />
-              <span style="padding-right:7px">转</span>
-              <img src="./img/rflag.png" />
-              <span>{{qz_num[1].rw}}</span>
-            </div>
-            <div style="width: 30%;">
-              <img src="./img/rflag.png" />
-              <span style="padding-right:7px">转</span>
-              <img src="./img/wflag.png" />
-              <span style="color: red;">{{qz_num[1].wr}}</span>
-            </div>-->
           </li>
         </ul>
       </div>
@@ -69,13 +57,11 @@
       </div>
       <p>
         <img style src="./img/logo.png" @click="showLogo()" />
-        <span class="text"> 截至</span> 2020年 2月
+        <span class="text">截至</span> 2020年 2月
         <span class="time">{{date}}</span>日
         <span class="time">24</span>时
       </p>
     </div>
-    <!-- 弹框 -->
-    <pop ref="pop" />
     <fk v-if="current == 0" ref="fk" />
     <bl v-if="current == 1" ref="bl" />
     <tb v-if="current == 2" />
@@ -88,7 +74,6 @@
 import bl from "./chart/bl";
 import fk from "./chart/fk";
 import tb from "./chart/tb";
-import pop from "./chart/popDiv"; //阵地详情弹框
 
 import wx from "weixin-js-sdk";
 // import dd from "dingtalk-jsapi";
@@ -97,7 +82,7 @@ import { date, qz_num } from "./mapdata";
 
 export default {
   name: "Mobile",
-  components: { bl, fk, tb, pop },
+  components: { bl, fk, tb },
   data() {
     return {
       toptab: [
@@ -131,16 +116,12 @@ export default {
       nonceStr: "Wm3WZYTPz0wzccnC",
       timestamp: 1414587466,
       wx,
-      // dd,
       isGk: false,
       qz_num,
       logoshow: false
     };
   },
-  created() {
-    this.getToken();
-    this.refresh();
-  },
+  created() {},
   watch: {
     isGk(n, o) {
       this.NYJJMap();
@@ -150,14 +131,6 @@ export default {
     goPage(index) {
       index > 2 && alert("建设中，敬请期待！");
       index < 3 && (this.current = index);
-    },
-    refresh() {
-      $(document).ready(function() {
-        if (location.href.indexOf("#reloaded") == -1) {
-          location.href = location.href + "#reloaded";
-          location.reload();
-        }
-      });
     },
     showLogo() {
       this.logoshow = true;
@@ -175,22 +148,7 @@ export default {
       });
     },
     showzd() {
-      this.$refs.pop.popzdShowFun();
-    },
-    //获取钉钉用户
-    getUser() {
-      this.dd.ready(function() {
-        this.dd.util.domainStorage.setItem({
-          name: "syl", // 存储信息的key值
-          value: "鹿城区", // 存储信息的Value值
-          onSuccess: function(info) {
-            alert(JSON.stringify(info));
-          },
-          onFail: function(err) {
-            alert(JSON.stringify(err));
-          }
-        });
-      });
+      this.$refs.fk.$refs.pop.popzdShowFun();
     },
     //信用分后台认证
     getToken() {
@@ -465,10 +423,10 @@ export default {
       width: 100%;
     }
     .float {
-      position: relative;
-      right: -53%;
+      position: absolute;
+      right: 53%;
+      bottom: 5%;
       width: 126px;
-      display: block;
       background-color: blue;
       box-sizing: border-box;
       padding: 5px;
