@@ -2,6 +2,7 @@ import Vue from "vue";
 import App from "./App.vue";
 import util from "./components/common/util.js";
 import router from "./router";
+import store from "./store";
 import "./components/common/_iconfont/iconfont.js";
 import "./components/common/_iconfont/iconfont.css";
 import echarts from "echarts";
@@ -17,7 +18,7 @@ Vue.prototype.$ajax = $.ajax;
 Vue.prototype.$window = window;
 
 //路由跳转
-Vue.prototype.$goRoute = function(index) {
+Vue.prototype.$goRoute = function (index) {
   this.$router.push({ name: index, params: { Jump: false } });
 };
 
@@ -40,42 +41,17 @@ tokenCatch();
  * outside  游客
  */
 const app = async fn => {
-  // if (location.host.includes("localhost")) {
-  //   await auth_token("admin");
-  // } else if (location.host.includes("lysb.lucheng.gov.cn")) {
-  //   await auth_token("游客");
-  // } else if (location.host.includes("172.20.89.68")){
-  //   await auth_token("admin");
-  // }else{
-    
-  // }
-  // await auth_token("admin");
-  // const [{ au_username, group, style, au_userid }] = await auth_token_info();
-  // window.user = {
-  //   au_username,
-  //   group,
-  //   au_userid,
-  //   rland: false,
-  //   rquota: false,
-  //   style:
-  //     location.host.includes("lysb.lucheng.gov.cn") ||
-  //     location.host.includes("localhost")
-  //       ? util.getStorage("@style") || [
-  //           {
-  //             chooseStyle: "app",
-  //             id: 1,
-  //             mapStyle: "simpleStyle",
-  //             userDepart: "亩均论英雄",
-  //             userName: "admin"
-  //           }
-  //         ]
-  //       : style
-  // };
+  if (!sessionStorage.getItem("shallRefresh")) {
+    sessionStorage.setItem("shallRefresh", true);
+    location.reload();
+  }
+  await auth_token("admin");
   fn && fn();
 };
 app(() => {
   new Vue({
     router,
+    store,
     render: h => h(App)
   }).$mount("#app");
 });

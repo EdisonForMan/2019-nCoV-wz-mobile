@@ -19,23 +19,19 @@
           style="text-align: left;font-size: 16px;margin-bottom: 4px;height: 100px;"
         >
           <ul style="list-style: none;">
-            <li
-              v-for="(fitem,findex) in flagnum"
-              :key="findex"
-              style="display: flex;flex-direction: row;justify-content: space-between;"
-            >
+            <li style="display: flex;flex-direction: row;justify-content: space-between;">
               <div>
                 <span style="line-height: 29px;">
                   当前
                   <span style="color:red;">红旗</span>
                 </span>
                 <br />
-                <span>{{fitem.red}}</span>
+                <span>{{qz_flag.red}}</span>
               </div>
               <div>
                 <span style="line-height: 29px;">当前白旗</span>
                 <br />
-                <span>{{fitem.white}}</span>
+                <span>{{qz_flag.white}}</span>
               </div>
               <div>
                 <img src="./img/rflag.png" style="position: relative;
@@ -45,7 +41,7 @@
                 <img src="./img/wflag.png" style="position: relative;
     right: -4px;" />
                 <br />
-                <span>{{fitem.rw}}</span>
+                <span>{{qz_flag.rw}}</span>
               </div>
               <div>
                 <img src="./img/rflag.png" style="position: relative;
@@ -55,7 +51,7 @@
                 <img src="./img/wflag.png" style="position: relative;
     right: 0px;" />
                 <br />
-                <span>{{fitem.wr}}</span>
+                <span>{{qz_flag.wr}}</span>
               </div>
             </li>
           </ul>
@@ -93,7 +89,7 @@
       <ul class="xq1">
         <li v-for="(bitem,bindex) in xq" :key="bindex">
           <span>{{++bindex}}</span>
-          <span>.{{bitem}}</span>
+          <span>.{{bitem.dzzssj.split(" ")[0]}}确诊，{{bitem.xb}}，现住{{bitem.xq}}，{{bitem.bz}}</span>
         </li>
       </ul>
       <div class="slipe">
@@ -124,6 +120,7 @@
 import context from "./xq";
 import { date } from "./mapdata";
 import bigimg from "./bigImg";
+import { mapState } from "vuex";
 import MAP_YONGJIA from "./geoJson/map_YongJia";
 import MAP_LUCHENG from "./geoJson/map_LuCheng";
 import MAP_OUHAI from "./geoJson/map_OuHai";
@@ -181,7 +178,7 @@ export default {
     return {
       bl: [],
       xq: [],
-      flagnum: [],
+      qz_flag: { red: 0, white: 0, rw: 0, wr: 0 },
       title: "",
       context,
       date,
@@ -210,42 +207,78 @@ export default {
       cur_map: null,
       cur_map2: null,
       cur_geo: null,
-      cur_data: null
+      cur_data: null,
+      flag_data: null
     };
   },
-  props: {},
-  watch: {},
-  created() {
-    this.xqxx();
+  computed: {
+    ...mapState({
+      blList: state => state.blList,
+      flagList: state => state.flagList
+    })
   },
+  created() {},
   mounted() {
-    console.log(this.title);
-    const [map, geo, data] = this.mapHash[this.title];
-    this.cur_map = map;
-    this.cur_geo = geo;
-    this.cur_data = data;
-    this.XQMapInit();
-    this.XQMap();
-
-    if (this.title == "瑞安市" || this.title == "平阳县") {
-      this.cur_map2 = this.mapHash[this.title][3];
-
-      this.XQMapInit2();
-      this.XQMap2();
-    }
+    this.title = this.$route.query.label;
+    this.$nextTick(() => {
+      const [map, geo] = this.mapHash[this.$route.query.label];
+      this.cur_map = map;
+      this.cur_geo = geo;
+      this.XQMapInit();
+      this.xqxx();
+    });
   },
   components: { bigimg },
+  watch: {
+    blList() {
+      this.xqxx();
+    }
+  },
   methods: {
     xqxx() {
-      var o;
-      for (o in this.context) {
-        if (this.$route.query.label == o) {
-          this.bl = this.context[o].bl;
-          this.xq = this.context[o].xq;
-          this.flagnum = this.context[o].flag;
-          this.title = o;
-          // console.log(this.bl, this.xq, this.flagnum, this.title);
-        }
+      const today = this.$util.getTime();
+      const _xq_ = this.$route.query.label;
+      //  旗子
+      const qz_flag = { red: 0, white: 0, rw: 0, wr: 0 };
+      const flag_data = {};
+      const flag = this.flagList.filter(({ qx }) => qx == _xq_);
+      flag.map(item => {
+        parseInt(item.hbqqk) ? (qz_flag.white += 1) : (qz_flag.red += 1);
+        parseInt(item.hqzbq) && (qz_flag.rw += 1);
+        parseInt(item.bqzhq) && (qz_flag.wr += 1);
+        flag_data[item.jd] = parseInt(item.hbqqk);
+      });
+      this.flag_data = flag_data;
+      this.qz_flag = qz_flag;
+      //  病例
+      const bl = [
+        { label: "确诊", value: 0, color: "#f67a32" },
+        { label: "重症", value: 0, color: "rgb(255,79,85)" },
+        { label: "出院", value: 0, color: "rgb(9,252,255)" },
+        { label: "死亡", value: 0, color: "rgb(255,246,11)" }
+      ];
+      const mapData = {};
+      const mapArr = [];
+      const xq = this.blList.filter(({ xq }) => xq == _xq_);
+      xq.map(item => {
+        bl[0].value += 1;
+        item.lcyzcd.includes("重症") && (bl[1].value += 1);
+        item.cysj && (bl[2].value += 1);
+        //  地图
+        !mapData[item.xjjd] &&
+          (mapData[item.xjjd] = { name: item.xjjd, value: 0, new: 0 });
+        mapData[item.xjjd].value += 1;
+        item.dzzssj.includes(today) && (mapData[item.xjjd].new += 1);
+      });
+      this.xq = xq;
+      this.bl = bl;
+      this.cur_data = mapData;
+      //  地图初始化
+      this.XQMap();
+      if (this.title == "瑞安市" || this.title == "平阳县") {
+        this.cur_map2 = this.mapHash[this.title][3];
+        this.XQMapInit2();
+        this.XQMap2();
       }
     },
     errorImg() {
@@ -352,13 +385,12 @@ export default {
             // textFixed: {
             //   Alaska: [200, 0]
             // },
-            data: this.cur_data.map(item => {
+            data: Object.keys(this.cur_geo).map(item => {
               return {
-                name: item.name,
-                value: item.value,
-                coord: this.cur_geo[item.name],
+                name: item,
+                value: this.cur_data[item] ? this.cur_data[item].value : 0,
+                coord: this.cur_geo[item],
                 itemStyle: {
-                  // color: item.new == 0 ? "#fff" : "#f82727"
                   color: "#fff2d2"
                 }
               };
@@ -391,14 +423,14 @@ export default {
             itemStyle: {
               opacity: 1
             },
-            data: this.cur_data
-              .filter(item => item.new == 0)
+            data: Object.keys(this.cur_geo)
               .map(item => {
                 return {
-                  name: item.name,
-                  value: this.cur_geo[item.name].concat(item.value)
+                  name: item,
+                  value: this.cur_geo[item].concat(this.flag_data[item] || 0)
                 };
               })
+              .filter(item => item.value[2] == 0)
           },
           {
             id: "白旗",
@@ -427,14 +459,14 @@ export default {
             itemStyle: {
               opacity: 1
             },
-            data: this.cur_data
-              .filter(item => item.new != 0)
+            data: Object.keys(this.cur_geo)
               .map(item => {
                 return {
-                  name: item.name,
-                  value: this.cur_geo[item.name].concat(item.value)
+                  name: item,
+                  value: this.cur_geo[item].concat(this.flag_data[item] || 0)
                 };
               })
+              .filter(item => item.value[2] != 0)
           }
         ]
       });
@@ -468,18 +500,6 @@ export default {
               : this.title == "龙湾区"
               ? 1.1
               : 0.15,
-          // top:
-          //   this.title == "平阳县"
-          //     ? "45%"
-          //     : // : this.title == "乐清市"
-          //       // ? "20%"
-          //       "middle",
-          // left:
-          //   this.title == "苍南县"
-          //     ? "20%"
-          //     : // : this.title == "乐清市"
-          //       // ? "20%"
-          //       "center",
           right: "right",
           label: {
             normal: {
@@ -514,19 +534,6 @@ export default {
                 : this.title == "龙湾区"
                 ? 1.1
                 : 0.15,
-            // top:
-            //   this.title == "平阳县"
-            //     ? "45%"
-            //     : // : this.title == "乐清市"
-            //       // ? "20%"
-            //       "middle",
-
-            // left:
-            //   this.title == "苍南县"
-            //     ? "20%"
-            //     : // : this.title == "乐清市"
-            //       // ? "20%"
-            //       "center",
             right: "right",
             emphasis: {
               label: {
@@ -553,16 +560,12 @@ export default {
                   ? "#fff2d2"
                   : null
             },
-            // textFixed: {
-            //   Alaska: [200, 0]
-            // },
-            data: this.cur_data.map(item => {
+            data: Object.keys(this.cur_geo).map(item => {
               return {
-                name: item.name,
-                value: item.value,
-                coord: this.cur_geo[item.name],
+                name: item,
+                value: this.cur_data[item] ? this.cur_data[item].value : 0,
+                coord: this.cur_geo[item],
                 itemStyle: {
-                  // color: item.new == 0 ? "#fff" : "#f82727"
                   color: "#fff2d2"
                 }
               };
@@ -595,14 +598,17 @@ export default {
             itemStyle: {
               opacity: 1
             },
-            data: this.cur_data
-              .filter(item => item.new == 0)
+            data: Object.keys(this.cur_geo)
               .map(item => {
                 return {
-                  name: item.name,
-                  value: this.cur_geo[item.name].concat(item.value)
+                  name: item,
+                  value: this.cur_geo[item].concat(
+                    this.cur_data[item] ? this.cur_data[item].value : 0
+                  ),
+                  new: this.cur_data[item] ? this.cur_data[item].new : 0
                 };
               })
+              .filter(item => item.new == 0)
           },
           {
             id: "白旗",
@@ -631,14 +637,17 @@ export default {
             itemStyle: {
               opacity: 1
             },
-            data: this.cur_data
-              .filter(item => item.new != 0)
+            data: Object.keys(this.cur_geo)
               .map(item => {
                 return {
-                  name: item.name,
-                  value: this.cur_geo[item.name].concat(item.value)
+                  name: item,
+                  value: this.cur_geo[item].concat(
+                    this.cur_data[item] ? this.cur_data[item].value : 0
+                  ),
+                  new: this.cur_data[item] ? this.cur_data[item].new : 0
                 };
               })
+              .filter(item => item.new != 0)
           }
         ]
       });
@@ -812,7 +821,7 @@ export default {
     width: 100%;
     // display: flex;
     flex-direction: column;
-.bl {
+    .bl {
       list-style: none;
       display: block;
       height: 60px;

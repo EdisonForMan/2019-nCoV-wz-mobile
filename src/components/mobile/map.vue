@@ -25,23 +25,23 @@
           <li>
             <div style="width: 20%;">
               <img src="./img/rflag.png" />
-              <span style="color: red;">{{qz_num[0].red}}</span>
+              <span style="color: red;">{{qz_num.red}}</span>
             </div>
             <div style="width: 20%;">
               <img src="./img/wflag.png" />
-              <span>{{qz_num[0].white}}</span>
+              <span>{{qz_num.white}}</span>
             </div>
             <div style="width: 30%;">
               <img src="./img/wflag.png" />
               <span style="padding-right:7px">转</span>
               <img src="./img/rflag.png" />
-              <span>{{qz_num[1].rw}}</span>
+              <span>{{qz_num.wr}}</span>
             </div>
             <div style="width: 30%;">
               <img src="./img/rflag.png" />
               <span style="padding-right:7px">转</span>
               <img src="./img/wflag.png" />
-              <span style="color: red;">{{qz_num[1].wr}}</span>
+              <span style="color: red;">{{qz_num.rw}}</span>
             </div>
           </li>
         </ul>
@@ -81,7 +81,8 @@ import tb from "./chart/tb";
 import wx from "weixin-js-sdk";
 // import dd from "dingtalk-jsapi";
 import axios from "axios";
-import { date, qz_num } from "./mapdata";
+import { date } from "./mapdata";
+import { mapState, mapActions } from "vuex";
 
 export default {
   name: "Mobile",
@@ -119,33 +120,43 @@ export default {
       nonceStr: "Wm3WZYTPz0wzccnC",
       timestamp: 1414587466,
       wx,
-      // dd,
       isGk: false,
-      qz_num,
+      qz_num: { red: 0, white: 0, rw: 0, wr: 0 },
       logoshow: false
     };
   },
-  created() {
-    this.getToken();
-    this.refresh();
+  mounted() {
+    !this.blList.length && this.fetchBlList();
+    !this.flagList.length && this.fetchFlagList();
+  },
+  computed: {
+    ...mapState({
+      blList: state => state.blList,
+      flagList: state => state.flagList
+    })
   },
   watch: {
     isGk(n, o) {
       this.NYJJMap();
+    },
+    flagList(n) {
+      this.fixFlagData();
     }
   },
   methods: {
+    ...mapActions(["fetchBlList", "fetchFlagList"]),
+    fixFlagData() {
+      const qz_num = { red: 0, white: 0, rw: 0, wr: 0 };
+      this.flagList.map(item => {
+        parseInt(item.hbqqk) ? (qz_num.white += 1) : (qz_num.red += 1);
+        parseInt(item.hqzbq) && (qz_num.rw += 1);
+        parseInt(item.bqzhq) && (qz_num.wr += 1);
+      });
+      this.qz_num = qz_num;
+    },
     goPage(index) {
       index > 2 && alert("建设中，敬请期待！");
       index < 3 && (this.current = index);
-    },
-    refresh() {
-      $(document).ready(function() {
-        if (location.href.indexOf("#reloaded") == -1) {
-          location.href = location.href + "#reloaded";
-          location.reload();
-        }
-      });
     },
     showLogo() {
       this.logoshow = true;
@@ -161,92 +172,6 @@ export default {
       this.$router.push({
         path: "/MobileGK"
       });
-    },
-    //获取钉钉用户
-    getUser() {
-      this.dd.ready(function() {
-        this.dd.util.domainStorage.setItem({
-          name: "syl", // 存储信息的key值
-          value: "鹿城区", // 存储信息的Value值
-          onSuccess: function(info) {
-            alert(JSON.stringify(info));
-          },
-          onFail: function(err) {
-            alert(JSON.stringify(err));
-          }
-        });
-      });
-    },
-    //信用分后台认证
-    getToken() {
-      const that = this;
-      $.ajax({
-        url: "http://115.223.34.189:8099/xypt/zww/settoken",
-        type: "Post",
-        data: {
-          idcard: "test",
-          username: "syl",
-          phoneum: "123456"
-        },
-        dataType: "json",
-        success: function(data) {
-          window.localStorage.setItem("token", data.responseText);
-          that.getaccess();
-        },
-        error: function(data) {
-          window.localStorage.setItem("token", data.responseText);
-          that.getaccess();
-        }
-      });
-    },
-    //获取Access_Token
-    getaccess() {
-      const that = this;
-      $.ajax({
-        url: "http://115.223.34.189:8099/xypt/wx/getsign",
-        type: "Post",
-        data: {
-          url: location.href.split("#")[0],
-          token: window.localStorage.getItem("token")
-        },
-        dataType: "json",
-        success: function(data) {
-          const signature = data.signature;
-          const noncestr = data.noncestr;
-          const timestamp = data.timestamp;
-          that.WXshare(signature, noncestr, timestamp);
-        },
-        error: function(data) {
-          console.log(data);
-        }
-      });
-    },
-    WXshare(signature, noncestr, timestamp) {
-      const that = this;
-      this.wx.config({
-        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来
-
-        appId: "wx7eeb4eea87cf3ce6", // 必填，企业微信的corpID
-        timestamp: timestamp, // 必填，生成签名的时间戳
-
-        nonceStr: noncestr, // 必填，生成签名的随机串 必填，生成签名的随机串
-
-        signature: signature, //
-        jsApiList: ["updateAppMessageShareData"]
-      });
-      this.wx.ready(function() {
-        // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中。
-        that.wx.updateAppMessageShareData({
-          title: "温州市疫情分布动态地图", // 分享标题
-          desc: "抗击疫情，我们在一起，温州加油！", // 分享描述
-          link: location.href, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-          imgUrl: "", // 分享图标
-          success: function() {
-            // 设置成功
-          }
-        });
-      });
-      this.wx.error(function(res) {});
     }
   }
 };

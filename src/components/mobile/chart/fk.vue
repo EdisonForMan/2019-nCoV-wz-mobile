@@ -4,24 +4,24 @@
       <div>
         <div>
           累计确诊
-          <i class="ill">{{this.num[0].value}}</i> 例
+          <i class="ill">{{ill_cure[0]}}</i> 例
         </div>
         <div>
           <span>
             今日新增
-            <i class="ill">+{{this.num[5].value}}</i>
+            <i class="ill">+{{ill_cure[1]}}</i>
           </span>
         </div>
       </div>
       <div style="margin-bottom: 8px;">
         <div>
           累计出院
-          <i class="cure">{{this.num[2].value}}</i>例
+          <i class="cure">{{ill_cure[2]}}</i>例
         </div>
         <div>
           <span>
             今日新增
-            <i class="cure">+{{this.num[5].value}}</i>
+            <i class="cure">+{{ill_cure[3]}}</i>
           </span>
         </div>
       </div>
@@ -58,26 +58,61 @@
 <script>
 /* eslint-disable */
 import wenzhouMap from "../geoJson/WenZhou";
-import { mapdata, date, num } from "../mapdata";
+import { mapdata } from "../mapdata";
 import { menuHash } from "@/components/common/user/menuHash";
+import { mapState } from "vuex";
 
 export default {
   data() {
     return {
       chart: undefined,
       mapdata,
-      date,
-      num,
+      ill_cure: [, , ,],
       menuHash,
       user: "",
       qx: []
     };
   },
+  computed: {
+    ...mapState({
+      blList: state => state.blList
+    })
+  },
   mounted() {
+    this.dataFix();
+  },
+  watch: {
+    blList() {
+      this.blDataFix();
+    }
+  },
+  mounted() {
+    this.blDataFix();
     this.NYJJMapInit(); //调用地图
     this.NYJJMap(); //调用地图
   },
   methods: {
+    blDataFix() {
+      if (!this.blList.length) return;
+      const today = this.$util.getTime();
+      const xqObj = {};
+      this.ill_cure = [
+        this.blList.length,
+        this.blList.filter(({ dzzssj }) => dzzssj.includes(today)).length,
+        this.blList.filter(({ cysj }) => cysj).length,
+        this.blList.filter(({ cysj }) => cysj && cysj.includes(today)).length
+      ];
+      this.blList.map(({ xq, cysj }) => {
+        const _xq_ = xq.replace(/产业集聚区/g, "");
+        !xqObj[_xq_] && (xqObj[_xq_] = [0, 0]);
+        xqObj[_xq_][0] += 1;
+        cysj && (xqObj[_xq_][1] += 1);
+      });
+      const _mapdata_ = this.$util.clone(this.mapdata).map(item => {
+        return xqObj[item.name] ? { ...item, value: xqObj[item.name] } : item;
+      });
+      this.mapdata = _mapdata_;
+    },
     NYJJMapInit() {
       this.chart = this.$echarts.init(document.getElementById("nyjj-map"));
       this.$echarts.registerMap("wenzhou", wenzhouMap);
