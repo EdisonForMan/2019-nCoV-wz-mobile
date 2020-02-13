@@ -31,6 +31,8 @@
       </div>
     </div>
     <div id="nyjj-map"></div>
+    <!-- 弹框 -->
+    <pop ref="pop" />
   </div>
 </template>
 
@@ -39,6 +41,7 @@
 import wenzhouMap from "../geoJson/WenZhou";
 import { mapdata, date, num } from "../mapdata";
 import { menuHash } from "@/components/common/user/menuHash";
+import pop from "./popDiv"; //阵地详情弹框
 
 export default {
   data() {
@@ -52,6 +55,7 @@ export default {
       qx: []
     };
   },
+  components: { pop },
   mounted() {
     this.NYJJMapInit(); //调用地图
     this.NYJJMap(); //调用地图

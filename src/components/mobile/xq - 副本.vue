@@ -246,7 +246,7 @@ export default {
               : this.title == "苍南县"
               ? 1.5
               : ~["永嘉县", "文成县"].indexOf(this.title)
-              ? 1
+              ? 1.2
               : ~["鹿城区", "瓯海区", "泰顺县", "平阳县"].indexOf(this.title)
               ? 1.2
               : this.title == "瑞安市"
@@ -280,7 +280,7 @@ export default {
                 : this.title == "苍南县"
                 ? 1.5
                 : ~["永嘉县", "文成县"].indexOf(this.title)
-                ? 1
+                ? 1.2
                 : ~["鹿城区", "瓯海区", "泰顺县", "平阳县"].indexOf(this.title)
                 ? 1.2
                 : this.title == "瑞安市"
@@ -423,7 +423,7 @@ export default {
             this.title == "洞头区"
               ? 1
               : this.title == "永嘉县"
-              ? 1
+              ? 1.2
               : this.title == "文成县"
               ? 1.2
               : this.title == "苍南县"
@@ -469,7 +469,7 @@ export default {
               this.title == "洞头区"
                 ? 1
                 : this.title == "永嘉县"
-                ? 1
+                ? 1.2
                 : this.title == "文成县"
                 ? 1.2
                 : this.title == "苍南县"
@@ -621,6 +621,7 @@ export default {
 <style scoped  lang="less">
 .xq {
   box-sizing: border-box;
+
   height: 100%;
   background-image: url("./img/bg.jpg");
   background-repeat: no-repeat;
@@ -655,17 +656,29 @@ export default {
   .redFlag {
     padding: 15px;
 
+    .msg {
+      table {
+        width: 100%;
+        border: 1px solid #ccc;
+
+        td {
+          border-top: 1px solid #ccc;
+        }
+      }
+    }
+
     .xq_contain {
       width: 100%;
       margin-bottom: 5px;
       .qz {
         width: 100%;
-        top: 8%;
-        // height: 135px;
         box-sizing: border-box;
         z-index: 2;
+        height: 80px;
         p {
           position: absolute;
+          top: 17px;
+          font-size: 14px;
           color: #ff4242;
         }
         .qz_num {
@@ -704,12 +717,8 @@ export default {
         display: block;
         height: 14px;
         margin-bottom: 7px;
-        width: 100%;
-        li:nth-child(1){
-          width: 35%;
-        }
         li {
-          width: 30%;
+          width: 31%;
           height: 100%;
           float: left;
           box-sizing: border-box;
