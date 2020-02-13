@@ -58,8 +58,11 @@ export default {
         _context_.view = new MapView({
           container: "arcgis",
           map: _context_.map,
-          center: [120.61429448808013, 28.030695289562555],
-          zoom: 9
+          center: {
+            x: 120.69526344126223,
+            y: 27.997524034893974
+          },
+          zoom: 15
         });
         //  图例
         _context_.legend = new Legend({
@@ -67,6 +70,9 @@ export default {
         });
         _context_.legend.layerInfos.push({
           layer: mjzs
+        });
+        this.view.on("click", function(evt) {
+          console.log(evt);
         });
         fn && fn();
       });
