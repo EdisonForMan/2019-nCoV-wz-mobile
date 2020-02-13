@@ -24,16 +24,16 @@
           <li>
             <div style="width: 37%;position: relative;">
               <img style="width: 65%;float: left;" src="./img/hq.png" />
-              <p style="left: 64%;bottom: 7%;">
+              <p>
                 <span>{{qz_num[0].red}}</span>
               </p>
             </div>
-            <div style="width: 26%;">
-              <img @click="showzd" style="width:100%;margin-top: 5px;" src="./img/zd.png" />
+            <div style="width: 25%;margin-top:2%">
+              <img @click="showzd" style="width:100%;" src="./img/zd.png" />
             </div>
             <div style="width: 37%;position: relative;">
               <img style="width: 65%;float: right;" src="./img/bq.png" />
-              <p style="right: 64%;bottom: 7%;color:#fff">
+              <p style="color:#fff">
                 <span>{{qz_num[0].white}}</span>
               </p>
             </div>
@@ -57,11 +57,13 @@
       </div>
       <p>
         <img style src="./img/logo.png" @click="showLogo()" />
-        <span class="text">截至</span> 2020年 2月
+        <span class="text" style="margin-left:5px;">截至</span> 2020年 2月
         <span class="time">{{date}}</span>日
         <span class="time">24</span>时
       </p>
     </div>
+    <!-- 弹框 -->
+    <pop ref="pop" />
     <fk v-if="current == 0" ref="fk" />
     <bl v-if="current == 1" ref="bl" />
     <tb v-if="current == 2" />
@@ -74,15 +76,15 @@
 import bl from "./chart/bl";
 import fk from "./chart/fk";
 import tb from "./chart/tb";
-
+import pop from "./chart/popDiv"; //阵地详情弹框
 import wx from "weixin-js-sdk";
 // import dd from "dingtalk-jsapi";
 import axios from "axios";
-import { date, qz_num } from "./mapdata";
+// import { date, qz_num } from "./mapdata";
 
 export default {
   name: "Mobile",
-  components: { bl, fk, tb },
+  components: { bl, fk, tb, pop },
   data() {
     return {
       toptab: [
@@ -109,7 +111,7 @@ export default {
       ],
       current: 0,
       reloadFlag: null,
-      date,
+      // date,
       token: "",
       access_token: "",
       ticketString: "",
@@ -117,11 +119,16 @@ export default {
       timestamp: 1414587466,
       wx,
       isGk: false,
-      qz_num,
+      // qz_num,
       logoshow: false
     };
   },
-  created() {},
+  created() {
+    const date = window.date;
+    this.date = date;
+    const qz_num = window.qz_num;
+    this.qz_num = qz_num;
+  },
   watch: {
     isGk(n, o) {
       this.NYJJMap();
@@ -148,7 +155,7 @@ export default {
       });
     },
     showzd() {
-      this.$refs.fk.$refs.pop.popzdShowFun();
+      this.$refs.pop.popzdShowFun();
     },
     //信用分后台认证
     getToken() {
@@ -251,11 +258,11 @@ export default {
   background-size: 100% 100%;
   .isGk {
     position: absolute;
-    top: 45%;
+    top: 44%;
     left: 2%;
     color: #fff;
     height: 27px;
-    font-size: 14px;
+    font-size: 12px;
     line-height: 30px;
     border-radius: 15px;
     border: 1px #30aaff solid;
@@ -370,13 +377,15 @@ export default {
   .qz {
     position: absolute;
     width: 100%;
-    top: 8%;
+    top: 10%;
     // height: 135px;
     box-sizing: border-box;
     z-index: 2;
     p {
-      position: absolute;
       color: #ff4242;
+      font-size: 12px;
+      padding: 4% 0;
+      margin-top: 6%;
     }
     .qz_num {
       width: 100%;
@@ -423,14 +432,15 @@ export default {
       width: 100%;
     }
     .float {
-      position: absolute;
-      right: 53%;
-      bottom: 5%;
+      position: fixed;
+      right: 32%;
       width: 126px;
+      display: block;
       background-color: blue;
       box-sizing: border-box;
       padding: 5px;
       border-radius: 10px;
+      bottom: 2%;
       span {
         font-size: 12px;
       }
@@ -440,6 +450,8 @@ export default {
       width: 12px;
       position: relative;
       top: 2px;
+      background-color: #fff;
+      border-radius: 3px;
     }
   }
 

@@ -212,7 +212,7 @@ export default {
 .TOP_DATA {
   position: absolute;
   z-index: 2;
-  top: 21%;
+  top: 20%;
   left: -5px;
   > p {
     font-size: 12px;
