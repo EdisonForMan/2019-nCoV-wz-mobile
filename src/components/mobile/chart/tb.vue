@@ -5,7 +5,8 @@
       <div class="mapqushi-date">
         确诊热力图
         <div class="mapqushi-date-duration">{{ duration }}</div>
-        <div class="mapqushi-date-current" ref="current">当前：{{ mapDateArr[index] }}</div>
+        <div class="mapqushi-date-current" ref="current" @click="popupVisible = true;" style="width: 100px;display: inline-block;border: 2px solid #30aaed; padding: 5px 0;text-align: center;">{{ mapDateArr[index] }}</div>
+        <div class="play-icon" :class="[playFlag ? 'now-play' : 'now-stop']" @click="playHandler"></div>
       </div>
     </div>
     <div style="position: relative;">
@@ -48,6 +49,13 @@
       <div id="mrqxljzy"></div>
       <div class="tb-title">每日各区县累计治愈病例图</div>
     </div>
+    <mt-popup
+      v-model="popupVisible"
+      position="bottom"
+      style="width: 100%;height: auto;">
+      <div class="popup-sure" ><span @click="sureHandler">确认</span></div>
+      <mt-picker :slots="slots" style="height: auto;" ref="picker"></mt-picker>
+    </mt-popup>
   </div>
 </template>
 
@@ -55,7 +63,16 @@
 import {NEW_WENZHOU_JSON} from '../geoJson/newWenzhouJson.js';
 export default {
   data() {
+    let slots = [
+      {
+        flex: 1,
+        values: window.nCov_qushiData.mapDateArr
+      }
+    ];
     return {
+      slots: slots,
+      popupVisible: false,
+      playFlag: true,
       chart: undefined,
       index: 0,
       duration: window.nCov_qushiData.mapDate,
@@ -78,12 +95,31 @@ export default {
     this.mrqzzylChart();
   },
   beforeDestroy () {
-    if (this.timeoutFlag) {
-      clearTimeout(this.timeoutFlag);
-      this.timeoutFlag = null;
-    } 
+    this.cleartimeoutFlag();
   },
   methods: {
+    playHandler () {
+      if (this.playFlag) {
+        this.cleartimeoutFlag();
+        this.playFlag = false; 
+      } else {
+        this.mapqushiChart();
+        this.playFlag = true; 
+      }
+    },
+    sureHandler () {
+      const index = this.mapDateArr.findIndex(item => item == this.$refs.picker.values[0]);
+      this.index = index;
+      this.mapqushiChart();
+      this.cleartimeoutFlag();
+      this.popupVisible = false;
+    },
+    cleartimeoutFlag () {
+      if (this.timeoutFlag) {
+        clearTimeout(this.timeoutFlag);
+        this.timeoutFlag = null;
+      }
+    },
     mapqushiChart () {
       this.chart = this.$echarts.init(document.getElementById("mapqushi"));
       const geoCoordMap = {
@@ -109,7 +145,7 @@ export default {
           heat.push(item);
         });
       }
-      this.$refs.current.innerText = '当前：' + this.mapDateArr[this.index];
+      this.$refs.current.innerText = this.mapDateArr[this.index];
       let mapData = window.nCov_qushiData.mapData;
       let seriesData = Object.keys(mapData).map((item) => {
           return {
@@ -1186,8 +1222,20 @@ export default {
   width: 100%;
   height: 300px;
 }
+.tb .popup-sure {
+  width: 100%;
+  height: 40px;
+  border-bottom: 1px solid #ccc;
+  text-align: right;
+  line-height: 40px;
+  font-size: 17px;
+  padding: 0 5px;
+  color: #30aaed;
+  box-sizing: border-box;
+}
 .tb div.mapqushi-date {
   position: absolute;
+  text-align: left;
   left: 2%;
   top: 2%;
   height: auto;
@@ -1196,5 +1244,20 @@ export default {
 }
 .tb div.mapqushi-date .mapqushi-date-duration {
   padding-bottom: 5px;
+}
+.tb div.mapqushi-date .play-icon {
+  width: 40px;
+  height: 40px;
+  margin-left: 5px;
+  display: inline-block;
+  vertical-align: middle;
+}
+.tb div.mapqushi-date .now-play {
+  background: url(./img/bofang.png) center no-repeat;
+  background-size: 100% 100%;
+}
+.tb div.mapqushi-date .now-stop {
+  background: url(./img/zanting.png) center no-repeat;
+  background-size: 100% 100%;
 }
 </style>
