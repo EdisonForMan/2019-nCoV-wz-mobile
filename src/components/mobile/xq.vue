@@ -1,128 +1,98 @@
 <template>
   <div class="xq">
+    <div class="head">
+      <img src="./img/back.png" @click="back()" />
+      <p>{{this.title}}红白阵地分布图</p>
+    </div>
     <div class="redFlag">
-      <div class="head">
-        <p>{{this.title}}红白阵地分布图</p>
-        <span @click="back()"><<&nbsp&nbsp返回</span>
-      </div>
       <div class="xq_contain">
-        <ul class="bl">
-          <li v-for="(bitem,bindex) in bl" :key="bindex">
-            <div>
-              <span>{{bitem.label}}</span>
-              <span :style="{color:bitem.color}">{{bitem.value}}例</span>
-            </div>
-          </li>
-        </ul>
-        <div
-          class="Flagbl"
-          style="text-align: left;font-size: 16px;margin-bottom: 4px;height: 100px;"
-        >
-          <ul style="list-style: none;">
-            <li
-              v-for="(fitem,findex) in flagnum"
-              :key="findex"
-              style="display: flex;flex-direction: row;justify-content: space-between;"
-            >
-              <div>
-                <span style="line-height: 29px;">
-                  当前
-                  <span style="color:red;">红旗</span>
-                </span>
-                <br />
-                <span>{{fitem.red}}</span>
-              </div>
-              <div>
-                <span style="line-height: 29px;">当前白旗</span>
-                <br />
-                <span>{{fitem.white}}</span>
-              </div>
-              <div>
-                <img src="./img/rflag.png" style="position: relative;
-    right: 0px;" />
-                <img src="./img/zx.png" style="position: relative;
-    right: 0px;" />
-                <img src="./img/wflag.png" style="position: relative;
-    right: -4px;" />
-                <br />
-                <span>{{fitem.rw}}</span>
-              </div>
-              <div>
-                <img src="./img/rflag.png" style="position: relative;
-    left: 0px;" />
-                <img src="./img/zx.png" style="position: relative;
-    right: 0px;" />
-                <img src="./img/wflag.png" style="position: relative;
-    right: 0px;" />
-                <br />
-                <span>{{fitem.wr}}</span>
-              </div>
-            </li>
-          </ul>
-          <div class="Flagbl_tip">
-            <div>
-              <p class="red">红旗（红色阵地）</p>
-              <p>三天内无新增确诊病例</p>
-            </div>
-            <div>
-              <p>白旗（白色阵地）</p>
-              <p>三天内出现新增确诊病例</p>
-            </div>
+        <div class="qz">
+          <div class="qz_num">
+            <ul>
+              <li>
+                <div style="width: 37%;position: relative;">
+                  <img style="width: 65%;float: left;" src="./img/hq.png" />
+                  <p style="left: 64%;top: 35%;">
+                    <span>{{flagnum[0].red}}</span>
+                  </p>
+                </div>
+                <div style="width: 26%;">
+                  <img style="width:100%;margin-top: 5px;" src="./img/zd.png" />
+                </div>
+                <div style="width: 37%;position: relative;">
+                  <img style="width: 65%;float: right;" src="./img/bq.png" />
+                  <p style="right: 64%;top: 35%;color:#fff">
+                    <span>{{flagnum[0].white}}</span>
+                  </p>
+                </div>
+              </li>
+            </ul>
           </div>
         </div>
-        <!-- <div class="img" v-show="show" @click="imgShow()">
-          <img :src="`${this.server}img/map/${this.title}.png`" @error="errorImg()" />
-        </div>-->
-        <!-- <div class="img" v-show="show" @click="imgShow()">
-          <img :src="`${this.server}img/map/${title}_${fk_imgtag}.png`" @error="errorImg()" />
-        </div>-->
+        <ul class="bl">
+          <li v-for="(bitem,bindex) in bl" :key="bindex">
+            <div :class="`${bitem.color}`"></div>
+            <span>{{bitem.label}}</span>
+            <span
+              :style="`color:${bitem.color1};font-size: 23px;font-weight: bold;`"
+            >{{bitem.value}}</span>
+            <span>例</span>
+          </li>
+        </ul>
         <div class="mapDiv">
           <div id="xq-map"></div>
           <div id="xq-map2" v-if="title == '瑞安市' || title == '平阳县'"></div>
         </div>
-        <span style="font-size: 12px;">
+        <!-- <span style="font-size: 12px;">
           下滑可查看更多
           <img src="./img/jt.png" style="position: relative; top: 5px;width: 20px;" />
-        </span>
-      </div>
-      <!-- <div class="head">
-      <p>{{this.title}}疫情小报</p>
-      </div>-->
+        </span>-->
+        <div class="bltitle">
+          <img src="./img/blxq.png" />
+          <p>病例信息</p>
+        </div>
 
-      <p>病例信息</p>
-      <ul class="xq1">
-        <li v-for="(bitem,bindex) in xq" :key="bindex">
-          <span>{{++bindex}}</span>
-          <span>.{{bitem}}</span>
-        </li>
-      </ul>
-      <div class="slipe">
-        <!-- <span>
+        <ul class="xq1">
+          <li v-for="(bitem,bindex) in xq" :key="bindex">
+            <span style=" position: relative;top: -38px;">{{++bindex}}</span>
+            <div>
+              <span>{{bitem.slice(0,18)}}</span>
+              <span>{{bitem.slice(18)}}</span>
+            </div>
+          </li>
+        </ul>
+        <div class="slipe">
+          <!-- <span>
           下滑可查看更多
           <img src="./img/jt.png" style="position: relative;
     top: 5px;" />
-        </span>-->
-        <span
-          style="font-size:10px;line-height:15px"
-        >表中病例信息来源温州市新型冠状病毒感染的肺炎疫情防控工作领导小组于2020年1月28日起至今公布的信息，部分病例信息缺失。</span>
+          </span>-->
+          <!-- <span
+            style="font-size:10px;line-height:15px"
+          >温州市新冠肺炎工作领导小组表中病例信息来源温州市新型冠状病毒感染的肺炎疫情防控工作领导小组于2020年1月28日起至今公布的信息，部分病例信息缺失。</span> -->
+          <span
+            style="font-size:10px;line-height:15px"
+          >表中病例信息来源温州市新冠肺炎工作领导小组于2020年1月28日起至今公布的信息，部分病例信息缺失。</span>
+        </div>
+      </div>
+      <div class="footer">
+        <p>
+          <span class="text">截至</span> 2020年 2月
+          <span class="time">{{date}}</span>日
+          <span class="time">24</span>时
+        </p>
+        <span style="font-size: 13px;">温州设计集团勘测院&nbsp&nbsp&nbsp制作</span>
       </div>
     </div>
-    <div class="footer">
-      <p>
-        <span class="text">截至</span> 2020年 2月
-        <span class="time">{{date}}</span>日
-        <span class="time">24</span>时
-      </p>
-      <span style="font-size: 13px;">温州设计集团勘测院&nbsp&nbsp&nbsp制作</span>
-    </div>
-    <bigimg v-if="showImg" @clickit="viewImg" :imgSrc="`${this.server}img/map/${this.title}.png`"></bigimg>
+
+    <!-- <bigimg v-if="showImg" @clickit="viewImg" :imgSrc="`${this.server}img/map/${this.title}.png`"></bigimg> -->
   </div>
 </template>
 
 <script>
 /* eslint-disable */
 import context from "./xq";
-import { date } from "./mapdata";
+import { date, qz_num } from "./mapdata";
 import bigimg from "./bigImg";
 import MAP_YONGJIA from "./geoJson/map_YongJia";
 import MAP_LUCHENG from "./geoJson/map_LuCheng";
@@ -210,7 +180,8 @@ export default {
       cur_map: null,
       cur_map2: null,
       cur_geo: null,
-      cur_data: null
+      cur_data: null,
+      qz_num
     };
   },
   props: {},
@@ -274,15 +245,15 @@ export default {
               ? 1
               : this.title == "苍南县"
               ? 1.5
-              : ["永嘉县", "文成县"].indexOf(this.title)
+              : ~["永嘉县", "文成县"].indexOf(this.title)
               ? 1.2
-              : ["鹿城区", "瓯海区", "泰顺县", "平阳县"].indexOf(this.title)
+              : ~["鹿城区", "瓯海区", "泰顺县", "平阳县"].indexOf(this.title)
               ? 1.2
               : this.title == "瑞安市"
               ? 1.2
               : this.title == "乐清市"
               ? 1.15
-              : 1.1,
+              : 1.2,
           top:
             this.title == "洞头区"
               ? "35%"
@@ -308,15 +279,15 @@ export default {
                 ? 1
                 : this.title == "苍南县"
                 ? 1.5
-                : ["永嘉县", "文成县"].indexOf(this.title)
+                : ~["永嘉县", "文成县"].indexOf(this.title)
                 ? 1.2
-                : ["鹿城区", "瓯海区", "泰顺县", "平阳县"].indexOf(this.title)
+                : ~["鹿城区", "瓯海区", "泰顺县", "平阳县"].indexOf(this.title)
                 ? 1.2
                 : this.title == "瑞安市"
                 ? 1.2
                 : this.title == "乐清市"
                 ? 1.15
-                : 1.1,
+                : 1.2,
             top:
               this.title == "洞头区"
                 ? "35%"
@@ -369,7 +340,7 @@ export default {
             name: "",
             type: "scatter",
             symbol:
-              "image://data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAhCAYAAACxzQkrAAABIklEQVRYhe3XIUtDURiH8d+VgUVwWBaMxoUDghaVNYPdL2AZLFg0aTcahIUVP4htqB9gwegHsOgEDQa5hp0whXm2XRXDeeAt9/x573M4L5x7i7IsTaLdbkMJF/3+xNxPsvAnb5mBLJQiC6XIQimyUIoslCILpfh3QrUZssWvWYwxtdBhq6XX6/2mC/7hkWWhFFkoRRZKkYVSFN1ud+LiYDAg/rmiCCFM1bTT6cwtNH51LGILO2hiLYTQiFJCCCWGeMUD7nGHa9zibW6LL0J1nOIAK4l8PdYq1rEfnz/iEmd4qip0hY0qTYw2cowWNqsKvX8XmHZuIpU/URawh3Oj+ZiXYeyxW1WoZnTmRzjBdqwm1tDAEpZj/hkvPg/1TawfGeoPZMIzUjM1AqcAAAAASUVORK5CYII=",
+              "image://data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAAAoCAYAAACIC2hQAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAKqADAAQAAAABAAAAKAAAAACu2vZrAAABu0lEQVRYCWNkwAMiMzP+w6Tn79sPY9KV5rh5E2wfE11tpcCyUYdSEHhYtY6GKNZgoUBwNEQpCDysWkdDFGuwUCA4GqIUBB5WraMhijVYKBAcDVEKAg+r1tEQxRosFAiyEKsX1tImVj211Q2ZqCc6RKEhxEjtkCLWvCEToqMOJTZKiVU3GqLEhhSx6kZDlNiQIlbdaIgSG1LEqhsNUWJDilh1KHX9zJkzWe/fvmHPwPDXmoGRQf/hl18o5lSW5r75z8D4hpHhP4h+xfCf4SIDA/NRRVWNg+np6b9RFFOZA25kVFUVSP77/a+cgeF/AtByfpgdD78i7F4+fQZDRUkuTAqVZmT4yMDAuICJlamzrW3Cc1RJ6vCYqsvzbf7/+neF4f//fGRHkmQ8yHNA/SBzKksLrEnSS6Riln9//80Hjn8LYVMvz80KF8YZmnAVwPhg+C/E+P/vAqCQKpIwVZhDJ9czMTMlMjIwvqOGt0HmgMyjhlnoZjAfPnrykZ2D5eL//xhYgDldE6iAA10RQT4oMzEyzmRiY4pu65h4jaB6MhSgdC3QiydgMSQGLIZEgLQIMFcDS4P/HweqeAIAULZyhSyru3QAAAAASUVORK5CYII=",
             symbolSize: [12, 12],
             coordinateSystem: "geo",
             label: {
@@ -405,7 +376,7 @@ export default {
             name: "",
             type: "scatter",
             symbol:
-              "image://data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACUAAAAhCAYAAABeD2IVAAABFElEQVRYhe3XoU7DUBiG4afLEgQknMwgkEgcCRggOASeG0DOgiq+cm6WC8ECl4DkAjCsJCAQpAhOCExsZ2lHJs6b/Kb58vdN+yU9LZqmMYuqqqCBsixnZrui9y93WZAslUqWSiVLpZKlUslSqWSpVFZSqr9gvliKxRQLPal4tlo6K/n6slQqWSqVLJVKlkqlGI/HMwN1XRP/kFGEEOYuHQ6HraR+f/vWcIhj7GIHWyGE9SgmhDDBO57xhEfc4QEfrUympAKucYHBnHyIs409nMfrL7hBhUkXUrfYb7lngCuc4KALqc95oZQeRTo52vRwhhHqFnvquOO0C6m+7w5cosRRnJ+iYwObMf+KN3+Lfh+ns6J/AfA2MDMsqM06AAAAAElFTkSuQmCC",
+              "image://data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAAAoCAYAAACIC2hQAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAKqADAAQAAAABAAAAKAAAAACu2vZrAAABvElEQVRYCWNkwAMiMzP+w6SXTZsOY9KVZmRkBNvHRFdbKbBs1KEUBB5WraMhijVYKBAcDVEKAg+r1tEQxRosFAiOhigFgYdV62iIYg0WCgRHQ5SCwMOqdTREsQYLBYIsxOqFtbSJVU9tdUMm6okOUWgIQTow1A4uIswbMiE66lAiYpMkJaMhSlJwEaF4NESJCCSSlIyGKEnBRYTi0RAlIpBIUoJS18+cOZP1/u0b9gwMf60ZGBn0H375hWJYZWnum/8MjG8YGf6D6FcM/xkuMjAwH1VU1TiYnp7+G0UxlTngRkZVVYHkv9//yhkY/icALeeH2fHwK8Lu5dNnMFSU5MKkUGlGho8MDIwLmFiZOtvaJjxHlaQOj6m6PN/m/69/Vxj+/89HdiRJxoM8B9QPMqeytMCaJL1EKmb59/fffOD4txA29fLcrHBhnKEJVwGMD4b/Qoz//y4ACqkiCVOFOXRyPRMzUyIjA+M7angbZA7IPGqYhW4G8+GjJx/ZOVgu/v+PgQWY0zWBCjjQFRHkgzITI+NMJjam6LaOidcIqidDAUrXAr14AhZDYsBiSARIiwBzNbA0+P9xoIonAAAXbs5yUf12AAAAAElFTkSuQmCC",
             symbolSize: [12, 12],
             coordinateSystem: "geo",
             label: {
@@ -649,109 +620,20 @@ export default {
 
 <style scoped  lang="less">
 .xq {
-  // display: flex;
-  // flex-direction: column;
   box-sizing: border-box;
-  padding: 15px;
+
   height: 100%;
   background-image: url("./img/bg.jpg");
   background-repeat: no-repeat;
   background-size: 100% 100%;
   overflow-y: auto;
-  .Flagbl {
-    position: relative;
-    .Flagbl_tip {
-      > div:first-child {
-        position: absolute;
-        left: 0;
-      }
-      > div:last-child {
-        p {
-          text-align: right;
-        }
-        position: absolute;
-        right: 0;
-      }
-      p {
-        font-size: 12px !important;
-      }
-      .red {
-        color: red;
-      }
-    }
-    ul {
-      li {
-        div {
-          // background-color: #483088;
-          width: 73px;
-          height: 56px;
-          border-radius: 5px;
-          text-align: center;
-          display: inline-block;
-          span {
-            font-size: 14px;
-            color: #fff;
-          }
-        }
-
-        div:nth-child(1) {
-          float: right;
-        }
-
-        // img {
-        //   width: 20px;
-        //   padding-right: 10px;
-        // }
-        // .flags {
-        //   display: inline-block;
-        //   background-color: #483088;
-        //   height: 30px;
-        //   line-height: 30px;
-        //   text-align: center;
-        //   border-radius: 5px;
-        //   padding: 0 8px;
-        // }
-        // .flags:last-child {
-        //   margin-left: 10px;
-        // }
-      }
-    }
-  }
   .head {
     display: block;
     width: 100%;
-    height: 30px;
-    cursor: pointer;
-    // .red {
-    //   float: unset !important;
-    //   font-size: 20px !important;
-    //   background-image: -webkit-gradient(
-    //     linear,
-    //     0 0,
-    //     0 bottom,
-    //     from(#f44336),
-    //     to(#f44336)
-    //   );
-    //   -webkit-background-clip: text;
-    //   -webkit-text-fill-color: transparent;
-    // }
-    // .white {
-    //   float: unset !important;
-    //   font-size: 20px !important;
-    //   background-image: -webkit-gradient(
-    //     linear,
-    //     0 0,
-    //     0 bottom,
-    //     from(#fff),
-    //     to(#fff)
-    //   );
-    //   -webkit-background-clip: text;
-    //   -webkit-text-fill-color: transparent;
-    // }
+    height: 35px;
     p {
-      float: left;
-      text-align: left;
-      font-size: 16px;
+      text-align: center;
+      font-size: 20px;
       font-weight: bolder;
       background-image: -webkit-gradient(
         linear,
@@ -762,141 +644,218 @@ export default {
       );
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+      padding: 15px;
     }
-    span:nth-child(2) {
-      float: right;
-      font-size: 14px;
-      color: #fff;
-      line-height: 28px;
-    }
-  }
-  .img {
-    width: 100%;
-    // height: 420px;
     img {
-      width: 100%;
-      height: 100%;
+      width: 45px;
+      height: 25px;
+      float: left;
+      padding-top: 15px;
     }
   }
+  .redFlag {
+    padding: 15px;
 
-  .mapDiv {
-    position: relative;
-    height: 500px;
+    .msg {
+      table {
+        width: 100%;
+        border: 1px solid #ccc;
 
-    #xq-map {
-      height: 100%;
-    }
-
-    #xq-map2 {
-      position: absolute;
-      width: 60%;
-      height: 80px;
-      bottom: 5%;
-      right: 1%;
-      border: 1px solid #fff;
-    }
-  }
-
-  .msg {
-    table {
-      width: 100%;
-      border: 1px solid #ccc;
-
-      td {
-        border-top: 1px solid #ccc;
+        td {
+          border-top: 1px solid #ccc;
+        }
       }
     }
-  }
 
-  .xq_contain {
-    width: 100%;
-    // display: flex;
-    flex-direction: column;
-.bl {
-      list-style: none;
-      display: block;
-      height: 60px;
-      padding-top: 10px;
-      li {
-        width: 25%;
-        height: 40px;
-        border-radius: 5px;
-        float: left;
+    .xq_contain {
+      width: 100%;
+      .qz {
+        width: 100%;
         box-sizing: border-box;
-        padding: 0 5px;
-        div {
+        z-index: 2;
+        height: 80px;
+        p {
+          position: absolute;
+          top: 17px;
+          font-size: 14px;
+          color: #ff4242;
+        }
+        .qz_num {
           width: 100%;
-          border-radius: 5px;
+          box-sizing: border-box;
+          padding: 10px;
+          ul {
+            list-style: none;
+            background-image: linear-gradient(
+              to right,
+              #15005b,
+              #4855d6,
+              #15005b
+            );
+            padding: 8px;
+            li {
+              display: flex;
+              flex-direction: row;
+              width: 100%;
+              div {
+                // img {
+                //   width: 12px;
+                //   padding-right: 7px;
+                // }
+                span {
+                  font-size: 21px;
+                  font-weight: bold;
+                }
+              }
+            }
+          }
+        }
+      }
+      .bl {
+        list-style: none;
+        display: block;
+        height: 14px;
+        margin-bottom: 7px;
+        li {
+          width: 31%;
+          height: 100%;
+          float: left;
+          box-sizing: border-box;
+          padding: 0 5px;
+          div {
+            width: 4px;
+            height: 100%;
+            display: inline-block;
+            margin-right: 3px;
+          }
+          .qz {
+            width: 4px;
+            height: 100%;
+            display: inline-block;
+            margin-right: 3px;
+            background-image: url("./img/qz.png");
+            background-size: 100%;
+          }
+          .zz {
+            width: 4px;
+            height: 100%;
+            display: inline-block;
+            margin-right: 3px;
+            background-image: url("./img/zz.png");
+            background-size: 100%;
+          }
+          .zy {
+            width: 4px;
+            height: 100%;
+            display: inline-block;
+            margin-right: 3px;
+            background-image: url("./img/zy.png");
+            background-size: 100%;
+          }
+          .cy {
+            width: 4px;
+            height: 100%;
+            display: inline-block;
+            margin-right: 3px;
+            background-image: url("./img/cy.png");
+            background-size: 100%;
+          }
           span {
             font-size: 14px;
             color: #fff;
+            position: relative;
+            top: -2px;
+          }
+        }
+      }
+      .mapDiv {
+        position: relative;
+        height: 400px;
+
+        #xq-map {
+          height: 100%;
+        }
+
+        #xq-map2 {
+          position: absolute;
+          width: 60%;
+          height: 80px;
+          bottom: 5%;
+          right: 1%;
+          border: 1px solid #fff;
+        }
+      }
+      .bltitle {
+        width: 100%;
+        display: inline-block;
+        text-align: left;
+        img {
+          width: 13px;
+          margin-right: 6px;
+        }
+        p {
+          font-size: 16px;
+          color: #09fcff;
+          text-align: left;
+          width: 100px;
+          display: inline-block;
+        }
+      }
+
+      /*定义滑块 内阴影+圆角*/
+      .xq1::-webkit-scrollbar {
+        background-color: rgb(9, 15, 57);
+        width: 10px;
+      }
+      .xq1::-webkit-scrollbar-thumb {
+        background-color: rgb(111, 122, 236);
+        height: 40px;
+        box-shadow: 0px 1px 3px 0px rgba(44, 47, 49, 0.4);
+      }
+      .xq1 {
+        list-style: none;
+        display: inline-block;
+        height: 240px;
+        overflow: auto;
+        box-sizing: border-box;
+        li {
+          width: 100%;
+          line-height: 20px;
+          // margin-bottom: 10px;
+          text-align: left;
+          span {
+            font-size: 16px;
+            color: #fff;
+          }
+          div {
+            display: inline-block;
+            width: 89%;
+            padding: 5px 10px;
+            // border-bottom: 1px solid rgb(39, 45, 119);
+            span {
+              font-size: 14px;
+            }
+          }
+          span:nth-child(1) {
+            color: rgb(9, 252, 255);
           }
         }
       }
     }
-    p {
-      font-size: 16px;
-      color: #fff;
-      text-align: left;
-    }
-    .xq1 {
-      list-style: none;
-      // display: flex;
-      flex-direction: column;
-      height: 241px;
-      overflow: auto;
-      li {
-        width: 97%;
-        // border: 1px solid #4e5fd5;
-        padding: 4px;
-        line-height: 20px;
-        margin-bottom: 10px;
-        text-align: left;
-        span {
-          font-size: 12px;
-          color: #fff;
-        }
-        span:nth-child(1) {
-          color: rgb(9, 252, 255);
-        }
-      }
-    }
-  }
-  .footer {
-    p {
-      color: #fff;
-      font-size: 12px;
-      font-weight: bolder;
-      margin: 0;
-
-      .text {
-        color: #a7ecf7;
-      }
-
-      .time {
-        color: #f3f998;
-      }
-    }
-  }
-  .xq1 {
-    list-style: none;
-    // display: flex;
-    flex-direction: column;
-    height: 241px;
-    overflow: auto;
-    li {
-      width: 97%;
-      border: 1px solid #4e5fd5;
-      padding: 4px;
-      line-height: 20px;
-      margin-bottom: 10px;
-      text-align: left;
-      span {
-        font-size: 12px;
+    .footer {
+      p {
         color: #fff;
-      }
-      span:nth-child(1) {
-        color: rgb(9, 252, 255);
+        font-size: 12px;
+        font-weight: bolder;
+        margin: 0;
+
+        .text {
+          color: #a7ecf7;
+        }
+
+        .time {
+          color: #f3f998;
+        }
       }
     }
   }
