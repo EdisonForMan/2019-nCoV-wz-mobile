@@ -115,10 +115,10 @@ export default {
     window.localStorage.removeItem(key);
   },
   /**
-   * 获取当前时间
+   * 获取昨日时间
    */
   getTime() {
-    var date = new Date();
+    var date = new Date(+new Date() - 1000 * 3600 * 24);
     var seperator1 = "-";
     var seperator2 = ":";
     //以下代码依次是获取当前时间的年月日时分秒

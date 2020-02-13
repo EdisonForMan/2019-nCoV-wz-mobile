@@ -32,6 +32,15 @@ export const wz_jdqdhbqb = async () => {
 }
 
 /**
+ * [wz_jdqdhbqb]小区确诊病例统计[暂无]
+ */
+export const u_xqqzbltjb = async () => {
+  const params = ["jd", "jd", "hbqqk", "hqzbq", "bqzhq"]
+  const name = "wz_jdqdhbqb";
+  return await axios.post("/dw/ds", option_concat(name, params));
+}
+
+/**
  * 配置
  * @param {*} name 
  * @param {*} cols 

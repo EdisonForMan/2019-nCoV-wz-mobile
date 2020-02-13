@@ -9,6 +9,7 @@ export default new Vuex.Store({
     blList: [],
     cyList: [],
     flagList: [],
+    communityList: []
   },
   mutations: {
     updateBlList(state, val) {
@@ -18,6 +19,9 @@ export default new Vuex.Store({
       state.cyList = val;
     },
     updateFlagList(state, val) {
+      state.flagList = val;
+    },
+    updateCommunityList(state, val) {
       state.flagList = val;
     }
   },
@@ -30,9 +34,9 @@ export default new Vuex.Store({
       const { data } = await wz_bqztb();
       commit('updateCyList', data)
     },
-    async fetchFlagList({ state, commit }, option) {
+    async fetchCommunityList({ state, commit }, option) {
       const { data } = await wz_jdqdhbqb();
-      commit('updateFlagList', data)
+      commit('updateCommunityList', data)
     },
   }
 });
