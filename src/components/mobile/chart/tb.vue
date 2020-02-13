@@ -5,7 +5,8 @@
       <div class="mapqushi-date">
         确诊热力图
         <div class="mapqushi-date-duration">{{ duration }}</div>
-        <div class="mapqushi-date-current" ref="current" @click="popupVisible = true;" style="width: 100px;display: inline-block;border: 2px solid #30aaed; padding: 5px 0;text-align: center;">{{ mapDateArr[index] }}</div>
+        <div class="date-icon"></div>
+        <div class="mapqushi-date-current" ref="current" @click="popupVisible = true;">{{ mapDateArr[index] }}</div>
         <div class="play-icon" :class="[playFlag ? 'now-play' : 'now-stop']" @click="playHandler"></div>
       </div>
     </div>
@@ -386,8 +387,8 @@ export default {
         },
         grid: {
           top: "30%",
-          left: "3%",
-          right: "2%",
+          left: "0%",
+          right: "4%",
           bottom: "10%",
           containLabel: true
         },
@@ -396,7 +397,7 @@ export default {
             boundaryGap: true,
             type: "category",
             axisTick: {
-              show: true,
+              show: false,
               color: "#fff",
               alignWithLabel: true
             },
@@ -406,9 +407,20 @@ export default {
                 color: "#fff"
               },
               interval: 0,
-              rotate: 45
+              formatter: function (param) {
+                let str = '';
+                for (let i = 0; i < param.length; i++) {
+                  if (i == param.length - 1) {
+                    str += param[i];
+                  } else {
+                    str += (param[i] + '\n');
+                  }
+                }
+                return str;
+              },
             },
             axisLine: {
+              show: false,
               lineStyle: {
                 color: "#fff"
               }
@@ -417,6 +429,7 @@ export default {
           }
         ],
         yAxis: {
+          show: false,
           type: "value",
           name: "例",
           nameTextStyle: {
@@ -494,9 +507,19 @@ export default {
             alignWithLabel: true
           },
           axisLabel: {
+            formatter: function (param) {
+              let str = '';
+              for (let i = 0; i < param.length; i++) {
+                if (i == param.length - 1) {
+                  str += param[i];
+                } else {
+                  str += (param[i] + '\n');
+                }
+              }
+              return str;
+            },
             interval: 0,
-            margin: 13,
-            rotate: 45
+            margin: 13
           },
           data: data.map(item => item.name)
         },
@@ -550,8 +573,8 @@ export default {
         grid: {
           top: "30%",
           bottom: "30%",
-          left: "12%",
-          right: "4%"
+          left: "8%",
+          right: "6%"
         },
         tooltip: {
           trigger: "axis",
@@ -562,7 +585,7 @@ export default {
         xAxis: {
           boundaryGap: true, //默认，坐标轴留白策略
           axisLine: {
-            show: true,
+            show: false,
             lineStyle: {
               color: "#fff"
             }
@@ -571,20 +594,33 @@ export default {
             show: false
           },
           axisTick: {
-            show: true,
+            show: false,
             lineStyle: {
               color: "#fff"
             },
             alignWithLabel: true
           },
           axisLabel: {
+            formatter: function (param) {
+              let str = '';
+              for (let i = 0; i < param.length; i++) {
+                if (i == param.length - 1) {
+                  str += param[i];
+                } else {
+                  str += (param[i] + '\n');
+                }
+              }
+              return str;
+            },
             interval: 0,
             margin: 13,
-            rotate: 45
+            color: '#FFA75A',
+            fontSize: 12
           },
           data: data.map(item => item.name)
         },
         yAxis: {
+          show: false,
           axisLine: {
             show: true,
             lineStyle: {
@@ -611,16 +647,22 @@ export default {
         },
         series: [
           {
-            type: "line",
-            symbol: "circle",
-            symbolSize: 7,
-            itemStyle: {
-              borderWidth: 1,
-              borderColor: "#FFF"
-            },
+            type: "bar",
+            color: new this.$echarts.graphic.LinearGradient(
+                0, 0, 0, 1,
+                [
+                  {offset: 0, color: '#ffc28a'},
+                  {offset: 1, color: '#fe9e4a'}
+                ]
+            ),
             label: {
-              show: true
+              show: true,
+              position: 'top',
+              fontSize: 13,
+              fontWeight: 800,
+              color: '#F9B87C'
             },
+            barWidth: 11,
             data: data.map(item => item.value)
           }
         ]
@@ -634,8 +676,8 @@ export default {
         grid: {
           top: "30%",
           bottom: "30%",
-          left: "12%",
-          right: "4%"
+          left: "8%",
+          right: "6%"
         },
         tooltip: {
           trigger: "axis",
@@ -646,7 +688,7 @@ export default {
         xAxis: {
           boundaryGap: true, //默认，坐标轴留白策略
           axisLine: {
-            show: true,
+            show: false,
             lineStyle: {
               color: "#fff"
             }
@@ -655,7 +697,7 @@ export default {
             show: false
           },
           axisTick: {
-            show: true,
+            show: false,
             lineStyle: {
               color: "#fff"
             },
@@ -664,11 +706,23 @@ export default {
           axisLabel: {
             interval: 0,
             margin: 13,
-            rotate: 45
+            color: '#48E7EA',
+            formatter: function (param) {
+              let str = '';
+              for (let i = 0; i < param.length; i++) {
+                if (i == param.length - 1) {
+                  str += param[i];
+                } else {
+                  str += (param[i] + '\n');
+                }
+              }
+              return str;
+            },
           },
           data: data.map(item => item.name)
         },
         yAxis: {
+          show: false,
           axisLine: {
             show: true,
             lineStyle: {
@@ -695,16 +749,21 @@ export default {
         },
         series: [
           {
-            type: "line",
-            symbol: "circle",
-            symbolSize: 7,
-            itemStyle: {
-              borderWidth: 1,
-              borderColor: "#FFF"
-            },
-            color: "rgb(30, 255, 149)",
+            type: "bar",
+            color: new this.$echarts.graphic.LinearGradient(
+                0, 0, 0, 1,
+                [
+                  {offset: 0, color: '#6be0ff'},
+                  {offset: 1, color: '#499aff'}
+                ]
+            ),
+            barWidth: 11,
             label: {
-              show: true
+              show: true,
+              position: 'top',
+              fontSize: 13,
+              fontWeight: 800,
+              color: '#48E7EA'
             },
             data: data.map(item => item.value)
           }
@@ -1086,8 +1145,8 @@ export default {
         grid: {
           top: "30%",
           bottom: "30%",
-          left: "12%",
-          right: "4%"
+          left: "8%",
+          right: "3%"
         },
         legend: {
           show: true,
@@ -1129,6 +1188,7 @@ export default {
           data: window.nCov_qushiData.mrqzzyl.date
         },
         yAxis: {
+          show: false,
           axisLine: {
             show: true,
             lineStyle: {
@@ -1159,13 +1219,30 @@ export default {
             type: "line",
             symbol: "circle",
             symbolSize: 7,
-            color: "rgb(30, 255, 149)",
+            color: "#7AEAC6",
             itemStyle: {
               borderWidth: 1,
-              borderColor: "#FFF"
+              borderColor: "rgba(255,255,255,0.36)"
+            },
+            smooth: true,
+            lineStyle: {
+              // color: 'rgba(0,0,0,0)'
             },
             label: {
               show: false
+            },
+            areaStyle: { //区域填充样式
+                normal: {
+                    color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                            offset: 0,
+                            color: '#1077BC'
+                        },
+                        {
+                            offset: 1,
+                            color: 'rgba(99,186,176,0)'
+                        }
+                    ], false)
+                }
             },
             data: window.nCov_qushiData.mrqzzyl.data.map((item) => {return (item * 100).toFixed(2);})
           }
@@ -1243,14 +1320,32 @@ export default {
   font-size: 18px;
 }
 .tb div.mapqushi-date .mapqushi-date-duration {
-  padding-bottom: 5px;
+  font-family:PingFang-SC-Heavy,PingFang-SC;
+  font-weight:800;
+  color:rgba(255,255,255,.75);
+  font-size: 12px;
+}
+.tb div.mapqushi-date .mapqushi-date-current {
+  width: auto;
+  display: inline-block;
+  font-size: 17px;
+  font-weight: 800;
+  color: #fff;
+  font-family:PingFang-SC-Heavy,PingFang-SC;
 }
 .tb div.mapqushi-date .play-icon {
-  width: 40px;
-  height: 40px;
-  margin-left: 5px;
-  display: inline-block;
+  width: 25px;
+  height: 25px;
+  margin-top: 5px;
   vertical-align: middle;
+}
+.tb div.mapqushi-date .date-icon {
+  width: 15px;
+  height: 14px;
+  display: inline-block;
+  margin-right: 3px;
+  background: url(./img/date.png) center no-repeat;
+  background-size: contain;
 }
 .tb div.mapqushi-date .now-play {
   background: url(./img/bofang.png) center no-repeat;
