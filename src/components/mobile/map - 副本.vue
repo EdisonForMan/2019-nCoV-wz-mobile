@@ -1,180 +1,354 @@
 <template>
   <div class="map">
-    <div class="title">
-      <span>温州市疫情分布动态地图</span>
+    <!-- <div class="title">
+      <span>温州市新冠肺炎防控作战地图</span>
+    </div>-->
+    <header class="app_header">
+      <ul class="app_toptab">
+        <li
+          v-for="(item,index) in toptab"
+          :key="index"
+          :class="{top_active:index==current}"
+          @click="goPage(index)"
+        >
+          <span>
+            <img :src="item.icon" />
+            <!-- <i>{{item.label}}</i> -->
+          </span>
+        </li>
+      </ul>
+    </header>
+    <div class="qz" v-if="current == 0">
+      <div class="qz_num">
+        <ul>
+          <li>
+            <div style="width: 37%;position: relative;">
+              <img style="width: 65%;float: left;" src="./img/hq.png" />
+              <p style="left: 64%;bottom: 7%;">
+                <span>{{qz_num[0].red}}</span>
+              </p>
+            </div>
+            <div style="width: 26%;">
+              <img @click="showzd" style="width:100%;margin-top: 5px;" src="./img/zd.png" />
+            </div>
+            <div style="width: 37%;position: relative;">
+              <img style="width: 65%;float: right;" src="./img/bq.png" />
+              <p style="right: 64%;bottom: 7%;color:#fff">
+                <span>{{qz_num[0].white}}</span>
+              </p>
+            </div>
+          </li>
+        </ul>
+      </div>
     </div>
-    <div class="bottom">
-      <p style="font-size:12px;text-align:left">注：本图龙湾区包含浙南产业集聚区1例</p>
+    <div class="isGk isGkActive" @click="gkChange" v-if="current == 0">
+      <img style="vertical-align: sub;width: 15px;" src="./img/gkl.png" /> 管控力指标
+    </div>
+    <div class="kind" v-if="current != 2">
+      <div class="t1">一类区域</div>
+      <div class="t2">二类区域</div>
+      <div class="t3">三类区域</div>
+      <div class="t4">四类区域</div>
+    </div>
+    <div class="sjlz" v-if="current != 2">数据来源：温州市新冠肺炎工作领导小组</div>
+    <div class="bottom" v-if="current != 2">
+      <div class="float" v-show="logoshow">
+        <span>温州设计集团勘察院</span>
+      </div>
       <p>
-        <span class="text">截至</span>2020年2月
-        <span class="time">2</span>日
+        <img style src="./img/logo.png" @click="showLogo()" />
+        <span class="text">截至</span> 2020年 2月
+        <span class="time">{{date}}</span>日
         <span class="time">24</span>时
       </p>
     </div>
-    <div class="bottom-right">
-      <p>温州新闻网、温州设计集团勘测院联合出品</p>
-    </div>
-    <div class="tip">
-      <p>
-        共计
-        <br />
-        <span>291</span>例
-      </p>
-    </div>
-    <div id="nyjj-map"></div>
+    <fk v-if="current == 0" ref="fk" />
+    <bl v-if="current == 1" ref="bl" />
+    <tb v-if="current == 2" />
   </div>
 </template>
 
 <script>
 /* eslint-disable */
-import wenzhouMap from "./WenZhou.js";
+
+import bl from "./chart/bl";
+import fk from "./chart/fk";
+import tb from "./chart/tb";
+
+import wx from "weixin-js-sdk";
+// import dd from "dingtalk-jsapi";
+import axios from "axios";
+import { date, qz_num } from "./mapdata";
+
 export default {
+  name: "Mobile",
+  components: { bl, fk, tb },
   data() {
     return {
-      data: [
-        { name: "鹿城区", value: 44, coord: [120.489894, 28.082536]},
-        { name: "龙湾区", value: 14, coord: [120.805894, 27.900969] },
-        { name: "瓯海区", value: 21, coord: [120.531369, 27.986593] },
-        { name: "洞头区", value: 4, coord: [121.113762, 27.832626] },
-        { name: "瑞安市", value: 54, coord: [120.465572, 27.841998] },
-        { name: "乐清市", value: 84, coord: [120.978579, 28.220666] },
-        { name: "永嘉县", value: 29, coord: [120.642158, 28.330733] },
-        { name: "文成县", value: 3, coord: [119.982316, 27.807567] },
-        { name: "平阳县", value: 19, coord: [120.280537, 27.623857] },
-        { name: "泰顺县", value: 4, coord: [119.877783, 27.481151] },
-        { name: "苍南县", value: 7, coord: [120.452814, 27.381237] },
-        { name: "龙港市", value: 8, coord: [120.6099323, 27.52166944] }
-      ]
+      toptab: [
+        {
+          label: "防控作战",
+          name: "Map",
+          icon: require("./img/fk.png")
+        },
+        {
+          label: "病例分布",
+          name: "Estate",
+          icon: require("./img/bl.png")
+        },
+        {
+          label: "疫情趋势",
+          name: "Analyze",
+          icon: require("./img/yq.png")
+        },
+        {
+          label: "区域风险",
+          name: "Risk",
+          icon: require("./img/qy.png")
+        }
+      ],
+      current: 0,
+      reloadFlag: null,
+      date,
+      token: "",
+      access_token: "",
+      ticketString: "",
+      nonceStr: "Wm3WZYTPz0wzccnC",
+      timestamp: 1414587466,
+      wx,
+      isGk: false,
+      qz_num,
+      logoshow: false
     };
   },
-  methods: {
-    NYJJMap() {
-      const chart = this.$echarts.init(document.getElementById("nyjj-map"));
-      const url = 'image://./img/font.svg';
-      this.$echarts.registerMap("wenzhou", wenzhouMap);
-      chart.setOption({
-        geo: {
-          map: "wenzhou",
-          zoom: 1.2,
-          label: {
-            normal: {
-              show: false
-            },
-            emphasis: {
-              show: false
-            }
-          }
-        },
-        visualMap: {
-          left: "5%",
-          top: "17%",
-          min: 0,
-          max: this.data.sort((a, b) => b.value - a.value)[0].value,
-          inRange: {
-            color: [
-              "#ffffff",
-              "#feeeef",
-              "#fcc7b7",
-              "#ff9d88",
-              "#ff6c4a",
-              "#ff3b07"
-            ]
-          },
-          textStyle: {
-            color: "#FFF"
-          },
-          calculable: true
-        },
-        series: [
-          {
-            type: "map",
-            map: "wenzhou",
-            zoom: 1.2,
-            emphasis: {
-              label: {
-                show: true
-              }
-            },
-            label: {
-              normal: {
-                show: false,
-                textStyle: {
-                  color: "#fff"
-                }
-              },
-              emphasis: {
-                show: false,
-                textStyle: {
-                  color: "#fff"
-                }
-              }
-            },
-            textFixed: {
-              Alaska: [200, -20]
-            },
-            data: this.data,
-            markPoint: {
-              symbol: 'image://data:image/png;base64,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',
-              symbolSize: [80,30],
-              label: {
-                normal: {
-                  show: true,
-                  fontSize: 12,
-                  offset:[0,-2],
-                  textStyle: {
-                  color: "#000",
-                   fontWeight:'bold',
-                },
-                 formatter: [
-                            '{title|{b}}{num|{c}}{dw|例}'
-                        ].join('\n'),
-                        rich:{
-                          num:{
-                            color:"red",
-                            fontSize: 12,
-                            fontWeight:'bold',
-                            height:12,
-                            
-                            //align:'top'
-                          }
-                        }
-                  // formatter: function(d) {
-                  //   return `${d.name}${d.value}例`;
-                  // },
-                }
-              },
-              data: this.data
-            }
-          }
-        ]
-      });
+  created() {},
+  watch: {
+    isGk(n, o) {
+      this.NYJJMap();
     }
   },
-  mounted() {
-    this.NYJJMap(); //调用地图
+  methods: {
+    goPage(index) {
+      index > 2 && alert("建设中，敬请期待！");
+      index < 3 && (this.current = index);
+    },
+    showLogo() {
+      this.logoshow = true;
+      this.timeOut();
+    },
+    timeOut() {
+      const that = this;
+      setTimeout(function() {
+        that.logoshow = false;
+      }, 3000);
+    },
+    gkChange() {
+      this.$router.push({
+        path: "/MobileGK"
+      });
+    },
+    showzd() {
+      this.$refs.fk.$refs.pop.popzdShowFun();
+    },
+    //信用分后台认证
+    getToken() {
+      const that = this;
+      $.ajax({
+        url: "http://115.223.34.189:8099/xypt/zww/settoken",
+        type: "Post",
+        data: {
+          idcard: "test",
+          username: "syl",
+          phoneum: "123456"
+        },
+        dataType: "json",
+        success: function(data) {
+          window.localStorage.setItem("token", data.responseText);
+          that.getaccess();
+        },
+        error: function(data) {
+          window.localStorage.setItem("token", data.responseText);
+          that.getaccess();
+        }
+      });
+    },
+    //获取Access_Token
+    getaccess() {
+      const that = this;
+      $.ajax({
+        url: "http://115.223.34.189:8099/xypt/wx/getsign",
+        type: "Post",
+        data: {
+          url: location.href.split("#")[0],
+          token: window.localStorage.getItem("token")
+        },
+        dataType: "json",
+        success: function(data) {
+          const signature = data.signature;
+          const noncestr = data.noncestr;
+          const timestamp = data.timestamp;
+          that.WXshare(signature, noncestr, timestamp);
+        },
+        error: function(data) {
+          console.log(data);
+        }
+      });
+    },
+    WXshare(signature, noncestr, timestamp) {
+      const that = this;
+      this.wx.config({
+        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来
+
+        appId: "wx7eeb4eea87cf3ce6", // 必填，企业微信的corpID
+        timestamp: timestamp, // 必填，生成签名的时间戳
+
+        nonceStr: noncestr, // 必填，生成签名的随机串 必填，生成签名的随机串
+
+        signature: signature, //
+        jsApiList: ["updateAppMessageShareData"]
+      });
+      this.wx.ready(function() {
+        // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中。
+        that.wx.updateAppMessageShareData({
+          title: "温州市疫情分布动态地图", // 分享标题
+          desc: "抗击疫情，我们在一起，温州加油！", // 分享描述
+          link: location.href, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+          imgUrl: "", // 分享图标
+          success: function() {
+            // 设置成功
+          }
+        });
+      });
+      this.wx.error(function(res) {});
+    }
   }
 };
 </script>
 
 <style scoped  lang="less">
+@bg: rgba(7, 39, 80, 1);
+@MaxHeight: 36px;
+@MaxWidth: 100%;
+.box(@size:border-box) {
+  box-sizing: @size;
+}
+.toFather() {
+  width: 100%;
+  height: 100%;
+}
+.topLine(@height:100%,@block:inline-block) {
+  display: @block;
+  vertical-align: top;
+  height: @height;
+  line-height: @height;
+  text-align: center;
+}
+
 .map {
   height: 100%;
   background-image: url("./img/bg.jpg");
   background-repeat: no-repeat;
   background-size: 100% 100%;
-  //background-color: rgb(178, 178, 179);
+  .isGk {
+    position: absolute;
+    top: 45%;
+    left: 2%;
+    color: #fff;
+    height: 27px;
+    font-size: 14px;
+    line-height: 30px;
+    border-radius: 15px;
+    border: 1px #30aaff solid;
+    padding: 1px 12px;
+    z-index: 2;
+    font-weight: bold;
+    opacity: 0.9;
+  }
+  .isGkActive {
+    background-color: rgba(48, 170, 273, 0.6);
+  }
+  .kind {
+    position: fixed;
+    bottom: 60px;
+    height: @MaxHeight;
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 12px;
+    > div {
+      .topLine(@MaxHeight);
+      width: 70px;
+      position: relative;
+      margin: 0 2px;
+    }
+    > div:before {
+      content: "";
+      display: block;
+      width: 70px;
+      height: 4px;
+      position: absolute;
+      top: 0;
+    }
+    .t1:before {
+      background-color: rgb(247, 39, 38);
+    }
+    .t2:before {
+      background-color: rgb(255, 145, 47);
+    }
+    .t3:before {
+      background-color: rgb(255, 242, 172);
+    }
+    .t4:before {
+      background-color: rgb(255, 255, 255);
+    }
+  }
+  .app_header {
+    position: fixed;
+    top: 15px;
+    height: @MaxHeight;
+    padding: 4px;
+    background: rgba(0, 0, 0, 0);
+    box-sizing: border-box;
+    > .app_toptab {
+      .toFather();
+      > li {
+        .topLine(@MaxHeight);
+        width: @MaxWidth / 4;
+        .box();
+        padding: 0 4px;
+        opacity: 0.65;
+        > span {
+          .toFather();
+          border-radius: 17px;
+          font-size: 12px;
+          font-weight: 700;
+          display: block;
+          color: rgb(255, 255, 255);
+          cursor: pointer;
+          > * {
+            display: inline-block;
+            line-height: 20px;
+            vertical-align: middle;
+            font-style: normal;
+            font-size: 17px;
+            width: 100%;
+          }
+        }
+      }
+      .top_active {
+        opacity: 1 !important;
+      }
+    }
+  }
   .title {
     position: absolute;
     width: 100%;
     text-align: center;
-    top: 5%;
+    top: 30px;
     z-index: 3;
-
     span {
-      font-size: 28px;
-
+      font-size: 24px;
       font-weight: bolder;
-
       background-image: -webkit-gradient(
         linear,
         0 0,
@@ -182,75 +356,105 @@ export default {
         from(#5ef2f5),
         to(#0b3cca)
       );
-
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
   }
-
+  .sjlz {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    bottom: 5%;
+    font-size: 12px;
+  }
+  .qz {
+    position: absolute;
+    width: 100%;
+    top: 8%;
+    // height: 135px;
+    box-sizing: border-box;
+    z-index: 2;
+    p {
+      position: absolute;
+      color: #ff4242;
+    }
+    .qz_num {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 10px;
+      ul {
+        list-style: none;
+        background-image: linear-gradient(to right, #15005b, #4855d6, #15005b);
+        padding: 8px;
+        li {
+          display: flex;
+          flex-direction: row;
+          width: 100%;
+          div {
+            // img {
+            //   width: 12px;
+            //   padding-right: 7px;
+            // }
+            span {
+              font-size: 21px;
+              font-weight: bold;
+            }
+          }
+        }
+      }
+    }
+  }
   .bottom {
     position: absolute;
-    left: 2%;
-    bottom: 6%;
-
+    width: 100%;
+    text-align: center;
+    bottom: 2%;
+    z-index: 2;
+    .tips {
+      width: 313px;
+      font-size: 14px;
+    }
     p {
       color: #fff;
-      font-size: 20px;
+      font-size: 12px;
       font-weight: bolder;
       margin: 0;
-
-      .text {
-        color: #a7ecf7;
+      display: inline-block;
+      width: 100%;
+    }
+    .float {
+      position: absolute;
+      right: 53%;
+      bottom: 5%;
+      width: 126px;
+      background-color: blue;
+      box-sizing: border-box;
+      padding: 5px;
+      border-radius: 10px;
+      span {
+        font-size: 12px;
       }
-
-      .time {
-        color: #f3f998;
-      }
+    }
+    img {
+      font-size: 12px;
+      width: 12px;
+      position: relative;
+      top: 2px;
     }
   }
 
   .bottom-right {
     position: absolute;
-    right: 2%;
+    left: 28%;
     bottom: 2%;
+    // bottom: 2%;
+    // margin: 0 72px;
 
     p {
       color: #fff;
-      font-size: 7px;
+      font-size: 13px;
       margin: 0;
     }
-  }
-
-  .tip {
-    position: absolute;
-    background-color: #483088;
-    width: 90px;
-    height: 90px;
-    border-radius: 50%;
-    text-align: center;
-    line-height: 90px;
-    top: 23%;
-    left: 15%;
-
-    p {
-      color: #fff;
-      font-size: 24px;
-      font-weight: bolder;
-      margin: 0;
-
-      display: inline-block;
-      vertical-align: middle;
-      line-height: 24px;
-
-      span {
-        color: #f67a32;
-      }
-    }
-  }
-
-  #nyjj-map {
-    width: 100%;
-    height: 100%;
   }
 }
 </style>

@@ -6,8 +6,8 @@ import "./components/common/_iconfont/iconfont.js";
 import "./components/common/_iconfont/iconfont.css";
 import echarts from "echarts";
 import { auth_token, auth_token_info } from "./api/beans/auth";
-import Mint from 'mint-ui';
-import 'mint-ui/lib/style.css'
+import Mint from "mint-ui";
+import "mint-ui/lib/style.css";
 Vue.use(Mint);
 // filter production infos
 Vue.prototype.$echarts = echarts;
@@ -40,6 +40,12 @@ tokenCatch();
  * outside  游客
  */
 const app = async fn => {
+  $(document).ready(function() {
+    if (location.href.indexOf("#reloaded") == -1) {
+      location.href = location.href + "#reloaded";
+      location.reload();
+    }
+  });
   // if (location.host.includes("localhost")) {
   //   await auth_token("admin");
   // } else if (location.host.includes("lysb.lucheng.gov.cn")) {
@@ -47,7 +53,7 @@ const app = async fn => {
   // } else if (location.host.includes("172.20.89.68")){
   //   await auth_token("admin");
   // }else{
-    
+
   // }
   // await auth_token("admin");
   // const [{ au_username, group, style, au_userid }] = await auth_token_info();
