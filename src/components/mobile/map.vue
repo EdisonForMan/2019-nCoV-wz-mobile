@@ -44,13 +44,13 @@
     <div class="isGk isGkActive" @click="gkChange" v-if="current == 0">
       <img style="vertical-align: sub;width: 15px;" src="./img/gkl.png" /> 管控力指标
     </div>
-    <div class="kind" v-if="current != 2">
+    <div class="kind" v-show="current ==0 || current == 1">
       <div class="t1">一类区域</div>
       <div class="t2">二类区域</div>
       <div class="t3">三类区域</div>
       <div class="t4">四类区域</div>
     </div>
-    <div class="sjlz" v-if="current != 2">数据来源：温州市新冠肺炎工作领导小组</div>
+    <div class="sjlz" v-if="current != 2">数据来源：{{current != 3 ? `温州市新冠肺炎工作领导小组`:`市大数据发展管理局`}}</div>
     <div class="bottom" v-if="current != 2">
       <div class="float" v-show="logoshow">
         <span>温州设计集团勘察院</span>
@@ -65,6 +65,7 @@
     <fk v-if="current == 0" ref="fk" />
     <bl v-if="current == 1" ref="bl" />
     <tb v-if="current == 2" />
+    <fx v-if="current == 3" />
   </div>
 </template>
 
@@ -74,6 +75,7 @@
 import bl from "./chart/bl";
 import fk from "./chart/fk";
 import tb from "./chart/tb";
+import fx from "./chart/fx";
 
 import wx from "weixin-js-sdk";
 // import dd from "dingtalk-jsapi";
@@ -82,7 +84,7 @@ import { date, qz_num } from "./mapdata";
 
 export default {
   name: "Mobile",
-  components: { bl, fk, tb },
+  components: { bl, fk, tb, fx },
   data() {
     return {
       toptab: [
@@ -129,8 +131,7 @@ export default {
   },
   methods: {
     goPage(index) {
-      index > 2 && alert("建设中，敬请期待！");
-      index < 3 && (this.current = index);
+      this.current = index;
     },
     showLogo() {
       this.logoshow = true;
