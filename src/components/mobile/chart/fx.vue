@@ -1,14 +1,10 @@
 <template>
   <div>
+    <header class="header" />
     <div id="arcgis">
       <iframe :src="src" />
     </div>
-    <div class="legend">
-      <span>1000分以上</span>
-      <span>100-1000分</span>
-      <span>60-100分</span>
-      <span>10-60分</span>
-    </div>
+    <div class="legend" />
   </div>
 </template>
 
@@ -23,19 +19,27 @@ export default {
       src: "https://lysb.lucheng.gov.cn/other/esri_api/index.html"
     };
   },
-  mounted() {
-  },
+  mounted() {},
   methods: {}
 };
 </script>
 
 <style lang="less" scoped>
+.header {
+  position: fixed;
+  top: 10%;
+  z-index: 2;
+  width: 100%;
+  padding-bottom:12%; 
+  background: url(./img/esri/toubu.png);
+  background-size: cover;
+}
 #arcgis {
   width: 100%;
   height: 80%;
   position: fixed;
   top: 10%;
-  iframe{
+  iframe {
     width: 100%;
     height: 100%;
   }
@@ -43,11 +47,14 @@ export default {
 .legend {
   position: fixed;
   z-index: 2;
-  height: 88px;
+  height: 110px;
+  width: 100px;
   padding: 6px;
-  background-color: rgba(255, 255, 255, 0.9);
+  background: url(./img/esri/tuli.png);
+  background-size: cover;
+  // background-color: rgba(255, 255, 255, 0.9);
   border: 1px #ddd solid;
-  top: 12%;
+  bottom: 15%;
   left: 20px;
   span {
     display: block;
