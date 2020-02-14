@@ -15,13 +15,13 @@
         <div>
           <p>
             累计病例小区
-            <i class="ill">{{this.num[4].value}}</i> 例
+            <i class="ill">{{num.a.length}}</i> 例
           </p>
           <p>
             今日
             <i class="cure">
               <img style="vertical-align: bottom;" src="../img/ljcy.png" />
-              {{this.num[9].value}}
+              {{num.n.length}}
             </i>
           </p>
         </div>
@@ -39,38 +39,67 @@
 
 <script>
 import wenzhouMap from "../geoJson/WenZhou";
-// import { mapdata_bl, date, num } from "../mapdata";
+import { mapState } from "vuex";
 
 export default {
   data() {
     return {
       chart: undefined,
-      mapdata_bl,
-      date,
-      num,
+      mapdata_bl: window.mapdata_bl,
+      date: window.date,
+      num: { a: [], n: [] },
       tabdata: []
     };
   },
-   created() {
-    const mapdata = window.mapdata;
-    const mapdata_bl = window.mapdata_bl;
-    const date = window.date;
-    const num = window.num;
-    this.mapdata = mapdata;
-    this.mapdata_bl = mapdata_bl;
-    this.num = num;
-   this.tabdata = [
-      { label: "确诊", value: this.num[0].value, color: "#ff4142" },
-      { label: "重症", value: this.num[1].value, color: "#ff7d19" },
-      { label: "出院", value: this.num[2].value, color: "#16baa2" }
-    ];
-    this.date = date;
+  computed: {
+    ...mapState({
+      blList: state => state.blList
+    })
   },
   mounted() {
-    this.NYJJMapInit(); //调用地图
-    this.NYJJMap(); //调用地图
+    this.blDataFix();
+    this.$nextTick(() => {
+      this.NYJJMapInit(); //调用地图
+      this.NYJJMap(); //调用地图
+    });
   },
   methods: {
+    blDataFix() {
+      if (!this.blList.length) return;
+      const today = this.$util.getTime();
+      const tabdata = [
+        { label: "确诊", value: 0, color: "#ff4142" },
+        { label: "重症", value: 0, color: "#ff7d19" },
+        { label: "出院", value: 0, color: "#16baa2" }
+      ];
+      const num = { a: [], n: [] };
+      const mapData = {};
+      this.blList.map(item => {
+        const _xq_ = item.xq.replace(/产业集聚区/g, "");
+        //  确诊、重症、出院
+        tabdata[0].value += 1;
+        item.lcyzcd.includes("重症") && (tabdata[1].value += 1);
+        item.cysj && item.cysj != "0" && (tabdata[2].value += 1);
+        //  小区数、新增数
+        num.a.indexOf(item.xqmmc) < 0 && num.a.push(item.xqmmc);
+        item.dzzssj.includes(today) &&
+          num.n.indexOf(item.xqmmc) &&
+          num.n.push(item.xqmmc);
+        //  地图
+        !mapData[_xq_] && (mapData[_xq_] = { name: _xq_, value: [], new: [] });
+        mapData[_xq_].value.indexOf(item.xqmmc) < 0 &&
+          mapData[_xq_].value.push(item.xqmmc);
+        item.dzzssj.includes(today) &&
+          mapData[_xq_].new.indexOf(item.xqmmc) < 0 &&
+          mapData[_xq_].new.push(item.xqmmc);
+      });
+      const mapdata_bl = this.mapdata_bl.map(item => {
+        return { ...item, value: mapData[item.name].value.length };
+      });
+      this.mapdata_bl = mapdata_bl;
+      this.num = num;
+      this.tabdata = tabdata;
+    },
     NYJJMapInit() {
       this.chart = this.$echarts.init(document.getElementById("nyjj-map"));
       this.$echarts.registerMap("wenzhou", wenzhouMap);
@@ -137,35 +166,23 @@ export default {
                 return params.length == 3 ? downurl : upurl;
               },
               symbolSize: [70, 25],
-
-              //symbolOffset:['-20%','10%'],
               label: {
                 normal: {
                   show: true,
                   fontSize: 10,
-                  offset: [0, 0],
+                  offset: [0, -5],
                   textStyle: {
                     color: "#000",
                     fontWeight: "bold"
                   },
                   formatter: function(params) {
-                    return params.data.name != "浙南"
-                      ? "{title|" +
-                          params.data.name
-                            .replace("县", "")
-                            .replace("区", "")
-                            .replace("市", "") +
-                          "}{num1| " +
-                          params.data.value +
-                          "}"
-                      : "{title2|" +
-                          params.data.name
-                            .replace("县", "")
-                            .replace("区", "")
-                            .replace("市", "") +
-                          "}{num2| " +
-                          params.data.value[0] +
-                          "}";
+                    return (
+                      "{title2|" +
+                      params.data.name +
+                      "}{num2| " +
+                      params.data.value +
+                      "}"
+                    );
                   },
                   rich: {
                     title: {

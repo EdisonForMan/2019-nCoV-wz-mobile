@@ -3,10 +3,11 @@ const RES = "sql_wzxgfy";
 
 /**
  * [wz_blxxb]确诊病例\出院
+ * @params 具体取各字段含义后续再补,没时间搞
  */
 export const wz_qzjcysj = async () => {
   const axios = getDefaultAxios();
-  const params = ["hzxm", "xq", "xb", "bz", "xjjd", "dzzssj", "cysj", "lcyzcd"]
+  const params = ["hzxm", "xq", "xb", "bz", "xjjd", "dzzssj", "cysj", "lcyzcd", "xqmmc"]
   const name = "wz_qzjcysj";
   return await axios.post("/dw/ds", option_concat(name, params));
 }

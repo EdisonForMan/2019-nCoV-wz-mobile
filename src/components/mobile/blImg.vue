@@ -10,69 +10,29 @@
           <div></div>
           <p>
             病例小区合计
-            <span style="color:#ff4240">{{this.num[4].value}}</span>个
+            <span style="color:#ff4240">{{this.num}}</span>个
           </p>
         </div>
-        <!-- <img :src="forceImg" style="width:100%;" v-if="title!='永嘉县'" /> -->
-        <img
-          v-if="title!='永嘉县'"
-          style="width:100%;"
-          :src="`${this.server}${this.imgurl}/img/estate/${this.title}.png`"
-        />
-        <img
-          v-show="title == '乐清市'"
-          style="width:100%;"
-          :src="`${this.server}${this.imgurl}/img/estate/${this.title}1.png`"
-        />
-        <div class="mapDiv" v-if="title=='永嘉县'">
-          <div id="bl-map"></div>
-        </div>
+        <img style="width:100%;" :src="`${this.server}${this.imgurl}/img/estate/${this.title}.png`" />
         <div class="kind">
           <div class="t1">11~14</div>
           <div class="t2">6~10</div>
           <div class="t3">1~5</div>
           <div class="t4">0</div>
         </div>
-        <div class="msg" v-if="title=='永嘉县'">
-          <div class="imghead">
-            <img style="float:left" src="./img/bltitle.png" />
-            <p>病例小区详情</p>
-            <img style="float:right;transform: rotateY(180deg);" src="./img/bltitle.png" />
-          </div>
-
-          <ul class="msg_title">
-            <li>
-              <div>乡镇街道</div>
-              <div>小区名</div>
-            </li>
-          </ul>
-          <div class="table">
-            <div class="bl_table" v-for="(item,index) in TEST_DATA_YONGJIA" :key="index">
-              <p @click="toggleTree(item.name,index)">
-                {{++index}}.{{item.name}}
-                <i :class="`${item.show?`up`:`down`}`"></i>
-              </p>
-              <ul v-if="item.show">
-                <li v-for="(oitem,oindex) in item.value" :key="oindex">
-                  <span>({{++oindex}}).{{oitem}}</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
+        <img
+          v-show="title == '乐清市'"
+          style="width:100%;"
+          :src="`${this.server}${this.imgurl}/img/estate/${this.title}1.png`"
+        />
         <div class="bltitle">
           <img src="./img/blxq.png" />
           <p>病例信息</p>
         </div>
         <ul class="xq1">
           <li v-for="(bitem,bindex) in xq" :key="bindex">
-            <div>
-              <span>{{++bindex}}</span>
-            </div>
-            <div>
-              <span>{{bitem.slice(0,19)}}</span>
-              <span>{{bitem.slice(19)}}</span>
-            </div>
+            <span>{{bitem.dzzssj.split(" ")[0]}}确诊，{{bitem.xb}}，现住{{bitem.xq}}，</span>
+            <span>{{bitem.bz}}</span>
           </li>
         </ul>
       </div>
@@ -94,55 +54,52 @@
 
 <script>
 /* eslint-disable */
-// import context from "./xq";
 
 import MAP_YONGJIA from "./geoJson/map_YongJia";
-
 import { GEO_YONGJIA } from "./data/geo_Data";
-
 import { DATA_YONGJIA, TEST_DATA_YONGJIA } from "./data/chart_Data";
-import { date, num } from "./mapdata";
+import { mapState } from "vuex";
+
 export default {
   name: "gk",
   data() {
     return {
-      // context,
-      bl: [],
+      context: window.context,
       xq: [],
-      flagnum: [],
-      title: "",
+      title: this.$route.query.name,
       server: "https://lysb.lucheng.gov.cn/other/",
-      forceImg: undefined,
       chart: undefined,
+      imgurl: window.imgurl,
       msgObj: null,
       GEO_YONGJIA,
       DATA_YONGJIA,
       TEST_DATA_YONGJIA,
-      num,
-      date,
+      num: 0,
+      date: window.date,
       logoshow: false
     };
   },
-  created() {
-    this.forceImg = this[this.$route.query.name];
-    const context = window.context;
-    const date = window.date;
-    const imgurl = window.imgurl;
-    this.context = context;
-    this.imgurl = imgurl;
-    this.date = date;
-    this.xqxx();
+  computed: {
+    ...mapState({
+      blList: state => state.blList
+    })
   },
   mounted() {
-    // this.forceImg = this[this.$route.query.name];
-    // this.xqxx();
-
-    if (this.title == "永嘉县") {
-      this.BLMapInit();
-      this.BLMap();
-    }
+    this.xqxx();
   },
   methods: {
+    xqxx() {
+      //  列表
+      const _xq_ = this.$route.query.name;
+      const xq = this.blList.filter(({ xq }) => xq == _xq_);
+      this.xq = xq;
+      //  病例小区合计
+      const arr = [];
+      xq.map(item => {
+        arr.indexOf(item.xqmmc) < 0 && arr.push(item.xqmmc);
+      });
+      this.num = arr.length;
+    },
     back() {
       this.$router.go(-1);
     },
@@ -157,19 +114,6 @@ export default {
       for (let v in this.TEST_DATA_YONGJIA) {
         if (this.TEST_DATA_YONGJIA[v].name == label) {
           this.TEST_DATA_YONGJIA[v].show = !this.TEST_DATA_YONGJIA[v].show;
-        }
-      }
-    },
-    xqxx() {
-      var o;
-      for (o in this.context) {
-        if (this.$route.query.name == o) {
-          this.bl = this.context[o].bl;
-          this.xq = this.context[o].xq;
-          this.flagnum = this.context[o].flag;
-          this.title = o;
-
-          // console.log(o);
         }
       }
     },
@@ -196,7 +140,7 @@ export default {
         },
         geo: {
           map: "wenzhou",
-           aspectScale: 1,
+          aspectScale: 1,
           zoom: 1.3,
           label: {
             normal: {
@@ -211,7 +155,7 @@ export default {
           {
             type: "map",
             map: "wenzhou",
-             aspectScale: 1,
+            aspectScale: 1,
             zoom: 1.3,
             emphasis: {
               label: {
@@ -281,7 +225,6 @@ export default {
         if (event.target && event.target.seriesIndex == 1) {
           const ds = that.TEST_DATA_YONGJIA[event.target.dataIndex];
           that.msgObj = ds;
-          // console.log(ds);
         }
       });
     }
@@ -531,36 +474,57 @@ export default {
       .xq1 {
         list-style: none;
         display: inline-block;
-        height: 240px;
+        height: 300px;
         overflow: auto;
         box-sizing: border-box;
+        padding: 5px;
+        // li {
+        //   line-height: 20px;
+        //   border: 1px solid #4e5fd5;
+        //   text-align: left;
+        //   padding: 5px;
+        //   margin-bottom: 5px;
+        //   text-align: left;
+        //   div:nth-child(1) {
+        //     display: inline-block;
+        //     width: 5%;
+        //     vertical-align: top;
+        //     box-sizing: border-box;
+        //     padding-top: 8px;
+        //     span {
+        //       font-size: 16px;
+        //       color: rgb(9, 252, 255);
+        //     }
+        //   }
+        //   div:nth-child(2) {
+        //     display: inline-block;
+        //     width: 85%;
+        //     padding: 5px 10px;
+        //     // border-bottom: 1px solid rgb(39, 45, 119);
+        //     span {
+        //       font-size: 14px;
+        //     }
+        //     span:nth-child(1) {
+        //       color: rgb(9, 252, 255);
+        //     }
+        //   }
+        // }
         li {
-          width: 100%;
+          width: 97%;
+          border: 1px solid #4e5fd5;
+          padding: 4px;
           line-height: 20px;
-          // margin-bottom: 10px;
+          margin-bottom: 10px;
           text-align: left;
-          div:nth-child(1) {
-            display: inline-block;
-            width: 5%;
-            vertical-align: top;
-            box-sizing: border-box;
-            padding-top: 8px;
-            span {
-              font-size: 16px;
-              color: rgb(9, 252, 255);
-            }
+          span {
+            font-size: 12px;
+            color: #fff;
           }
-          div:nth-child(2) {
-            display: inline-block;
-            width: 85%;
-            padding: 5px 10px;
-            border-bottom: 1px solid rgb(39, 45, 119);
-            span {
-              font-size: 14px;
-            }
-            span:nth-child(1) {
-              color: rgb(9, 252, 255);
-            }
+          span:nth-child(1) {
+            color: rgb(9, 252, 255);
+          }
+          span:nth-child(2) {
+            color: rgb(9, 252, 255);
           }
         }
       }

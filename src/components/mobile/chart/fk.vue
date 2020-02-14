@@ -67,8 +67,10 @@ export default {
   },
   mounted() {
     this.blDataFix();
-    this.NYJJMapInit(); //调用地图
-    this.NYJJMap(); //调用地图
+    this.$nextTick(() => {
+      this.NYJJMapInit(); //调用地图
+      this.NYJJMap(); //调用地图
+    });
   },
   methods: {
     blDataFix() {
@@ -78,14 +80,16 @@ export default {
       this.ill_cure = [
         this.blList.length,
         this.blList.filter(({ dzzssj }) => dzzssj.includes(today)).length,
-        this.blList.filter(({ cysj }) => cysj).length,
-        this.blList.filter(({ cysj }) => cysj && cysj.includes(today)).length
+        this.blList.filter(({ cysj }) => cysj && cysj != "0").length,
+        this.blList.filter(
+          ({ cysj }) => cysj && cysj != "0" && cysj.includes(today)
+        ).length
       ];
       this.blList.map(({ xq, cysj }) => {
         const _xq_ = xq.replace(/产业集聚区/g, "");
         !xqObj[_xq_] && (xqObj[_xq_] = [0, 0]);
         xqObj[_xq_][0] += 1;
-        cysj && (xqObj[_xq_][1] += 1);
+        cysj && cysj != "0" && (xqObj[_xq_][1] += 1);
       });
       const _mapdata_ = this.$util.clone(this.mapdata).map(item => {
         return xqObj[item.name] ? { ...item, value: xqObj[item.name] } : item;

@@ -57,13 +57,8 @@
         </div>
         <ul class="xq1">
           <li v-for="(bitem,bindex) in xq" :key="bindex">
-            <div>
-              <span>{{++bindex}}</span>
-            </div>
-            <div>
-              <span>{{bitem.dzzssj.split(" ")[0]}}确诊，{{bitem.xb}}，现住{{bitem.xq}}，</span>
-              <span>{{bitem.bz}}</span>
-            </div>
+            <span>{{bitem.dzzssj.split(" ")[0]}}确诊，{{bitem.xb}}，现住{{bitem.xq}}，</span>
+            <span>{{bitem.bz}}</span>
           </li>
         </ul>
       </div>
@@ -86,7 +81,6 @@
 <script>
 /* eslint-disable */
 import context from "./xq";
-import { date, qz_num } from "./mapdata";
 import pop from "./chart/popDiv"; //阵地详情弹框
 import { mapState } from "vuex";
 import MAP_YONGJIA from "./geoJson/map_YongJia";
@@ -123,23 +117,6 @@ import {
   GEO_PINGYANG
 } from "./data/geo_Data";
 
-// import {
-//   DATA_LUCHENG,
-//   DATA_OUHAI,
-//   DATA_LONGWAN,
-//   DATA_DONGTOU,
-//   DATA_OUJIANGKOU,
-//   DATA_ZHENAN,
-//   DATA_YUEQING,
-//   DATA_RUIAN,
-//   DATA_YONGJIA,
-//   DATA_LONGGANG,
-//   DATA_TAISHUN,
-//   DATA_CANGNAN,
-//   DATA_WENCHENG,
-//   DATA_PINGYANG
-// } from "./data/chart_Data";
-
 export default {
   name: "sbDate",
   data() {
@@ -149,7 +126,7 @@ export default {
       qz_flag: { red: 0, white: 0, rw: 0, wr: 0 },
       title: "",
       context,
-      date,
+      date: window.date,
       server: "https://lysb.lucheng.gov.cn/other/",
       fk_imgtag: 9,
       show: true,
@@ -200,7 +177,6 @@ export default {
       flagList: state => state.flagList
     })
   },
-  created() {},
   mounted() {
     this.title = this.$route.query.label;
     this.$nextTick(() => {
@@ -225,23 +201,19 @@ export default {
       const qz_flag = { red: 0, white: 0, rw: 0, wr: 0 };
       const flag_data = {};
       const flag = this.flagList.filter(({ qx }) => qx == _xq_);
-      console.log(flag);
       flag.map(item => {
         parseInt(item.hbqqk) ? (qz_flag.white += 1) : (qz_flag.red += 1);
-        console.log(qz_flag.white,qz_flag.red);
         parseInt(item.hqzbq) && (qz_flag.rw += 1);
         parseInt(item.bqzhq) && (qz_flag.wr += 1);
         flag_data[item.jd] = parseInt(item.hbqqk);
       });
       this.flag_data = flag_data;
       this.qz_flag = qz_flag;
-      console.log(qz_flag);
       //  病例
       const bl = [
         { label: "确诊", value: 0, color: "#f67a32", imgurl: "qz" },
         { label: "重症", value: 0, color: "rgb(255,79,85)", imgurl: "zz" },
         { label: "出院", value: 0, color: "rgb(9,252,255)", imgurl: "cy" }
-        // { label: "死亡", value: 0, color: "rgb(255,246,11)" }
       ];
       const mapData = {};
       const mapArr = [];
@@ -249,7 +221,7 @@ export default {
       xq.map(item => {
         bl[0].value += 1;
         item.lcyzcd.includes("重症") && (bl[1].value += 1);
-        item.cysj && (bl[2].value += 1);
+        item.cysj && item.cysj != "0" && (bl[2].value += 1);
         //  地图
         !mapData[item.xjjd] &&
           (mapData[item.xjjd] = { name: item.xjjd, value: 0, new: 0 });
@@ -861,33 +833,54 @@ export default {
         height: 300px;
         overflow: auto;
         box-sizing: border-box;
+        padding: 5px;
+        // li {
+        //   line-height: 20px;
+        //   border: 1px solid #4e5fd5;
+        //   text-align: left;
+        //   padding: 5px;
+        //   margin-bottom: 5px;
+        //   text-align: left;
+        //   div:nth-child(1) {
+        //     display: inline-block;
+        //     width: 5%;
+        //     vertical-align: top;
+        //     box-sizing: border-box;
+        //     padding-top: 8px;
+        //     span {
+        //       font-size: 16px;
+        //       color: rgb(9, 252, 255);
+        //     }
+        //   }
+        //   div:nth-child(2) {
+        //     display: inline-block;
+        //     width: 85%;
+        //     padding: 5px 10px;
+        //     // border-bottom: 1px solid rgb(39, 45, 119);
+        //     span {
+        //       font-size: 14px;
+        //     }
+        //     span:nth-child(1) {
+        //       color: rgb(9, 252, 255);
+        //     }
+        //   }
+        // }
         li {
-          width: 100%;
+          width: 97%;
+          border: 1px solid #4e5fd5;
+          padding: 4px;
           line-height: 20px;
-          // margin-bottom: 10px;
+          margin-bottom: 10px;
           text-align: left;
-          div:nth-child(1) {
-            display: inline-block;
-            width: 5%;
-            vertical-align: top;
-            box-sizing: border-box;
-            padding-top: 8px;
-            span {
-              font-size: 16px;
-              color: rgb(9, 252, 255);
-            }
+          span {
+            font-size: 12px;
+            color: #fff;
           }
-          div:nth-child(2) {
-            display: inline-block;
-            width: 85%;
-            padding: 5px 10px;
-            border-bottom: 1px solid rgb(39, 45, 119);
-            span {
-              font-size: 14px;
-            }
-            span:nth-child(1) {
-              color: rgb(9, 252, 255);
-            }
+          span:nth-child(1) {
+            color: rgb(9, 252, 255);
+          }
+          span:nth-child(2) {
+            color: rgb(9, 252, 255);
           }
         }
       }

@@ -87,7 +87,7 @@ import { mapState, mapActions } from "vuex";
 
 export default {
   name: "Mobile",
-  components: { bl, fk, tb, pop },
+  components: { bl, fk, tb, pop, fx },
   data() {
     return {
       toptab: [
@@ -156,11 +156,11 @@ export default {
       this.qz_num = qz_num;
     },
     goPage(index) {
-      if (index == 3) {
-        return alert("尽情期待");
-      } else {
-        this.current = index;
-      }
+      // if (index == 3) {
+      //   return alert("尽情期待");
+      // } else {
+      this.current = index;
+      // }
     },
     showLogo() {
       this.logoshow = true;
