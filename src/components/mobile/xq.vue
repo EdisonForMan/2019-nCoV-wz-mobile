@@ -59,13 +59,16 @@
         </div>
         <ul class="xq1">
           <li v-for="(bitem,bindex) in xq" :key="bindex">
-            <div>
+            <!-- <div>
               <span>{{++bindex}}</span>
             </div>
             <div>
               <span>{{bitem.slice(0,19)}}</span>
               <span>{{bitem.slice(19)}}</span>
-            </div>
+            </div>-->
+            <span>{{++bindex}}.</span>
+            <span>{{bitem.slice(0,19)}}</span>
+            <span>{{bitem.slice(19)}}</span>
           </li>
         </ul>
       </div>
@@ -876,35 +879,53 @@ export default {
         overflow: auto;
         box-sizing: border-box;
         padding: 5px;
+        // li {
+        //   line-height: 20px;
+        //   border: 1px solid #4e5fd5;
+        //   text-align: left;
+        //   padding: 5px;
+        //   margin-bottom: 5px;
+        //   text-align: left;
+        //   div:nth-child(1) {
+        //     display: inline-block;
+        //     width: 5%;
+        //     vertical-align: top;
+        //     box-sizing: border-box;
+        //     padding-top: 8px;
+        //     span {
+        //       font-size: 16px;
+        //       color: rgb(9, 252, 255);
+        //     }
+        //   }
+        //   div:nth-child(2) {
+        //     display: inline-block;
+        //     width: 85%;
+        //     padding: 5px 10px;
+        //     // border-bottom: 1px solid rgb(39, 45, 119);
+        //     span {
+        //       font-size: 14px;
+        //     }
+        //     span:nth-child(1) {
+        //       color: rgb(9, 252, 255);
+        //     }
+        //   }
+        // }
         li {
-          line-height: 20px;
+          width: 97%;
           border: 1px solid #4e5fd5;
+          padding: 4px;
+          line-height: 20px;
+          margin-bottom: 10px;
           text-align: left;
-          padding: 5px;
-          margin-bottom: 5px;
-          text-align: left;
-          div:nth-child(1) {
-            display: inline-block;
-            width: 5%;
-            vertical-align: top;
-            box-sizing: border-box;
-            padding-top: 8px;
-            span {
-              font-size: 16px;
-              color: rgb(9, 252, 255);
-            }
+          span {
+            font-size: 12px;
+            color: #fff;
           }
-          div:nth-child(2) {
-            display: inline-block;
-            width: 85%;
-            padding: 5px 10px;
-            // border-bottom: 1px solid rgb(39, 45, 119);
-            span {
-              font-size: 14px;
-            }
-            span:nth-child(1) {
-              color: rgb(9, 252, 255);
-            }
+          span:nth-child(1) {
+            color: rgb(9, 252, 255);
+          }
+          span:nth-child(2){
+             color: rgb(9, 252, 255);
           }
         }
       }
