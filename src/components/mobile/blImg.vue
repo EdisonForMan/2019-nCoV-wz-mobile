@@ -20,11 +20,41 @@
           <div class="t3">1~5</div>
           <div class="t4">0</div>
         </div>
-        <img
+        <!-- <img
           v-show="title == '乐清市'"
           style="width:100%;"
           :src="`${this.server}${this.imgurl}/img/estate/${this.title}1.png`"
-        />
+        /> -->
+        <!-- <div class="mapDiv" v-if="title=='永嘉县'">
+          <div id="bl-map"></div>
+        </div>-->
+        <div class="msg">
+          <div class="imghead">
+            <img style="float:left" src="./img/bltitle.png" />
+            <p>病例小区详情</p>
+            <img style="float:right;transform: rotateY(180deg);" src="./img/bltitle.png" />
+          </div>
+
+          <ul class="msg_title">
+            <li>
+              <div>乡镇街道</div>
+              <div>小区名</div>
+            </li>
+          </ul>
+          <div class="table">
+            <div class="bl_table" v-for="(item,key,index) in street" :key="index">
+              <p @click="toggleTree(item.name,index)">
+                {{++index}}.{{item.name}}
+                <i :class="`${item.show?`up`:`down`}`"></i>
+              </p>
+              <ul v-if="item.show">
+                <li v-for="(oitem,okey,oindex) in item.value" :key="oindex">
+                  <span>({{++oindex}}).{{okey}}({{oitem}}例)</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
         <div class="bltitle">
           <img src="./img/blxq.png" />
           <p>病例信息</p>
@@ -66,6 +96,7 @@ export default {
     return {
       context: window.context,
       xq: [],
+      street: {},
       title: this.$route.query.name,
       server: "https://lysb.lucheng.gov.cn/other/",
       chart: undefined,
@@ -95,10 +126,16 @@ export default {
       this.xq = xq;
       //  病例小区合计
       const arr = [];
-      xq.map(item => {
-        arr.indexOf(item.xqmmc) < 0 && arr.push(item.xqmmc);
+      const sObj = {};
+      xq.map(({ xjjd, xqmmc }) => {
+        arr.indexOf(xqmmc) < 0 && arr.push(xqmmc);
+        //  街道统计
+        !sObj[xjjd] && (sObj[xjjd] = { name: xjjd, show: false, value: {} });
+        !sObj[xjjd]["value"][xqmmc] && (sObj[xjjd]["value"][xqmmc] = 0);
+        sObj[xjjd]["value"][xqmmc] += 1;
       });
       this.num = arr.length;
+      this.street = sObj;
     },
     back() {
       this.$router.go(-1);
@@ -111,9 +148,9 @@ export default {
       }, 3000);
     },
     toggleTree(label, index) {
-      for (let v in this.TEST_DATA_YONGJIA) {
-        if (this.TEST_DATA_YONGJIA[v].name == label) {
-          this.TEST_DATA_YONGJIA[v].show = !this.TEST_DATA_YONGJIA[v].show;
+      for (let v in this.street) {
+        if (this.street[v].name == label) {
+          this.street[v].show = !this.street[v].show;
         }
       }
     },
