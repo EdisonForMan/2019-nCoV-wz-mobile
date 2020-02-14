@@ -46,7 +46,10 @@
           </li>
         </ul>
         <div class="mapborder">
-          <div class="mapDiv" :style="{height:mapheight +'px',width:mapwidth+'%'}">
+          <div
+            class="mapDiv"
+            :style="{height:mapheight +'px',width:mapwidth+'%',left: mapleft +'px'}"
+          >
             <div id="xq-map"></div>
             <div id="xq-map2" v-if="title == '瑞安市' || title == '平阳县'"></div>
           </div>
@@ -198,9 +201,9 @@ export default {
       cur_data: null,
       logoshow: false,
       tabdata: [],
-      mapheight:400,
-      mapwidth:120
-
+      mapheight: 400,
+      mapwidth: 120,
+      mapleft: -24
     };
   },
   props: {},
@@ -238,12 +241,28 @@ export default {
           this.title = o;
         }
       }
-      if(this.title == '乐清市'){
-        this.mapheight = 450;
-      }
-      if(this.title == '鹿城区'){
+      if (this.title == "乐清市") {
+        this.mapheight = 480;
+        this.mapleft = 0;
+      } else if (this.title == "鹿城区" || this.title == "平阳县" ) {
         this.mapheight = 300;
-        this.mapwidth = 130
+        this.mapwidth = 130;
+      } else if (this.title == "泰顺县") {
+        this.mapheight = 350;
+      } else if (this.title == "苍南县") {
+        this.mapheight = 350;
+        this.mapwidth = 130;
+        this.mapleft = 0;
+      } else if (this.title == "永嘉县") {
+        this.mapheight = 330;
+        this.mapleft = -28;
+      }else if(this.title == "文成县"){
+        this.mapleft = -16;
+        this.mapheight = 350;
+      }else if(this.title == "瓯海区"){
+        this.mapleft = 0;
+        this.mapheight = 300;
+        this.mapwidth = 130;
       }
       this.tabdata = [
         {
@@ -299,23 +318,29 @@ export default {
             this.title == "洞头区"
               ? 1
               : this.title == "苍南县"
-              ? 1.5
+              ? 1.6
               : ~["永嘉县", "文成县"].indexOf(this.title)
-              ? 1.2
-              : ~["鹿城区", "瓯海区", "泰顺县", "平阳县"].indexOf(this.title)
-              ? 1.4
+              ? 1.1
+              : ~["鹿城区", "瓯海区"].indexOf(this.title)
+              ? 1.3
               : this.title == "瑞安市"
               ? 1.2
               : this.title == "乐清市"
               ? 1.2
+              : this.title == "平阳县"
+                ? 1.2
+              : this.title == "泰顺县"
+              ? 1.25
               : 1.2,
           top:
             this.title == "洞头区"
               ? "35%"
               : this.title == "苍南县"
-              ? "35%"
+              ? "25%"
+              : this.title == "泰顺县"
+              ? "12%"
               : "15%",
-          left: this.title == "苍南县" ? "20%" : "center",
+          left: this.title == "苍南县" ? "15%" : "center",
           label: {
             normal: {
               show: false
@@ -334,23 +359,29 @@ export default {
               this.title == "洞头区"
                 ? 1
                 : this.title == "苍南县"
-                ? 1.5
+                ? 1.6
                 : ~["永嘉县", "文成县"].indexOf(this.title)
-                ? 1.2
-                : ~["鹿城区", "瓯海区", "泰顺县", "平阳县"].indexOf(this.title)
-                ? 1.4
+                ? 1.1
+                : ~["鹿城区", "瓯海区"].indexOf(this.title)
+                ? 1.3
                 : this.title == "瑞安市"
                 ? 1.2
                 : this.title == "乐清市"
+                ? 1.2
+                : this.title == "泰顺县"
+                ? 1.25
+                : this.title == "平阳县"
                 ? 1.2
                 : 1.2,
             top:
               this.title == "洞头区"
                 ? "35%"
                 : this.title == "苍南县"
-                ? "35%"
+                ? "25%"
+                : this.title == "泰顺县"
+                ? "12%"
                 : "15%",
-            left: this.title == "苍南县" ? "20%" : "center",
+            left: this.title == "苍南县" ? "15%" : "center",
             emphasis: {
               label: {
                 show: true
@@ -482,15 +513,15 @@ export default {
               : this.title == "永嘉县"
               ? 1.2
               : this.title == "文成县"
-              ? 1.2
+              ? 1.1
               : this.title == "苍南县"
-              ? 1.5
+              ? 1.6
               : this.title == "泰顺县"
               ? 1.25
               : this.title == "瑞安市"
               ? 1.2
               : this.title == "鹿城区"
-              ? 1.4
+              ? 1.3
               : this.title == "瓯海区"
               ? 1.25
               : this.title == "龙湾区"
@@ -529,15 +560,15 @@ export default {
                 : this.title == "永嘉县"
                 ? 1.2
                 : this.title == "文成县"
-                ? 1.2
+                ? 1.1
                 : this.title == "苍南县"
-                ? 1.5
+                ? 1.6
                 : this.title == "泰顺县"
                 ? 1.25
                 : this.title == "瑞安市"
                 ? 1.2
                 : this.title == "鹿城区"
-                ? 1.4
+                ? 1.3
                 : this.title == "瓯海区"
                 ? 1.25
                 : this.title == "龙湾区"
