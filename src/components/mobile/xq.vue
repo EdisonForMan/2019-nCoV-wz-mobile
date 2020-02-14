@@ -248,10 +248,9 @@ export default {
       ];
       const mapData = {};
       const mapArr = [];
-      const xq = this.blList.filter(
-        ({ xq }) => xq.replace(/产业集聚区/g, "") == _xq_
-      );
-      console.log(xq);
+      const xq = this.blList
+        .filter(({ xq }) => xq.replace(/产业集聚区/g, "") == _xq_)
+        .sort(this.$util.compare("dzzssj")).reverse();
       xq.map(item => {
         bl[0].value += 1;
         ~["重症", "危重"].indexOf(item.xzbq) &&
