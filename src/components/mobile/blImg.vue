@@ -136,10 +136,10 @@ export default {
     // this.forceImg = this[this.$route.query.name];
     // this.xqxx();
 
-    if (this.title == "永嘉县") {
-      this.BLMapInit();
-      this.BLMap();
-    }
+    // if (this.title == "永嘉县") {
+    //   this.BLMapInit();
+    //   this.BLMap();
+    // }
   },
   methods: {
     back() {
