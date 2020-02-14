@@ -46,20 +46,19 @@ export default {
     return {
       chart: undefined,
       mapdata_bl,
-      date,
+      date: window.date,
       num,
       tabdata: []
     };
   },
-   created() {
+  created() {
     const mapdata = window.mapdata;
     const mapdata_bl = window.mapdata_bl;
-    const date = window.date;
     const num = window.num;
     this.mapdata = mapdata;
     this.mapdata_bl = mapdata_bl;
     this.num = num;
-   this.tabdata = [
+    this.tabdata = [
       { label: "确诊", value: this.num[0].value, color: "#ff4142" },
       { label: "重症", value: this.num[1].value, color: "#ff7d19" },
       { label: "出院", value: this.num[2].value, color: "#16baa2" }

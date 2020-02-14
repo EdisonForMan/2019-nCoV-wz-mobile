@@ -82,7 +82,6 @@ import pop from "./chart/popDiv"; //阵地详情弹框
 import wx from "weixin-js-sdk";
 // import dd from "dingtalk-jsapi";
 import axios from "axios";
-import { date } from "./mapdata";
 import { mapState, mapActions } from "vuex";
 
 export default {
@@ -114,7 +113,7 @@ export default {
       ],
       current: 0,
       reloadFlag: null,
-      date,
+      date : window.date,
       token: "",
       access_token: "",
       ticketString: "",
