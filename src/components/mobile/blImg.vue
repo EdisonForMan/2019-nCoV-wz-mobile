@@ -22,9 +22,9 @@
           <div class="t4">0</div>
         </div>
         <img
+          v-show="title == '乐清市'"
           style="width:100%;"
           :src="`${this.server}${this.imgurl}/img/estate/${this.title}1.png`"
-          @error="errorImg()"
         />
 
         <!-- <div class="mapDiv" v-if="title=='永嘉县'">
@@ -120,7 +120,7 @@ export default {
       TEST_DATA_YONGJIA,
       num,
       date,
-      logoshow: false,
+      logoshow: false
     };
   },
   created() {
@@ -136,17 +136,13 @@ export default {
   mounted() {
     // this.forceImg = this[this.$route.query.name];
     // this.xqxx();
-    // if (this.title == "永嘉县") {
-    //   this.BLMapInit();
-    //   this.BLMap();
-    // }
+
+    if (this.title == "永嘉县") {
+      this.BLMapInit();
+      this.BLMap();
+    }
   },
   methods: {
-    errorImg() {
-      let img = event.srcElement;
-      img.src = this.noneImg;
-      img.onerror = null;
-    },
     back() {
       this.$router.go(-1);
     },
@@ -574,7 +570,7 @@ export default {
         // }
         li {
           width: 97%;
-          border-bottom: 1px solid #ccc;
+          border-bottom: 1px solid #4e5fd5;
           padding: 4px;
           line-height: 20px;
           margin-bottom: 10px;
