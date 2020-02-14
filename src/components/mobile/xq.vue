@@ -45,9 +45,11 @@
             <span>例</span>
           </li>
         </ul>
-        <div class="mapDiv">
-          <div id="xq-map"></div>
-          <div id="xq-map2" v-if="title == '瑞安市' || title == '平阳县'"></div>
+        <div class="mapborder">
+          <div class="mapDiv" :style="{height:mapheight +'px',width:mapwidth+'%'}">
+            <div id="xq-map"></div>
+            <div id="xq-map2" v-if="title == '瑞安市' || title == '平阳县'"></div>
+          </div>
         </div>
         <!-- <span style="font-size: 12px;">
           下滑可查看更多
@@ -195,7 +197,10 @@ export default {
       cur_geo: null,
       cur_data: null,
       logoshow: false,
-      tabdata: []
+      tabdata: [],
+      mapheight:400,
+      mapwidth:120
+
     };
   },
   props: {},
@@ -232,6 +237,13 @@ export default {
           this.flagnum = this.context[o].flag;
           this.title = o;
         }
+      }
+      if(this.title == '乐清市'){
+        this.mapheight = 450;
+      }
+      if(this.title == '鹿城区'){
+        this.mapheight = 300;
+        this.mapwidth = 130
       }
       this.tabdata = [
         {
@@ -289,13 +301,13 @@ export default {
               : this.title == "苍南县"
               ? 1.5
               : ~["永嘉县", "文成县"].indexOf(this.title)
-              ? 1.1
+              ? 1.2
               : ~["鹿城区", "瓯海区", "泰顺县", "平阳县"].indexOf(this.title)
-              ? 1.3
+              ? 1.4
               : this.title == "瑞安市"
               ? 1.2
               : this.title == "乐清市"
-              ? 1.25
+              ? 1.2
               : 1.2,
           top:
             this.title == "洞头区"
@@ -324,13 +336,13 @@ export default {
                 : this.title == "苍南县"
                 ? 1.5
                 : ~["永嘉县", "文成县"].indexOf(this.title)
-                ? 1.1
+                ? 1.2
                 : ~["鹿城区", "瓯海区", "泰顺县", "平阳县"].indexOf(this.title)
-                ? 1.3
+                ? 1.4
                 : this.title == "瑞安市"
                 ? 1.2
                 : this.title == "乐清市"
-                ? 1.25
+                ? 1.2
                 : 1.2,
             top:
               this.title == "洞头区"
@@ -478,7 +490,7 @@ export default {
               : this.title == "瑞安市"
               ? 1.2
               : this.title == "鹿城区"
-              ? 1.3
+              ? 1.4
               : this.title == "瓯海区"
               ? 1.25
               : this.title == "龙湾区"
@@ -525,7 +537,7 @@ export default {
                 : this.title == "瑞安市"
                 ? 1.2
                 : this.title == "鹿城区"
-                ? 1.3
+                ? 1.4
                 : this.title == "瓯海区"
                 ? 1.25
                 : this.title == "龙湾区"
@@ -828,21 +840,26 @@ export default {
           }
         }
       }
-      .mapDiv {
-        position: relative;
-        height: 280px;
+      .mapborder {
+        width: 100%;
+        height: 300px;
+        overflow: auto;
+        .mapDiv {
+          position: relative;
+          height: 500px;
+          width: 120%;
+          #xq-map {
+            height: 100%;
+          }
 
-        #xq-map {
-          height: 100%;
-        }
-
-        #xq-map2 {
-          position: absolute;
-          width: 60%;
-          height: 80px;
-          bottom: 5%;
-          right: 1%;
-          border: 1px solid #fff;
+          #xq-map2 {
+            position: absolute;
+            width: 60%;
+            height: 80px;
+            bottom: 5%;
+            right: 1%;
+            border: 1px solid #fff;
+          }
         }
       }
       .bltitle {
@@ -924,8 +941,8 @@ export default {
           span:nth-child(1) {
             color: rgb(9, 252, 255);
           }
-          span:nth-child(2){
-             color: rgb(9, 252, 255);
+          span:nth-child(2) {
+            color: rgb(9, 252, 255);
           }
         }
       }
