@@ -57,11 +57,8 @@ export default {
     })
   },
   mounted() {
+    this.NYJJMapInit(); //调用地图
     this.blDataFix();
-    this.$nextTick(() => {
-      this.NYJJMapInit(); //调用地图
-      this.NYJJMap(); //调用地图
-    });
   },
   methods: {
     blDataFix() {
@@ -99,6 +96,9 @@ export default {
       this.mapdata_bl = mapdata_bl;
       this.num = num;
       this.tabdata = tabdata;
+      this.$nextTick(() => {
+        this.NYJJMap(); //调用地图
+      });
     },
     NYJJMapInit() {
       this.chart = this.$echarts.init(document.getElementById("nyjj-map"));
