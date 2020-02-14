@@ -124,10 +124,10 @@ export const XZJD = `http://172.20.89.7:6082/arcgis/rest/services/weijian/xzjd/M
 //   window.env == "outside"
 //     ? `${OTHER_HOST}/Hosted/DSJ/VectorTileServer`
 //     : `${LOCAL_HOST}/Hosted/kfq_WGS84/VectorTileServer`;
-export const IMAGELAYER =
-  window.env == "outside" ?
-    `${OTHER_HOST}/Hosted/JYB/VectorTileServer` :
-    `${LOCAL_HOST}/Hosted/TDT_SLDT/VectorTileServer`;
+export const IMAGELAYER = `${OTHER_HOST}/Hosted/JYB/VectorTileServer`
+  // window.env == "outside" ?
+  //   `${OTHER_HOST}/Hosted/JYB/VectorTileServer` :
+  //   `${LOCAL_HOST}/Hosted/TDT_SLDT/VectorTileServer`;
 export const IMAGELAYERDSJ =
   window.env == "outside" ?
     `${OTHER_HOST}/Hosted/DSJ/VectorTileServer` :

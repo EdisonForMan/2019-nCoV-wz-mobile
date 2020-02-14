@@ -7,8 +7,8 @@ import "./components/common/_iconfont/iconfont.js";
 import "./components/common/_iconfont/iconfont.css";
 import echarts from "echarts";
 import { auth_token, auth_token_info } from "./api/beans/auth";
-import Mint from 'mint-ui';
-import 'mint-ui/lib/style.css'
+import Mint from "mint-ui";
+import "mint-ui/lib/style.css";
 Vue.use(Mint);
 // filter production infos
 Vue.prototype.$echarts = echarts;

@@ -27,7 +27,7 @@ export const wz_bqztb = async () => {
 export const wz_jdqdhbqb = async () => {
   const axios = getDefaultAxios();
   const params = ["qx", "jd", "hbqqk", "hqzbq", "bqzhq"]
-  const name = "wz_jdqdhbqb";
+  const name = "(select * from wz_jdqdhbqb where gxsj = (select top 1 gxsj from wz_jdqdhbqb order by gxsj desc))";
   return await axios.post("/dw/ds", option_concat(name, params));
 }
 

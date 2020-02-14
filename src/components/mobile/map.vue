@@ -24,31 +24,19 @@
           <li>
             <div style="width: 37%;position: relative;">
               <img style="width: 65%;float: left;" src="./img/hq.png" />
-              <p style="left: 64%;bottom: 7%;">
+              <p>
                 <span>{{qz_num.red}}</span>
               </p>
             </div>
-            <div style="width: 26%;">
-              <img @click="showzd" style="width:100%;margin-top: 5px;" src="./img/zd.png" />
+            <div style="width: 25%;margin-top:2%">
+              <img @click="showzd" style="width:100%;" src="./img/zd.png" />
             </div>
             <div style="width: 37%;position: relative;">
               <img style="width: 65%;float: right;" src="./img/bq.png" />
-              <p style="right: 64%;bottom: 7%;color:#fff">
+              <p style="color:#fff">
                 <span>{{qz_num.white}}</span>
               </p>
             </div>
-            <!-- <div style="width: 30%;">
-              <img src="./img/wflag.png" />
-              <span style="padding-right:7px">转</span>
-              <img src="./img/rflag.png" />
-              <span>{{qz_num.wr}}</span>
-            </div>
-            <div style="width: 30%;">
-              <img src="./img/rflag.png" />
-              <span style="padding-right:7px">转</span>
-              <img src="./img/wflag.png" />
-              <span style="color: red;">{{qz_num[1].wr}}</span>
-            </div>-->
           </li>
         </ul>
       </div>
@@ -56,20 +44,20 @@
     <div class="isGk isGkActive" @click="gkChange" v-if="current == 0">
       <img style="vertical-align: sub;width: 15px;" src="./img/gkl.png" /> 管控力指标
     </div>
-    <div class="kind" v-if="current != 2">
+    <div class="kind" v-show="current ==0 || current == 1">
       <div class="t1">一类区域</div>
       <div class="t2">二类区域</div>
       <div class="t3">三类区域</div>
       <div class="t4">四类区域</div>
     </div>
-    <div class="sjlz" v-if="current != 2">数据来源：温州市新冠肺炎工作领导小组</div>
+    <div class="sjlz" v-if="current != 2">数据来源：{{current != 3 ? `温州市新冠肺炎工作领导小组`:`市大数据发展管理局`}}</div>
     <div class="bottom" v-if="current != 2">
       <div class="float" v-show="logoshow">
         <span>温州设计集团勘察院</span>
       </div>
       <p>
         <img style src="./img/logo.png" @click="showLogo()" />
-        <span class="text"> 截至</span> 2020年 2月
+        <span class="text" style="margin-left:5px;">截至</span> 2020年 2月
         <span class="time">{{date}}</span>日
         <span class="time">24</span>时
       </p>
@@ -79,6 +67,7 @@
     <fk v-if="current == 0" ref="fk" />
     <bl v-if="current == 1" ref="bl" />
     <tb v-if="current == 2" />
+    <fx v-if="current == 3" />
   </div>
 </template>
 
@@ -88,8 +77,8 @@
 import bl from "./chart/bl";
 import fk from "./chart/fk";
 import tb from "./chart/tb";
+import fx from "./chart/fx";
 import pop from "./chart/popDiv"; //阵地详情弹框
-
 import wx from "weixin-js-sdk";
 // import dd from "dingtalk-jsapi";
 import axios from "axios";
@@ -167,8 +156,11 @@ export default {
       this.qz_num = qz_num;
     },
     goPage(index) {
-      index > 2 && alert("建设中，敬请期待！");
-      index < 3 && (this.current = index);
+      if (index == 3) {
+        return alert("尽情期待");
+      } else {
+        this.current = index;
+      }
     },
     showLogo() {
       this.logoshow = true;
@@ -187,21 +179,6 @@ export default {
     },
     showzd() {
       this.$refs.pop.popzdShowFun();
-    },
-    //获取钉钉用户
-    getUser() {
-      this.dd.ready(function() {
-        this.dd.util.domainStorage.setItem({
-          name: "syl", // 存储信息的key值
-          value: "鹿城区", // 存储信息的Value值
-          onSuccess: function(info) {
-            alert(JSON.stringify(info));
-          },
-          onFail: function(err) {
-            alert(JSON.stringify(err));
-          }
-        });
-      });
     },
     //信用分后台认证
     getToken() {
@@ -304,11 +281,11 @@ export default {
   background-size: 100% 100%;
   .isGk {
     position: absolute;
-    top: 45%;
+    top: 43%;
     left: 2%;
     color: #fff;
     height: 27px;
-    font-size: 14px;
+    font-size: 12px;
     line-height: 30px;
     border-radius: 15px;
     border: 1px #30aaff solid;
@@ -423,13 +400,15 @@ export default {
   .qz {
     position: absolute;
     width: 100%;
-    top: 8%;
+    top: 10%;
     // height: 135px;
     box-sizing: border-box;
     z-index: 2;
     p {
-      position: absolute;
       color: #ff4242;
+      font-size: 12px;
+      padding: 4% 0;
+      margin-top: 6%;
     }
     .qz_num {
       width: 100%;
@@ -476,14 +455,15 @@ export default {
       width: 100%;
     }
     .float {
-      position: relative;
-      right: -53%;
+      position: fixed;
+      right: 32%;
       width: 126px;
       display: block;
       background-color: blue;
       box-sizing: border-box;
       padding: 5px;
       border-radius: 10px;
+      bottom: 2%;
       span {
         font-size: 12px;
       }
@@ -493,6 +473,8 @@ export default {
       width: 12px;
       position: relative;
       top: 2px;
+      background-color: #fff;
+      border-radius: 3px;
     }
   }
 

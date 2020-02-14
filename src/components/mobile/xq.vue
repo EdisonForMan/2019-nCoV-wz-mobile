@@ -4,7 +4,11 @@
     <pop ref="pop" />
     <div class="head">
       <img src="./img/back.png" @click="back()" />
-      <p>{{this.title}}红白阵地分布图</p>
+      <p>
+        {{this.title}}
+        <span>红</span>
+        <span>白</span>阵地分布图
+      </p>
     </div>
     <div class="redFlag">
       <div class="xq_contain">
@@ -14,7 +18,7 @@
               <li>
                 <div style="width: 37%;position: relative;">
                   <img style="width: 65%;float: left;" src="./img/hq.png" />
-                  <p style="left: 64%;top: 35%;">
+                  <p style="left: 64%;top: 22%;">
                     <span>{{qz_flag.red}}</span>
                   </p>
                 </div>
@@ -23,7 +27,7 @@
                 </div>
                 <div style="width: 37%;position: relative;">
                   <img style="width: 65%;float: right;" src="./img/bq.png" />
-                  <p style="right: 64%;top: 35%;color:#fff">
+                  <p style="right: 64%;top: 22%;color:#fff">
                     <span>{{qz_flag.white}}</span>
                   </p>
                 </div>
@@ -35,9 +39,7 @@
           <li v-for="(bitem,bindex) in bl" :key="bindex">
             <div :class="`${bitem.imgurl}`"></div>
             <span>{{bitem.label}}</span>
-            <span
-              :style="`color:${bitem.color};font-size: 23px;font-weight: bold;`"
-            >{{bitem.value}}</span>
+            <span :style="`color:${bitem.color};font-size: 23px;font-weight: bold;`">{{bitem.value}}</span>
             <span>例</span>
           </li>
         </ul>
@@ -45,6 +47,10 @@
           <div id="xq-map"></div>
           <div id="xq-map2" v-if="title == '瑞安市' || title == '平阳县'"></div>
         </div>
+        <!-- <span style="font-size: 12px;">
+          下滑可查看更多
+          <img src="./img/jt.png" style="position: relative; top: 5px;width: 20px;" />
+        </span>-->
         <div class="bltitle">
           <img src="./img/blxq.png" />
           <p>病例信息</p>
@@ -117,22 +123,22 @@ import {
   GEO_PINGYANG
 } from "./data/geo_Data";
 
-import {
-  DATA_LUCHENG,
-  DATA_OUHAI,
-  DATA_LONGWAN,
-  DATA_DONGTOU,
-  DATA_OUJIANGKOU,
-  DATA_ZHENAN,
-  DATA_YUEQING,
-  DATA_RUIAN,
-  DATA_YONGJIA,
-  DATA_LONGGANG,
-  DATA_TAISHUN,
-  DATA_CANGNAN,
-  DATA_WENCHENG,
-  DATA_PINGYANG
-} from "./data/chart_Data";
+// import {
+//   DATA_LUCHENG,
+//   DATA_OUHAI,
+//   DATA_LONGWAN,
+//   DATA_DONGTOU,
+//   DATA_OUJIANGKOU,
+//   DATA_ZHENAN,
+//   DATA_YUEQING,
+//   DATA_RUIAN,
+//   DATA_YONGJIA,
+//   DATA_LONGGANG,
+//   DATA_TAISHUN,
+//   DATA_CANGNAN,
+//   DATA_WENCHENG,
+//   DATA_PINGYANG
+// } from "./data/chart_Data";
 
 export default {
   name: "sbDate",
@@ -151,27 +157,41 @@ export default {
       chart: undefined,
       chart2: undefined,
       mapHash: {
-        鹿城区: [MAP_LUCHENG, GEO_LUCHENG, DATA_LUCHENG],
-        瓯海区: [MAP_OUHAI, GEO_OUHAI, DATA_OUHAI],
-        龙湾区: [MAP_LONGWAN, GEO_LONGWAN, DATA_LONGWAN],
-        洞头区: [MAP_DONGTOU, GEO_DONGTOU, DATA_DONGTOU],
-        永嘉县: [MAP_YONGJIA, GEO_YONGJIA, DATA_YONGJIA],
-        泰顺县: [MAP_TAISHUN, GEO_TAISHUN, DATA_TAISHUN],
-        苍南县: [MAP_CANGNAN, GEO_CANGNAN, DATA_CANGNAN],
-        文成县: [MAP_WENCHENG, GEO_WENCHENG, DATA_WENCHENG],
-        平阳县: [MAP_PINGYANG, GEO_PINGYANG, DATA_PINGYANG, MAP_PINGYANG2],
-        乐清市: [MAP_YUEQING, GEO_YUEQING, DATA_YUEQING],
-        瑞安市: [MAP_RUIAN, GEO_RUIAN, DATA_RUIAN, MAP_RUIAN2],
-        龙港市: [MAP_LONGGANG, GEO_LONGGANG, DATA_LONGGANG],
-        浙南: [MAP_ZHENAN, GEO_ZHENAN, DATA_ZHENAN],
-        瓯江口: [MAP_OUJIANGKOU, GEO_OUJIANGKOU, DATA_OUJIANGKOU]
+        鹿城区: [MAP_LUCHENG, GEO_LUCHENG, window.chart_Data.DATA_LUCHENG],
+        瓯海区: [MAP_OUHAI, GEO_OUHAI, window.chart_Data.DATA_OUHAI],
+        龙湾区: [MAP_LONGWAN, GEO_LONGWAN, window.chart_Data.DATA_LONGWAN],
+        洞头区: [MAP_DONGTOU, GEO_DONGTOU, window.chart_Data.DATA_DONGTOU],
+        永嘉县: [MAP_YONGJIA, GEO_YONGJIA, window.chart_Data.DATA_YONGJIA],
+        泰顺县: [MAP_TAISHUN, GEO_TAISHUN, window.chart_Data.DATA_TAISHUN],
+        苍南县: [MAP_CANGNAN, GEO_CANGNAN, window.chart_Data.DATA_CANGNAN],
+        文成县: [MAP_WENCHENG, GEO_WENCHENG, window.chart_Data.DATA_WENCHENG],
+        平阳县: [
+          MAP_PINGYANG,
+          GEO_PINGYANG,
+          window.chart_Data.DATA_PINGYANG,
+          MAP_PINGYANG2
+        ],
+        乐清市: [MAP_YUEQING, GEO_YUEQING, window.chart_Data.DATA_YUEQING],
+        瑞安市: [
+          MAP_RUIAN,
+          GEO_RUIAN,
+          window.chart_Data.DATA_RUIAN,
+          MAP_RUIAN2
+        ],
+        龙港市: [MAP_LONGGANG, GEO_LONGGANG, window.chart_Data.DATA_LONGGANG],
+        浙南: [MAP_ZHENAN, GEO_ZHENAN, window.chart_Data.DATA_ZHENAN],
+        瓯江口: [
+          MAP_OUJIANGKOU,
+          GEO_OUJIANGKOU,
+          window.chart_Data.DATA_OUJIANGKOU
+        ]
       },
       cur_map: null,
       cur_map2: null,
       cur_geo: null,
       cur_data: null,
       flag_data: null,
-      logoshow:false
+      logoshow: false
     };
   },
   computed: {
@@ -205,19 +225,22 @@ export default {
       const qz_flag = { red: 0, white: 0, rw: 0, wr: 0 };
       const flag_data = {};
       const flag = this.flagList.filter(({ qx }) => qx == _xq_);
+      console.log(flag);
       flag.map(item => {
         parseInt(item.hbqqk) ? (qz_flag.white += 1) : (qz_flag.red += 1);
+        console.log(qz_flag.white,qz_flag.red);
         parseInt(item.hqzbq) && (qz_flag.rw += 1);
         parseInt(item.bqzhq) && (qz_flag.wr += 1);
         flag_data[item.jd] = parseInt(item.hbqqk);
       });
       this.flag_data = flag_data;
       this.qz_flag = qz_flag;
+      console.log(qz_flag);
       //  病例
       const bl = [
-        { label: "确诊", value: 0, color: "#f67a32",imgurl:"qz" },
-        { label: "重症", value: 0, color: "rgb(255,79,85)",imgurl:"zz" },
-        { label: "出院", value: 0, color: "rgb(9,252,255)" ,imgurl:"cy"},
+        { label: "确诊", value: 0, color: "#f67a32", imgurl: "qz" },
+        { label: "重症", value: 0, color: "rgb(255,79,85)", imgurl: "zz" },
+        { label: "出院", value: 0, color: "rgb(9,252,255)", imgurl: "cy" }
         // { label: "死亡", value: 0, color: "rgb(255,246,11)" }
       ];
       const mapData = {};
@@ -252,12 +275,12 @@ export default {
     },
     showLogo() {
       this.logoshow = true;
-       const that = this;
+      const that = this;
       setTimeout(function() {
         that.logoshow = false;
       }, 3000);
     },
-    showzd(){
+    showzd() {
       this.$refs.pop.popzdShowFun();
     },
     back() {
@@ -272,6 +295,7 @@ export default {
       this.chart.setOption({
         geo: {
           map: "wenzhou",
+          aspectScale: 1,
           zoom:
             this.title == "洞头区"
               ? 1
@@ -280,18 +304,18 @@ export default {
               : ~["永嘉县", "文成县"].indexOf(this.title)
               ? 1.1
               : ~["鹿城区", "瓯海区", "泰顺县", "平阳县"].indexOf(this.title)
-              ? 1.2
+              ? 1.3
               : this.title == "瑞安市"
               ? 1.2
               : this.title == "乐清市"
-              ? 1.15
+              ? 1.25
               : 1.2,
           top:
             this.title == "洞头区"
               ? "35%"
               : this.title == "苍南县"
               ? "35%"
-              : "middle",
+              : "15%",
           left: this.title == "苍南县" ? "20%" : "center",
           label: {
             normal: {
@@ -306,6 +330,7 @@ export default {
           {
             type: "map",
             map: "wenzhou",
+            aspectScale: 1,
             zoom:
               this.title == "洞头区"
                 ? 1
@@ -314,18 +339,18 @@ export default {
                 : ~["永嘉县", "文成县"].indexOf(this.title)
                 ? 1.1
                 : ~["鹿城区", "瓯海区", "泰顺县", "平阳县"].indexOf(this.title)
-                ? 1.2
+                ? 1.3
                 : this.title == "瑞安市"
                 ? 1.2
                 : this.title == "乐清市"
-                ? 1.15
+                ? 1.25
                 : 1.2,
             top:
               this.title == "洞头区"
                 ? "35%"
                 : this.title == "苍南县"
                 ? "35%"
-                : "middle",
+                : "15%",
             left: this.title == "苍南县" ? "20%" : "center",
             emphasis: {
               label: {
@@ -371,7 +396,7 @@ export default {
             name: "",
             type: "scatter",
             symbol:
-              "image://data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAhCAYAAACxzQkrAAABIklEQVRYhe3XIUtDURiH8d+VgUVwWBaMxoUDghaVNYPdL2AZLFg0aTcahIUVP4htqB9gwegHsOgEDQa5hp0whXm2XRXDeeAt9/x573M4L5x7i7IsTaLdbkMJF/3+xNxPsvAnb5mBLJQiC6XIQimyUIoslCILpfh3QrUZssWvWYwxtdBhq6XX6/2mC/7hkWWhFFkoRRZKkYVSFN1ud+LiYDAg/rmiCCFM1bTT6cwtNH51LGILO2hiLYTQiFJCCCWGeMUD7nGHa9zibW6LL0J1nOIAK4l8PdYq1rEfnz/iEmd4qip0hY0qTYw2cowWNqsKvX8XmHZuIpU/URawh3Oj+ZiXYeyxW1WoZnTmRzjBdqwm1tDAEpZj/hkvPg/1TawfGeoPZMIzUjM1AqcAAAAASUVORK5CYII=",
+              "image://data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAAAoCAYAAACIC2hQAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAKqADAAQAAAABAAAAKAAAAACu2vZrAAABu0lEQVRYCWNkwAMiMzP+w6Tn79sPY9KV5rh5E2wfE11tpcCyUYdSEHhYtY6GKNZgoUBwNEQpCDysWkdDFGuwUCA4GqIUBB5WraMhijVYKBAcDVEKAg+r1tEQxRosFAiyEKsX1tImVj211Q2ZqCc6RKEhxEjtkCLWvCEToqMOJTZKiVU3GqLEhhSx6kZDlNiQIlbdaIgSG1LEqhsNUWJDilh1KHX9zJkzWe/fvmHPwPDXmoGRQf/hl18o5lSW5r75z8D4hpHhP4h+xfCf4SIDA/NRRVWNg+np6b9RFFOZA25kVFUVSP77/a+cgeF/AtByfpgdD78i7F4+fQZDRUkuTAqVZmT4yMDAuICJlamzrW3Cc1RJ6vCYqsvzbf7/+neF4f//fGRHkmQ8yHNA/SBzKksLrEnSS6Riln9//80Hjn8LYVMvz80KF8YZmnAVwPhg+C/E+P/vAqCQKpIwVZhDJ9czMTMlMjIwvqOGt0HmgMyjhlnoZjAfPnrykZ2D5eL//xhYgDldE6iAA10RQT4oMzEyzmRiY4pu65h4jaB6MhSgdC3QiydgMSQGLIZEgLQIMFcDS4P/HweqeAIAULZyhSyru3QAAAAASUVORK5CYII=",
             symbolSize: [12, 12],
             coordinateSystem: "geo",
             label: {
@@ -407,7 +432,7 @@ export default {
             name: "",
             type: "scatter",
             symbol:
-              "image://data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACUAAAAhCAYAAABeD2IVAAABFElEQVRYhe3XoU7DUBiG4afLEgQknMwgkEgcCRggOASeG0DOgiq+cm6WC8ECl4DkAjCsJCAQpAhOCExsZ2lHJs6b/Kb58vdN+yU9LZqmMYuqqqCBsixnZrui9y93WZAslUqWSiVLpZKlUslSqWSpVFZSqr9gvliKxRQLPal4tlo6K/n6slQqWSqVLJVKlkqlGI/HMwN1XRP/kFGEEOYuHQ6HraR+f/vWcIhj7GIHWyGE9SgmhDDBO57xhEfc4QEfrUympAKucYHBnHyIs409nMfrL7hBhUkXUrfYb7lngCuc4KALqc95oZQeRTo52vRwhhHqFnvquOO0C6m+7w5cosRRnJ+iYwObMf+KN3+Lfh+ns6J/AfA2MDMsqM06AAAAAElFTkSuQmCC",
+              "image://data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAAAoCAYAAACIC2hQAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAKqADAAQAAAABAAAAKAAAAACu2vZrAAABvElEQVRYCWNkwAMiMzP+w6SXTZsOY9KVZmRkBNvHRFdbKbBs1KEUBB5WraMhijVYKBAcDVEKAg+r1tEQxRosFAiOhigFgYdV62iIYg0WCgRHQ5SCwMOqdTREsQYLBYIsxOqFtbSJVU9tdUMm6okOUWgIQTow1A4uIswbMiE66lAiYpMkJaMhSlJwEaF4NESJCCSSlIyGKEnBRYTi0RAlIpBIUoJS18+cOZP1/u0b9gwMf60ZGBn0H375hWJYZWnum/8MjG8YGf6D6FcM/xkuMjAwH1VU1TiYnp7+G0UxlTngRkZVVYHkv9//yhkY/icALeeH2fHwK8Lu5dNnMFSU5MKkUGlGho8MDIwLmFiZOtvaJjxHlaQOj6m6PN/m/69/Vxj+/89HdiRJxoM8B9QPMqeytMCaJL1EKmb59/fffOD4txA29fLcrHBhnKEJVwGMD4b/Qoz//y4ACqkiCVOFOXRyPRMzUyIjA+M7angbZA7IPGqYhW4G8+GjJx/ZOVgu/v+PgQWY0zWBCjjQFRHkgzITI+NMJjam6LaOidcIqidDAUrXAr14AhZDYsBiSARIiwBzNbA0+P9xoIonAAAXbs5yUf12AAAAAElFTkSuQmCC",
             symbolSize: [12, 12],
             coordinateSystem: "geo",
             label: {
@@ -450,6 +475,7 @@ export default {
       this.chart2.setOption({
         geo: {
           map: "wenzhou2",
+          aspectScale: 1,
           zoom:
             this.title == "洞头区"
               ? 1
@@ -464,7 +490,7 @@ export default {
               : this.title == "瑞安市"
               ? 1.2
               : this.title == "鹿城区"
-              ? 1.25
+              ? 1.3
               : this.title == "瓯海区"
               ? 1.25
               : this.title == "龙湾区"
@@ -484,6 +510,7 @@ export default {
           {
             type: "map",
             map: "wenzhou2",
+            aspectScale: 1,
             zoom:
               this.title == "洞头区"
                 ? 1
@@ -498,7 +525,7 @@ export default {
                 : this.title == "瑞安市"
                 ? 1.2
                 : this.title == "鹿城区"
-                ? 1.25
+                ? 1.3
                 : this.title == "瓯海区"
                 ? 1.25
                 : this.title == "龙湾区"
@@ -646,6 +673,28 @@ export default {
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       padding: 15px;
+      span:nth-child(1) {
+        background-image: -webkit-gradient(
+          linear,
+          0 0,
+          0 bottom,
+          from(#ff0505),
+          to(#ff0505)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      span:nth-child(2) {
+        background-image: -webkit-gradient(
+          linear,
+          0 0,
+          0 bottom,
+          from(#ffffff),
+          to(#ffffff)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
     }
     img {
       width: 45px;
@@ -707,7 +756,7 @@ export default {
         height: 14px;
         margin-bottom: 7px;
         width: 100%;
-        li:nth-child(1){
+        li:nth-child(1) {
           width: 35%;
         }
         li {
@@ -764,7 +813,7 @@ export default {
       }
       .mapDiv {
         position: relative;
-        height: 400px;
+        height: 280px;
 
         #xq-map {
           height: 100%;
@@ -809,7 +858,7 @@ export default {
       .xq1 {
         list-style: none;
         display: inline-block;
-        height: 240px;
+        height: 300px;
         overflow: auto;
         box-sizing: border-box;
         li {
@@ -832,7 +881,7 @@ export default {
             display: inline-block;
             width: 85%;
             padding: 5px 10px;
-            // border-bottom: 1px solid rgb(39, 45, 119);
+            border-bottom: 1px solid rgb(39, 45, 119);
             span {
               font-size: 14px;
             }
@@ -868,7 +917,7 @@ export default {
         position: absolute;
         right: 53%;
         bottom: 5%;
-        width: 126px;
+        width: 130px;
         background-color: blue;
         box-sizing: border-box;
         padding: 5px;
@@ -882,6 +931,8 @@ export default {
         width: 12px;
         position: relative;
         top: 2px;
+        background-color: #fff;
+        border-radius: 3px;
       }
     }
   }

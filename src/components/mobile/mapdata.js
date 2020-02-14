@@ -149,7 +149,7 @@ export const mapdata_bl = [{
         coord: [120.6099323, 27.52166944]
     },
     {
-        name: "浙南集聚区",
+        name: "浙南",
         value: 1,
         coord: [120.770894, 27.850969]
     },

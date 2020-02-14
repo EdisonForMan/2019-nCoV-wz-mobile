@@ -284,7 +284,7 @@ window.nCov_luchengData = nCov_luchengData;
 
 //趋势分析
 window.nCov_qushiData = {
-    mapDate: '2020-01-21 ~ 至今',
+    mapDate: '2020-01-21~至今',
     mapDateArr: [
       '2020-01-21', '2020-01-22', '2020-1-23', 
       '2020-01-25', '2020-01-26', '2020-01-27', '2020-01-28', 
@@ -1074,7 +1074,7 @@ window.nCov_qushiData = {
           value: "8"
         },
         {
-          name: "浙南产业集聚区",
+          name: "浙聚区",
           value: "1"
         },
         {
@@ -1132,7 +1132,7 @@ window.nCov_qushiData = {
           value: "0"
         },
         {
-          name: "浙南产业集聚区",
+          name: "浙聚区",
           value: "0"
         },
         {
@@ -1190,7 +1190,7 @@ window.nCov_qushiData = {
           value: "0"
         },
         {
-          name: "浙南产业集聚区",
+          name: "浙聚区",
           value: "0"
         },
         {
@@ -1248,7 +1248,7 @@ window.nCov_qushiData = {
           value: "0"
         },
         {
-          name: "浙南产业集聚区",
+          name: "浙聚区",
           value: "0"
         },
         {

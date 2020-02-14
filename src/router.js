@@ -5,8 +5,6 @@
 import Vue from "vue";
 import Router from "vue-router";
 // pages modules
-import Macroscopic from "./components/macroscopic/Macroscopic.vue";
-import Control from "./components/control/Control.vue";
 import Monitor from "./components/monitor/Monitor.vue";
 import Mobile from "./components/mobile/map.vue"
 import MobileXq from "./components/mobile/xq.vue"
