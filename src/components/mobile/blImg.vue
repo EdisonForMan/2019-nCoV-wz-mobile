@@ -15,38 +15,46 @@
         </div>
         <!-- <img :src="forceImg" style="width:100%;" v-if="title!='永嘉县'" /> -->
         <img style="width:100%;" :src="`${this.server}${this.imgurl}/img/estate/${this.title}.png`" />
-        <img
-          v-show="title == '乐清市'"
-          style="width:100%;"
-          :src="`${this.server}${this.imgurl}/img/estate/${this.title}1.png`"
-        />
-        <!-- <div class="mapDiv" v-if="title=='永嘉县'">
-          <div id="bl-map"></div>
-        </div>-->
         <div class="kind">
           <div class="t1">11~14</div>
           <div class="t2">6~10</div>
           <div class="t3">1~5</div>
           <div class="t4">0</div>
         </div>
-        <!-- <div class="msg" v-if="title=='永嘉县'">
-          <p>病例小区详情</p>
+        <img
+          v-show="title == '乐清市'"
+          style="width:100%;"
+          :src="`${this.server}${this.imgurl}/img/estate/${this.title}1.png`"
+        />
+
+        <!-- <div class="mapDiv" v-if="title=='永嘉县'">
+          <div id="bl-map"></div>
+        </div>
+        <div class="msg" v-if="title=='永嘉县'">
+          <div class="imghead">
+            <img style="float:left" src="./img/bltitle.png" />
+            <p>病例小区详情</p>
+            <img style="float:right;transform: rotateY(180deg);" src="./img/bltitle.png" />
+          </div>
+
           <ul class="msg_title">
             <li>
-              <span>乡镇街道</span>
-              <span>小区名</span>
+              <div>乡镇街道</div>
+              <div>小区名</div>
             </li>
           </ul>
-          <div class="bl_table" v-for="(item,index) in TEST_DATA_YONGJIA" :key="index">
-            <span @click="toggleTree(item.name,index)">
-              {{item.name}}
-              <i :class="`iconfont ${item.show?`icon-angle-double-up`:`icon-angle-double-down`}`"></i>
-            </span>
-            <ul v-if="item.show">
-              <li v-for="(oitem,oindex) in item.value" :key="oindex">
-                <span>({{++oindex}}).{{oitem}}</span>
-              </li>
-            </ul>
+          <div class="table">
+            <div class="bl_table" v-for="(item,index) in TEST_DATA_YONGJIA" :key="index">
+              <p @click="toggleTree(item.name,index)">
+                {{++index}}.{{item.name}}
+                <i :class="`${item.show?`up`:`down`}`"></i>
+              </p>
+              <ul v-if="item.show">
+                <li v-for="(oitem,oindex) in item.value" :key="oindex">
+                  <span>({{++oindex}}).{{oitem}}</span>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>-->
         <div class="bltitle">
@@ -55,13 +63,16 @@
         </div>
         <ul class="xq1">
           <li v-for="(bitem,bindex) in xq" :key="bindex">
-            <div>
+            <!-- <div>
               <span>{{++bindex}}</span>
             </div>
             <div>
               <span>{{bitem.slice(0,19)}}</span>
               <span>{{bitem.slice(19)}}</span>
-            </div>
+            </div>-->
+            <span>{{++bindex}}.</span>
+            <span>{{bitem.slice(0,19)}}</span>
+            <span>{{bitem.slice(19)}}</span>
           </li>
         </ul>
       </div>
@@ -185,7 +196,8 @@ export default {
         },
         geo: {
           map: "wenzhou",
-          zoom: 1.2,
+          aspectScale: 1,
+          zoom: 1.3,
           label: {
             normal: {
               show: false
@@ -199,7 +211,8 @@ export default {
           {
             type: "map",
             map: "wenzhou",
-            zoom: 1.2,
+            aspectScale: 1,
+            zoom: 1.3,
             emphasis: {
               label: {
                 show: true
@@ -385,40 +398,106 @@ export default {
           background-color: rgb(255, 255, 255);
         }
       }
+      /*定义滑块 内阴影+圆角*/
+      .msg::-webkit-scrollbar {
+        background-color: rgb(9, 15, 57);
+        width: 10px;
+      }
+      .msg::-webkit-scrollbar-thumb {
+        background-color: rgb(111, 122, 236);
+        height: 40px;
+        box-shadow: 0px 1px 3px 0px rgba(44, 47, 49, 0.4);
+      }
       .msg {
         box-sizing: border-box;
         padding-top: 10px;
-        p {
-          margin-bottom: 10px;
-          text-align: center;
-        }
+        margin-bottom: 14px;
+
         ul {
           list-style: none;
         }
+        .imghead {
+          display: inline-block;
+          img {
+            width: 30%;
+            padding-top: 6px;
+          }
+          p {
+            margin-bottom: 10px;
+            font-size: 12px;
+            text-align: center;
+            width: 30%;
+            display: inline-block;
+          }
+        }
         .msg_title {
           width: 100%;
-          background-color: #2531c5;
+          height: 30px;
           li {
-            width: 100%;
+            width: 99%;
+            height: 100%;
             font-size: 12px;
             color: #fff;
-            border-right: 1px soild #00d3ff;
-            span:nth-child(1) {
-              width: 30%;
-              border-right: 1px soild #00d3ff;
+            background-color: #2531c5;
+            border: 1px solid #00d3ff;
+            div {
+              width: 70%;
+              display: inline-block;
+              line-height: 30px;
+            }
+            div:nth-child(1) {
+              width: 25%;
+              border-right: 1px solid #00d3ff;
             }
           }
         }
-        .bl_table {
+        .table {
           width: 100%;
-          span {
-            font-size: 12px;
-            color: #00d3ff;
-            border-right: 1px soild #00d3ff;
-          }
-          ul {
-            width: 100%;
-            li {
+          height: 175px;
+          overflow: auto;
+          background-color: rgb(17, 23, 101);
+          box-sizing: border-box;
+          margin-bottom: 5px;
+          .bl_table {
+            width: 99.5%;
+            text-align: left;
+            box-sizing: border-box;
+            p {
+              font-size: 12px;
+              color: #00d3ff;
+              text-align: left;
+              border: 1px solid #00d3ff;
+              padding: 5px;
+              margin-bottom: unset;
+              .up {
+                width: 14px;
+                height: 8px;
+                float: right;
+                background-image: url("./img/up.png");
+                background-repeat: no-repeat;
+                background-size: 100% 100%;
+                margin: 5px;
+              }
+              .down {
+                width: 14px;
+                height: 8px;
+                float: right;
+                background-image: url("./img/down.png");
+                background-repeat: no-repeat;
+                background-size: 100% 100%;
+                margin: 5px;
+              }
+            }
+            ul {
+              width: 100%;
+              li {
+                height: 25px;
+                padding-left: 5px;
+                span {
+                  font-size: 12px;
+                  color: #00d3ff;
+                }
+              }
             }
           }
         }
@@ -452,36 +531,57 @@ export default {
       .xq1 {
         list-style: none;
         display: inline-block;
-        height: 240px;
+        height: 300px;
         overflow: auto;
         box-sizing: border-box;
+        padding: 5px;
+        // li {
+        //   line-height: 20px;
+        //   border: 1px solid #4e5fd5;
+        //   text-align: left;
+        //   padding: 5px;
+        //   margin-bottom: 5px;
+        //   text-align: left;
+        //   div:nth-child(1) {
+        //     display: inline-block;
+        //     width: 5%;
+        //     vertical-align: top;
+        //     box-sizing: border-box;
+        //     padding-top: 8px;
+        //     span {
+        //       font-size: 16px;
+        //       color: rgb(9, 252, 255);
+        //     }
+        //   }
+        //   div:nth-child(2) {
+        //     display: inline-block;
+        //     width: 85%;
+        //     padding: 5px 10px;
+        //     // border-bottom: 1px solid rgb(39, 45, 119);
+        //     span {
+        //       font-size: 14px;
+        //     }
+        //     span:nth-child(1) {
+        //       color: rgb(9, 252, 255);
+        //     }
+        //   }
+        // }
         li {
-          width: 100%;
+          width: 97%;
+          border: 1px solid #4e5fd5;
+          padding: 4px;
           line-height: 20px;
-          // margin-bottom: 10px;
+          margin-bottom: 10px;
           text-align: left;
-          div:nth-child(1) {
-            display: inline-block;
-            width: 5%;
-            vertical-align: top;
-            box-sizing: border-box;
-            padding-top: 8px;
-            span {
-              font-size: 16px;
-              color: rgb(9, 252, 255);
-            }
+          span {
+            font-size: 12px;
+            color: #fff;
           }
-          div:nth-child(2) {
-            display: inline-block;
-            width: 85%;
-            padding: 5px 10px;
-            border-bottom: 1px solid rgb(39, 45, 119);
-            span {
-              font-size: 14px;
-            }
-            span:nth-child(1) {
-              color: rgb(9, 252, 255);
-            }
+          span:nth-child(1) {
+            color: rgb(9, 252, 255);
+          }
+          span:nth-child(2){
+             color: rgb(9, 252, 255);
           }
         }
       }

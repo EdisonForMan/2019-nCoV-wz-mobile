@@ -927,11 +927,11 @@ export const DATA_YONGJIA = [{
 // 永嘉测试数据
 export const TEST_DATA_YONGJIA = [{
     name: "南城街道",
-    show:true,
+    show:false,
     value: ["新民村(2例)", "中楠时代花园(1例)", "东岸中心路(1例)", "大自然小区(1例)", "望江北路(1例)"]
 }, {
     name: "东城街道",
-    show:false,
+    show:true,
     value: ["金泰大厦(2例)", "望江北路11弄(2例)", "焦坑村(1例)"]
 }, {
     name: "黄田街道",
