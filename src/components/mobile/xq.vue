@@ -282,7 +282,7 @@ export default {
               : this.title == "苍南县"
               ? 1.5
               : ~["永嘉县", "文成县"].indexOf(this.title)
-              ? 1.2
+              ? 1.1
               : ~["鹿城区", "瓯海区", "泰顺县", "平阳县"].indexOf(this.title)
               ? 1.3
               : this.title == "瑞安市"
@@ -317,7 +317,7 @@ export default {
                 : this.title == "苍南县"
                 ? 1.5
                 : ~["永嘉县", "文成县"].indexOf(this.title)
-                ? 1.2
+                ? 1.1
                 : ~["鹿城区", "瓯海区", "泰顺县", "平阳县"].indexOf(this.title)
                 ? 1.3
                 : this.title == "瑞安市"

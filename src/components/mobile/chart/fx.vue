@@ -40,7 +40,7 @@ export default {
           "esri/layers/MapImageLayer",
           "esri/widgets/Legend"
         ],
-        OPTION
+        "https://lysb.lucheng.gov.cn/lc/libs/arcgis_js_v412_api/arcgis_js_api/library/4.12/dojo/dojo.js"
       ).then(([Map, MapView, VectorTileLayer, MapImageLayer, Legend]) => {
         const veclayer = new VectorTileLayer({
           url: IMAGELAYER,
