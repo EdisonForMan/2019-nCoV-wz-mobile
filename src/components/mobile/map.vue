@@ -459,6 +459,7 @@ export default {
       top: 2px;
       background-color: #fff;
       border-radius: 3px;
+      margin-left: 4px;
     }
   }
 
