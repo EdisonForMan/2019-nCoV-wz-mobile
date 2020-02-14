@@ -43,7 +43,7 @@
     </div>
     <!-- <div class="isGk isGkActive" @click="gkChange" v-if="current == 0">
       <img style="vertical-align: sub;width: 15px;" src="./img/gkl.png" /> 管控力
-    </div> -->
+    </div>-->
     <div class="kind" v-show="current ==0 || current == 1">
       <div class="t1">一类区域</div>
       <div class="t2">二类区域</div>
@@ -53,7 +53,7 @@
     <div class="sjlz" v-if="current != 2">数据来源：{{current != 3 ? `温州市新冠肺炎工作领导小组`:`市大数据发展管理局`}}</div>
     <div class="bottom" v-if="current != 2">
       <div class="float" v-show="logoshow">
-        <span>温州设计集团勘察院</span>
+        <span>温州设计集团勘测院</span>
       </div>
       <p>
         <img style src="./img/logo.png" @click="showLogo()" />
@@ -142,7 +142,7 @@ export default {
       // if (index == 3) {
       //   return alert("尽情期待");
       // } else {
-        this.current = index;
+      this.current = index;
       // }
     },
     showLogo() {
@@ -440,9 +440,9 @@ export default {
     .float {
       position: fixed;
       right: 32%;
-      width: 126px;
+      width: 140px;
       display: block;
-      background-color: blue;
+      background-color: rgb(58, 61, 179);
       box-sizing: border-box;
       padding: 5px;
       border-radius: 10px;
