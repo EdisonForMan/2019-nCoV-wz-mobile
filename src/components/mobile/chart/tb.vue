@@ -244,7 +244,8 @@ export default {
                   label: {
                       normal: {
                           formatter: function (param) {
-                              return param.name + ' ' + param.value[2];
+                              // return param.name + ' ' + param.value[2];
+                              return param.name
                           },
                           show: true,
                           position: 'inside',

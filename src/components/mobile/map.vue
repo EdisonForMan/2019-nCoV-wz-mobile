@@ -53,13 +53,13 @@
     <div class="sjlz" v-if="current != 2">数据来源：{{current != 3 ? `温州市新冠肺炎工作领导小组`:`市大数据发展管理局`}}</div>
     <div class="bottom" v-if="current != 2">
       <div class="float" v-show="logoshow">
-        <span>温州设计集团勘测院</span>
+        <span>技术支持:温州设计集团</span>
       </div>
       <p>
-        <img style src="./img/logo.png" @click="showLogo()" />
         <span class="text" style="margin-left:5px;">截至</span> 2020年 2月
         <span class="time">{{date}}</span>日
         <span class="time">24</span>时
+        <img style src="./img/logo.png" @click="showLogo()" />
       </p>
     </div>
     <!-- 弹框 -->
@@ -440,9 +440,10 @@ export default {
     .float {
       position: fixed;
       right: 32%;
+      color: #000;
       width: 140px;
       display: block;
-      background-color: rgb(58, 61, 179);
+      background-color: rgb(255, 255, 255);
       box-sizing: border-box;
       padding: 5px;
       border-radius: 10px;
@@ -453,7 +454,7 @@ export default {
     }
     img {
       font-size: 12px;
-      width: 12px;
+      width: 14px;
       position: relative;
       top: 2px;
       background-color: #fff;
