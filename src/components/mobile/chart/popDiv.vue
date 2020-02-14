@@ -2,9 +2,10 @@
   <div id="popZdxq" v-show="popzdShow">
     <div class="pop">
       <h2 style="color:#f19700;margin-top: 1.5%;">红白阵地说明</h2>
-      <p
-        style="color: #7c7367;padding: 5% 11%;text-align: left;font-weight: 500;"
-      >近3日有1例确诊或近5日其中一日有2例或近10日其中一日有3例确诊为白色阵地。其余为红色阵地</p>
+      <p style="color: #7c7367;padding: 5% 11%;text-align: left;font-weight: 500;">
+        近3日有1例确诊或近5日其中一日有2例或近10日其中一日有3例确诊为白色阵地。
+        <br />其余为红色阵地
+      </p>
     </div>
     <div style="position: absolute;width: 100%;top: 58%;">
       <img style="width: 35px;" src="../img/popclose.png" alt @click="popzdShowFun" />
@@ -30,8 +31,6 @@ export default {
 <style>
 #popZdxq {
   position: absolute;
-  top: 0%;
-  left: 0%;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.4);

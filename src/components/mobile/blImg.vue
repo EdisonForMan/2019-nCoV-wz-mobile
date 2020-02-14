@@ -10,36 +10,45 @@
           <div></div>
           <p>
             病例小区合计
-            <span style="color:red">{{this.num[4].value}}</span>
+            <span style="color:#ff4240">{{this.num[4].value}}</span>个
           </p>
         </div>
-        <img :src="forceImg" style="width:100%;" v-if="title!='永嘉县'" />
-        <div class="mapDiv" v-if="title=='永嘉县'">
+        <!-- <img :src="forceImg" style="width:100%;" v-if="title!='永嘉县'" /> -->
+        <img style="width:100%;" :src="`${this.server}${this.imgurl}/img/estate/${this.title}.png`" />
+        <img
+          v-show="title == '乐清市'"
+          style="width:100%;"
+          :src="`${this.server}${this.imgurl}/img/estate/${this.title}1.png`"
+        />
+        <!-- <div class="mapDiv" v-if="title=='永嘉县'">
           <div id="bl-map"></div>
-        </div>
+        </div>-->
         <div class="kind">
-          <div class="t1">一类区域</div>
-          <div class="t2">二类区域</div>
-          <div class="t3">三类区域</div>
-          <div class="t4">四类区域</div>
+          <div class="t1">11~14</div>
+          <div class="t2">6~10</div>
+          <div class="t3">1~5</div>
+          <div class="t4">0</div>
         </div>
-        <div class="msg" v-if="title=='永嘉县'">
+        <!-- <div class="msg" v-if="title=='永嘉县'">
           <p>病例小区详情</p>
-          <table>
-            <thead>
-              <tr>
-                <th>乡镇街道</th>
-                <th>小区名</th>
-              </tr>
-            </thead>
-            <tbody v-for="(item,index) in TEST_DATA_YONGJIA" :key="index">
-              <tr v-for="(_item,_index) in item.value" :key="_index">
-                <td>{{ item.name }}</td>
-                <td>{{ _item}}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+          <ul class="msg_title">
+            <li>
+              <span>乡镇街道</span>
+              <span>小区名</span>
+            </li>
+          </ul>
+          <div class="bl_table" v-for="(item,index) in TEST_DATA_YONGJIA" :key="index">
+            <span @click="toggleTree(item.name,index)">
+              {{item.name}}
+              <i :class="`iconfont ${item.show?`icon-angle-double-up`:`icon-angle-double-down`}`"></i>
+            </span>
+            <ul v-if="item.show">
+              <li v-for="(oitem,oindex) in item.value" :key="oindex">
+                <span>({{++oindex}}).{{oitem}}</span>
+              </li>
+            </ul>
+          </div>
+        </div>-->
         <div class="bltitle">
           <img src="./img/blxq.png" />
           <p>病例信息</p>
@@ -50,8 +59,8 @@
               <span>{{++bindex}}</span>
             </div>
             <div>
-              <span>{{bitem.slice(0,18)}}</span>
-              <span>{{bitem.slice(18)}}</span>
+              <span>{{bitem.slice(0,19)}}</span>
+              <span>{{bitem.slice(19)}}</span>
             </div>
           </li>
         </ul>
@@ -74,48 +83,43 @@
 
 <script>
 /* eslint-disable */
-import context from "./xq";
+// import context from "./xq";
 
 import MAP_YONGJIA from "./geoJson/map_YongJia";
 
 import { GEO_YONGJIA } from "./data/geo_Data";
 
 import { DATA_YONGJIA, TEST_DATA_YONGJIA } from "./data/chart_Data";
-import { num } from "./mapdata";
+import { date, num } from "./mapdata";
 export default {
   name: "gk",
   data() {
     return {
-      context,
+      // context,
       bl: [],
       xq: [],
       flagnum: [],
       title: "",
+      server: "https://lysb.lucheng.gov.cn/other/",
       forceImg: undefined,
-      苍南县: require("./img/estate/苍南县.png"),
-      洞头区: require("./img/estate/洞头区.png"),
-      乐清市: require("./img/estate/乐清市.png"),
-      龙港市: require("./img/estate/龙港市.png"),
-      龙湾区: require("./img/estate/龙湾区.png"),
-      鹿城区: require("./img/estate/鹿城区.png"),
-      瓯海区: require("./img/estate/瓯海区.png"),
-      瓯江口集聚区: require("./img/estate/瓯江口产业集聚区.png"),
-      平阳县: require("./img/estate/平阳县.png"),
-      瑞安市: require("./img/estate/瑞安市.png"),
-      泰顺县: require("./img/estate/泰顺县.png"),
-      文成县: require("./img/estate/文成县.png"),
-      永嘉县: require("./img/estate/永嘉县.png"),
-      浙南集聚区: require("./img/estate/浙南产业集聚区.png"),
       chart: undefined,
       msgObj: null,
       GEO_YONGJIA,
       DATA_YONGJIA,
       TEST_DATA_YONGJIA,
-      num
+      num,
+      date,
+      logoshow: false
     };
   },
   created() {
     this.forceImg = this[this.$route.query.name];
+    const context = window.context;
+    const date = window.date;
+    const imgurl = window.imgurl;
+    this.context = context;
+    this.imgurl = imgurl;
+    this.date = date;
     this.xqxx();
   },
   mounted() {
@@ -130,6 +134,20 @@ export default {
   methods: {
     back() {
       this.$router.go(-1);
+    },
+    showLogo() {
+      this.logoshow = true;
+      const that = this;
+      setTimeout(function() {
+        that.logoshow = false;
+      }, 3000);
+    },
+    toggleTree(label, index) {
+      for (let v in this.TEST_DATA_YONGJIA) {
+        if (this.TEST_DATA_YONGJIA[v].name == label) {
+          this.TEST_DATA_YONGJIA[v].show = !this.TEST_DATA_YONGJIA[v].show;
+        }
+      }
     },
     xqxx() {
       var o;
@@ -307,21 +325,22 @@ export default {
       margin-bottom: 5px;
       .title {
         display: inline-block;
-        width: 200px;
-        position: relative;
+        width: 100%;
         left: 22px;
         div {
           height: 11px;
           width: 2px;
-          background: red;
+          background: #2782df;
           display: inline-block;
           margin-right: 5px;
+          position: relative;
+          left: 78px;
         }
         p {
           font-size: 12px;
-          width: 127px;
+          width: 90%;
           display: inline-block;
-          text-align: left;
+          text-align: center;
           vertical-align: text-bottom;
           span {
             font-size: 16px;
@@ -369,18 +388,38 @@ export default {
       .msg {
         box-sizing: border-box;
         padding-top: 10px;
-        p{
+        p {
           margin-bottom: 10px;
           text-align: center;
         }
-        table {
+        ul {
+          list-style: none;
+        }
+        .msg_title {
           width: 100%;
-          border: 1px solid #ccc;
-          border-collapse: collapse;
-
-          td {
-            border-top: 1px solid #ccc;
-            padding: 3px;
+          background-color: #2531c5;
+          li {
+            width: 100%;
+            font-size: 12px;
+            color: #fff;
+            border-right: 1px soild #00d3ff;
+            span:nth-child(1) {
+              width: 30%;
+              border-right: 1px soild #00d3ff;
+            }
+          }
+        }
+        .bl_table {
+          width: 100%;
+          span {
+            font-size: 12px;
+            color: #00d3ff;
+            border-right: 1px soild #00d3ff;
+          }
+          ul {
+            width: 100%;
+            li {
+            }
           }
         }
       }
@@ -436,7 +475,7 @@ export default {
             display: inline-block;
             width: 85%;
             padding: 5px 10px;
-            // border-bottom: 1px solid rgb(39, 45, 119);
+            border-bottom: 1px solid rgb(39, 45, 119);
             span {
               font-size: 14px;
             }
@@ -472,7 +511,7 @@ export default {
         position: absolute;
         right: 53%;
         bottom: 5%;
-        width: 126px;
+        width: 130px;
         background-color: blue;
         box-sizing: border-box;
         padding: 5px;
@@ -486,6 +525,8 @@ export default {
         width: 12px;
         position: relative;
         top: 2px;
+        background-color: #fff;
+        border-radius: 3px;
       }
     }
   }

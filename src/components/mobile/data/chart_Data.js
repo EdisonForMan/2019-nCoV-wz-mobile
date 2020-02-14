@@ -927,38 +927,50 @@ export const DATA_YONGJIA = [{
 // 永嘉测试数据
 export const TEST_DATA_YONGJIA = [{
     name: "南城街道",
+    show:true,
     value: ["新民村(2例)", "中楠时代花园(1例)", "东岸中心路(1例)", "大自然小区(1例)", "望江北路(1例)"]
 }, {
     name: "东城街道",
+    show:false,
     value: ["金泰大厦(2例)", "望江北路11弄(2例)", "焦坑村(1例)"]
 }, {
     name: "黄田街道",
+    show:false,
     value: ["凤屿村(4例)"]
 }, {
     name: "桥下镇",
+    show:false,
     value: ["梅岙村(3例)"]
 }, {
     name: "北城街道",
+    show:false,
     value: ["三元堂东村路(1例)", "上塘新街(1例)"]
 }, {
     name: "瓯北街道",
+    show:false,
     value: ["龙桥村(1例)", "银府商厦(1例)"]
 }, {
     name: "桥头镇",
+    show:false,
     value: ["溪心村(1例)", "洛溪街(1例)"]
 }, {
     name: "三江街道",
+    show:false,
     value: ["启灶村北路(1例)", "立体城(1例)"]
 }, {
     name: "碧莲镇",
+    show:false,
     value: ["黄岗下村(1例)"]
 }, {
     name: "枫林镇",
+    show:false,
     value: ["枫四高速安置房(1例)"]
 }, {
     name: "鹤盛镇",
+    show:false,
     value: ["垟京村(1例)"]
 }, {
     name: "巽宅镇",
+    show:false,
     value: ["石泮村中心路(1例)"]
 }]

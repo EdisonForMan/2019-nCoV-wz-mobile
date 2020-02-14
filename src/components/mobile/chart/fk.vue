@@ -9,7 +9,7 @@
           </p>
           <p>
             今日
-            <i class="ill">
+            <i class="ill" style="font-size:18px;">
               <img style="vertical-align: bottom;" src="../img/hqss.png" />
               {{this.num[5].value}}
             </i>
@@ -22,7 +22,7 @@
           </p>
           <p>
             今日
-            <i class="cure">
+            <i class="cure"  style="font-size:18px;">
               <img style="vertical-align: bottom;" src="../img/ljcy.png" />
               {{this.num[5].value}}
             </i>
@@ -31,8 +31,6 @@
       </div>
     </div>
     <div id="nyjj-map"></div>
-    <!-- 弹框 -->
-    <pop ref="pop" />
   </div>
 </template>
 
@@ -41,7 +39,6 @@
 import wenzhouMap from "../geoJson/WenZhou";
 import { mapdata, date, num } from "../mapdata";
 import { menuHash } from "@/components/common/user/menuHash";
-import pop from "./popDiv"; //阵地详情弹框
 
 export default {
   data() {
@@ -55,7 +52,6 @@ export default {
       qx: []
     };
   },
-  components: { pop },
   mounted() {
     this.NYJJMapInit(); //调用地图
     this.NYJJMap(); //调用地图
@@ -117,11 +113,11 @@ export default {
               symbol: function(params) {
                 return params.length == 3 ? downurl : upurl;
               },
-              symbolSize: [78, 32],
+              symbolSize: [78, 25],
               label: {
                 normal: {
                   show: true,
-                  offset: [0, -1],
+                  offset: [0, 0],
                   textStyle: {
                     color: "#000"
                   },
@@ -157,12 +153,12 @@ export default {
                     },
                     num1: {
                       color: "#fd0404",
-                      fontSize: 13,
+                      fontSize: 12,
                       fontWeight: "bold"
                     },
                     num2: {
                       color: "#4b9e3d",
-                      fontSize: 13,
+                      fontSize: 12,
                       fontWeight: "bold"
                     },
                     title2: {
@@ -173,13 +169,13 @@ export default {
                     },
                     num12: {
                       color: "#fd0404",
-                      fontSize: 13,
+                      fontSize: 12,
                       fontWeight: "bold",
                       padding: [-10, 0, 0, 0]
                     },
                     num22: {
                       color: "#4b9e3d",
-                      fontSize: 13,
+                      fontSize: 12,
                       fontWeight: "bold",
                       padding: [-10, 0, 0, 0]
                     }
@@ -216,7 +212,7 @@ export default {
 .TOP_DATA {
   position: absolute;
   z-index: 2;
-  top: 18%;
+  top: 21%;
   left: -5px;
   > p {
     font-size: 12px;
@@ -240,7 +236,7 @@ export default {
         padding-left: 10px;
         i {
           font-weight: bold;
-          font-size: 24px;
+          font-size: 18px;
         }
       }
       i {
