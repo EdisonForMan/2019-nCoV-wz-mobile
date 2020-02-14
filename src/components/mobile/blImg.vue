@@ -15,23 +15,23 @@
         </div>
         <!-- <img :src="forceImg" style="width:100%;" v-if="title!='永嘉县'" /> -->
         <img
-          v-if="title!='永嘉县'"
           style="width:100%;"
           :src="`${this.server}${this.imgurl}/img/estate/${this.title}.png`"
         />
-        <img
-          v-show="title == '乐清市'"
-          style="width:100%;"
-          :src="`${this.server}${this.imgurl}/img/estate/${this.title}1.png`"
-        />
-        <div class="mapDiv" v-if="title=='永嘉县'">
-          <div id="bl-map"></div>
-        </div>
         <div class="kind">
           <div class="t1">11~14</div>
           <div class="t2">6~10</div>
           <div class="t3">1~5</div>
           <div class="t4">0</div>
+        </div>
+        <img
+          v-show="title == '乐清市'"
+          style="width:100%;"
+          :src="`${this.server}${this.imgurl}/img/estate/${this.title}1.png`"
+        />
+
+        <!-- <div class="mapDiv" v-if="title=='永嘉县'">
+          <div id="bl-map"></div>
         </div>
         <div class="msg" v-if="title=='永嘉县'">
           <div class="imghead">
@@ -59,7 +59,7 @@
               </ul>
             </div>
           </div>
-        </div>
+        </div>-->
         <div class="bltitle">
           <img src="./img/blxq.png" />
           <p>病例信息</p>
@@ -196,7 +196,7 @@ export default {
         },
         geo: {
           map: "wenzhou",
-           aspectScale: 1,
+          aspectScale: 1,
           zoom: 1.3,
           label: {
             normal: {
@@ -211,7 +211,7 @@ export default {
           {
             type: "map",
             map: "wenzhou",
-             aspectScale: 1,
+            aspectScale: 1,
             zoom: 1.3,
             emphasis: {
               label: {
@@ -531,13 +531,16 @@ export default {
       .xq1 {
         list-style: none;
         display: inline-block;
-        height: 240px;
+        height: 300px;
         overflow: auto;
         box-sizing: border-box;
+        padding: 5px;
         li {
-          width: 100%;
           line-height: 20px;
-          // margin-bottom: 10px;
+          border: 1px solid #4e5fd5;
+          text-align: left;
+          padding: 5px;
+          margin-bottom: 5px;
           text-align: left;
           div:nth-child(1) {
             display: inline-block;
@@ -554,7 +557,7 @@ export default {
             display: inline-block;
             width: 85%;
             padding: 5px 10px;
-            border-bottom: 1px solid rgb(39, 45, 119);
+            // border-bottom: 1px solid rgb(39, 45, 119);
             span {
               font-size: 14px;
             }

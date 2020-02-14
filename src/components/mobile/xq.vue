@@ -4,7 +4,11 @@
     <pop ref="pop" />
     <div class="head">
       <img src="./img/back.png" @click="back()" />
-      <p>{{this.title}}<span>红</span><span>白</span>阵地分布图</p>
+      <p>
+        {{this.title}}
+        <span>红</span>
+        <span>白</span>阵地分布图
+      </p>
     </div>
     <div class="redFlag">
       <div class="xq_contain">
@@ -683,27 +687,27 @@ export default {
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       padding: 15px;
-      span:nth-child(1){
+      span:nth-child(1) {
         background-image: -webkit-gradient(
-        linear,
-        0 0,
-        0 bottom,
-        from(#ff0505),
-        to(#ff0505)
-      );
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+          linear,
+          0 0,
+          0 bottom,
+          from(#ff0505),
+          to(#ff0505)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
       }
-      span:nth-child(2){
-         background-image: -webkit-gradient(
-        linear,
-        0 0,
-        0 bottom,
-        from(#ffffff),
-        to(#ffffff)
-      );
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      span:nth-child(2) {
+        background-image: -webkit-gradient(
+          linear,
+          0 0,
+          0 bottom,
+          from(#ffffff),
+          to(#ffffff)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
       }
     }
     img {
@@ -871,10 +875,13 @@ export default {
         height: 300px;
         overflow: auto;
         box-sizing: border-box;
+        padding: 5px;
         li {
-          width: 100%;
           line-height: 20px;
-          // margin-bottom: 10px;
+          border: 1px solid #4e5fd5;
+          text-align: left;
+          padding: 5px;
+          margin-bottom: 5px;
           text-align: left;
           div:nth-child(1) {
             display: inline-block;
@@ -891,7 +898,7 @@ export default {
             display: inline-block;
             width: 85%;
             padding: 5px 10px;
-            border-bottom: 1px solid rgb(39, 45, 119);
+            // border-bottom: 1px solid rgb(39, 45, 119);
             span {
               font-size: 14px;
             }
