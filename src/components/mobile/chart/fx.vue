@@ -1,6 +1,8 @@
 <template>
   <div>
-    <div id="arcgis" />
+    <div id="arcgis">
+      <iframe :src="src" />
+    </div>
     <div class="legend">
       <span>1000分以上</span>
       <span>100-1000分</span>
@@ -18,66 +20,12 @@ export default {
   name: "fx",
   data() {
     return {
-      map: null,
-      view: null,
-      legend: null
+      src: "https://lysb.lucheng.gov.cn/other/esri_api/index.html"
     };
   },
   mounted() {
-    this.createMap();
   },
-  methods: {
-    /**
-     * @param {Function} callback
-     */
-    createMap(fn) {
-      const _context_ = this;
-      loadModules(
-        [
-          "esri/Map",
-          "esri/views/MapView",
-          "esri/layers/VectorTileLayer",
-          "esri/layers/MapImageLayer",
-          "esri/widgets/Legend"
-        ],
-        "https://lysb.lucheng.gov.cn/lc/libs/arcgis_js_v412_api/arcgis_js_api/library/4.12/dojo/dojo.js"
-      ).then(([Map, MapView, VectorTileLayer, MapImageLayer, Legend]) => {
-        const veclayer = new VectorTileLayer({
-          url: IMAGELAYER,
-          id: "vector"
-        });
-
-        const mjzs = new MapImageLayer({
-          url:
-            "https://services.wzmap.gov.cn/server/rest/services/MJZS/MapServer",
-          id: "mjzs"
-        });
-        _context_.map = new Map({
-          layers: [veclayer, mjzs]
-        });
-        _context_.view = new MapView({
-          container: "arcgis",
-          map: _context_.map,
-          center: {
-            x: 120.69526344126223,
-            y: 27.997524034893974
-          },
-          zoom: 15
-        });
-        //  图例
-        _context_.legend = new Legend({
-          view: this.view
-        });
-        _context_.legend.layerInfos.push({
-          layer: mjzs
-        });
-        this.view.on("click", function(evt) {
-          console.log(evt);
-        });
-        fn && fn();
-      });
-    }
-  }
+  methods: {}
 };
 </script>
 
@@ -87,6 +35,10 @@ export default {
   height: 80%;
   position: fixed;
   top: 10%;
+  iframe{
+    width: 100%;
+    height: 100%;
+  }
 }
 .legend {
   position: fixed;

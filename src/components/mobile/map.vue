@@ -139,11 +139,11 @@ export default {
   },
   methods: {
     goPage(index) {
-      if (index == 3) {
-        return alert("尽情期待");
-      } else {
+      // if (index == 3) {
+      //   return alert("尽情期待");
+      // } else {
         this.current = index;
-      }
+      // }
     },
     showLogo() {
       this.logoshow = true;
