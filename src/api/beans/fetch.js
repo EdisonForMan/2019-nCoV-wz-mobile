@@ -7,7 +7,7 @@ const RES = "sql_wzxgfy";
  */
 export const wz_qzjcysj = async () => {
   const axios = getDefaultAxios();
-  const params = ["hzxm", "xq", "xb", "bz", "xjjd", "dzzssj", "cysj", "lcyzcd", "xqmmc"]
+  const params = ["hzxm", "xq", "xb", "bz", "xjjd", "dzzssj", "cysj", "lcyzcd", "xqmmc","xzbq"]
   const name = "wz_qzjcysj";
   return await axios.post("/dw/ds", option_concat(name, params));
 }

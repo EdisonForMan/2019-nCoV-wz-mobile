@@ -43,9 +43,14 @@
             <span>例</span>
           </li>
         </ul>
-        <div class="mapDiv">
-          <div id="xq-map"></div>
-          <div id="xq-map2" v-if="title == '瑞安市' || title == '平阳县'"></div>
+        <div class="mapborder">
+          <div
+            class="mapDiv"
+            :style="{height:mapheight +'px',width:mapwidth+'%',left: mapleft +'px'}"
+          >
+            <div id="xq-map"></div>
+            <div id="xq-map2" v-if="title == '瑞安市' || title == '平阳县'"></div>
+          </div>
         </div>
         <!-- <span style="font-size: 12px;">
           下滑可查看更多
@@ -167,8 +172,11 @@ export default {
       cur_map2: null,
       cur_geo: null,
       cur_data: null,
-      flag_data: null,
-      logoshow: false
+      logoshow: false,
+      tabdata: [],
+      mapheight: 400,
+      mapwidth: 120,
+      mapleft: -24
     };
   },
   computed: {
@@ -195,8 +203,31 @@ export default {
   },
   methods: {
     xqxx() {
+      if (this.title == "乐清市") {
+        this.mapheight = 480;
+        this.mapleft = 0;
+      } else if (this.title == "鹿城区" || this.title == "平阳县") {
+        this.mapheight = 300;
+        this.mapwidth = 130;
+      } else if (this.title == "泰顺县") {
+        this.mapheight = 350;
+      } else if (this.title == "苍南县") {
+        this.mapheight = 350;
+        this.mapwidth = 130;
+        this.mapleft = 0;
+      } else if (this.title == "永嘉县") {
+        this.mapheight = 330;
+        this.mapleft = -28;
+      } else if (this.title == "文成县") {
+        this.mapleft = -16;
+        this.mapheight = 350;
+      } else if (this.title == "瓯海区") {
+        this.mapleft = 0;
+        this.mapheight = 300;
+        this.mapwidth = 130;
+      }
       const today = this.$util.getTime();
-      const _xq_ = this.$route.query.label;
+      const _xq_ = this.$route.query.label.replace(/产业集聚区/g, "");
       //  旗子
       const qz_flag = { red: 0, white: 0, rw: 0, wr: 0 };
       const flag_data = {};
@@ -217,11 +248,16 @@ export default {
       ];
       const mapData = {};
       const mapArr = [];
-      const xq = this.blList.filter(({ xq }) => xq == _xq_);
+      const xq = this.blList.filter(
+        ({ xq }) => xq.replace(/产业集聚区/g, "") == _xq_
+      );
+      console.log(xq);
       xq.map(item => {
         bl[0].value += 1;
-        item.lcyzcd.includes("重症") && (bl[1].value += 1);
-        item.cysj && item.cysj != "0" && (bl[2].value += 1);
+        ~["重症", "危重"].indexOf(item.xzbq) &&
+          (bl[1].value += 1) &&
+          console.log(item);
+        item.xzbq == "出院" && (bl[2].value += 1);
         //  地图
         !mapData[item.xjjd] &&
           (mapData[item.xjjd] = { name: item.xjjd, value: 0, new: 0 });
@@ -272,23 +308,29 @@ export default {
             this.title == "洞头区"
               ? 1
               : this.title == "苍南县"
-              ? 1.5
+              ? 1.6
               : ~["永嘉县", "文成县"].indexOf(this.title)
               ? 1.1
-              : ~["鹿城区", "瓯海区", "泰顺县", "平阳县"].indexOf(this.title)
+              : ~["鹿城区", "瓯海区"].indexOf(this.title)
               ? 1.3
               : this.title == "瑞安市"
               ? 1.2
               : this.title == "乐清市"
+              ? 1.2
+              : this.title == "平阳县"
+              ? 1.2
+              : this.title == "泰顺县"
               ? 1.25
               : 1.2,
           top:
             this.title == "洞头区"
               ? "35%"
               : this.title == "苍南县"
-              ? "35%"
+              ? "25%"
+              : this.title == "泰顺县"
+              ? "12%"
               : "15%",
-          left: this.title == "苍南县" ? "20%" : "center",
+          left: this.title == "苍南县" ? "15%" : "center",
           label: {
             normal: {
               show: false
@@ -307,23 +349,29 @@ export default {
               this.title == "洞头区"
                 ? 1
                 : this.title == "苍南县"
-                ? 1.5
+                ? 1.6
                 : ~["永嘉县", "文成县"].indexOf(this.title)
                 ? 1.1
-                : ~["鹿城区", "瓯海区", "泰顺县", "平阳县"].indexOf(this.title)
+                : ~["鹿城区", "瓯海区"].indexOf(this.title)
                 ? 1.3
                 : this.title == "瑞安市"
                 ? 1.2
                 : this.title == "乐清市"
+                ? 1.2
+                : this.title == "泰顺县"
                 ? 1.25
+                : this.title == "平阳县"
+                ? 1.2
                 : 1.2,
             top:
               this.title == "洞头区"
                 ? "35%"
                 : this.title == "苍南县"
-                ? "35%"
+                ? "25%"
+                : this.title == "泰顺县"
+                ? "12%"
                 : "15%",
-            left: this.title == "苍南县" ? "20%" : "center",
+            left: this.title == "苍南县" ? "15%" : "center",
             emphasis: {
               label: {
                 show: true
@@ -454,9 +502,9 @@ export default {
               : this.title == "永嘉县"
               ? 1.1
               : this.title == "文成县"
-              ? 1.2
+              ? 1.1
               : this.title == "苍南县"
-              ? 1.5
+              ? 1.6
               : this.title == "泰顺县"
               ? 1.25
               : this.title == "瑞安市"
@@ -489,9 +537,9 @@ export default {
                 : this.title == "永嘉县"
                 ? 1.1
                 : this.title == "文成县"
-                ? 1.2
+                ? 1.1
                 : this.title == "苍南县"
-                ? 1.5
+                ? 1.6
                 : this.title == "泰顺县"
                 ? 1.25
                 : this.title == "瑞安市"
@@ -783,21 +831,26 @@ export default {
           }
         }
       }
-      .mapDiv {
-        position: relative;
-        height: 280px;
+      .mapborder {
+        width: 100%;
+        height: 300px;
+        overflow: auto;
+        .mapDiv {
+          position: relative;
+          height: 500px;
+          width: 120%;
+          #xq-map {
+            height: 100%;
+          }
 
-        #xq-map {
-          height: 100%;
-        }
-
-        #xq-map2 {
-          position: absolute;
-          width: 60%;
-          height: 80px;
-          bottom: 5%;
-          right: 1%;
-          border: 1px solid #fff;
+          #xq-map2 {
+            position: absolute;
+            width: 60%;
+            height: 80px;
+            bottom: 5%;
+            right: 1%;
+            border: 1px solid #fff;
+          }
         }
       }
       .bltitle {

@@ -77,16 +77,16 @@ export default {
       this.ill_cure = [
         this.blList.length,
         this.blList.filter(({ dzzssj }) => dzzssj.includes(today)).length,
-        this.blList.filter(({ cysj }) => cysj && cysj != "0").length,
+        this.blList.filter(({ xzbq }) => xzbq == "出院").length,
         this.blList.filter(
-          ({ cysj }) => cysj && cysj != "0" && cysj.includes(today)
+          ({ xzbq, cysj }) => xzbq == "出院" && cysj.includes(today)
         ).length
       ];
-      this.blList.map(({ xq, cysj }) => {
+      this.blList.map(({ xq, xzbq }) => {
         const _xq_ = xq.replace(/产业集聚区/g, "");
         !xqObj[_xq_] && (xqObj[_xq_] = [0, 0]);
         xqObj[_xq_][0] += 1;
-        cysj && cysj != "0" && (xqObj[_xq_][1] += 1);
+        xzbq == "出院" && (xqObj[_xq_][1] += 1);
       });
       const _mapdata_ = this.$util.clone(this.mapdata).map(item => {
         return xqObj[item.name] ? { ...item, value: xqObj[item.name] } : item;

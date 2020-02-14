@@ -75,8 +75,8 @@ export default {
         const _xq_ = item.xq.replace(/产业集聚区/g, "");
         //  确诊、重症、出院
         tabdata[0].value += 1;
-        item.lcyzcd.includes("重症") && (tabdata[1].value += 1);
-        item.cysj && item.cysj != "0" && (tabdata[2].value += 1);
+        ~["重症", "危重"].indexOf(item.xzbq) && (tabdata[1].value += 1);
+        item.xzbq == "出院" && (tabdata[2].value += 1);
         //  小区数、新增数
         num.a.indexOf(item.xqmmc) < 0 && num.a.push(item.xqmmc);
         item.dzzssj.includes(today) &&

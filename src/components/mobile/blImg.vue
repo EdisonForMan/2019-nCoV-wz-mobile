@@ -24,7 +24,7 @@
           v-show="title == '乐清市'"
           style="width:100%;"
           :src="`${this.server}${this.imgurl}/img/estate/${this.title}1.png`"
-        /> -->
+        />-->
         <!-- <div class="mapDiv" v-if="title=='永嘉县'">
           <div id="bl-map"></div>
         </div>-->
@@ -121,8 +121,10 @@ export default {
   methods: {
     xqxx() {
       //  列表
-      const _xq_ = this.$route.query.name;
-      const xq = this.blList.filter(({ xq }) => xq == _xq_);
+      const _xq_ = this.$route.query.name.replace(/产业集聚区/g, "");
+      const xq = this.blList.filter(
+        ({ xq }) => xq.replace(/产业集聚区/g, "") == _xq_
+      );
       this.xq = xq;
       //  病例小区合计
       const arr = [];

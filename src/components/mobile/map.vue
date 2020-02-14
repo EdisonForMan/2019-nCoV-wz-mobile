@@ -41,9 +41,9 @@
         </ul>
       </div>
     </div>
-    <div class="isGk isGkActive" @click="gkChange" v-if="current == 0">
-      <img style="vertical-align: sub;width: 15px;" src="./img/gkl.png" /> 管控力指标
-    </div>
+    <!-- <div class="isGk isGkActive" @click="gkChange" v-if="current == 0">
+      <img style="vertical-align: sub;width: 15px;" src="./img/gkl.png" /> 管控力
+    </div> -->
     <div class="kind" v-show="current ==0 || current == 1">
       <div class="t1">一类区域</div>
       <div class="t2">二类区域</div>
