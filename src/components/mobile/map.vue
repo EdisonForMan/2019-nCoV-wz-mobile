@@ -87,7 +87,7 @@ import axios from "axios";
 
 export default {
   name: "Mobile",
-  components: { bl, fk, tb, fx,pop },
+  components: { bl, fk, tb, fx, pop },
   data() {
     return {
       toptab: [

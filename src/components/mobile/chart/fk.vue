@@ -22,7 +22,7 @@
           </p>
           <p>
             今日
-            <i class="cure"  style="font-size:18px;">
+            <i class="cure" style="font-size:18px;">
               <img style="vertical-align: bottom;" src="../img/ljcy.png" />
               {{this.num[5].value}}
             </i>
@@ -37,20 +37,28 @@
 <script>
 /* eslint-disable */
 import wenzhouMap from "../geoJson/WenZhou";
-import { mapdata, date, num } from "../mapdata";
+// import { mapdata, date, num } from "../mapdata";
 import { menuHash } from "@/components/common/user/menuHash";
 
 export default {
   data() {
     return {
       chart: undefined,
-      mapdata,
-      date,
-      num,
+      // mapdata,
+      // date,
+      // num,
       menuHash,
       user: "",
       qx: []
     };
+  },
+  created() {
+    const date = window.date;
+    const mapdata = window.mapdata;
+    this.date = date;
+    this.mapdata = mapdata;
+    const num = window.num;
+    this.num = num;
   },
   mounted() {
     this.NYJJMapInit(); //调用地图
