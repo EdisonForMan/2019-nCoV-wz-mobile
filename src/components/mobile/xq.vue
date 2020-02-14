@@ -53,7 +53,7 @@
             <div id="xq-map"></div>
             <div id="xq-map2" v-if="title == '瑞安市' || title == '平阳县'"></div>
           </div>
-        </div> -->
+        </div>-->
         <div class="mapDiv">
           <div id="xq-map"></div>
           <div id="xq-map2" v-if="title == '瑞安市' || title == '平阳县'"></div>
@@ -87,10 +87,10 @@
           <span>温州设计集团勘察院</span>
         </div>
         <p>
-          <img style src="./img/logo.png" @click="showLogo()" />
           <span class="text">截至</span> 2020年 2月
           <span class="time">{{date}}</span>日
           <span class="time">24</span>时
+          <img style src="./img/logo.png" @click="showLogo()" />
         </p>
       </div>
     </div>
@@ -204,7 +204,7 @@ export default {
       cur_geo: null,
       cur_data: null,
       logoshow: false,
-      tabdata: [],
+      tabdata: []
       // mapheight: 400,
       // mapwidth: 120,
       // mapleft: -24
@@ -312,7 +312,7 @@ export default {
       this.chart = this.$echarts.init(document.getElementById("xq-map"));
       this.$echarts.registerMap("wenzhou", this.cur_map);
     },
-     XQMap() {
+    XQMap() {
       const that = this;
       this.chart.setOption({
         geo: {
@@ -687,7 +687,7 @@ export default {
       this.chart2 = this.$echarts.init(document.getElementById("xq-map2"));
       this.$echarts.registerMap("wenzhou2", this.cur_map2);
     },
-     XQMap2() {
+    XQMap2() {
       const that = this;
       this.chart2.setOption({
         geo: {
@@ -1303,6 +1303,7 @@ export default {
         width: 100%;
         display: inline-block;
         text-align: left;
+        margin-bottom: 2px;
         img {
           width: 13px;
           margin-right: 6px;
@@ -1333,6 +1334,7 @@ export default {
         overflow: auto;
         box-sizing: border-box;
         padding: 5px;
+        border: 1px solid #4e5fd5;
         // li {
         //   line-height: 20px;
         //   border: 1px solid #4e5fd5;
@@ -1366,7 +1368,7 @@ export default {
         // }
         li {
           width: 97%;
-          border: 1px solid #4e5fd5;
+          border-bottom: 1px solid #ccc;
           padding: 4px;
           line-height: 20px;
           margin-bottom: 10px;
@@ -1406,21 +1408,24 @@ export default {
         width: 100%;
       }
       .float {
-        position: absolute;
-        right: 53%;
-        bottom: 5%;
-        width: 130px;
-        background-color: blue;
+        position: fixed;
+        right: 32%;
+        color: #000;
+        width: 140px;
+        display: block;
+        background-color: rgb(255, 255, 255);
         box-sizing: border-box;
         padding: 5px;
         border-radius: 10px;
+        bottom: 2%;
         span {
           font-size: 12px;
         }
       }
       img {
         font-size: 12px;
-        width: 12px;
+        width: 14px;
+        margin-left: 4px;
         position: relative;
         top: 2px;
         background-color: #fff;

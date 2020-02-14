@@ -6,7 +6,6 @@
     </div>
     <div class="redFlag">
       <img :src="`${this.server}${this.imgurl}/img/map/gk.jpg`" style="width:100%;" />
-      
     </div>
   </div>
 </template>
