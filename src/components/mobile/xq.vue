@@ -395,7 +395,7 @@ export default {
             },
             itemStyle: {
               areaColor:
-                this.title == "龙港市" || this.title == "瓯江口"
+                this.title == "龙港市" || this.title == "瓯江口" || this.title == "浙南" || this.title == "龙湾区"
                   ? "#fff2d2"
                   : null
             },
@@ -795,7 +795,7 @@ export default {
             },
             itemStyle: {
               areaColor:
-                this.title == "龙港市" || this.title == "瓯江口"
+                this.title == "龙港市" || this.title == "瓯江口" ||this.title == "浙南" || this.title == "龙湾区"
                   ? "#fff2d2"
                   : null
             },
