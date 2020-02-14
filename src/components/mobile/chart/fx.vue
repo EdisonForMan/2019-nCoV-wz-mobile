@@ -16,7 +16,7 @@ export default {
   name: "fx",
   data() {
     return {
-      src: "https://lysb.lucheng.gov.cn/other/esri_api/index.html"
+      src: "https://lysb.lucheng.gov.cn/esri_api/index.html"
     };
   },
   mounted() {},
