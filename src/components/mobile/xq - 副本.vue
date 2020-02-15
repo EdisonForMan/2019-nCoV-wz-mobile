@@ -17,7 +17,7 @@
                   </p>
                 </div>
                 <div style="width: 26%;">
-                  <img style="width:100%;margin-top: 5px;" src="./img/zd.png" />
+                  <img style="width:100%;margin-top: 5px;" src="./img/zdsm.png" />
                 </div>
                 <div style="width: 37%;position: relative;">
                   <img style="width: 65%;float: right;" src="./img/bq.png" />

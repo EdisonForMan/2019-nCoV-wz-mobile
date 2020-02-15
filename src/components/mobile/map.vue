@@ -29,7 +29,7 @@
               </p>
             </div>
             <div style="width: 25%;margin-top:2%">
-              <img @click="showzd" style="width:100%;" src="./img/zd.png" />
+              <img @click="showzd" style="width:100%;" src="./img/zdsm.png" />
             </div>
             <div style="width: 37%;position: relative;">
               <img style="width: 65%;float: right;" src="./img/bq.png" />

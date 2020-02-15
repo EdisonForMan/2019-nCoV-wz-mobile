@@ -149,8 +149,8 @@ export default {
             }),
             markPoint: {
               // symbol: upurl,
-              symbol: function(params) {
-                return params.length == 3 ? downurl : upurl;
+              symbol: function(params, { name }) {
+                return name == "浙南" ? downurl : upurl;
               },
               symbolSize: [78, 25],
               label: {

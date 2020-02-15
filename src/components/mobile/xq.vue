@@ -23,7 +23,7 @@
                   </p>
                 </div>
                 <div style="width: 26%;">
-                  <img @click="showzd" style="width:100%;margin-top: 5px;" src="./img/zd.png" />
+                  <img @click="showzd" style="width:100%;margin-top: 5px;" src="./img/zdsm.png" />
                 </div>
                 <div style="width: 37%;position: relative;">
                   <img style="width: 65%;float: right;" src="./img/bq.png" />
@@ -475,200 +475,6 @@ export default {
         ]
       });
     },
-    // XQMap() {
-    //   const that = this;
-    //   this.chart.setOption({
-    //     geo: {
-    //       map: "wenzhou",
-    //       aspectScale: 1,
-    //       // roam:true,
-    //       zoom:
-    //         this.title == "洞头区"
-    //           ? 1
-    //           : this.title == "苍南县"
-    //           ? 1.6
-    //           : ~["永嘉县", "文成县"].indexOf(this.title)
-    //           ? 1.1
-    //           : ~["鹿城区", "瓯海区"].indexOf(this.title)
-    //           ? 1.3
-    //           : this.title == "瑞安市"
-    //           ? 1.2
-    //           : this.title == "乐清市"
-    //           ? 1.1
-    //           : this.title == "平阳县"
-    //             ? 1.2
-    //           : this.title == "泰顺县"
-    //           ? 1.25
-    //           : 1.2,
-    //       top:
-    //         this.title == "洞头区"
-    //           ? "35%"
-    //           : this.title == "苍南县"
-    //           ? "25%"
-    //           : this.title == "泰顺县"
-    //           ? "12%"
-    //           : this.title == "乐清市"
-    //           ? "1%"
-    //           : "15%",
-    //       left: this.title == "苍南县" ? "15%" :this.title == "乐清市"?"1%": "center",
-    //       label: {
-    //         normal: {
-    //           show: false
-    //         },
-    //         emphasis: {
-    //           show: false
-    //         }
-    //       }
-    //     },
-    //     series: [
-    //       {
-    //         type: "map",
-    //         map: "wenzhou",
-    //         aspectScale: 1,
-    //         zoom:
-    //           this.title == "洞头区"
-    //             ? 1
-    //             : this.title == "苍南县"
-    //             ? 1.6
-    //             : ~["永嘉县", "文成县"].indexOf(this.title)
-    //             ? 1.1
-    //             : ~["鹿城区", "瓯海区"].indexOf(this.title)
-    //             ? 1.3
-    //             : this.title == "瑞安市"
-    //             ? 1.2
-    //             : this.title == "乐清市"
-    //             ? 1.1
-    //             : this.title == "泰顺县"
-    //             ? 1.25
-    //             : this.title == "平阳县"
-    //             ? 1.2
-    //             : 1.2,
-    //         top:
-    //           this.title == "洞头区"
-    //             ? "35%"
-    //             : this.title == "苍南县"
-    //             ? "25%"
-    //             : this.title == "泰顺县"
-    //             ? "12%"
-    //             : this.title == "乐清市"
-    //             ?"1%"
-    //             : "15%",
-    //         left: this.title == "苍南县" ? "15%" :this.title == "苍南县"?"1%": "center",
-    //         emphasis: {
-    //           label: {
-    //             show: true
-    //           }
-    //         },
-    //         label: {
-    //           normal: {
-    //             show: false,
-    //             textStyle: {
-    //               color: "#fff"
-    //             }
-    //           },
-    //           emphasis: {
-    //             show: false,
-    //             textStyle: {
-    //               color: "#fff"
-    //             }
-    //           }
-    //         },
-    //         itemStyle: {
-    //           areaColor:
-    //             this.title == "龙港市" || this.title == "瓯江口"
-    //               ? "#fff2d2"
-    //               : null
-    //         },
-    //         // textFixed: {
-    //         //   Alaska: [200, 0]
-    //         // },
-    //         data: this.cur_data.map(item => {
-    //           return {
-    //             name: item.name,
-    //             value: item.value,
-    //             coord: this.cur_geo[item.name],
-    //             itemStyle: {
-    //               // color: item.new == 0 ? "#fff" : "#f82727"
-    //               color: "#fff2d2"
-    //             }
-    //           };
-    //         })
-    //       },
-    //       {
-    //         id: "红旗",
-    //         name: "",
-    //         type: "scatter",
-    //         symbol:
-    //           "image://data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAAAoCAYAAACIC2hQAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAKqADAAQAAAABAAAAKAAAAACu2vZrAAABu0lEQVRYCWNkwAMiMzP+w6Tn79sPY9KV5rh5E2wfE11tpcCyUYdSEHhYtY6GKNZgoUBwNEQpCDysWkdDFGuwUCA4GqIUBB5WraMhijVYKBAcDVEKAg+r1tEQxRosFAiyEKsX1tImVj211Q2ZqCc6RKEhxEjtkCLWvCEToqMOJTZKiVU3GqLEhhSx6kZDlNiQIlbdaIgSG1LEqhsNUWJDilh1KHX9zJkzWe/fvmHPwPDXmoGRQf/hl18o5lSW5r75z8D4hpHhP4h+xfCf4SIDA/NRRVWNg+np6b9RFFOZA25kVFUVSP77/a+cgeF/AtByfpgdD78i7F4+fQZDRUkuTAqVZmT4yMDAuICJlamzrW3Cc1RJ6vCYqsvzbf7/+neF4f//fGRHkmQ8yHNA/SBzKksLrEnSS6Riln9//80Hjn8LYVMvz80KF8YZmnAVwPhg+C/E+P/vAqCQKpIwVZhDJ9czMTMlMjIwvqOGt0HmgMyjhlnoZjAfPnrykZ2D5eL//xhYgDldE6iAA10RQT4oMzEyzmRiY4pu65h4jaB6MhSgdC3QiydgMSQGLIZEgLQIMFcDS4P/HweqeAIAULZyhSyru3QAAAAASUVORK5CYII=",
-    //         symbolSize: [12, 12],
-    //         coordinateSystem: "geo",
-    //         label: {
-    //           normal: {
-    //             show: true,
-    //             textStyle: {
-    //               color: "#000",
-    //               fontSize: 10,
-    //               fontWeight: "bolder",
-    //               textBorderColor: "#fff",
-    //               textBorderWidth: 1
-    //             },
-    //             formatter: function(params) {
-    //               return params.name.replace("街道", "") + params.value[2];
-    //             },
-    //             position: "bottom"
-    //           }
-    //         },
-    //         itemStyle: {
-    //           opacity: 1
-    //         },
-    //         data: this.cur_data
-    //           .filter(item => item.new == 0)
-    //           .map(item => {
-    //             return {
-    //               name: item.name,
-    //               value: this.cur_geo[item.name].concat(item.value)
-    //             };
-    //           })
-    //       },
-    //       {
-    //         id: "白旗",
-    //         name: "",
-    //         type: "scatter",
-    //         symbol:
-    //           "image://data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAAAoCAYAAACIC2hQAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAKqADAAQAAAABAAAAKAAAAACu2vZrAAABvElEQVRYCWNkwAMiMzP+w6SXTZsOY9KVZmRkBNvHRFdbKbBs1KEUBB5WraMhijVYKBAcDVEKAg+r1tEQxRosFAiOhigFgYdV62iIYg0WCgRHQ5SCwMOqdTREsQYLBYIsxOqFtbSJVU9tdUMm6okOUWgIQTow1A4uIswbMiE66lAiYpMkJaMhSlJwEaF4NESJCCSSlIyGKEnBRYTi0RAlIpBIUoJS18+cOZP1/u0b9gwMf60ZGBn0H375hWJYZWnum/8MjG8YGf6D6FcM/xkuMjAwH1VU1TiYnp7+G0UxlTngRkZVVYHkv9//yhkY/icALeeH2fHwK8Lu5dNnMFSU5MKkUGlGho8MDIwLmFiZOtvaJjxHlaQOj6m6PN/m/69/Vxj+/89HdiRJxoM8B9QPMqeytMCaJL1EKmb59/fffOD4txA29fLcrHBhnKEJVwGMD4b/Qoz//y4ACqkiCVOFOXRyPRMzUyIjA+M7angbZA7IPGqYhW4G8+GjJx/ZOVgu/v+PgQWY0zWBCjjQFRHkgzITI+NMJjam6LaOidcIqidDAUrXAr14AhZDYsBiSARIiwBzNbA0+P9xoIonAAAXbs5yUf12AAAAAElFTkSuQmCC",
-    //         symbolSize: [12, 12],
-    //         coordinateSystem: "geo",
-    //         label: {
-    //           normal: {
-    //             show: true,
-    //             textStyle: {
-    //               color: "#000",
-    //               fontSize: 10,
-    //               fontWeight: "bolder",
-    //               textBorderColor: "#fff",
-    //               textBorderWidth: 1
-    //             },
-    //             formatter: function(params) {
-    //               return params.name.replace("街道", "") + params.value[2];
-    //             },
-    //             position: "bottom"
-    //           }
-    //         },
-    //         itemStyle: {
-    //           opacity: 1
-    //         },
-    //         data: this.cur_data
-    //           .filter(item => item.new != 0)
-    //           .map(item => {
-    //             return {
-    //               name: item.name,
-    //               value: this.cur_geo[item.name].concat(item.value)
-    //             };
-    //           })
-    //       }
-    //     ]
-    //   });
-    // },
     XQMapInit2() {
       this.chart2 = this.$echarts.init(document.getElementById("xq-map2"));
       this.$echarts.registerMap("wenzhou2", this.cur_map2);
@@ -701,26 +507,6 @@ export default {
               : this.title == "乐清市"
               ? 1.2
               : 0.15,
-          // top:
-          //   this.title == "平阳县"
-          //     ? "45%"
-          //     : // : this.title == "乐清市"
-          //       // ? "20%"
-          //       "middle",
-          // left:
-          //   this.title == "苍南县"
-          //     ? "20%"
-          //     : // : this.title == "乐清市"
-          //       // ? "20%"
-          //       "center",
-          // top:
-          //   this.title == "洞头区"
-          //     ? "35%"
-          //     : this.title == "苍南县"
-          //     ? "35%"
-          //     : this.title == "乐清市"
-          //     ? "10%"
-          //     : "15%",
           right: "right",
           label: {
             normal: {
@@ -758,21 +544,6 @@ export default {
                 : this.title == "乐清市"
                 ? 1.1
                 : 0.15,
-            // top:
-            //   this.title == "洞头区"
-            //     ? "35%"
-            //     : this.title == "苍南县"
-            //     ? "35%"
-            //     : this.title == "乐清市"
-            //     ? "10%"
-            //     : "15%",
-
-            // left:
-            //   this.title == "苍南县"
-            //     ? "20%"
-            //     : // : this.title == "乐清市"
-            //       // ? "20%"
-            //       "center",
             right: "right",
             emphasis: {
               label: {
