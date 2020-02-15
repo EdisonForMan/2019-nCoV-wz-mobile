@@ -68,6 +68,7 @@
     <bl v-if="current == 1" ref="bl" />
     <tb v-if="current == 2" />
     <fx v-if="current == 3" />
+    <sf v-if="current == 4" />
   </div>
 </template>
 
@@ -78,6 +79,7 @@ import bl from "./chart/bl";
 import fk from "./chart/fk";
 import tb from "./chart/tb";
 import fx from "./chart/fx";
+import sf from "./chart/sf";
 import pop from "./chart/popDiv"; //阵地详情弹框
 import wx from "weixin-js-sdk";
 // import dd from "dingtalk-jsapi";
@@ -86,7 +88,7 @@ import { mapState, mapActions } from "vuex";
 
 export default {
   name: "Mobile",
-  components: { bl, fk, tb, pop, fx },
+  components: { bl, fk, tb, pop, fx, sf },
   data() {
     return {
       toptab: [
