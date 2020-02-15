@@ -43,7 +43,7 @@
     </div>
     <!-- <div class="isGk isGkActive" @click="gkChange" v-if="current == 0">
       <img style="vertical-align: sub;width: 15px;" src="./img/gkl.png" /> 管控力
-    </div> -->
+    </div>-->
     <div class="kind" v-show="current ==0 || current == 1">
       <div class="t1">一类区域</div>
       <div class="t2">二类区域</div>
@@ -53,13 +53,13 @@
     <div class="sjlz" v-if="current != 2">数据来源：{{current != 3 ? `温州市新冠肺炎工作领导小组`:`市大数据发展管理局`}}</div>
     <div class="bottom" v-if="current != 2">
       <div class="float" v-show="logoshow">
-        <span>温州设计集团勘察院</span>
+        <span>技术支持:温州设计集团</span>
       </div>
       <p>
-        <img style src="./img/logo.png" @click="showLogo()" />
         <span class="text" style="margin-left:5px;">截至</span> 2020年 2月
         <span class="time">{{date}}</span>日
         <span class="time">24</span>时
+        <img style src="./img/logo.png" @click="showLogo()" />
       </p>
     </div>
     <!-- 弹框 -->
@@ -456,9 +456,10 @@ export default {
     .float {
       position: fixed;
       right: 32%;
-      width: 126px;
+      color: #000;
+      width: 160px;
       display: block;
-      background-color: blue;
+      background-color: rgb(255, 255, 255);
       box-sizing: border-box;
       padding: 5px;
       border-radius: 10px;
@@ -469,11 +470,12 @@ export default {
     }
     img {
       font-size: 12px;
-      width: 12px;
+      width: 14px;
       position: relative;
       top: 2px;
       background-color: #fff;
       border-radius: 3px;
+      margin-left: 4px;
     }
   }
 
