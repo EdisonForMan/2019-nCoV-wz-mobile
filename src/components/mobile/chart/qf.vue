@@ -28,7 +28,7 @@ export default {
 	            trigger: "axis"
 	          },
 	          grid: {
-	            top: "5%",
+	            top: "10%",
 	            left: "0",
 	            right: "4%",
 	            bottom: "5%",
@@ -36,7 +36,7 @@ export default {
 	          },
 	          legend: {
 	            show: true,
-	            right: '4%',
+	            left: 'center',
 	            top: '1%',
 	            textStyle: {
 	              color: '#fff'

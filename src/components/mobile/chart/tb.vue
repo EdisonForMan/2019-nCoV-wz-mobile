@@ -71,31 +71,32 @@ export default {
     TitleVue
   },
   data() {
-    let slots = [
-      {
-        flex: 1,
-        values: window.nCov_qushiData.mapDateArr
-      }
-    ];
     return {
-      slots: slots,
+      slots: [
+        {
+          flex: 1,
+          values: []
+        }
+      ],
       popupVisible: false,
       playFlag: true,
       chart: undefined,
       index: 0,
       duration: window.nCov_qushiData.mapDate,
-      mapDateArr: window.nCov_qushiData.mapDateArr,
+      mapDateArr: [],
+      reliData: [],
       timeoutFlag: null
     };
   },
-  computed: {
-    ...mapState({
-      blList: state => state.blList
-    })
-  },
   mounted() {
     this.$echarts.registerMap('qushiWZ', NEW_WENZHOU_JSON);
-    this.mapqushiChart();
+    this.fetchReliXYList().then(() => {
+      const mamReli = this.$store.state.mapReli;
+      this.slots[0].values = mamReli.dateArr;
+      this.mapDateArr = mamReli.dateArr;
+      this.reliData = mamReli.reliData;
+      this.mapqushiChart();
+    });
     this.zxtmrzyChart(); //调用地图
     this.zztChart(); //调用地图
     this.zzblChart(); //调用地图
@@ -106,13 +107,12 @@ export default {
     this.mrqxxzzyChart();
     this.mrqxljzyChart();
     this.mrqzzylChart();
-
-    console.log(this.blList)
   },
   beforeDestroy () {
     this.cleartimeoutFlag();
   },
   methods: {
+    ...mapActions(["fetchReliXYList"]),
     playHandler () {
       if (this.playFlag) {
         this.cleartimeoutFlag();
@@ -155,13 +155,15 @@ export default {
       };
       var heat = [];
       for (let i = 0; i <= this.index; i++) {
-        var mamReli = window.nCov_qushiData.mapReLi[this.mapDateArr[i]] ? window.nCov_qushiData.mapReLi[this.mapDateArr[i]] : [];
+        var mamReli = this.reliData[this.mapDateArr[i]] ? this.reliData[this.mapDateArr[i]] : [];
         mamReli.map((item) => {
           heat.push(item);
         });
       }
-      this.$refs.current.innerText = this.mapDateArr[this.index];
+      this.$refs.current.innerText = this.mapDateArr[this.index].substr(5);
       let mapData = window.nCov_qushiData.mapData[this.mapDateArr[this.index]];
+      // 后期加入数据
+      mapData = [];
       let seriesData = Object.keys(mapData).map((item) => {
           return {
               name: item,
