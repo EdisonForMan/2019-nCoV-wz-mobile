@@ -629,11 +629,7 @@ export default {
         position: fixed;
         right: 32%;
         color: #000;
-<<<<<<< HEAD
         width: 160px;
-=======
-        width: 140px;
->>>>>>> fbb47210eed62c28d7f95bb23a8ebac78a75960b
         display: block;
         background-color: rgb(255, 255, 255);
         box-sizing: border-box;
