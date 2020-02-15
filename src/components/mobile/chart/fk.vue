@@ -24,7 +24,7 @@
             今日
             <i class="cure" style="font-size:18px;">
               <img style="vertical-align: bottom;" src="../img/ljcy.png" />
-              {{this.num[5].value}}
+              {{this.num[6].value}}
             </i>
           </p>
         </div>

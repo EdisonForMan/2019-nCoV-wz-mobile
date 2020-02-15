@@ -441,7 +441,7 @@ export default {
       position: fixed;
       right: 32%;
       color: #000;
-      width: 140px;
+      width: 160px;
       display: block;
       background-color: rgb(255, 255, 255);
       box-sizing: border-box;
