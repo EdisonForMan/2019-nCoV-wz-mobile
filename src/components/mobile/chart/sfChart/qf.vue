@@ -19,10 +19,10 @@ export default {
           trigger: "axis",
           axisPointer: {
             type: "shadow"
+          },
+          textStyle: {
+            align: "left"
           }
-        },
-        tooltip: {
-          trigger: "axis"
         },
         grid: {
           top: "10%",

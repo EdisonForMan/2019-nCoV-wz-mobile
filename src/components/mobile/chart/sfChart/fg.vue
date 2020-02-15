@@ -21,10 +21,10 @@ export default {
           trigger: "axis",
           axisPointer: {
             type: "shadow"
+          },
+          textStyle: {
+            align: "left"
           }
-        },
-        tooltip: {
-          trigger: "axis"
         },
         grid: {
           top: "10%",
@@ -40,7 +40,7 @@ export default {
           textStyle: {
             color: "#fff"
           },
-          data: [{ name: "计划回温人员(万)" }, { name: "计划回温湖北人数(万)" }]
+          data: [{ name: "计划回温人员(万)" }, { name: "湖北计划回温人数(万)" }]
         },
         xAxis: [
           {
@@ -103,7 +103,7 @@ export default {
         },
         series: [
           {
-            name: "计划回温湖北人数(万)",
+            name: "湖北计划回温人数(万)",
             type: "bar",
             stack: "one",
             barWidth: 10,

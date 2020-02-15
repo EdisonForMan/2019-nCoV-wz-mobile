@@ -2,10 +2,10 @@
   <div class="qz">
     <div class="qz_num">
       <ul>
-        <li style="width:59%;margin-left:2%">
+        <li>
           <img :src="person" alt />
           <p>
-            全市累计返工
+            返工人数
             <span>{{num}}</span> 万人
           </p>
         </li>
@@ -22,7 +22,7 @@ export default {
       person: require("./img/person.png")
     };
   },
-  props:["num"]
+  props: ["num", "title"]
 };
 </script>
 
@@ -30,7 +30,7 @@ export default {
 .qz {
   width: 100%;
   box-sizing: border-box;
-  margin-bottom: 18px;
+  margin-bottom: 12px;
   p {
     color: #fff;
     padding: 2px 0;
@@ -39,7 +39,7 @@ export default {
     display: inline-block;
     margin-left: 4px;
     span {
-      color: #ffbf13;
+      color: #ff4242;
       font-size: 18px;
       font-weight: bold;
     }
@@ -59,10 +59,11 @@ export default {
         text-align: center;
         * {
           display: inline-block;
-          vertical-align: middle;
+          vertical-align: top;
         }
         img {
           height: 20px;
+          margin-top: 5px;
         }
       }
     }
