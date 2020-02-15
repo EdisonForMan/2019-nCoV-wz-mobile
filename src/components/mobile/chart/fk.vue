@@ -57,9 +57,6 @@ export default {
       blList: state => state.blList
     })
   },
-  mounted() {
-    this.dataFix();
-  },
   watch: {
     blList() {
       this.blDataFix();

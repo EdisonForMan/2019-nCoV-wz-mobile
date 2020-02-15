@@ -42,6 +42,16 @@ export const u_xqqzbltjb = async () => {
 }
 
 /**
+ * [wz_blxxb]热力图中的X.Y坐标数据
+ */
+export const wz_qzkjhzbb = async () => {
+  const axios = getDefaultAxios();
+  const params = ["sjc", "x", "y"]
+  const name = "wz_qzkjhzbb";
+  return await axios.post("/dw/ds", option_concat(name, params));
+}
+
+/**
  * [wz_sfxxbb]三返人员
  */
 export const wz_sfxxbb = async () => {
