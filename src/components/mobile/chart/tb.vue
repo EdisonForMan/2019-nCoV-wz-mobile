@@ -65,6 +65,7 @@
 <script>
 import {NEW_WENZHOU_JSON} from '../geoJson/newWenzhouJson.js';
 import TitleVue from './title.vue';
+import { mapState, mapActions } from "vuex";
 export default {
   components: {
     TitleVue
@@ -87,6 +88,11 @@ export default {
       timeoutFlag: null
     };
   },
+  computed: {
+    ...mapState({
+      blList: state => state.blList
+    })
+  },
   mounted() {
     this.$echarts.registerMap('qushiWZ', NEW_WENZHOU_JSON);
     this.mapqushiChart();
@@ -100,6 +106,8 @@ export default {
     this.mrqxxzzyChart();
     this.mrqxljzyChart();
     this.mrqzzylChart();
+
+    console.log(this.blList)
   },
   beforeDestroy () {
     this.cleartimeoutFlag();
