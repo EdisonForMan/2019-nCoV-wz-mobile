@@ -50,7 +50,7 @@
       <div class="t3">三类区域</div>
       <div class="t4">四类区域</div>
     </div>
-    <div class="sjlz" v-if="current != 2">数据来源：{{current != 3 ? `温州市新冠肺炎工作领导小组`:`市大数据发展管理局`}}</div>
+    <div class="sjlz" v-if="current != 2">数据来源：{{current != 3 ? `温州市新冠肺炎工作领导小组`:`每日互动`}}</div>
     <div class="bottom" v-if="current != 2">
       <div class="float" v-show="logoshow">
         <span>技术支持:温州设计集团</span>

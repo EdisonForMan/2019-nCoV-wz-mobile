@@ -337,7 +337,7 @@ export default {
               ? "35%"
               : this.title == "苍南县"
               ? "35%"
-               : this.title == "乐清市"
+              : this.title == "乐清市"
               ? "10%"
               : "15%",
           left: this.title == "苍南县" ? "20%" : "center",
@@ -374,8 +374,8 @@ export default {
                 ? "35%"
                 : this.title == "苍南县"
                 ? "35%"
-                 : this.title == "乐清市"
-              ? "10%"
+                : this.title == "乐清市"
+                ? "10%"
                 : "15%",
             left: this.title == "苍南县" ? "20%" : "center",
             emphasis: {
@@ -440,7 +440,8 @@ export default {
                   textBorderWidth: 1
                 },
                 formatter: function(params) {
-                  return params.name.replace("街道", "") + params.value[2];
+                  // return params.name.replace("街道,乡,镇","") + params.value[2];
+                  return params.name.replace("街道", "").replace("乡","").replace("镇","").replace("市","") + params.value[2];
                 },
                 position: "bottom"
               }
@@ -476,7 +477,9 @@ export default {
                   textBorderWidth: 1
                 },
                 formatter: function(params) {
-                  return params.name.replace("街道", "") + params.value[2];
+                  // return params.name.replace("街道", "") + params.value[2];
+                  return params.name.replace("街道", "").replace("乡","").replace("镇","").replace("市","") + params.value[2];
+
                 },
                 position: "bottom"
               }
@@ -857,7 +860,9 @@ export default {
                   textBorderWidth: 1
                 },
                 formatter: function(params) {
-                  return params.name.replace("街道", "") + params.value[2];
+                  // return params.name.replace("街道,乡,镇","") + params.value[2];
+                  return params.name.replace("街道", "").replace("乡","").replace("镇","").replace("市","") + params.value[2];
+
                 },
                 position: "bottom"
               }
@@ -893,7 +898,9 @@ export default {
                   textBorderWidth: 1
                 },
                 formatter: function(params) {
-                  return params.name.replace("街道", "") + params.value[2];
+                  // return params.name.replace("街道", "") + params.value[2];
+                  return params.name.replace("街道", "").replace("乡","").replace("镇","").replace("市","") + params.value[2];
+
                 },
                 position: "bottom"
               }
