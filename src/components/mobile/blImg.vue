@@ -20,8 +20,7 @@
           <div class="t3">1~5</div>
           <div class="t4">0</div>
         </div>
-        <!-- <img
-          v-show="title == '乐清市'"
+        <img
           style="width:100%;"
           :src="`${this.server}${this.imgurl}/img/estate/${this.title}1.png`"
         />-->
@@ -69,13 +68,13 @@
       <div class="bottom">
         <div class="sjlz">数据来源：温州市新冠肺炎工作领导小组</div>
         <div class="float" v-show="logoshow">
-          <span>温州设计集团勘察院</span>
+          <span>技术支持:温州设计集团</span>
         </div>
         <p>
-          <img style src="./img/logo.png" @click="showLogo()" />
           <span class="text">截至</span> 2020年 2月
           <span class="time">{{date}}</span>日
           <span class="time">24</span>时
+          <img style src="./img/logo.png" @click="showLogo()" />
         </p>
       </div>
     </div>
@@ -156,6 +155,21 @@ export default {
         if (this.street[v].name == label) {
           this.street[v].show = !this.street[v].show;
         }
+      }
+      if (this.title == "浙南") {
+        this.mapdata_bl.map(item => {
+          if (item.name == this.title) {
+            this.xqnum = item.value[0];
+            console.log(that.title, that.xqnum);
+          }
+        });
+      } else {
+        this.mapdata_bl.map(item => {
+          if (item.name == this.title) {
+            this.xqnum = item.value;
+            console.log(this.title, this.xqnum);
+          }
+        });
       }
     },
     BLMapInit() {
@@ -490,6 +504,7 @@ export default {
         width: 100%;
         display: inline-block;
         text-align: left;
+        margin-bottom: 2px;
         img {
           width: 13px;
           margin-right: 6px;
@@ -519,6 +534,7 @@ export default {
         overflow: auto;
         box-sizing: border-box;
         padding: 5px;
+        border: 1px solid #4e5fd5;
         // li {
         //   line-height: 20px;
         //   border: 1px solid #4e5fd5;
@@ -552,7 +568,7 @@ export default {
         // }
         li {
           width: 97%;
-          border: 1px solid #4e5fd5;
+          border-bottom: 1px solid #4e5fd5;
           padding: 4px;
           line-height: 20px;
           margin-bottom: 10px;
@@ -592,21 +608,24 @@ export default {
         width: 100%;
       }
       .float {
-        position: absolute;
-        right: 53%;
-        bottom: 5%;
-        width: 130px;
-        background-color: blue;
+        position: fixed;
+        right: 32%;
+        color: #000;
+        width: 160px;
+        display: block;
+        background-color: rgb(255, 255, 255);
         box-sizing: border-box;
         padding: 5px;
         border-radius: 10px;
+        bottom: 2%;
         span {
           font-size: 12px;
         }
       }
       img {
         font-size: 12px;
-        width: 12px;
+        width: 14px;
+        margin-left: 4px;
         position: relative;
         top: 2px;
         background-color: #fff;

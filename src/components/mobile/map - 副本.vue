@@ -53,7 +53,7 @@
     <div class="sjlz" v-if="current != 2">数据来源：温州市新冠肺炎工作领导小组</div>
     <div class="bottom" v-if="current != 2">
       <div class="float" v-show="logoshow">
-        <span>温州设计集团勘察院</span>
+        <span>温州设计集团<br />温州市勘察测绘研究院</span>
       </div>
       <p>
         <img style src="./img/logo.png" @click="showLogo()" />

@@ -5,52 +5,50 @@
       <div class="mapqushi-date">
         确诊热力图
         <div class="mapqushi-date-duration">{{ duration }}</div>
-        <span style="display: inline-block;border: 1px solid #fff;border-radius: 5px;padding: 2px 3px;">
-          <div class="date-icon"></div>
-          <div class="mapqushi-date-current" ref="current" @click="popupVisible = true;">{{ mapDateArr[index] }}</div>
-        </span>
+        <div class="date-icon"></div>
+        <div class="mapqushi-date-current" ref="current" @click="popupVisible = true;">{{ mapDateArr[index] }}</div>
         <div class="play-icon" :class="[playFlag ? 'now-play' : 'now-stop']" @click="playHandler"></div>
       </div>
     </div>
-    <div style="position: relative;" v-show="false">
+    <div style="position: relative;">
       <div id="zxt"></div>
-      <TitleVue class="tb-title" title="每日确诊治愈图"></TitleVue>
+      <div class="tb-title">每日确诊治愈图</div>
     </div>
     <div style="position: relative;">
       <div id="zzt"></div>
-      <TitleVue class="tb-title" title="各区县累计确诊治愈病例图"></TitleVue>
+      <div class="tb-title">各区县累计确诊病例图</div>
     </div>
-    <div style="position: relative;" v-show="false">
+    <div style="position: relative;">
       <div id="zybl"></div>
-      <TitleVue class="tb-title" title="各区县累计治愈病例图"></TitleVue>
+      <div class="tb-title">各区县累计治愈病例图</div>
     </div>
     <div style="position: relative;">
       <div id="mrqxqz"></div>
-      <TitleVue class="tb-title" title="上日各区县确诊病例图"></TitleVue>
+      <div class="tb-title">上日各区县确诊病例图</div>
     </div>
     <div style="position: relative;">
       <div id="mrqxzy"></div>
-      <TitleVue class="tb-title" title="上日各区县治愈病例图"></TitleVue>
+      <div class="tb-title">上日各区县治愈病例图</div>
     </div>
     <div style="position: relative;">
       <div id="mrqzzyl"></div>
-      <TitleVue class="tb-title" title="每日确诊治愈率统计图"></TitleVue>
+      <div class="tb-title">每日确诊治愈率统计图</div>
     </div>
-    <div style="position: relative;" v-show="false">
+    <div style="position: relative;">
       <div id="mrqxxz"></div>
-      <TitleVue class="tb-title" title="每日各区县新增确诊病例图"></TitleVue>
+      <div class="tb-title">每日各区县新增确诊病例图</div>
     </div>
     <div style="position: relative;">
       <div id="mrqxlj"></div>
-      <TitleVue class="tb-title" title="每日各区县累计确诊病例图"></TitleVue>
+      <div class="tb-title">每日各区县累计确诊病例图</div>
     </div>
-    <div style="position: relative;" v-show="false">
+    <div style="position: relative;">
       <div id="mrqxxzzy"></div>
-      <TitleVue class="tb-title" title="每日各区县新增治愈病例图"></TitleVue>
+      <div class="tb-title">每日各区县新增治愈病例图</div>
     </div>
     <div style="position: relative;">
       <div id="mrqxljzy"></div>
-      <TitleVue class="tb-title" title="每日各区县累计治愈病例图"></TitleVue>
+      <div class="tb-title">每日各区县累计治愈病例图</div>
     </div>
     <mt-popup
       v-model="popupVisible"
@@ -64,12 +62,7 @@
 
 <script>
 import {NEW_WENZHOU_JSON} from '../geoJson/newWenzhouJson.js';
-import TitleVue from './title.vue';
-import { mapState, mapActions } from "vuex";
 export default {
-  components: {
-    TitleVue
-  },
   data() {
     let slots = [
       {
@@ -88,11 +81,6 @@ export default {
       timeoutFlag: null
     };
   },
-  computed: {
-    ...mapState({
-      blList: state => state.blList
-    })
-  },
   mounted() {
     this.$echarts.registerMap('qushiWZ', NEW_WENZHOU_JSON);
     this.mapqushiChart();
@@ -106,8 +94,6 @@ export default {
     this.mrqxxzzyChart();
     this.mrqxljzyChart();
     this.mrqzzylChart();
-
-    console.log(this.blList)
   },
   beforeDestroy () {
     this.cleartimeoutFlag();
@@ -161,7 +147,7 @@ export default {
         });
       }
       this.$refs.current.innerText = this.mapDateArr[this.index];
-      let mapData = window.nCov_qushiData.mapData[this.mapDateArr[this.index]];
+      let mapData = window.nCov_qushiData.mapData;
       let seriesData = Object.keys(mapData).map((item) => {
           return {
               name: item,
@@ -252,8 +238,7 @@ export default {
                   label: {
                       normal: {
                           formatter: function (param) {
-                              // return param.name + ' ' + param.value[2];
-                              return param.name
+                              return param.name + ' ' + param.value[2];
                           },
                           show: true,
                           position: 'inside',
@@ -392,6 +377,7 @@ export default {
     },
     zztChart() {
       this.chart = this.$echarts.init(document.getElementById("zzt"));
+      var data = window.nCov_qushiData.zzt;
       this.chart.setOption({
         tooltip: {
           trigger: "axis",
@@ -399,32 +385,12 @@ export default {
             type: "shadow"
           }
         },
-        tooltip: {
-          trigger: "axis",
-          formatter: function (param) {
-            let name = param[0].name;
-            let param1 = '累计确诊：' + param[0].value;
-            let param2 = '累计治愈：' + param[1].value;
-            let param3 = '确诊存量：' + (param[0].value - param[1].value);
-            return [name, param1, param2, param3].join('\n');
-          },
-          extraCssText:'white-space:pre-wrap;text-align:left;'
-        },
         grid: {
           top: "30%",
-          left: "4%",
+          left: "0%",
           right: "4%",
           bottom: "10%",
           containLabel: true
-        },
-        legend: {
-          show: true,
-          right: '4%',
-          top: '20%',
-          textStyle: {
-            color: '#fff'
-          },
-          data: [{name: '累计确诊'}, {name: '累计治愈'}]
         },
         xAxis: [
           {
@@ -459,11 +425,11 @@ export default {
                 color: "#fff"
               }
             },
-            data: window.nCov_qushiData.zzt.map(item => item.name)
+            data: data.map(item => item.name)
           }
         ],
         yAxis: {
-          show: true,
+          show: false,
           type: "value",
           name: "例",
           nameTextStyle: {
@@ -489,48 +455,18 @@ export default {
           {
             name: "累计确诊",
             type: "bar",
-            stack: 'one',
             label: {
-              show: false,
-              position: "inside",
+              show: true,
+              position: "top",
               color: "#fff",
               formatter: function(param) {
-                return param.value;
+                return param.value + "例";
               }
             },
             itemStyle: {
-              color: new this.$echarts.graphic.LinearGradient(
-                  0, 0, 0, 1,
-                  [
-                    {offset: 0, color: '#ffc28a'},
-                    {offset: 1, color: '#fe9e4a'}
-                  ]
-              )
+              color: "rgb(66,176,239)"
             },
-            data: window.nCov_qushiData.zzt
-          },
-          {
-            name: "累计治愈",
-            type: "bar",
-            stack: 'one',
-            label: {
-              show: false,
-              position: "inside",
-              color: "#fff",
-              formatter: function(param) {
-                return param.value;
-              }
-            },
-            itemStyle: {
-              color: new this.$echarts.graphic.LinearGradient(
-                  0, 0, 0, 1,
-                  [
-                    {offset: 0, color: '#6be0ff'},
-                    {offset: 1, color: '#499aff'}
-                  ]
-              )
-            },
-            data: window.nCov_qushiData.zybl
+            data: data
           }
         ]
       });
@@ -1206,15 +1142,6 @@ export default {
       this.chart = this.$echarts.init(document.getElementById("mrqzzyl"));
       this.chart.setOption({
         // backgroundColor: "rgb(13,25,49)",
-        title: {
-          text: '(治愈率=治愈人数/累计确诊人数)',
-          left: 'center',
-          top: '13%',
-          textStyle: {
-            fontSize: 11,
-            color: '#fff'
-          }
-        },
         grid: {
           top: "30%",
           bottom: "30%",
@@ -1261,6 +1188,7 @@ export default {
           data: window.nCov_qushiData.mrqzzyl.date
         },
         yAxis: {
+          show: false,
           axisLine: {
             show: true,
             lineStyle: {
@@ -1329,7 +1257,7 @@ export default {
 .tb {
   width: 100%;
   position: fixed;
-  top: 61px;
+  top: 75px;
   overflow: auto;
   bottom: 22px;
   #zxt {
@@ -1346,12 +1274,19 @@ export default {
   }
   .tb-title {
     position: absolute;
-    left: 0;
-    right: 0;
+    left: 50%;
+    transform: translateX(-50%);
     top: 4%;
     z-index: 10;
+    color: #fff;
+    font-size: 18px;
+    padding: 2px 50px;
+    white-space: nowrap;
     height: auto;
     width: auto;
+    font-weight: bold;
+    background: url(../img/title_bg.png) center no-repeat;
+    background-size: 100% 100%;
   }
   #mapqushi {
     height: 400px;
@@ -1385,7 +1320,6 @@ export default {
   font-size: 18px;
 }
 .tb div.mapqushi-date .mapqushi-date-duration {
-  margin: 0 0 3px;
   font-family:PingFang-SC-Heavy,PingFang-SC;
   font-weight:800;
   color:rgba(255,255,255,.75);
@@ -1402,9 +1336,8 @@ export default {
 .tb div.mapqushi-date .play-icon {
   width: 25px;
   height: 25px;
-  margin-left: 5px;
+  margin-top: 5px;
   vertical-align: middle;
-  display: inline-block;
 }
 .tb div.mapqushi-date .date-icon {
   width: 15px;
@@ -1413,21 +1346,6 @@ export default {
   margin-right: 3px;
   background: url(./img/date.png) center no-repeat;
   background-size: contain;
-}
-.tb div.mapqushi-date .now-play {
-  background: url(./img/bofang.png) center no-repeat;
-  background-size: 100% 100%;
-}
-.tb div.mapqushi-date .now-stop {
-  background: url(./img/zanting.png) center no-repeat;
-  background-size: 100% 100%;
-}
-.tb div.mapqushi-date .play-icon {
-  width: 40px;
-  height: 40px;
-  margin-left: 5px;
-  display: inline-block;
-  vertical-align: middle;
 }
 .tb div.mapqushi-date .now-play {
   background: url(./img/bofang.png) center no-repeat;
