@@ -231,7 +231,10 @@ export default {
       //  旗子
       const qz_flag = { red: 0, white: 0, rw: 0, wr: 0 };
       const flag_data = {};
-      const flag = this.flagList.filter(({ qx }) => qx == _xq_);
+      const flag = this.flagList.filter(
+        ({ qx }) => qx.replace(/产业集聚区/g, "") == _xq_
+      );
+      console.log(flag);
       flag.map(item => {
         parseInt(item.hbqqk) ? (qz_flag.white += 1) : (qz_flag.red += 1);
         parseInt(item.hqzbq) && (qz_flag.rw += 1);
@@ -250,7 +253,8 @@ export default {
       const mapArr = [];
       const xq = this.blList
         .filter(({ xq }) => xq.replace(/产业集聚区/g, "") == _xq_)
-        .sort(this.$util.compare("dzzssj")).reverse();
+        .sort(this.$util.compare("dzzssj"))
+        .reverse();
       xq.map(item => {
         bl[0].value += 1;
         ~["重症", "危重"].indexOf(item.xzbq) &&
@@ -258,10 +262,10 @@ export default {
           console.log(item);
         item.xzbq == "出院" && (bl[2].value += 1);
         //  地图
-        !mapData[item.xjjd] &&
-          (mapData[item.xjjd] = { name: item.xjjd, value: 0, new: 0 });
-        mapData[item.xjjd].value += 1;
-        item.dzzssj.includes(today) && (mapData[item.xjjd].new += 1);
+        const xjjd = item.xjjd == "灵昆街道" ? "瓯江口" : item.xjjd;
+        !mapData[xjjd] && (mapData[xjjd] = { name: xjjd, value: 0, new: 0 });
+        mapData[xjjd].value += 1;
+        item.dzzssj.includes(today) && (mapData[xjjd].new += 1);
       });
       this.xq = xq;
       this.bl = bl;
@@ -428,8 +432,13 @@ export default {
                   textBorderColor: "#fff",
                   textBorderWidth: 1
                 },
-                formatter: function(params) {
-                  return params.name.replace("街道", "") + params.value[2];
+                formatter: params => {
+                  return (
+                    params.name.replace("街道", "") +
+                    (this.cur_data[params.name]
+                      ? this.cur_data[params.name].value
+                      : 0)
+                  );
                 },
                 position: "bottom"
               }
@@ -464,8 +473,13 @@ export default {
                   textBorderColor: "#fff",
                   textBorderWidth: 1
                 },
-                formatter: function(params) {
-                  return params.name.replace("街道", "") + params.value[2];
+                formatter: params => {
+                  return (
+                    params.name.replace("街道", "") +
+                    (this.cur_data[params.name]
+                      ? this.cur_data[params.name].value
+                      : 0)
+                  );
                 },
                 position: "bottom"
               }
@@ -605,8 +619,13 @@ export default {
                   textBorderColor: "#fff",
                   textBorderWidth: 1
                 },
-                formatter: function(params) {
-                  return params.name.replace("街道", "") + params.value[2];
+                formatter: params => {
+                  return (
+                    params.name.replace("街道", "") +
+                    (this.cur_data[params.name]
+                      ? this.cur_data[params.name].value
+                      : 0)
+                  );
                 },
                 position: "bottom"
               }
@@ -641,8 +660,13 @@ export default {
                   textBorderColor: "#fff",
                   textBorderWidth: 1
                 },
-                formatter: function(params) {
-                  return params.name.replace("街道", "") + params.value[2];
+                formatter: params => {
+                  return (
+                    params.name.replace("街道", "") +
+                    (this.cur_data[params.name]
+                      ? this.cur_data[params.name].value
+                      : 0)
+                  );
                 },
                 position: "bottom"
               }

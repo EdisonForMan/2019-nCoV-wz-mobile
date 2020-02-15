@@ -44,7 +44,7 @@
           <div class="table">
             <div class="bl_table" v-for="(item,key,index) in street" :key="index">
               <p @click="toggleTree(item.name,index)">
-                {{++index}}.{{item.name}}
+                {{++index}}.{{item.name}} ({{item.num}}例)
                 <i :class="`${item.show?`up`:`down`}`"></i>
               </p>
               <ul v-if="item.show">
@@ -132,9 +132,11 @@ export default {
       xq.map(({ xjjd, xqmmc }) => {
         arr.indexOf(xqmmc) < 0 && arr.push(xqmmc);
         //  街道统计
-        !sObj[xjjd] && (sObj[xjjd] = { name: xjjd, show: false, value: {} });
+        !sObj[xjjd] &&
+          (sObj[xjjd] = { name: xjjd, show: false, value: {}, num: 0 });
         !sObj[xjjd]["value"][xqmmc] && (sObj[xjjd]["value"][xqmmc] = 0);
         sObj[xjjd]["value"][xqmmc] += 1;
+        sObj[xjjd]["num"] += 1;
       });
       this.num = arr.length;
       this.street = sObj;

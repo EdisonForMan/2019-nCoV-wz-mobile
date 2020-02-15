@@ -71,17 +71,20 @@ export default {
       ];
       const num = { a: [], n: [] };
       const mapData = {};
-      this.blList.map(item => {
+      this.blList.reverse().map(item => {
         const _xq_ = item.xq.replace(/产业集聚区/g, "");
         //  确诊、重症、出院
         tabdata[0].value += 1;
         ~["重症", "危重"].indexOf(item.xzbq) && (tabdata[1].value += 1);
         item.xzbq == "出院" && (tabdata[2].value += 1);
         //  小区数、新增数
-        num.a.indexOf(item.xqmmc) < 0 && num.a.push(item.xqmmc);
+        !item.dzzssj.includes(today) &&
+          num.a.indexOf(item.xqmwym) < 0 &&
+          num.a.push(item.xqmwym);
         item.dzzssj.includes(today) &&
-          num.n.indexOf(item.xqmmc) &&
-          num.n.push(item.xqmmc);
+          num.a.indexOf(item.xqmwym) < 0 &&
+          num.n.indexOf(item.xqmwym) < 0 &&
+          num.n.push(item.xqmwym);
         //  地图
         !mapData[_xq_] && (mapData[_xq_] = { name: _xq_, value: [], new: [] });
         mapData[_xq_].value.indexOf(item.xqmmc) < 0 &&
@@ -90,6 +93,9 @@ export default {
           mapData[_xq_].new.indexOf(item.xqmmc) < 0 &&
           mapData[_xq_].new.push(item.xqmmc);
       });
+      //  累计小区计算
+      num.a = [...new Set(num.a.concat(num.n))];
+      console.log(num);
       const mapdata_bl = this.mapdata_bl.map(item => {
         return { ...item, value: mapData[item.name].value.length };
       });
