@@ -2,7 +2,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 Vue.use(Vuex);
-import { wz_qzjcysj, wz_bqztb, wz_jdqdhbqb } from "@/api/beans/fetch";
+import { wz_qzjcysj, wz_bqztb, wz_jdqdhbqb, wz_sfxxbb } from "@/api/beans/fetch";
 export default new Vuex.Store({
   state: {
     /** 首页病例 */
@@ -26,21 +26,25 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    async fetchBlList({ state, commit }, option) {
+    async fetchBlList({ state, commit }) {
       const { data } = await wz_qzjcysj();
       commit('updateBlList', data)
     },
-    async fetchCyList({ state, commit }, option) {
+    async fetchCyList({ state, commit }) {
       const { data } = await wz_bqztb();
       commit('updateCyList', data)
     },
-    async fetchFlagList({ state, commit }, option) {
+    async fetchFlagList({ state, commit }) {
       const { data } = await wz_jdqdhbqb();
       commit('updateFlagList', data)
     },
-    async fetchCommunityList({ state, commit }, option) {
+    async fetchCommunityList({ state, commit }) {
       const { data } = await wz_jdqdhbqb();
       commit('updateCommunityList', data)
+    },
+    async FETCH_TEST_SF({ state, commit }) {
+      const { data } = await wz_sfxxbb();
+      console.log(data[0]['_'])
     },
   }
 });

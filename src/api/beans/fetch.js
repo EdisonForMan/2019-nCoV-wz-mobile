@@ -42,6 +42,15 @@ export const u_xqqzbltjb = async () => {
 }
 
 /**
+ * [wz_sfxxbb]三返人员
+ */
+export const wz_sfxxbb = async () => {
+  const axios = getDefaultAxios();
+  const option = { "res": "sql_wzxgfy", "ds": [{ "dsid": "_", "schema": { "tables": [{ "alias": "a", "name": "wz_sfxxbb", "x": "0", "y": "0" }], "join": [], "cols": [{ "name": "主键", "field": "a.id", "type": "int" }, { "name": "qy_cnt", "field": "a.企业（工地）数量", "type": "string(50)" }, { "name": "ry_cnt", "field": "a.返工人员总数", "type": "string(50)" }, { "name": "wfxlw_cnt", "field": "a.未返乡留温", "type": "string(50)" }, { "name": "jhhw_cnt", "field": "a.计划回温", "type": "string(50)" }, { "name": "jhhwhb_cnt", "field": "a.计划回温人数（湖北籍）", "type": "string(50)" }, { "name": "jhhw3_cnt", "field": "a.未来3天计划返工人数", "type": "string(50)" }, { "name": "cgqf_cnt", "field": "a.成功劝返人数", "type": "string(50)" }, { "name": "cgqfhb_cnt", "field": "a.成功劝返人数（湖北籍）", "type": "string(50)" }, { "name": "AREA1", "field": "a.区县", "type": "string(50)" }, { "name": "AREA2", "field": "a.街道", "type": "string(50)" }, { "name": "DEPT_ID", "field": "a.编号", "type": "string(50)" }, { "name": "更新时间", "field": "a.gxsj", "type": "datetime" }], "wherejson": [{ "index": 1, "field": "a.id", "comp": "$eq", "param": "id" }, { "field": "a.区县", "comp": "$like", "value": "", "param": "AREA1", "index": 2 }, { "index": 3, "field": "a.街道", "comp": "$like", "value": "", "param": "AREA2" }], "groupby": [], "orderby": [{ "index": 1, "field": "a.id", "order": "asc" }], "update": {}, "params": [{ "name": "AREA1", "type": "", "info": "" }, { "name": "AREA2", "type": "", "info": "" }] }, "editor": {}, "params": {} }] };
+  return await axios.post("/dw/datastores", option);
+}
+
+/**
  * 配置
  * @param {*} name 
  * @param {*} cols 

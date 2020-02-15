@@ -135,6 +135,7 @@ export default {
   mounted() {
     !this.blList.length && this.fetchBlList();
     !this.flagList.length && this.fetchFlagList();
+    this.FETCH_TEST_SF();
   },
   computed: {
     ...mapState({
@@ -151,7 +152,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["fetchBlList", "fetchFlagList"]),
+    ...mapActions(["fetchBlList", "fetchFlagList", "FETCH_TEST_SF"]),
     fixFlagData() {
       const qz_num = { red: 0, white: 0, rw: 0, wr: 0 };
       this.flagList.map(item => {
