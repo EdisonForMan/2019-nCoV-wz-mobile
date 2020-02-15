@@ -47,8 +47,8 @@
                 <i :class="`${item.show?`up`:`down`}`"></i>
               </p>
               <ul v-if="item.show">
-                <li v-for="(oitem,okey,oindex) in item.value" :key="oindex">
-                  <span>({{++oindex}}).{{okey}}({{oitem}}例)</span>
+                <li v-for="(oitem,oindex) in item.arr" :key="oindex">
+                  <span>({{++oindex}}).{{oitem.name}}({{oitem.value}}例)</span>
                 </li>
               </ul>
             </div>
@@ -132,11 +132,24 @@ export default {
         arr.indexOf(xqmmc) < 0 && arr.push(xqmmc);
         //  街道统计
         !sObj[xjjd] &&
-          (sObj[xjjd] = { name: xjjd, show: false, value: {}, num: 0 });
-        !sObj[xjjd]["value"][xqmmc] && (sObj[xjjd]["value"][xqmmc] = 0);
-        sObj[xjjd]["value"][xqmmc] += 1;
+          (sObj[xjjd] = {
+            name: xjjd,
+            show: false,
+            value: {},
+            arr: [],
+            num: 0
+          });
+        !sObj[xjjd]["value"][xqmmc] &&
+          (sObj[xjjd]["value"][xqmmc] = { name: xqmmc, value: 0 });
+        sObj[xjjd]["value"][xqmmc].value += 1;
         sObj[xjjd]["num"] += 1;
       });
+      for (let v in sObj) {
+        for (let cv in sObj[v]["value"]) {
+          sObj[v].arr.push(sObj[v]["value"][cv]);
+        }
+        sObj[v].arr = sObj[v].arr.sort(this.$util.compare("value")).reverse();
+      }
       this.num = arr.length;
       this.street = sObj;
     },
@@ -155,21 +168,6 @@ export default {
         if (this.street[v].name == label) {
           this.street[v].show = !this.street[v].show;
         }
-      }
-      if (this.title == "浙南") {
-        this.mapdata_bl.map(item => {
-          if (item.name == this.title) {
-            this.xqnum = item.value[0];
-            console.log(that.title, that.xqnum);
-          }
-        });
-      } else {
-        this.mapdata_bl.map(item => {
-          if (item.name == this.title) {
-            this.xqnum = item.value;
-            console.log(this.title, this.xqnum);
-          }
-        });
       }
     },
     BLMapInit() {

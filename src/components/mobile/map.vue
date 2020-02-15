@@ -18,7 +18,7 @@
         </li>
       </ul>
     </header>
-    <div class="qz" v-if="current == 0">
+    <div class="qz" v-if="current == 0 || current == 4">
       <div class="qz_num">
         <ul>
           <li>
@@ -29,7 +29,7 @@
               </p>
             </div>
             <div style="width: 25%;margin-top:2%">
-              <img @click="showzd" style="width:100%;" src="./img/zd.png" />
+              <img @click="showzd" style="width:100%;" src="./img/zdsm.png" />
             </div>
             <div style="width: 37%;position: relative;">
               <img style="width: 65%;float: right;" src="./img/bq.png" />
@@ -44,7 +44,7 @@
     <!-- <div class="isGk isGkActive" @click="gkChange" v-if="current == 0">
       <img style="vertical-align: sub;width: 15px;" src="./img/gkl.png" /> 管控力
     </div>-->
-    <div class="kind" v-show="current ==0 || current == 1">
+    <div class="kind" v-show="current ==0 || current == 1 || current == 4">
       <div class="t1">一类区域</div>
       <div class="t2">二类区域</div>
       <div class="t3">三类区域</div>
@@ -64,10 +64,11 @@
     </div>
     <!-- 弹框 -->
     <pop ref="pop" />
-    <fk v-if="current == 0" ref="fk" />
+    <fk v-if="current == 0 || current == 4" ref="fk" />
     <bl v-if="current == 1" ref="bl" />
     <tb v-if="current == 2" />
     <fx v-if="current == 3" />
+    <sf v-if="current == 4" />
   </div>
 </template>
 
@@ -78,6 +79,7 @@ import bl from "./chart/bl";
 import fk from "./chart/fk";
 import tb from "./chart/tb";
 import fx from "./chart/fx";
+import sf from "./chart/sf";
 import pop from "./chart/popDiv"; //阵地详情弹框
 import wx from "weixin-js-sdk";
 // import dd from "dingtalk-jsapi";
@@ -86,7 +88,7 @@ import { mapState, mapActions } from "vuex";
 
 export default {
   name: "Mobile",
-  components: { bl, fk, tb, pop, fx },
+  components: { bl, fk, tb, pop, fx, sf },
   data() {
     return {
       toptab: [
@@ -109,11 +111,16 @@ export default {
           label: "区域风险",
           name: "Risk",
           icon: require("./img/qy.png")
+        },
+        {
+          label: "三返人员",
+          name: "Back",
+          icon: require("./img/sf.png")
         }
       ],
       current: 0,
       reloadFlag: null,
-      date : window.date,
+      date: window.date,
       token: "",
       access_token: "",
       ticketString: "",
@@ -342,7 +349,7 @@ export default {
       .toFather();
       > li {
         .topLine(@MaxHeight);
-        width: @MaxWidth / 4;
+        width: @MaxWidth / 5;
         .box();
         padding: 0 4px;
         opacity: 0.65;

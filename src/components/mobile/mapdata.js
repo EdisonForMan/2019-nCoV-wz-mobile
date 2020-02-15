@@ -1,20 +1,21 @@
 ﻿/**
  * 地图确诊病例数字修改
  */
-export const mapdata = [{
+export const mapdata = [
+    {
         name: "鹿城区",
-        value: [63, 10],
+        value: [68, 16],
         color: "#fe902e",
         coord: [120.489894, 28.122536]
     },
     {
         name: "龙湾区",
-        value: [16, 1],
+        value: [17, 2],
         coord: [120.770894, 27.930969]
     },
     {
         name: "瓯海区",
-        value: [33, 3],
+        value: [36, 7],
         color: "#ffeea9",
         coord: [120.501369, 28.016593]
     },
@@ -25,19 +26,19 @@ export const mapdata = [{
     },
     {
         name: "瑞安市",
-        value: [71, 29],
+        value: [74, 46],
         color: "#ff912f",
         coord: [120.385572, 27.871998]
     },
     {
         name: "乐清市",
-        value: [155, 23],
+        value: [168, 56],
         color: "#f92728",
         coord: [120.978579, 28.250666]
     },
     {
         name: "永嘉县",
-        value: [46, 7],
+        value: [52, 10],
         color: "#ff912f",
         coord: [120.642158, 28.330733]
     },
@@ -48,23 +49,23 @@ export const mapdata = [{
     },
     {
         name: "平阳县",
-        value: [30, 2],
+        value: [30, 12],
         color: "#ffeea9",
         coord: [120.390537, 27.663857]
     },
     {
         name: "泰顺县",
-        value: [16, 2],
+        value: [20, 4],
         coord: [119.867783, 27.549151]
     },
     {
         name: "苍南县",
-        value: [9, 0],
+        value: [9, 3],
         coord: [120.447814, 27.441237]
     },
     {
         name: "龙港市",
-        value: [8, 0],
+        value: [8, 2],
         coord: [120.6009323, 27.56166944]
     },
     {
@@ -76,28 +77,29 @@ export const mapdata = [{
     {
         name: "瓯江口",
         value: [1, 0],
-        coord: [120.9259323, 28.00166944]
+        coord: [120.9859323, 28.00166944]
     }
-]
+];
 /**
  * 病例小区
  */
-export const mapdata_bl = [{
+const mapdata_bl = [
+    {
         name: "鹿城区",
-        value: 49,
+        value: 52,
         color: "#fe902e",
-        coord: [120.489894, 28.082536]
+        coord: [120.489894, 28.122536]
     },
     {
         name: "龙湾区",
         value: 10,
-        coord: [120.805894, 27.920969]
+        coord: [120.805894, 27.900969]
     },
     {
         name: "瓯海区",
-        value: 23,
+        value: 25,
         color: "#ffeea9",
-        coord: [120.501369, 27.996593]
+        coord: [120.501369, 28.016593]
     },
     {
         name: "洞头区",
@@ -106,19 +108,19 @@ export const mapdata_bl = [{
     },
     {
         name: "瑞安市",
-        value: 41,
+        value: 43,
         color: "#ff912f",
         coord: [120.365572, 27.901998]
     },
     {
         name: "乐清市",
-        value: 105,
+        value: 108,
         color: "#f92728",
-        coord: [120.978579, 28.220666]
+        coord: [120.978579, 28.250666]
     },
     {
         name: "永嘉县",
-        value: 32,
+        value: 33,
         color: "#ff912f",
         coord: [120.642158, 28.330733]
     },
@@ -129,14 +131,14 @@ export const mapdata_bl = [{
     },
     {
         name: "平阳县",
-        value: 24,
+        value: 25,
         color: "#ffeea9",
-        coord: [120.280537, 27.623857]
+        coord: [120.390537, 27.663857]
     },
     {
         name: "泰顺县",
-        value: 6,
-        coord: [119.877783, 27.481151]
+        value: 7,
+        coord: [119.867783, 27.549151]
     },
     {
         name: "苍南县",
@@ -150,29 +152,31 @@ export const mapdata_bl = [{
     },
     {
         name: "浙南",
-        value: 1,
-        coord: [120.770894, 27.850969]
+        value: [1, 0, "浙南"],
+        // coord: [120.779894, 27.850969]
+        coord: [120.779894, 27.820969]
     },
     {
-        name: "瓯江口集聚区",
+        name: "瓯江口",
         value: 1,
-        coord: [120.9299323, 27.98166944]
+        coord: [120.9299323, 27.99566944]
     }
-]
+];
 //日期
-export const date = 9;
+const date = 14;
 //图例
-export const num = [{
+const num = [
+    {
         label: "确诊病例",
-        value: 464
+        value: 499
     },
     {
         label: "重症病例",
-        value: 30
+        value: 26
     },
     {
         label: "出院病例",
-        value: 78
+        value: 159
     },
     {
         label: "死亡病例",
@@ -180,36 +184,30 @@ export const num = [{
     },
     {
         label: "累计病例小区",
-        value: 312
+        value: 325
     },
     {
         label: "确诊新增",
-        value: 5
+        value: 3
     },
     {
         label: "出院新增",
-        value: 5
+        value: 19
     },
     {
         label: "重症新增",
-        value: 5
+        value: 3
     },
-
     {
         label: "死亡新增",
         value: 0
-    }
-]
-export const qz_num = [{
-        red: 162,
-        white: 23
-    }, //红旗数量，白旗数量
+    },
     {
-        rw: 4,
-        wr: 11
-    } //红转白，白转红
-]
-
-// window.mapdata = mapdata;
-// window.date = date;
-// window.num = num;
+        label: "病例小区今日新增",
+        value: 2
+    }
+];
+const qz_num = [
+    { red: 167, white: 18 }, //红旗数量，白旗数量
+    { rw: 1, wr: 4 } //红转白，白转红
+];
