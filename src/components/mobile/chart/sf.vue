@@ -1,23 +1,19 @@
 <template>
   <div class="sf">
-    <sfTop :num="qf_statistics[1]" />
+    <sfTop title="全市" :num="qf_statistics[1]" />
     <div class="TOP_DATA">
       <div>
         <div>
           <p>
             企业工地数
-            <i>{{qf_statistics[0]}}</i> 万家
+            <i style="color:rgb(254,145,47)">{{qf_statistics[0]}}</i> 万家
           </p>
           <p>
-            返工人员
-            <i style="color:#4169E1">{{qf_statistics[1]}}</i> 万人
+            计划回温
+            <i style="color:rgb(21,181,160)">{{qf_statistics[2]}}</i> 万人
           </p>
           <p>
-            计划回温人员
-            <i>{{qf_statistics[2]}}</i> 万人
-          </p>
-          <p>
-            计划回温湖北籍人员
+            计划回温湖北籍
             <br />
             <i>{{qf_statistics[3]}}</i> 万人
           </p>
@@ -26,13 +22,13 @@
     </div>
     <div id="nyjj-map"></div>
     <div class="kind">
-      <div class="t1">≥5万人</div>
-      <div class="t2">≥2~＜5万人</div>
-      <div class="t3">≥0.5~＜2万人</div>
-      <div class="t4">＜0.5万人</div>
+      <div class="t1">一类区域</div>
+      <div class="t2">二类区域</div>
+      <div class="t3">三类区域</div>
+      <div class="t4">四类区域</div>
     </div>
-    <qf :chartData="fixed_qf" ref="qf_chart" />
     <fg :chartData="fixed_fg" ref="fg_chart" />
+    <qf :chartData="fixed_qf" ref="qf_chart" />
   </div>
 </template>
 
@@ -96,18 +92,20 @@ export default {
           qf_statistics[3] += parseInt(jhhwhb_cnt);
           !xqObj[_xq_] && (xqObj[_xq_] = 0);
           xqObj[_xq_] += parseInt(ry_cnt);
-          //  劝返人员统计
-          !qfObj[_xq_] &&
-            (qfObj[_xq_] = { name: _xq_, all: 0, hb: 0, rest: 0 });
-          qfObj[_xq_].all += parseInt(cgqf_cnt);
-          qfObj[_xq_].hb += parseInt(cgqfhb_cnt);
-          qfObj[_xq_].rest += parseInt(cgqf_cnt) - parseInt(cgqfhb_cnt);
-          //  返工人员统计
-          !fgObj[_xq_] &&
-            (fgObj[_xq_] = { name: _xq_, all: 0, hb: 0, rest: 0 });
-          fgObj[_xq_].all += parseInt(jhhw_cnt);
-          fgObj[_xq_].hb += parseInt(jhhwhb_cnt);
-          fgObj[_xq_].rest += parseInt(jhhw_cnt) - parseInt(jhhwhb_cnt);
+          if (["市本级", "其他区县"].indexOf(_xq_) < 0) {
+            //  劝返人员统计
+            !qfObj[_xq_] &&
+              (qfObj[_xq_] = { name: _xq_, all: 0, hb: 0, rest: 0 });
+            qfObj[_xq_].all += parseInt(cgqf_cnt);
+            qfObj[_xq_].hb += parseInt(cgqfhb_cnt);
+            qfObj[_xq_].rest += parseInt(cgqf_cnt) - parseInt(cgqfhb_cnt);
+            //  返工人员统计
+            !fgObj[_xq_] &&
+              (fgObj[_xq_] = { name: _xq_, all: 0, hb: 0, rest: 0 });
+            fgObj[_xq_].all += parseInt(jhhw_cnt);
+            fgObj[_xq_].hb += parseInt(jhhwhb_cnt);
+            fgObj[_xq_].rest += parseInt(jhhw_cnt) - parseInt(jhhwhb_cnt);
+          }
         }
       );
       const _mapdata_ = this.$util.clone(this.mapdata).map(item => {
@@ -185,14 +183,14 @@ export default {
             shadowColor: "#000"
           }
         },
-        visualMap: {
-          show: false,
-          min: 0,
-          max: 5,
-          inRange: {
-            color: ["#FFFFFF", "#FFF2AC", "#FF912F", "#F72726"]
-          }
-        },
+        // visualMap: {
+        //   show: false,
+        //   min: 0,
+        //   max: 5,
+        //   inRange: {
+        //     color: ["#FFFFFF", "#FFF2AC", "#FF912F", "#F72726"]
+        //   }
+        // },
         series: [
           {
             type: "map",
@@ -210,19 +208,22 @@ export default {
               return {
                 name: item.name,
                 value: item.value,
+                itemStyle: {
+                  color: item.color || "#fff"
+                },
                 coord: item.coord
               };
             }),
             markPoint: {
-              symbol: upurl,
-              // symbol: function(params, { name }) {
-              //   return name == "浙南" ? downurl : upurl;
-              // },
+              // symbol: upurl,
+              symbol: function(params, { name }) {
+                return name == "浙南" || name == "龙湾区" ? downurl : upurl;
+              },
               symbolSize: [78, 25],
               label: {
                 normal: {
                   show: true,
-                  offset: [0, 0],
+                  offset: [0, 1],
                   textStyle: {
                     color: "#000"
                   },
@@ -246,12 +247,12 @@ export default {
                       fontWeight: "bold"
                     },
                     num1: {
-                      color: "#4169E1",
+                      color: "#FF4242",
                       fontSize: 12,
                       fontWeight: "bold"
                     },
                     e: {
-                      color: "#4169E1",
+                      color: "#FF4242",
                       fontSize: 12,
                       fontWeight: "bold"
                     }
@@ -265,12 +266,12 @@ export default {
       });
       that.chart.getZr().on("click", function(event) {
         if (event.target) {
-          // that.$router.push({
-          //   path: "/MobileXq",
-          //   query: {
-          //     label: that.mapdata[event.target.dataIndex].name
-          //   }
-          // });
+          that.$router.push({
+            path: "/sfDetail",
+            query: {
+              label: that.mapdata[event.target.dataIndex].name
+            }
+          });
         }
       });
     }
@@ -312,7 +313,7 @@ export default {
     > div:before {
       content: "";
       display: block;
-      width: 70px;
+      width: 100%;
       height: 4px;
       position: absolute;
       top: 0;
@@ -341,7 +342,7 @@ export default {
     > div {
       font-weight: 900;
       color: rgb(255, 255, 255);
-      margin-top: 40px;
+      margin-top: 20px;
       div {
         margin-left: 15px;
         border-left: 2px solid #2782df;

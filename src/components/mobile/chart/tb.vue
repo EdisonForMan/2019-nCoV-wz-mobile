@@ -70,38 +70,31 @@
 <script>
 import { NEW_WENZHOU_JSON } from "../geoJson/newWenzhouJson.js";
 import TitleVue from "./title.vue";
-import { mapState, mapActions } from "vuex";
 export default {
   components: {
     TitleVue
   },
   data() {
+    let slots = [
+      {
+        flex: 1,
+        values: window.nCov_qushiData.mapDateArr
+      }
+    ];
     return {
-      slots: [
-        {
-          flex: 1,
-          values: []
-        }
-      ],
+      slots: slots,
       popupVisible: false,
       playFlag: true,
       chart: undefined,
       index: 0,
       duration: window.nCov_qushiData.mapDate,
-      mapDateArr: [],
-      reliData: [],
+      mapDateArr: window.nCov_qushiData.mapDateArr,
       timeoutFlag: null
     };
   },
   mounted() {
     this.$echarts.registerMap("qushiWZ", NEW_WENZHOU_JSON);
-    this.fetchReliXYList().then(() => {
-      const mamReli = this.$store.state.mapReli;
-      this.slots[0].values = mamReli.dateArr;
-      this.mapDateArr = mamReli.dateArr;
-      this.reliData = mamReli.reliData;
-      this.mapqushiChart();
-    });
+    this.mapqushiChart();
     this.zxtmrzyChart(); //调用地图
     this.zztChart(); //调用地图
     this.zzblChart(); //调用地图
@@ -117,7 +110,6 @@ export default {
     this.cleartimeoutFlag();
   },
   methods: {
-    ...mapActions(["fetchReliXYList"]),
     playHandler() {
       if (this.playFlag) {
         this.cleartimeoutFlag();
@@ -162,17 +154,15 @@ export default {
       };
       var heat = [];
       for (let i = 0; i <= this.index; i++) {
-        var mamReli = this.reliData[this.mapDateArr[i]]
-          ? this.reliData[this.mapDateArr[i]]
+        var mamReli = window.nCov_qushiData.mapReLi[this.mapDateArr[i]]
+          ? window.nCov_qushiData.mapReLi[this.mapDateArr[i]]
           : [];
         mamReli.map(item => {
           heat.push(item);
         });
       }
-      this.$refs.current.innerText = this.mapDateArr[this.index].substr(5);
+      this.$refs.current.innerText = this.mapDateArr[this.index];
       let mapData = window.nCov_qushiData.mapData[this.mapDateArr[this.index]];
-      // 后期加入数据
-      mapData = [];
       let seriesData = Object.keys(mapData).map(item => {
         return {
           name: item,
@@ -1492,21 +1482,6 @@ export default {
   margin-right: 3px;
   background: url(./img/date.png) center no-repeat;
   background-size: contain;
-}
-.tb div.mapqushi-date .now-play {
-  background: url(./img/bofang.png) center no-repeat;
-  background-size: 100% 100%;
-}
-.tb div.mapqushi-date .now-stop {
-  background: url(./img/zanting.png) center no-repeat;
-  background-size: 100% 100%;
-}
-.tb div.mapqushi-date .play-icon {
-  width: 40px;
-  height: 40px;
-  margin-left: 5px;
-  display: inline-block;
-  vertical-align: middle;
 }
 .tb div.mapqushi-date .now-play {
   background: url(./img/bofang.png) center no-repeat;
