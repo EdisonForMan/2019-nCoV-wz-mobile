@@ -215,7 +215,7 @@ export default {
       const flag = this.flagList.filter(
         ({ qx }) => qx.replace(/产业集聚区/g, "") == _xq_
       );
-      console.log(flag);
+
       flag.map(item => {
         parseInt(item.hbqqk) ? (qz_flag.white += 1) : (qz_flag.red += 1);
         parseInt(item.hqzbq) && (qz_flag.rw += 1);
@@ -224,6 +224,7 @@ export default {
       });
       this.flag_data = flag_data;
       this.qz_flag = qz_flag;
+      console.log("flag:" + qz_flag);
       //  病例
       const bl = [
         { label: "确诊", value: 0, color: "#f67a32", imgurl: "qz" },
@@ -248,6 +249,7 @@ export default {
         mapData[xjjd].value += 1;
         item.dzzssj.includes(today) && (mapData[xjjd].new += 1);
       });
+      console.log(mapData);
       this.xq = xq;
       this.bl = bl;
       this.cur_data = mapData;
@@ -307,7 +309,7 @@ export default {
               ? "35%"
               : this.title == "苍南县"
               ? "35%"
-               : this.title == "乐清市"
+              : this.title == "乐清市"
               ? "10%"
               : "15%",
           left: this.title == "苍南县" ? "20%" : "center",
@@ -344,8 +346,8 @@ export default {
                 ? "35%"
                 : this.title == "苍南县"
                 ? "35%"
-                 : this.title == "乐清市"
-              ? "10%"
+                : this.title == "乐清市"
+                ? "10%"
                 : "15%",
             left: this.title == "苍南县" ? "20%" : "center",
             emphasis: {
@@ -409,12 +411,25 @@ export default {
                   textBorderWidth: 1
                 },
                 formatter: params => {
-                  return (
-                    params.name.replace("街道", "") +
-                    (this.cur_data[params.name]
-                      ? this.cur_data[params.name].value
-                      : 0)
-                  );
+                  if (params.name == "金乡镇") {
+                    return (
+                      params.name.replace("镇", "") +
+                      (this.cur_data[params.name]
+                        ? this.cur_data[params.name].value
+                        : 0)
+                    );
+                  } else {
+                    return (
+                      params.name
+                        .replace("街道", "")
+                        .replace("乡", "")
+                        .replace("镇", "")
+                        .replace("市", "") +
+                      (this.cur_data[params.name]
+                        ? this.cur_data[params.name].value
+                        : 0)
+                    );
+                  }
                 },
                 position: "bottom"
               }
@@ -450,12 +465,25 @@ export default {
                   textBorderWidth: 1
                 },
                 formatter: params => {
-                  return (
-                    params.name.replace("街道", "") +
-                    (this.cur_data[params.name]
-                      ? this.cur_data[params.name].value
-                      : 0)
-                  );
+                   if (params.name == "金乡镇") {
+                    return (
+                      params.name.replace("镇", "") +
+                      (this.cur_data[params.name]
+                        ? this.cur_data[params.name].value
+                        : 0)
+                    );
+                  } else {
+                    return (
+                      params.name
+                        .replace("街道", "")
+                        .replace("乡", "")
+                        .replace("镇", "")
+                        .replace("市", "") +
+                      (this.cur_data[params.name]
+                        ? this.cur_data[params.name].value
+                        : 0)
+                    );
+                  }
                 },
                 position: "bottom"
               }
@@ -603,12 +631,25 @@ export default {
                   textBorderWidth: 1
                 },
                 formatter: params => {
-                  return (
-                    params.name.replace("街道", "") +
-                    (this.cur_data[params.name]
-                      ? this.cur_data[params.name].value
-                      : 0)
-                  );
+                  if (params.name == "金乡镇") {
+                    return (
+                      params.name.replace("镇", "") +
+                      (this.cur_data[params.name]
+                        ? this.cur_data[params.name].value
+                        : 0)
+                    );
+                  } else {
+                    return (
+                      params.name
+                        .replace("街道", "")
+                        .replace("乡", "")
+                        .replace("镇", "")
+                        .replace("市", "") +
+                      (this.cur_data[params.name]
+                        ? this.cur_data[params.name].value
+                        : 0)
+                    );
+                  }
                 },
                 position: "bottom"
               }
@@ -644,12 +685,25 @@ export default {
                   textBorderWidth: 1
                 },
                 formatter: params => {
-                  return (
-                    params.name.replace("街道", "") +
-                    (this.cur_data[params.name]
-                      ? this.cur_data[params.name].value
-                      : 0)
-                  );
+                   if (params.name == "金乡镇") {
+                    return (
+                      params.name.replace("镇", "") +
+                      (this.cur_data[params.name]
+                        ? this.cur_data[params.name].value
+                        : 0)
+                    );
+                  } else {
+                    return (
+                      params.name
+                        .replace("街道", "")
+                        .replace("乡", "")
+                        .replace("镇", "")
+                        .replace("市", "") +
+                      (this.cur_data[params.name]
+                        ? this.cur_data[params.name].value
+                        : 0)
+                    );
+                  }
                 },
                 position: "bottom"
               }
