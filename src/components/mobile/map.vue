@@ -18,7 +18,7 @@
         </li>
       </ul>
     </header>
-    <div class="qz" v-if="current == 0">
+    <div class="qz" v-if="current == 0 || current == 4">
       <div class="qz_num">
         <ul>
           <li>
@@ -44,7 +44,7 @@
     <!-- <div class="isGk isGkActive" @click="gkChange" v-if="current == 0">
       <img style="vertical-align: sub;width: 15px;" src="./img/gkl.png" /> 管控力
     </div>-->
-    <div class="kind" v-show="current ==0 || current == 1">
+    <div class="kind" v-show="current ==0 || current == 1 || current == 4">
       <div class="t1">一类区域</div>
       <div class="t2">二类区域</div>
       <div class="t3">三类区域</div>
@@ -64,7 +64,7 @@
     </div>
     <!-- 弹框 -->
     <pop ref="pop" />
-    <fk v-if="current == 0" ref="fk" />
+    <fk v-if="current == 0 || current == 4" ref="fk" />
     <bl v-if="current == 1" ref="bl" />
     <tb v-if="current == 2" />
     <fx v-if="current == 3" />
@@ -109,11 +109,16 @@ export default {
           label: "区域风险",
           name: "Risk",
           icon: require("./img/qy.png")
+        },
+        {
+          label: "三返人员",
+          name: "Back",
+          icon: require("./img/sf.png")
         }
       ],
       current: 0,
       reloadFlag: null,
-      date : window.date,
+      date: window.date,
       token: "",
       access_token: "",
       ticketString: "",
@@ -342,7 +347,7 @@ export default {
       .toFather();
       > li {
         .topLine(@MaxHeight);
-        width: @MaxWidth / 4;
+        width: @MaxWidth / 5;
         .box();
         padding: 0 4px;
         opacity: 0.65;
