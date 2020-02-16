@@ -173,13 +173,14 @@ export default {
       };
       var heat = [];
       for (let i = 0; i <= this.index; i++) {
-        var mamReli = window.nCov_qushiData.mapReLi[this.mapDateArr[i]]
-          ? window.nCov_qushiData.mapReLi[this.mapDateArr[i]]
+        var mamReli = this.reliData[this.mapDateArr[i]]
+          ? this.reliData[this.mapDateArr[i]]
           : [];
         mamReli.map(item => {
           heat.push(item);
         });
       }
+      // console.log(heat);
       this.$refs.current.innerText = this.mapDateArr[this.index].substr(5);
       let mapData = this.mapData[this.mapDateArr[this.index].substr(5)];
       // 后期加入数据
