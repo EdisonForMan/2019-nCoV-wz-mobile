@@ -50,7 +50,7 @@
       <div class="t3">三类区域</div>
       <div class="t4">四类区域</div>
     </div>
-    <div class="sjlz" v-if="current == 3">本页面返工企业人员数据每半小时更新</div>
+    <div class="sjlz" style="bottom:7%;" v-if="current == 3">本页面返工企业人员数据每半小时更新</div>
     <div
       class="sjlz"
       v-if="current != 2"
@@ -170,11 +170,11 @@ export default {
       this.qz_num = qz_num;
     },
     goPage(index) {
-      // if (index == 4) {
-      //   return alert("建设中,尽情期待!");
-      // } else {
-      this.current = index;
-      // }
+      if (index == 4) {
+        return alert("建设中,尽情期待!");
+      } else {
+        this.current = index;
+      }
     },
     showLogo() {
       this.logoshow = true;
@@ -408,7 +408,7 @@ export default {
     position: absolute;
     width: 100%;
     text-align: center;
-    bottom: 5%;
+    bottom: 4%;
     font-size: 12px;
   }
   .qz {
@@ -454,7 +454,7 @@ export default {
     position: absolute;
     width: 100%;
     text-align: center;
-    bottom: 2%;
+    bottom: 1%;
     z-index: 2;
     .tips {
       width: 313px;
