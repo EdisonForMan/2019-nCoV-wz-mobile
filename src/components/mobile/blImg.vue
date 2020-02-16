@@ -63,8 +63,8 @@
         </div>
         <ul class="xq1">
           <li v-for="(bitem,bindex) in xq" :key="bindex">
-            <span>{{bitem.dzzssj.split(" ")[0]}}确诊，{{bitem.xb}}，现住{{bitem.xq}}，</span>
-            <span>{{bitem.bz}}</span>
+            <span>{{++bindex}}.</span>
+            <span>{{bitem.blxx}}</span>
           </li>
         </ul>
       </div>
@@ -115,7 +115,8 @@ export default {
   },
   computed: {
     ...mapState({
-      blList: state => state.blList
+      blList: state => state.blList,
+      blxxList: state => state.blxxList
     })
   },
   mounted() {
@@ -129,7 +130,11 @@ export default {
       const xq = this.blList.filter(
         ({ xq }) => xq.replace(/产业集聚区/g, "") == _xq_
       );
-      this.xq = xq;
+      const bl = this.blxxList
+        .filter(({ qx }) => qx.replace(/产业集聚区/g, "") == _xq_)
+        .sort(this.$util.compare("blxx"))
+        .reverse();
+      this.xq = bl;
       //  病例小区合计
       const arr = [];
       const sObj = {};

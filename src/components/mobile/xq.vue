@@ -243,8 +243,7 @@ export default {
         .reverse();
       xq.map(item => {
         bl[0].value += 1;
-        ~["重症", "危重"].indexOf(item.xzbq) &&
-          (bl[1].value += 1) &&
+        ~["重症", "危重"].indexOf(item.xzbq) && (bl[1].value += 1);
         item.xzbq == "出院" && (bl[2].value += 1);
         //  地图
         const xjjd = item.xjjd == "灵昆街道" ? "瓯江口" : item.xjjd;
@@ -252,6 +251,7 @@ export default {
         mapData[xjjd].value += 1;
         item.dzzssj.includes(today) && (mapData[xjjd].new += 1);
       });
+
       this.xq = blList;
       this.bl = bl;
       this.cur_data = mapData;
