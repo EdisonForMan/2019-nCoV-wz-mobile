@@ -137,10 +137,13 @@ export default new Vuex.Store({
         }
       }
       // 从头排序
-      dateArr = dateArr.sort();
+      dateArr = dateArr.sort().map((item) => {
+        return item.substr(5);
+      });
       data.map((item) => {
-        if (!reliData[item.sjc]) reliData[item.sjc] = [];
-        reliData[item.sjc].push([item.x, item.y, 50]);
+        const key = item.sjc.substr(5);
+        if (!reliData[key]) reliData[key] = [];
+        reliData[key].push([item.x, item.y, 50]);
       });
       commit('updateReliXYList', {
         dateArr,
