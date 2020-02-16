@@ -66,8 +66,8 @@
         </div>
         <ul class="xq1">
           <li v-for="(bitem,bindex) in xq" :key="bindex">
-            <span>{{bitem.dzzssj.split(" ")[0]}}确诊，{{bitem.xb}}，现住{{bitem.xq}}，</span>
-            <span>{{bitem.bz}}</span>
+            <span>{{++bindex}}.</span>
+            <span>{{bitem.blxx}}</span>
           </li>
         </ul>
       </div>
@@ -186,7 +186,8 @@ export default {
   computed: {
     ...mapState({
       blList: state => state.blList,
-      flagList: state => state.flagList
+      flagList: state => state.flagList,
+      blxxList: state => state.blxxList
     })
   },
   mounted() {
@@ -224,7 +225,6 @@ export default {
       });
       this.flag_data = flag_data;
       this.qz_flag = qz_flag;
-      console.log("flag:" + qz_flag);
       //  病例
       const bl = [
         { label: "确诊", value: 0, color: "#f67a32", imgurl: "qz" },
@@ -233,6 +233,10 @@ export default {
       ];
       const mapData = {};
       const mapArr = [];
+      const blList = this.blxxList
+        .filter(({ qx }) => qx.replace(/产业集聚区/g, "") == _xq_)
+        .sort(this.$util.compare("blxx"))
+        .reverse();
       const xq = this.blList
         .filter(({ xq }) => xq.replace(/产业集聚区/g, "") == _xq_)
         .sort(this.$util.compare("dzzssj"))
@@ -241,7 +245,6 @@ export default {
         bl[0].value += 1;
         ~["重症", "危重"].indexOf(item.xzbq) &&
           (bl[1].value += 1) &&
-          console.log(item);
         item.xzbq == "出院" && (bl[2].value += 1);
         //  地图
         const xjjd = item.xjjd == "灵昆街道" ? "瓯江口" : item.xjjd;
@@ -249,8 +252,7 @@ export default {
         mapData[xjjd].value += 1;
         item.dzzssj.includes(today) && (mapData[xjjd].new += 1);
       });
-      console.log(mapData);
-      this.xq = xq;
+      this.xq = blList;
       this.bl = bl;
       this.cur_data = mapData;
       //  地图初始化
@@ -465,7 +467,7 @@ export default {
                   textBorderWidth: 1
                 },
                 formatter: params => {
-                   if (params.name == "金乡镇") {
+                  if (params.name == "金乡镇") {
                     return (
                       params.name.replace("镇", "") +
                       (this.cur_data[params.name]
@@ -685,7 +687,7 @@ export default {
                   textBorderWidth: 1
                 },
                 formatter: params => {
-                   if (params.name == "金乡镇") {
+                  if (params.name == "金乡镇") {
                     return (
                       params.name.replace("镇", "") +
                       (this.cur_data[params.name]

@@ -447,8 +447,8 @@ export default {
             let name = param[0].name;
             let param1 = "累计确诊：" + param[0].value;
             let param2 = "累计治愈：" + param[1].value;
-            let param3 = "确诊存量：" + (param[0].value - param[1].value);
-            return [name, param1, param2, param3].join("\n");
+            // let param3 = "确诊存量：" + (param[0].value - param[1].value);
+            return [name, param1, param2].join("\n");
           },
           extraCssText: "white-space:pre-wrap;text-align:left;"
         },

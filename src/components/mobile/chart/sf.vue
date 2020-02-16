@@ -5,7 +5,7 @@
       <div>
         <div>
           <p>
-            意向复工企业数
+            意向复工企业
             <i style="color:rgb(21,181,160)">{{qf_statistics[0]}}</i> 家
           </p>
           <p>
@@ -17,14 +17,15 @@
             <i>{{qf_statistics[3]}}</i> 万人
           </p>
           <p>
-            预期三日内回温人员
+            预期三日内回温
             <i>{{qf_statistics[4]}}</i> 万人
           </p>
         </div>
       </div>
     </div>
     <div id="nyjj-map"></div>
-    <img src="../img/sftl.png" />
+    <img class="sftl" src="../img/sftl.png" />
+    <img class="down" :src="down" />
     <div class="kind">
       <div class="t1">≥20万</div>
       <div class="t2">≥10~＜20万</div>
@@ -33,6 +34,20 @@
     </div>
     <fg :chartData="fixed_fg" ref="fg_chart" />
     <qf :chartData="fixed_qf" ref="qf_chart" />
+    <!-- 底部 -->
+    <div class="bottom">
+      <div class="sjlz">本页面返工企业人员数据每半小时更新</div>
+      <div class="sjlz">数据来源：三返人员信息系统</div>
+      <div class="float" v-show="logoshow">
+        <span>技术支持:温州设计集团</span>
+      </div>
+      <p>
+        <span class="text">截至</span> 2020年 2月
+        <span class="time">{{date}}</span>日
+        <span class="time">{{time}}</span>时
+        <img style src="../img/logo.png" @click="showLogo()" />
+      </p>
+    </div>
   </div>
 </template>
 
@@ -54,7 +69,9 @@ export default {
       fixed_fg: { name: [], hb: [], rest: [] },
       fixed_qf: { name: [], hb: [], rest: [] },
       date: "",
-      time: ""
+      time: "",
+      logoshow: false,
+      down: require("./img/down.png")
     };
   },
   components: { qf, fg, sfTop },
@@ -239,7 +256,7 @@ export default {
               symbol: function(params, { name }) {
                 return name == "浙南" || name == "龙湾区" ? downurl : upurl;
               },
-              symbolSize: [84, 34],
+              symbolSize: [84, 40],
               label: {
                 normal: {
                   show: true,
@@ -344,6 +361,13 @@ export default {
           });
         }
       });
+    },
+    showLogo() {
+      this.logoshow = true;
+      const that = this;
+      setTimeout(function() {
+        that.logoshow = false;
+      }, 3000);
     }
   }
 };
@@ -360,9 +384,9 @@ export default {
 }
 .sf {
   width: 100%;
-  height: 80%;
-  position: absolute;
-  top: 10%;
+  position: fixed;
+  top: 61px;
+  bottom: 22px;
   overflow-y: auto;
   #nyjj-map {
     width: 100%;
@@ -453,11 +477,67 @@ export default {
       }
     }
   }
-  img {
+  > .sftl {
     width: 104px;
     position: absolute;
-    bottom: 8%;
+    bottom: 12%;
     right: 1%;
+  }
+  > .down {
+    width: 30px;
+    position: absolute;
+    left: 20px;
+    bottom: 12%;
+  }
+  .bottom {
+    width: 100%;
+    text-align: center;
+    z-index: 2;
+    > * {
+      margin: 5px 0;
+    }
+    .sjlz {
+      width: 100%;
+      text-align: center;
+      font-size: 12px;
+    }
+    .tips {
+      width: 313px;
+      font-size: 14px;
+    }
+    p {
+      color: #fff;
+      font-size: 12px;
+      font-weight: bolder;
+      margin: 0;
+      display: inline-block;
+      width: 100%;
+    }
+    .float {
+      position: fixed;
+      right: 32%;
+      color: #000;
+      width: 160px;
+      display: block;
+      background-color: rgb(255, 255, 255);
+      box-sizing: border-box;
+      padding: 5px;
+      border-radius: 10px;
+      bottom: 2%;
+      z-index: 2;
+      span {
+        font-size: 12px;
+      }
+    }
+    img {
+      font-size: 12px;
+      width: 14px;
+      margin-left: 4px;
+      position: relative;
+      top: 2px;
+      background-color: #fff;
+      border-radius: 3px;
+    }
   }
 }
 </style>

@@ -121,7 +121,7 @@ export default {
                 { offset: 1, color: "#F3C4B7" }
               ])
             },
-            data: this.chartData.hb.map(item => Math.round(item / 1000) / 10)
+            data: this.chartData.hb.map(item => Math.round(item / 100) / 100)
           },
           {
             name: "计划回温人员(万)",
@@ -147,7 +147,7 @@ export default {
                 { offset: 1, color: "#89E2FF" }
               ])
             },
-            data: this.chartData.rest.map(item => Math.round(item / 1000) / 10)
+            data: this.chartData.rest.map(item => Math.round(item / 100) / 100)
           }
         ]
       });

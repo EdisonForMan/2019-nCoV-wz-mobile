@@ -183,8 +183,8 @@ export default {
   data() {
     return {
       tabdata: [
-        { label: "意向复工企业数", value: 0, color: "#ff4142", unit: "家" },
-        { label: "劝返人员数", value: 0, color: "#ff7d19", unit: "人" }
+        { label: "意向复工企业", value: 0, color: "#ff4142", unit: "家" },
+        { label: "劝返人员", value: 0, color: "#ff7d19", unit: "人" }
       ],
       xq: [],
       qz_flag: { red: 0, white: 0, rw: 0, wr: 0 },
@@ -256,8 +256,8 @@ export default {
       const mapData = {};
       const objData = {};
       const tabdata = [
-        { label: "意向复工企业数", value: 0, color: "#ff4142", unit: "家" },
-        { label: "劝返人员数", value: 0, color: "#ff7d19", unit: "人" }
+        { label: "意向复工企业", value: 0, color: "#ff4142", unit: "家" },
+        { label: "劝返人员", value: 0, color: "#ff7d19", unit: "人" }
       ];
       let fgnum = 0;
       const xq = this.QfList.filter(

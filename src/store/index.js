@@ -2,11 +2,12 @@
 import Vue from "vue";
 import Vuex from "vuex";
 Vue.use(Vuex);
-import { wz_qzjcysj, wz_bqztb, wz_jdqdhbqb, wz_qzkjhzbb, wz_sfxxbb, view_qzcytjz, view_zytj } from "@/api/beans/fetch";
+import { wz_qzjcysj, wz_blxxb, wz_bqztb, wz_jdqdhbqb, wz_qzkjhzbb, wz_sfxxbb, view_qzcytjz, view_zytj } from "@/api/beans/fetch";
 export default new Vuex.Store({
   state: {
     /** 首页病例 */
     blList: [],
+    blxxList: [],
     cyList: [],
     flagList: [],
     communityList: [],
@@ -29,6 +30,9 @@ export default new Vuex.Store({
   mutations: {
     updateBlList(state, val) {
       state.blList = val;
+    },
+    updateBlxxList(state, val) {
+      state.blxxList = val;
     },
     updateCyList(state, val) {
       state.cyList = val;
@@ -59,6 +63,10 @@ export default new Vuex.Store({
     async fetchBlList({ state, commit }) {
       const { data } = await wz_qzjcysj();
       commit('updateBlList', data)
+    },
+    async fetchBlxxList({ state, commit }) {
+      const { data } = await wz_blxxb();
+      commit('updateBlxxList', data)
     },
     async fetchCyList({ state, commit }) {
       const { data } = await wz_bqztb();

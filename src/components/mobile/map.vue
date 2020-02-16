@@ -50,12 +50,11 @@
       <div class="t3">三类区域</div>
       <div class="t4">四类区域</div>
     </div>
-    <div class="sjlz" style="bottom:7%;" v-if="current == 3">本页面返工企业人员数据每半小时更新</div>
     <div
       class="sjlz"
-      v-if="current != 2"
+      v-if="current != 2 && current != 3"
     >数据来源：{{current != 3 ? `温州市新冠肺炎工作领导小组`: current ==4 ? `市大数据发展管理局`:`三返人员信息系统`}}</div>
-    <div class="bottom" v-if="current != 2">
+    <div class="bottom" v-if="current != 2 && current != 3">
       <div class="float" v-show="logoshow">
         <span>技术支持:温州设计集团</span>
       </div>
@@ -142,10 +141,12 @@ export default {
     !this.blList.length && this.fetchBlList();
     !this.flagList.length && this.fetchFlagList();
     !this.QfList.length && this.fetchQfList();
+    !this.blxxList.length && this.fetchBlxxList();
   },
   computed: {
     ...mapState({
       blList: state => state.blList,
+      blxxList: state => state.blxxList,
       flagList: state => state.flagList,
       QfList: state => state.QfList
     })
@@ -159,7 +160,12 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["fetchBlList", "fetchFlagList", "fetchQfList"]),
+    ...mapActions([
+      "fetchBlList",
+      "fetchFlagList",
+      "fetchQfList",
+      "fetchBlxxList"
+    ]),
     fixFlagData() {
       const qz_num = { red: 0, white: 0, rw: 0, wr: 0 };
       this.flagList.map(item => {

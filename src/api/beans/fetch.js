@@ -25,6 +25,20 @@ export const wz_qzjcysj = async () => {
 };
 
 /**
+ * [wz_blxxb]病例信息表
+ */
+export const wz_blxxb = async () => {
+  const axios = getDefaultAxios();
+  const params = [
+    "qx",
+    "blxx",
+    "gxsj",
+  ];
+  const name = "wz_blxxb";
+  return await axios.post("/dw/ds", option_concat(name, params));
+};
+
+/**
  * [wz_bqztb]出院
  */
 export const wz_bqztb = async () => {

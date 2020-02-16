@@ -5,7 +5,7 @@
         <li>
           <img :src="person" alt />
           <p>
-            返工人数
+            累计返工人数
             <span>{{num}}</span> 万人
           </p>
         </li>
