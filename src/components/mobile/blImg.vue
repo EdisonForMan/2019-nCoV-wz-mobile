@@ -23,10 +23,10 @@
         <img
           style="width:100%;"
           :src="`${this.server}${this.imgurl}/img/estate/${this.title}1.png`"
-        />-->
-        <!-- <div class="mapDiv" v-if="title=='永嘉县'">
+        />
+         <!-- <div class="mapDiv" v-if="title=='永嘉县'">
           <div id="bl-map"></div>
-        </div>-->
+        </div>
         <div class="msg">
           <div class="imghead">
             <img style="float:left" src="./img/bltitle.png" />
@@ -53,7 +53,7 @@
               </ul>
             </div>
           </div>
-        </div>
+        </div> -->
         <div class="bltitle">
           <img src="./img/blxq.png" />
           <p>病例信息</p>

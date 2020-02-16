@@ -39,13 +39,13 @@ export default new Vuex.Store({
     updateCommunityList(state, val) {
       state.communityList = val;
     },
-    updateReliXYList (state, val) {
+    updateReliXYList(state, val) {
       state.mapReli = val;
     },
-    updateQfList (state, val) {
+    updateQfList(state, val) {
       state.QfList = val;
     },
-    updateFgList (state, val) {
+    updateFgList(state, val) {
       state.FgList = val;
     },
     updatequshiData (state, val) {
@@ -56,19 +56,19 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    async fetchBlList({ state, commit }, option) {
+    async fetchBlList({ state, commit }) {
       const { data } = await wz_qzjcysj();
       commit('updateBlList', data)
     },
-    async fetchCyList({ state, commit }, option) {
+    async fetchCyList({ state, commit }) {
       const { data } = await wz_bqztb();
       commit('updateCyList', data)
     },
-    async fetchFlagList({ state, commit }, option) {
+    async fetchFlagList({ state, commit }) {
       const { data } = await wz_jdqdhbqb();
       commit('updateFlagList', data)
     },
-    async fetchCommunityList({ state, commit }, option) {
+    async fetchCommunityList({ state, commit }) {
       const { data } = await wz_jdqdhbqb();
       commit('updateCommunityList', data)
     },
@@ -121,7 +121,6 @@ export default new Vuex.Store({
         }
       }
       dateArr = dateArr.sort();
-      console.log(data);
       commit('updatequshiData', {
         mapData,
         dateArr
@@ -150,15 +149,13 @@ export default new Vuex.Store({
       });
       return Promise.resolve();
     },
-    async fetchQfList({ state, commit }, option) {
-      const { data } = await wz_sfxxbb(['cgqf_cnt', 'cgqfhb_cnt', 'AREA1']);
-      console.log(data);
-      commit('updateQfList', data);
+    async fetchQfList({ state, commit }) {
+      const { data } = await wz_sfxxbb();
+      commit('updateQfList', data[0]["_"]);
       return Promise.resolve();
     },
-    async fetchFgList({ state, commit }, option) {
+    async fetchFgList({ state, commit }) {
       const { data } = await wz_sfxxbb(['jhhw_cnt', 'jhhwhb_cnt', 'AREA1']);
-      console.log(data);
       commit('updateFgList', data);
       return Promise.resolve();
     },

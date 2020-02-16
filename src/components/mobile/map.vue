@@ -18,7 +18,7 @@
         </li>
       </ul>
     </header>
-    <div class="qz" v-if="current == 0 || current == 4">
+    <div class="qz" v-if="current == 0">
       <div class="qz_num">
         <ul>
           <li>
@@ -44,7 +44,7 @@
     <!-- <div class="isGk isGkActive" @click="gkChange" v-if="current == 0">
       <img style="vertical-align: sub;width: 15px;" src="./img/gkl.png" /> 管控力
     </div>-->
-    <div class="kind" v-show="current ==0 || current == 1 || current == 4">
+    <div class="kind" v-show="current ==0 || current == 1">
       <div class="t1">一类区域</div>
       <div class="t2">二类区域</div>
       <div class="t3">三类区域</div>
@@ -64,11 +64,11 @@
     </div>
     <!-- 弹框 -->
     <pop ref="pop" />
-    <fk v-if="current == 0 || current == 4" ref="fk" />
+    <fk v-if="current == 0" ref="fk" />
     <bl v-if="current == 1" ref="bl" />
     <tb v-if="current == 2" />
-    <fx v-if="current == 3" />
-    <sf v-if="current == 4" />
+    <sf v-if="current == 3" />
+    <fx v-if="current == 4" />
   </div>
 </template>
 
@@ -108,14 +108,14 @@ export default {
           icon: require("./img/yq.png")
         },
         {
-          label: "区域风险",
-          name: "Risk",
-          icon: require("./img/qy.png")
-        },
-        {
           label: "三返人员",
           name: "Back",
           icon: require("./img/sf.png")
+        },
+        {
+          label: "区域风险",
+          name: "Risk",
+          icon: require("./img/qy.png")
         }
       ],
       current: 0,
@@ -135,11 +135,13 @@ export default {
   mounted() {
     !this.blList.length && this.fetchBlList();
     !this.flagList.length && this.fetchFlagList();
+    !this.QfList.length && this.fetchQfList();
   },
   computed: {
     ...mapState({
       blList: state => state.blList,
-      flagList: state => state.flagList
+      flagList: state => state.flagList,
+      QfList: state => state.QfList
     })
   },
   watch: {
@@ -151,7 +153,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["fetchBlList", "fetchFlagList"]),
+    ...mapActions(["fetchBlList", "fetchFlagList", "fetchQfList"]),
     fixFlagData() {
       const qz_num = { red: 0, white: 0, rw: 0, wr: 0 };
       this.flagList.map(item => {
@@ -162,11 +164,11 @@ export default {
       this.qz_num = qz_num;
     },
     goPage(index) {
-      // if (index == 3) {
-      //   return alert("尽情期待");
-      // } else {
-      this.current = index;
-      // }
+      if (index == 4) {
+        return alert("建设中,尽情期待!");
+      } else {
+        this.current = index;
+      }
     },
     showLogo() {
       this.logoshow = true;
@@ -261,7 +263,7 @@ export default {
 };
 </script>
 
-<style scoped  lang="less">
+<style scoped lang="less">
 @bg: rgba(7, 39, 80, 1);
 @MaxHeight: 36px;
 @MaxWidth: 100%;

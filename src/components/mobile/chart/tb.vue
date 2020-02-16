@@ -5,9 +5,15 @@
       <div class="mapqushi-date">
         确诊热力图
         <div class="mapqushi-date-duration">{{ duration }}</div>
-        <span style="display: inline-block;border: 1px solid #fff;border-radius: 5px;padding: 2px 3px;">
+        <span
+          style="display: inline-block;border: 1px solid #fff;border-radius: 5px;padding: 2px 3px;"
+        >
           <div class="date-icon"></div>
-          <div class="mapqushi-date-current" ref="current" @click="popupVisible = true;">{{ mapDateArr[index] }}</div>
+          <div
+            class="mapqushi-date-current"
+            ref="current"
+            @click="popupVisible = true;"
+          >{{ mapDateArr[index] }}</div>
         </span>
         <div class="play-icon" :class="[playFlag ? 'now-play' : 'now-stop']" @click="playHandler"></div>
       </div>
@@ -52,32 +58,32 @@
       <div id="mrqxljzy"></div>
       <TitleVue class="tb-title" title="每日各区县累计治愈病例图"></TitleVue>
     </div>
-    <mt-popup
-      v-model="popupVisible"
-      position="bottom"
-      style="width: 100%;height: auto;">
-      <div class="popup-sure" ><span @click="sureHandler">确认</span></div>
+    <mt-popup v-model="popupVisible" position="bottom" style="width: 100%;height: auto;">
+      <div class="popup-sure">
+        <span @click="sureHandler">确认</span>
+      </div>
       <mt-picker :slots="slots" style="height: auto;" ref="picker"></mt-picker>
     </mt-popup>
   </div>
 </template>
 
 <script>
-import {NEW_WENZHOU_JSON} from '../geoJson/newWenzhouJson.js';
-import TitleVue from './title.vue';
-import { mapState, mapActions } from "vuex";
+import { NEW_WENZHOU_JSON } from "../geoJson/newWenzhouJson.js";
+import TitleVue from "./title.vue";
+import { mapActions } from "vuex";
 export default {
   components: {
     TitleVue
   },
   data() {
+    let slots = [
+      {
+        flex: 1,
+        values: window.nCov_qushiData.mapDateArr
+      }
+    ];
     return {
-      slots: [
-        {
-          flex: 1,
-          values: []
-        }
-      ],
+      slots: slots,
       popupVisible: false,
       playFlag: true,
       chart: undefined,
@@ -114,12 +120,11 @@ export default {
       this.mrqzzylChart();
     });
 
-  
     this.zzblChart(); //调用地图
     this.mrqxxzChart();
     this.mrqxxzzyChart();
   },
-  beforeDestroy () {
+  beforeDestroy() {
     this.cleartimeoutFlag();
   },
   methods: {
@@ -127,26 +132,28 @@ export default {
     playHandler () {
       if (this.playFlag) {
         this.cleartimeoutFlag();
-        this.playFlag = false; 
+        this.playFlag = false;
       } else {
         this.mapqushiChart();
-        this.playFlag = true; 
+        this.playFlag = true;
       }
     },
-    sureHandler () {
-      const index = this.mapDateArr.findIndex(item => item == this.$refs.picker.values[0]);
+    sureHandler() {
+      const index = this.mapDateArr.findIndex(
+        item => item == this.$refs.picker.values[0]
+      );
       this.index = index;
       this.mapqushiChart();
       this.cleartimeoutFlag();
       this.popupVisible = false;
     },
-    cleartimeoutFlag () {
+    cleartimeoutFlag() {
       if (this.timeoutFlag) {
         clearTimeout(this.timeoutFlag);
         this.timeoutFlag = null;
       }
     },
-    mapqushiChart () {
+    mapqushiChart() {
       this.chart = this.$echarts.init(document.getElementById("mapqushi"));
       const geoCoordMap = {
           "鹿城": [120.489894, 28.082536], 
@@ -166,8 +173,10 @@ export default {
       };
       var heat = [];
       for (let i = 0; i <= this.index; i++) {
-        var mamReli = this.reliData[this.mapDateArr[i]] ? this.reliData[this.mapDateArr[i]] : [];
-        mamReli.map((item) => {
+        var mamReli = window.nCov_qushiData.mapReLi[this.mapDateArr[i]]
+          ? window.nCov_qushiData.mapReLi[this.mapDateArr[i]]
+          : [];
+        mamReli.map(item => {
           heat.push(item);
         });
       }
@@ -181,110 +190,110 @@ export default {
           }
       });
       let convertData = function(data) {
-          let scatterData = [];
-          for (var i = 0; i < data.length; i++) {
-              var geoCoord = geoCoordMap[data[i].name];
-              if (geoCoord) {
-                  scatterData.push({
-                      name: data[i].name,
-                      value: geoCoord.concat(data[i].value)
-                  });
-              }
+        let scatterData = [];
+        for (var i = 0; i < data.length; i++) {
+          var geoCoord = geoCoordMap[data[i].name];
+          if (geoCoord) {
+            scatterData.push({
+              name: data[i].name,
+              value: geoCoord.concat(data[i].value)
+            });
           }
-          return scatterData;
+        }
+        return scatterData;
       };
       this.chart.setOption({
-          tooltip: { //提示框组件。
-              formatter: function (param) {
-                  return [param.name,
-                  '累计确诊: ' + mapData[param.name].qz + '例',
-                  '重症: ' + mapData[param.name].zz + '例',
-                  '治愈: ' + mapData[param.name].zy + '例',
-                  '上日确诊: ' + mapData[param.name].srqz + '例',
-                  '上日治愈: ' + mapData[param.name].srzy + '例'].join('\n');
-              },
-              extraCssText:'white-space:pre-wrap;text-align:left;',
-              textStyle: {
-                  fontSize: '14'
-              }
+        tooltip: {
+          //提示框组件。
+          formatter: function(param) {
+            return [
+              param.name,
+              "累计确诊: " + mapData[param.name].qz + "例",
+              "重症: " + mapData[param.name].zz + "例",
+              "治愈: " + mapData[param.name].zy + "例",
+              "上日确诊: " + mapData[param.name].srqz + "例",
+              "上日治愈: " + mapData[param.name].srzy + "例"
+            ].join("\n");
           },
-          geo: {
-              map: 'qushiWZ',
-              zoom: 1.2
-          },
-          visualMap: { //颜色的设置  dataRange
-              show: true,
-              x: 'right',
-              y: 'bottom',
-              seriesIndex: [0],
-              color: ['red', 'rgb(30, 255, 149)'],
-              textStyle: {
-                  color: '#fff'
-              }
-          },
-          series: [{
-            name: 'AQI',
-            type: 'heatmap',
-            coordinateSystem: 'geo',
+          extraCssText: "white-space:pre-wrap;text-align:left;",
+          textStyle: {
+            fontSize: "14"
+          }
+        },
+        geo: {
+          map: "qushiWZ",
+          zoom: 1.2
+        },
+        visualMap: {
+          //颜色的设置  dataRange
+          show: true,
+          x: "right",
+          y: "bottom",
+          seriesIndex: [0],
+          color: ["red", "rgb(30, 255, 149)"],
+          textStyle: {
+            color: "#fff"
+          }
+        },
+        series: [
+          {
+            name: "AQI",
+            type: "heatmap",
+            coordinateSystem: "geo",
             pointSize: 4,
             blurSize: 6,
             data: heat,
-            zlevel: 2,
-          }, {
-                  name: '温州',
-                  type: 'map',
-                  zoom: 1.2,
-                  mapType: 'qushiWZ',
-                  roam: false, //是否开启鼠标缩放和平移漫游
-                  itemStyle: { //地图区域的多边形 图形样式
-                      normal: { //是图形在默认状态下的样式
-                          label: {
-                              show: false
-                          }
-                      },
-                      emphasis: { //是图形在高亮状态下的样式,比如在鼠标悬浮或者图例联动高亮时
-                          label: {
-                              show: false
-                          },
-                          borderColor: '#3baced',
-                          // areaColor: '#0b558e',
-                      }
-                  },
-                  data: seriesData
+            zlevel: 2
+          },
+          {
+            name: "温州",
+            type: "map",
+            zoom: 1.2,
+            mapType: "qushiWZ",
+            roam: false, //是否开启鼠标缩放和平移漫游
+            itemStyle: {
+              //地图区域的多边形 图形样式
+              normal: {
+                //是图形在默认状态下的样式
+                label: {
+                  show: false
+                }
               },
-              {
-                  name: '',
-                  type: 'scatter',
-                  coordinateSystem: 'geo',
-                  symbolSize: 1,
-                  symbol: 'circle',
-                  tooltip: {
-                      show: true
-                  },
-                  label: {
-                      normal: {
-                          formatter: function (param) {
-                              return param.name + ' ' + param.value[2];
-                          },
-                          show: true,
-                          position: 'inside',
-                          textStyle: {
-                              color: 'rgb(194, 53, 49)',
-                              fontSize: 11,
-                              fontWeight: 'bold',
-                              padding: [0,0,0,3]
-                          }
-                      }
-                  },
-                  itemStyle: {
-                      normal: {
-                          color: 'rgb(0,254,5)', //标志颜色
-                      }
-                  },
-                  zlevel: 1,
-                  data: convertData(seriesData),
-              }
-          ]
+            }
+          },
+          {
+            name: '',
+            type: 'scatter',
+            coordinateSystem: 'geo',
+            symbolSize: 1,
+            symbol: 'circle',
+            tooltip: {
+                show: true
+            },
+            label: {
+                normal: {
+                    formatter: function (param) {
+                        return param.name + ' ' + param.value[2];
+                    },
+                    show: true,
+                    position: 'inside',
+                    textStyle: {
+                        color: 'rgb(194, 53, 49)',
+                        fontSize: 11,
+                        fontWeight: 'bold',
+                        padding: [0,0,0,3]
+                    }
+                }
+            },
+            itemStyle: {
+                normal: {
+                    color: 'rgb(0,254,5)', //标志颜色
+                }
+            },
+            zlevel: 1,
+            data: convertData(seriesData),
+          }
+        ]
       });
       this.timeoutFlag = setTimeout(() => {
         this.index++;
@@ -319,12 +328,12 @@ export default {
         },
         legend: {
           show: true,
-          right: '4%',
-          top: '20%',
+          right: "4%",
+          top: "20%",
           textStyle: {
-            color: '#fff'
+            color: "#fff"
           },
-          data: [{name: '确诊'}, {name: '治愈'}]
+          data: [{ name: "确诊" }, { name: "治愈" }]
         },
         tooltip: {
           trigger: "axis",
@@ -383,7 +392,7 @@ export default {
         },
         series: [
           {
-            name: '确诊',
+            name: "确诊",
             type: "line",
             symbol: "circle",
             symbolSize: 7,
@@ -397,7 +406,7 @@ export default {
             data: data.map(item => item.qz)
           },
           {
-            name: '治愈',
+            name: "治愈",
             type: "line",
             symbol: "circle",
             symbolSize: 7,
@@ -434,14 +443,14 @@ export default {
         },
         tooltip: {
           trigger: "axis",
-          formatter: function (param) {
+          formatter: function(param) {
             let name = param[0].name;
-            let param1 = '累计确诊：' + param[0].value;
-            let param2 = '累计治愈：' + param[1].value;
-            let param3 = '确诊存量：' + (param[0].value - param[1].value);
-            return [name, param1, param2, param3].join('\n');
+            let param1 = "累计确诊：" + param[0].value;
+            let param2 = "累计治愈：" + param[1].value;
+            let param3 = "确诊存量：" + (param[0].value - param[1].value);
+            return [name, param1, param2, param3].join("\n");
           },
-          extraCssText:'white-space:pre-wrap;text-align:left;'
+          extraCssText: "white-space:pre-wrap;text-align:left;"
         },
         grid: {
           top: "30%",
@@ -452,12 +461,12 @@ export default {
         },
         legend: {
           show: true,
-          right: '4%',
-          top: '20%',
+          right: "4%",
+          top: "20%",
           textStyle: {
-            color: '#fff'
+            color: "#fff"
           },
-          data: [{name: '累计确诊'}, {name: '累计治愈'}]
+          data: [{ name: "累计确诊" }, { name: "累计治愈" }]
         },
         xAxis: [
           {
@@ -474,17 +483,17 @@ export default {
                 color: "#fff"
               },
               interval: 0,
-              formatter: function (param) {
-                let str = '';
+              formatter: function(param) {
+                let str = "";
                 for (let i = 0; i < param.length; i++) {
                   if (i == param.length - 1) {
                     str += param[i];
                   } else {
-                    str += (param[i] + '\n');
+                    str += param[i] + "\n";
                   }
                 }
                 return str;
-              },
+              }
             },
             axisLine: {
               show: false,
@@ -522,7 +531,7 @@ export default {
           {
             name: "累计确诊",
             type: "bar",
-            stack: 'one',
+            stack: "one",
             label: {
               show: false,
               position: "inside",
@@ -532,20 +541,17 @@ export default {
               }
             },
             itemStyle: {
-              color: new this.$echarts.graphic.LinearGradient(
-                  0, 0, 0, 1,
-                  [
-                    {offset: 0, color: '#ffc28a'},
-                    {offset: 1, color: '#fe9e4a'}
-                  ]
-              )
+              color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                { offset: 0, color: "#ffc28a" },
+                { offset: 1, color: "#fe9e4a" }
+              ])
             },
             data: data.map(item => item.qz)
           },
           {
             name: "累计治愈",
             type: "bar",
-            stack: 'one',
+            stack: "one",
             label: {
               show: false,
               position: "inside",
@@ -555,13 +561,10 @@ export default {
               }
             },
             itemStyle: {
-              color: new this.$echarts.graphic.LinearGradient(
-                  0, 0, 0, 1,
-                  [
-                    {offset: 0, color: '#6be0ff'},
-                    {offset: 1, color: '#499aff'}
-                  ]
-              )
+              color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                { offset: 0, color: "#6be0ff" },
+                { offset: 1, color: "#499aff" }
+              ])
             },
             data: data.map(item => item.zy)
           }
@@ -604,13 +607,13 @@ export default {
             alignWithLabel: true
           },
           axisLabel: {
-            formatter: function (param) {
-              let str = '';
+            formatter: function(param) {
+              let str = "";
               for (let i = 0; i < param.length; i++) {
                 if (i == param.length - 1) {
                   str += param[i];
                 } else {
-                  str += (param[i] + '\n');
+                  str += param[i] + "\n";
                 }
               }
               return str;
@@ -705,20 +708,20 @@ export default {
             alignWithLabel: true
           },
           axisLabel: {
-            formatter: function (param) {
-              let str = '';
+            formatter: function(param) {
+              let str = "";
               for (let i = 0; i < param.length; i++) {
                 if (i == param.length - 1) {
                   str += param[i];
                 } else {
-                  str += (param[i] + '\n');
+                  str += param[i] + "\n";
                 }
               }
               return str;
             },
             interval: 0,
             margin: 13,
-            color: '#FFA75A',
+            color: "#FFA75A",
             fontSize: 12
           },
           data: data.map(item => item.name)
@@ -752,19 +755,16 @@ export default {
         series: [
           {
             type: "bar",
-            color: new this.$echarts.graphic.LinearGradient(
-                0, 0, 0, 1,
-                [
-                  {offset: 0, color: '#ffc28a'},
-                  {offset: 1, color: '#fe9e4a'}
-                ]
-            ),
+            color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [
+              { offset: 0, color: "#ffc28a" },
+              { offset: 1, color: "#fe9e4a" }
+            ]),
             label: {
               show: true,
-              position: 'top',
+              position: "top",
               fontSize: 13,
               fontWeight: 800,
-              color: '#F9B87C'
+              color: "#F9B87C"
             },
             barWidth: 11,
             data: data.map(item => item.value)
@@ -817,18 +817,18 @@ export default {
           axisLabel: {
             interval: 0,
             margin: 13,
-            color: '#48E7EA',
-            formatter: function (param) {
-              let str = '';
+            color: "#48E7EA",
+            formatter: function(param) {
+              let str = "";
               for (let i = 0; i < param.length; i++) {
                 if (i == param.length - 1) {
                   str += param[i];
                 } else {
-                  str += (param[i] + '\n');
+                  str += param[i] + "\n";
                 }
               }
               return str;
-            },
+            }
           },
           data: data.map(item => item.name)
         },
@@ -861,45 +861,57 @@ export default {
         series: [
           {
             type: "bar",
-            color: new this.$echarts.graphic.LinearGradient(
-                0, 0, 0, 1,
-                [
-                  {offset: 0, color: '#6be0ff'},
-                  {offset: 1, color: '#499aff'}
-                ]
-            ),
+            color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [
+              { offset: 0, color: "#6be0ff" },
+              { offset: 1, color: "#499aff" }
+            ]),
             barWidth: 11,
             label: {
               show: true,
-              position: 'top',
+              position: "top",
               fontSize: 13,
               fontWeight: 800,
-              color: '#48E7EA'
+              color: "#48E7EA"
             },
             data: data.map(item => item.value)
           }
         ]
       });
     },
-    mrqxxzChart () {
+    mrqxxzChart() {
       this.chart = this.$echarts.init(document.getElementById("mrqxxz"));
       var series = [];
       var legendData = [];
-      series = window.nCov_qushiData.mrqxxz.data.map((quxian) => {
-          legendData.push({ name: quxian[0] });
-          return {
-            name: quxian[0],
-            type: "line",
-            symbol: "circle",
-            symbolSize: 4,
-            label: {
-              show: false
-            },
-            data: quxian.slice(1)
-          }
-      })
+      series = window.nCov_qushiData.mrqxxz.data.map(quxian => {
+        legendData.push({ name: quxian[0] });
+        return {
+          name: quxian[0],
+          type: "line",
+          symbol: "circle",
+          symbolSize: 4,
+          label: {
+            show: false
+          },
+          data: quxian.slice(1)
+        };
+      });
       this.chart.setOption({
-        color: ['#ff66ff','#4ff9f6', '#ff276e', '#fc9010', '#6cc24e', '#30b8ff', '#29daa2', '#f3ff36', '#823fd6','#f19ec2','#0075a9','#0066ff','#93e2ba','#9e3f3f'],
+        color: [
+          "#ff66ff",
+          "#4ff9f6",
+          "#ff276e",
+          "#fc9010",
+          "#6cc24e",
+          "#30b8ff",
+          "#29daa2",
+          "#f3ff36",
+          "#823fd6",
+          "#f19ec2",
+          "#0075a9",
+          "#0066ff",
+          "#93e2ba",
+          "#9e3f3f"
+        ],
         grid: {
           top: "55%",
           bottom: "15%",
@@ -908,10 +920,10 @@ export default {
         },
         legend: {
           show: true,
-          right: '4%',
-          top: '20%',
+          right: "4%",
+          top: "20%",
           textStyle: {
-            color: '#fff'
+            color: "#fff"
           },
           data: legendData
         },
@@ -973,7 +985,7 @@ export default {
         series: series
       });
     },
-    mrqxljChart () {
+    mrqxljChart() {
       this.chart = this.$echarts.init(document.getElementById("mrqxlj"));
       var series = [];
       var legendData = ['鹿城', '龙湾', '瓯海', '洞头', '瑞安', '乐清', '永嘉', '文成', '平阳', '泰顺', '苍南', '龙港', '浙南', '瓯江口'];
@@ -995,7 +1007,22 @@ export default {
         }
       });
       this.chart.setOption({
-        color: ['#ff66ff','#4ff9f6', '#ff276e', '#fc9010', '#6cc24e', '#30b8ff', '#29daa2', '#f3ff36', '#823fd6','#f19ec2','#0075a9','#0066ff','#93e2ba','#9e3f3f'],
+        color: [
+          "#ff66ff",
+          "#4ff9f6",
+          "#ff276e",
+          "#fc9010",
+          "#6cc24e",
+          "#30b8ff",
+          "#29daa2",
+          "#f3ff36",
+          "#823fd6",
+          "#f19ec2",
+          "#0075a9",
+          "#0066ff",
+          "#93e2ba",
+          "#9e3f3f"
+        ],
         grid: {
           top: "55%",
           bottom: "15%",
@@ -1004,10 +1031,10 @@ export default {
         },
         legend: {
           show: true,
-          right: '4%',
-          top: '20%',
+          right: "4%",
+          top: "20%",
           textStyle: {
-            color: '#fff'
+            color: "#fff"
           },
           data: legendData
         },
@@ -1069,25 +1096,40 @@ export default {
         series: series
       });
     },
-    mrqxxzzyChart () {
+    mrqxxzzyChart() {
       this.chart = this.$echarts.init(document.getElementById("mrqxxzzy"));
       var series = [];
       var legendData = [];
-      series = window.nCov_qushiData.mrqxxzzy.data.map((quxian) => {
-          legendData.push({ name: quxian[0] });
-          return {
-            name: quxian[0],
-            type: "line",
-            symbol: "circle",
-            symbolSize: 4,
-            label: {
-              show: false
-            },
-            data: quxian.slice(1)
-          }
-      })
+      series = window.nCov_qushiData.mrqxxzzy.data.map(quxian => {
+        legendData.push({ name: quxian[0] });
+        return {
+          name: quxian[0],
+          type: "line",
+          symbol: "circle",
+          symbolSize: 4,
+          label: {
+            show: false
+          },
+          data: quxian.slice(1)
+        };
+      });
       this.chart.setOption({
-        color: ['#ff66ff','#4ff9f6', '#ff276e', '#fc9010', '#6cc24e', '#30b8ff', '#29daa2', '#f3ff36', '#823fd6','#f19ec2','#0075a9','#0066ff','#93e2ba','#9e3f3f'],
+        color: [
+          "#ff66ff",
+          "#4ff9f6",
+          "#ff276e",
+          "#fc9010",
+          "#6cc24e",
+          "#30b8ff",
+          "#29daa2",
+          "#f3ff36",
+          "#823fd6",
+          "#f19ec2",
+          "#0075a9",
+          "#0066ff",
+          "#93e2ba",
+          "#9e3f3f"
+        ],
         grid: {
           top: "55%",
           bottom: "15%",
@@ -1096,10 +1138,10 @@ export default {
         },
         legend: {
           show: true,
-          right: '4%',
-          top: '20%',
+          right: "4%",
+          top: "20%",
           textStyle: {
-            color: '#fff'
+            color: "#fff"
           },
           data: legendData
         },
@@ -1161,7 +1203,7 @@ export default {
         series: series
       });
     },
-    mrqxljzyChart () {
+    mrqxljzyChart() {
       this.chart = this.$echarts.init(document.getElementById("mrqxljzy"));
       var series = [];
       var legendData = ['鹿城', '龙湾', '瓯海', '洞头', '瑞安', '乐清', '永嘉', '文成', '平阳', '泰顺', '苍南', '龙港', '浙南', '瓯江口'];
@@ -1183,7 +1225,22 @@ export default {
         }
       });
       this.chart.setOption({
-        color: ['#ff66ff','#4ff9f6', '#ff276e', '#fc9010', '#6cc24e', '#30b8ff', '#29daa2', '#f3ff36', '#823fd6','#f19ec2','#0075a9','#0066ff','#93e2ba','#9e3f3f'],
+        color: [
+          "#ff66ff",
+          "#4ff9f6",
+          "#ff276e",
+          "#fc9010",
+          "#6cc24e",
+          "#30b8ff",
+          "#29daa2",
+          "#f3ff36",
+          "#823fd6",
+          "#f19ec2",
+          "#0075a9",
+          "#0066ff",
+          "#93e2ba",
+          "#9e3f3f"
+        ],
         grid: {
           top: "55%",
           bottom: "15%",
@@ -1192,10 +1249,10 @@ export default {
         },
         legend: {
           show: true,
-          right: '4%',
-          top: '20%',
+          right: "4%",
+          top: "20%",
           textStyle: {
-            color: '#fff'
+            color: "#fff"
           },
           data: legendData
         },
@@ -1257,17 +1314,17 @@ export default {
         series: series
       });
     },
-    mrqzzylChart () {
+    mrqzzylChart() {
       this.chart = this.$echarts.init(document.getElementById("mrqzzyl"));
       this.chart.setOption({
         // backgroundColor: "rgb(13,25,49)",
         title: {
-          text: '(治愈率=治愈人数/累计确诊人数)',
-          left: 'center',
-          top: '13%',
+          text: "(治愈率=治愈人数/累计确诊人数)",
+          left: "center",
+          top: "13%",
           textStyle: {
             fontSize: 11,
-            color: '#fff'
+            color: "#fff"
           }
         },
         grid: {
@@ -1278,12 +1335,12 @@ export default {
         },
         legend: {
           show: true,
-          right: '4%',
-          top: '20%',
+          right: "4%",
+          top: "20%",
           textStyle: {
-            color: '#fff'
+            color: "#fff"
           },
-          data: [{name: '治愈率'}]
+          data: [{ name: "治愈率" }]
         },
         tooltip: {
           trigger: "axis",
@@ -1342,7 +1399,7 @@ export default {
         },
         series: [
           {
-            name: '治愈率',
+            name: "治愈率",
             type: "line",
             symbol: "circle",
             symbolSize: 7,
@@ -1358,18 +1415,27 @@ export default {
             label: {
               show: false
             },
-            areaStyle: { //区域填充样式
-                normal: {
-                    color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                            offset: 0,
-                            color: '#1077BC'
-                        },
-                        {
-                            offset: 1,
-                            color: 'rgba(99,186,176,0)'
-                        }
-                    ], false)
-                }
+            areaStyle: {
+              //区域填充样式
+              normal: {
+                color: new this.$echarts.graphic.LinearGradient(
+                  0,
+                  0,
+                  0,
+                  1,
+                  [
+                    {
+                      offset: 0,
+                      color: "#1077BC"
+                    },
+                    {
+                      offset: 1,
+                      color: "rgba(99,186,176,0)"
+                    }
+                  ],
+                  false
+                )
+              }
             },
             data: this.$store.state.zyRateData.value.map((item) => item.toFixed(2))
           }
@@ -1441,9 +1507,9 @@ export default {
 }
 .tb div.mapqushi-date .mapqushi-date-duration {
   margin: 0 0 3px;
-  font-family:PingFang-SC-Heavy,PingFang-SC;
-  font-weight:800;
-  color:rgba(255,255,255,.75);
+  font-family: PingFang-SC-Heavy, PingFang-SC;
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.75);
   font-size: 12px;
 }
 .tb div.mapqushi-date .mapqushi-date-current {
@@ -1452,7 +1518,7 @@ export default {
   font-size: 17px;
   font-weight: 800;
   color: #fff;
-  font-family:PingFang-SC-Heavy,PingFang-SC;
+  font-family: PingFang-SC-Heavy, PingFang-SC;
 }
 .tb div.mapqushi-date .play-icon {
   width: 25px;
@@ -1468,21 +1534,6 @@ export default {
   margin-right: 3px;
   background: url(./img/date.png) center no-repeat;
   background-size: contain;
-}
-.tb div.mapqushi-date .now-play {
-  background: url(./img/bofang.png) center no-repeat;
-  background-size: 100% 100%;
-}
-.tb div.mapqushi-date .now-stop {
-  background: url(./img/zanting.png) center no-repeat;
-  background-size: 100% 100%;
-}
-.tb div.mapqushi-date .play-icon {
-  width: 40px;
-  height: 40px;
-  margin-left: 5px;
-  display: inline-block;
-  vertical-align: middle;
 }
 .tb div.mapqushi-date .now-play {
   background: url(./img/bofang.png) center no-repeat;

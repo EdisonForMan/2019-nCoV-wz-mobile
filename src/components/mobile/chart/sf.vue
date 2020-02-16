@@ -1,44 +1,44 @@
 <template>
-  <div style="width:100%;height:100%;">
+  <div class="sf">
+    <sfTop title="全市" :num="qf_statistics[1]" />
     <div class="TOP_DATA">
       <div>
         <div>
           <p>
-            累计确诊
-            <i class="ill">{{ill_cure[0]}}</i> 例
+            企业工地数
+            <i style="color:rgb(254,145,47)">{{qf_statistics[0]}}</i> 万家
           </p>
           <p>
-            今日
-            <i class="ill">
-              <img style="vertical-align: bottom;" src="../img/hqss.png" />
-              {{ill_cure[1]}}
-            </i>
-          </p>
-        </div>
-        <div>
-          <p>
-            累计出院
-            <i class="cure">{{ill_cure[2]}}</i> 例
+            计划回温
+            <i style="color:rgb(21,181,160)">{{qf_statistics[2]}}</i> 万人
           </p>
           <p>
-            今日
-            <i class="cure">
-              <img style="vertical-align: bottom;" src="../img/ljcy.png" />
-              {{ill_cure[3]}}
-            </i>
+            计划回温湖北籍
+            <br />
+            <i>{{qf_statistics[3]}}</i> 万人
           </p>
         </div>
       </div>
     </div>
     <div id="nyjj-map"></div>
+    <div class="kind">
+      <div class="t1">一类区域</div>
+      <div class="t2">二类区域</div>
+      <div class="t3">三类区域</div>
+      <div class="t4">四类区域</div>
+    </div>
+    <fg :chartData="fixed_fg" ref="fg_chart" />
+    <qf :chartData="fixed_qf" ref="qf_chart" />
   </div>
 </template>
 
 <script>
 /* eslint-disable */
 import wenzhouMap from "../geoJson/WenZhou";
+import qf from "./sfChart/qf";
+import fg from "./sfChart/fg";
+import sfTop from "./sfTop";
 import { mapdata } from "../mapdata";
-import { menuHash } from "@/components/common/user/menuHash";
 import { mapState } from "vuex";
 
 export default {
@@ -46,54 +46,113 @@ export default {
     return {
       chart: undefined,
       mapdata,
-      ill_cure: [, , ,],
-      menuHash,
-      user: "",
-      qx: []
+      qf_statistics: [0, 0, 0, 0],
+      fixed_fg: { name: [], hb: [], rest: [] },
+      fixed_qf: { name: [], hb: [], rest: [] }
     };
   },
+  components: { qf, fg, sfTop },
   computed: {
     ...mapState({
-      blList: state => state.blList
+      QfList: state => state.QfList
     })
-  },
-  mounted() {
-    this.dataFix();
   },
   watch: {
     blList() {
-      this.blDataFix();
+      this.qfDataFix();
     }
   },
   mounted() {
     this.NYJJMapInit(); //调用地图
-    this.blDataFix();
+    this.qfDataFix();
   },
   methods: {
-    blDataFix() {
-      if (!this.blList.length) return;
-      const today = this.$util.getTime();
+    qfDataFix() {
+      if (!this.QfList.length) return;
       const xqObj = {};
-      this.ill_cure = [
-        this.blList.length,
-        this.blList.filter(({ dzzssj }) => dzzssj.includes(today)).length,
-        this.blList.filter(({ xzbq }) => xzbq == "出院").length,
-        this.blList.filter(
-          ({ xzbq, cysj }) => xzbq == "出院" && cysj.includes(today)
-        ).length
-      ];
-      this.blList.map(({ xq, xzbq }) => {
-        const _xq_ = xq.replace(/产业集聚区/g, "");
-        !xqObj[_xq_] && (xqObj[_xq_] = [0, 0]);
-        xqObj[_xq_][0] += 1;
-        xzbq == "出院" && (xqObj[_xq_][1] += 1);
-      });
+      const qfObj = {};
+      const fgObj = {};
+      const qf_statistics = [0, 0, 0, 0];
+      const all_back = 0;
+      this.QfList.map(
+        ({
+          qy_cnt,
+          ry_cnt,
+          jhhw_cnt,
+          jhhwhb_cnt,
+          AREA1,
+          cgqf_cnt,
+          cgqfhb_cnt
+        }) => {
+          //  地图统计
+          const _xq_ = AREA1.replace(/产业集聚区/g, "");
+          qf_statistics[0] += parseInt(qy_cnt);
+          qf_statistics[1] += parseInt(ry_cnt);
+          qf_statistics[2] += parseInt(jhhw_cnt);
+          qf_statistics[3] += parseInt(jhhwhb_cnt);
+          !xqObj[_xq_] && (xqObj[_xq_] = 0);
+          xqObj[_xq_] += parseInt(ry_cnt);
+          if (["市本级", "其他区县"].indexOf(_xq_) < 0) {
+            //  劝返人员统计
+            !qfObj[_xq_] &&
+              (qfObj[_xq_] = { name: _xq_, all: 0, hb: 0, rest: 0 });
+            qfObj[_xq_].all += parseInt(cgqf_cnt);
+            qfObj[_xq_].hb += parseInt(cgqfhb_cnt);
+            qfObj[_xq_].rest += parseInt(cgqf_cnt) - parseInt(cgqfhb_cnt);
+            //  返工人员统计
+            !fgObj[_xq_] &&
+              (fgObj[_xq_] = { name: _xq_, all: 0, hb: 0, rest: 0 });
+            fgObj[_xq_].all += parseInt(jhhw_cnt);
+            fgObj[_xq_].hb += parseInt(jhhwhb_cnt);
+            fgObj[_xq_].rest += parseInt(jhhw_cnt) - parseInt(jhhwhb_cnt);
+          }
+        }
+      );
       const _mapdata_ = this.$util.clone(this.mapdata).map(item => {
-        return xqObj[item.name] ? { ...item, value: xqObj[item.name] } : item;
+        return {
+          ...item,
+          value: xqObj[item.name] ? (xqObj[item.name] / 10000).toFixed(1) : 0
+        };
       });
+      const _qf_ = [];
+      const fixed_qf = { name: [], hb: [], rest: [] };
+      for (let v in qfObj) {
+        _qf_.push(qfObj[v]);
+      }
+      _qf_
+        .sort(this.$util.compare("all"))
+        .reverse()
+        .map(({ name, hb, rest }) => {
+          fixed_qf.name.push(name);
+          fixed_qf.hb.push(hb);
+          fixed_qf.rest.push(rest);
+        });
+      const _fg_ = [];
+      const fixed_fg = { name: [], hb: [], rest: [] };
+      for (let v in fgObj) {
+        _fg_.push(fgObj[v]);
+      }
+      _fg_
+        .sort(this.$util.compare("all"))
+        .reverse()
+        .map(({ name, hb, rest }) => {
+          fixed_fg.name.push(name);
+          fixed_fg.hb.push(hb);
+          fixed_fg.rest.push(rest);
+        });
+      this.qf_statistics = [
+        (qf_statistics[0] / 10000).toFixed(1),
+        (qf_statistics[1] / 10000).toFixed(1),
+        (qf_statistics[2] / 10000).toFixed(1),
+        (qf_statistics[3] / 10000).toFixed(1)
+      ];
+      this.fixed_qf = fixed_qf;
+      this.fixed_fg = fixed_fg;
       this.mapdata = _mapdata_;
       this.$nextTick(() => {
         this.NYJJMap(); //调用地图
+        this.$refs.fg_chart.drawEchart();
+        this.$refs.qf_chart.drawEchart();
       });
     },
     NYJJMapInit() {
@@ -124,6 +183,14 @@ export default {
             shadowColor: "#000"
           }
         },
+        // visualMap: {
+        //   show: false,
+        //   min: 0,
+        //   max: 5,
+        //   inRange: {
+        //     color: ["#FFFFFF", "#FFF2AC", "#FF912F", "#F72726"]
+        //   }
+        // },
         series: [
           {
             type: "map",
@@ -140,7 +207,7 @@ export default {
             data: this.mapdata.map(item => {
               return {
                 name: item.name,
-                value: item.value[0],
+                value: item.value,
                 itemStyle: {
                   color: item.color || "#fff"
                 },
@@ -150,39 +217,28 @@ export default {
             markPoint: {
               // symbol: upurl,
               symbol: function(params, { name }) {
-                return name == "浙南" ? downurl : upurl;
+                return name == "浙南" || name == "龙湾区" ? downurl : upurl;
               },
               symbolSize: [78, 25],
               label: {
                 normal: {
                   show: true,
-                  offset: [0, 0],
+                  offset: [0, 1],
                   textStyle: {
                     color: "#000"
                   },
                   position: "inside",
                   formatter: function(params) {
-                    return params.data.name != "浙南"
-                      ? "{title|" +
-                          params.data.name
-                            .replace("县", "")
-                            .replace("区", "")
-                            .replace("市", "") +
-                          "}{num1|" +
-                          params.data.value[0] +
-                          "}{num2|/" +
-                          params.data.value[1] +
-                          "}"
-                      : "{title2|" +
-                          params.data.name
-                            .replace("县", "")
-                            .replace("区", "")
-                            .replace("市", "") +
-                          "}{num12|" +
-                          params.data.value[0] +
-                          "}{num22|/" +
-                          params.data.value[1] +
-                          "}";
+                    return (
+                      "{title|" +
+                      params.data.name
+                        .replace("县", "")
+                        .replace("区", "")
+                        .replace("市", "") +
+                      "}{num1|" +
+                      params.data.value +
+                      "}{e|万}"
+                    );
                   },
                   rich: {
                     title: {
@@ -191,32 +247,14 @@ export default {
                       fontWeight: "bold"
                     },
                     num1: {
-                      color: "#fd0404",
+                      color: "#FF4242",
                       fontSize: 12,
                       fontWeight: "bold"
                     },
-                    num2: {
-                      color: "#4b9e3d",
+                    e: {
+                      color: "#FF4242",
                       fontSize: 12,
                       fontWeight: "bold"
-                    },
-                    title2: {
-                      color: "black",
-                      fontSize: 12,
-                      fontWeight: "bold",
-                      padding: [-10, 0, 0, 0]
-                    },
-                    num12: {
-                      color: "#fd0404",
-                      fontSize: 12,
-                      fontWeight: "bold",
-                      padding: [-10, 0, 0, 0]
-                    },
-                    num22: {
-                      color: "#4b9e3d",
-                      fontSize: 12,
-                      fontWeight: "bold",
-                      padding: [-10, 0, 0, 0]
                     }
                   }
                 }
@@ -229,7 +267,7 @@ export default {
       that.chart.getZr().on("click", function(event) {
         if (event.target) {
           that.$router.push({
-            path: "/MobileXq",
+            path: "/sfDetail",
             query: {
               label: that.mapdata[event.target.dataIndex].name
             }
@@ -242,81 +280,107 @@ export default {
 </script>
 
 <style lang="less" scoped>
-#nyjj-map {
-  width: 100%;
-  height: 60%;
-  position: relative;
-  top: 25%;
+@MaxHeight: 36px;
+.topLine(@height:100%,@block:inline-block) {
+  display: @block;
+  vertical-align: top;
+  height: @height;
+  line-height: @height;
+  text-align: center;
 }
-.TOP_DATA {
+.sf {
+  width: 100%;
+  height: 80%;
   position: absolute;
-  z-index: 2;
-  top: 21%;
-  left: -5px;
-  > p {
-    font-size: 12px;
-    display: block;
-    width: 160px;
+  top: 10%;
+  overflow-y: auto;
+  #nyjj-map {
+    width: 100%;
+    height: 80%;
   }
-  > div {
-    height: 46px;
-    font-size: 14px;
-    font-weight: 900;
+  .kind {
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 12px;
     margin-bottom: 10px;
-    color: rgb(255, 255, 255);
-    width: 160px;
-    div {
-      margin-left: 15px;
-      border-left: 2px solid #2782df;
-      margin-top: 10px;
-      p {
-        text-align: left;
-        font-weight: initial;
-        padding-left: 10px;
+    > div {
+      .topLine(@MaxHeight);
+      width: 23%;
+      position: relative;
+      margin: 0 2px;
+    }
+    > div:before {
+      content: "";
+      display: block;
+      width: 100%;
+      height: 4px;
+      position: absolute;
+      top: 0;
+    }
+    .t1:before {
+      background-color: rgb(247, 39, 38);
+    }
+    .t2:before {
+      background-color: rgb(255, 145, 47);
+    }
+    .t3:before {
+      background-color: rgb(255, 242, 172);
+    }
+    .t4:before {
+      background-color: rgb(255, 255, 255);
+    }
+  }
+  .TOP_DATA {
+    position: absolute;
+    z-index: 2;
+    > p {
+      font-size: 12px;
+      display: block;
+      width: 160px;
+    }
+    > div {
+      font-weight: 900;
+      color: rgb(255, 255, 255);
+      margin-top: 20px;
+      div {
+        margin-left: 15px;
+        border-left: 2px solid #2782df;
+        margin-top: 10px;
+        p {
+          text-align: left;
+          font-weight: initial;
+          padding-left: 10px;
+          font-size: 12px;
+          i {
+            font-weight: bold;
+            font-size: 18px;
+          }
+        }
         i {
-          font-weight: bold;
-          font-size: 18px;
+          font-style: normal;
+        }
+        span {
+          font-size: 12px;
+          font-weight: normal;
+          position: fixed;
+          left: 22px;
         }
       }
       i {
-        font-style: normal;
+        color: rgb(168, 63, 225);
+        font-weight: 700;
       }
-      span {
-        font-size: 12px;
-        font-weight: normal;
-        position: fixed;
-        left: 22px;
+      .cure {
+        color: #15b5a0;
       }
-    }
-    > div:first-child {
-      // height: 20px;
-      // line-height: 20px;
-    }
-    > div:last-child {
-      // height: 26px;
-      // font-size: 18px;
-      // line-height: 26px;
-    }
-    .ill {
-      color: rgb(254, 93, 25);
-    }
-    .cure {
-      color: #15b5a0;
-    }
-    .cy {
-      color: #32941b;
-    }
-    .die {
-      color: #d3ac12;
+      .cy {
+        color: #32941b;
+      }
+      .die {
+        color: #d3ac12;
+      }
     }
   }
-  // > div:before {
-  //   content: "";
-  //   display: block;
-  //   height: 100%;
-  //   width: 8px;
-  //   background-color: rgb(0, 203, 254);
-  //   float: left;
-  // }
 }
 </style>
