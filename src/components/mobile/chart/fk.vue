@@ -70,7 +70,6 @@ export default {
     blDataFix() {
       if (!this.blList.length) return;
       const today = this.$util.getTime();
-      console.log(today)
       const xqObj = {};
       this.ill_cure = [
         this.blList.length,
@@ -80,7 +79,6 @@ export default {
           ({ xzbq, cysj }) => xzbq == "出院" && cysj.includes(today)
         ).length
       ];
-      console.log(this.ill_cure)
       this.blList.map(({ xq, xzbq }) => {
         const _xq_ = xq.replace(/产业集聚区/g, "");
         !xqObj[_xq_] && (xqObj[_xq_] = [0, 0]);

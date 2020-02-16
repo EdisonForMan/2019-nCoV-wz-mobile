@@ -10,7 +10,7 @@
         <li v-for="(item,index) in tabdata">
           <p>
             {{item.label}}
-            <span :style="{color:item.color}">{{item.value}}</span> 万
+            <span :style="{color:item.color}">{{item.value}}</span> 
           </p>
         </li>
       </ul>
@@ -33,8 +33,8 @@
               <br />街道
             </td>
             <td>
-              企业
-              <br />工地数
+              意向
+              <br />复工企业数
             </td>
             <td>
               返工
@@ -90,7 +90,7 @@
       <p>
         <span class="text">截至</span> 2020年 2月
         <span class="time">{{date}}</span>日
-        <span class="time">24</span>时
+        <span class="time">{{time}}</span>时
         <img style src="../img/logo.png" @click="showLogo()" />
       </p>
     </div>
@@ -138,14 +138,16 @@ export default {
   data() {
     return {
       tabdata: [
-        { label: "企业工地数", value: 0, color: "#ff4142" },
+        { label: "意向复工企业数", value: 0, color: "#ff4142" },
         { label: "劝返人员数", value: 0, color: "#ff7d19" }
       ],
       xq: [],
       qz_flag: { red: 0, white: 0, rw: 0, wr: 0 },
       title: "",
       context,
-      date: window.date,
+      // date: window.date,
+      date: this.$route.query.date,
+      time:this.$route.query.time,
       server: "https://lysb.lucheng.gov.cn/other/",
       fk_imgtag: 9,
       logoshow: false,
@@ -208,7 +210,7 @@ export default {
       const mapData = {};
       const objData = {};
       const tabdata = [
-        { label: "企业工地数", value: 0, color: "#ff4142" },
+        { label: "意向复工企业数", value: 0, color: "#ff4142" },
         { label: "劝返人员数", value: 0, color: "#ff7d19" }
       ];
       let fgnum = 0;
@@ -242,7 +244,7 @@ export default {
       this.cur_data = mapData;
       this.fgnum = (fgnum / 10000).toFixed(1);
       this.tabdata = tabdata.map(item => {
-        return { ...item, value: (item.value / 10000).toFixed(1) };
+        return { ...item, value: item.value };
       });
       this.objData = objData;
       //  地图初始化

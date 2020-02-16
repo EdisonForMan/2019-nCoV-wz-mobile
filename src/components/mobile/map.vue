@@ -57,8 +57,8 @@
       </div>
       <p>
         <span class="text" style="margin-left:5px;">截至</span> 2020年 2月
-        <span class="time">{{date}}</span>日
-        <span class="time">24</span>时
+        <span class="time">{{current != 3 ?date:sfdate}}</span>日
+        <span class="time">{{current != 3 ?24:sftime}}</span>时
         <img style src="./img/logo.png" @click="showLogo()" />
       </p>
     </div>
@@ -91,6 +91,8 @@ export default {
   components: { bl, fk, tb, pop, fx, sf },
   data() {
     return {
+      sfdate:"",
+      sftime:"",
       toptab: [
         {
           label: "防控作战",
@@ -164,11 +166,11 @@ export default {
       this.qz_num = qz_num;
     },
     goPage(index) {
-      if (index == 4) {
-        return alert("建设中,尽情期待!");
-      } else {
+      // if (index == 4) {
+      //   return alert("建设中,尽情期待!");
+      // } else {
         this.current = index;
-      }
+      // }
     },
     showLogo() {
       this.logoshow = true;
