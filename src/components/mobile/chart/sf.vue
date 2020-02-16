@@ -107,7 +107,7 @@ export default {
           !xqObj[_xq_] && (xqObj[_xq_] = 0);
           !qyobj[_xq_] && (qyobj[_xq_] = 0);
           xqObj[_xq_] += parseInt(sanfan_cnt);
-          qyobj[_xq_] += parseInt(jhhw);
+          qyobj[_xq_] += parseInt(qy_cnt);
           if (["市本级", "其他区县"].indexOf(_xq_) < 0) {
             //  劝返人员统计
             !qfObj[_xq_] &&
@@ -239,11 +239,11 @@ export default {
               symbol: function(params, { name }) {
                 return name == "浙南" || name == "龙湾区" ? downurl : upurl;
               },
-              symbolSize: [84, 40],
+              symbolSize: [84, 34],
               label: {
                 normal: {
                   show: true,
-                  //  offset: [0, 5],
+                  offset: [0, 0],
                   //     offset: function(params, { name }) {
                   //   return name == "浙南" || name == "龙湾区" ? [0,1] : [0,-1];
                   // },
@@ -285,7 +285,7 @@ export default {
                   rich: {
                     title: {
                       color: "black",
-                      fontSize: 12,
+                      fontSize: 10,
                       fontWeight: "bold",
                       offset: [0, 1]
                     },

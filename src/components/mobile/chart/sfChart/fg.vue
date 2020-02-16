@@ -121,7 +121,7 @@ export default {
                 { offset: 1, color: "#F3C4B7" }
               ])
             },
-            data: this.chartData.hb.map(item => (item / 10000).toFixed(1))
+            data: this.chartData.hb.map(item => Math.round(item / 1000) / 10)
           },
           {
             name: "计划回温人员(万)",
@@ -133,10 +133,12 @@ export default {
               color: "#fff",
               formatter: ({ dataIndex }) => {
                 return (
-                  (this.chartData.hb[dataIndex] +
-                    this.chartData.rest[dataIndex]) /
-                  10000
-                ).toFixed(1);
+                  Math.round(
+                    (this.chartData.hb[dataIndex] +
+                      this.chartData.rest[dataIndex]) /
+                      1000
+                  ) / 10
+                );
               }
             },
             itemStyle: {
@@ -145,7 +147,7 @@ export default {
                 { offset: 1, color: "#89E2FF" }
               ])
             },
-            data: this.chartData.rest.map(item => (item / 10000).toFixed(1))
+            data: this.chartData.rest.map(item => Math.round(item / 1000) / 10)
           }
         ]
       });
