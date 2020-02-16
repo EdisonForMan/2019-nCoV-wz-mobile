@@ -342,7 +342,7 @@ export default {
           }
         },
         xAxis: {
-          boundaryGap: true, //默认，坐标轴留白策略
+          // boundaryGap: true, //默认，坐标轴留白策略
           axisLine: {
             show: true,
             lineStyle: {
@@ -360,8 +360,8 @@ export default {
             alignWithLabel: true
           },
           axisLabel: {
-            margin: 13,
-            rotate: 45
+            // margin: 13,
+            // rotate: 45
           },
           data: data.map(item => item.name)
         },
@@ -934,7 +934,7 @@ export default {
           }
         },
         xAxis: {
-          boundaryGap: true, //默认，坐标轴留白策略
+          // boundaryGap: true, //默认，坐标轴留白策略
           axisLine: {
             show: true,
             lineStyle: {
@@ -952,8 +952,8 @@ export default {
             alignWithLabel: true
           },
           axisLabel: {
-            margin: 13,
-            rotate: 45
+            // margin: 13,
+            // rotate: 45
           },
           data: window.nCov_qushiData.mrqxxz.dateArr
         },
@@ -1045,7 +1045,7 @@ export default {
           }
         },
         xAxis: {
-          boundaryGap: true, //默认，坐标轴留白策略
+          // boundaryGap: true, //默认，坐标轴留白策略
           axisLine: {
             show: true,
             lineStyle: {
@@ -1063,8 +1063,8 @@ export default {
             alignWithLabel: true
           },
           axisLabel: {
-            margin: 13,
-            rotate: 45
+            // margin: 13,
+            // rotate: 45
           },
           data: dateArr
         },
@@ -1152,7 +1152,7 @@ export default {
           }
         },
         xAxis: {
-          boundaryGap: true, //默认，坐标轴留白策略
+          // boundaryGap: true, //默认，坐标轴留白策略
           axisLine: {
             show: true,
             lineStyle: {
@@ -1170,8 +1170,8 @@ export default {
             alignWithLabel: true
           },
           axisLabel: {
-            margin: 13,
-            rotate: 45
+            // margin: 13,
+            // rotate: 45
           },
           data: window.nCov_qushiData.mrqxxzzy.dateArr
         },
@@ -1263,7 +1263,7 @@ export default {
           }
         },
         xAxis: {
-          boundaryGap: true, //默认，坐标轴留白策略
+          // boundaryGap: true, //默认，坐标轴留白策略
           axisLine: {
             show: true,
             lineStyle: {
@@ -1281,8 +1281,8 @@ export default {
             alignWithLabel: true
           },
           axisLabel: {
-            margin: 13,
-            rotate: 45
+            // margin: 13,
+            // rotate: 45
           },
           data: dateArr
         },
@@ -1349,7 +1349,7 @@ export default {
           }
         },
         xAxis: {
-          boundaryGap: true, //默认，坐标轴留白策略
+          // boundaryGap: true, //默认，坐标轴留白策略
           axisLine: {
             show: true,
             lineStyle: {
@@ -1367,8 +1367,8 @@ export default {
             alignWithLabel: true
           },
           axisLabel: {
-            margin: 13,
-            rotate: 45
+            // margin: 13,
+            // rotate: 45
           },
           data: this.$store.state.zyRateData.dateArr
         },
