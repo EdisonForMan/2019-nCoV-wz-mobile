@@ -50,7 +50,11 @@
       <div class="t3">三类区域</div>
       <div class="t4">四类区域</div>
     </div>
-    <div class="sjlz" v-if="current != 2">数据来源：{{current != 3 ? `温州市新冠肺炎工作领导小组`:`市大数据发展管理局`}}</div>
+    <div class="sjlz" v-if="current == 3">本页面返工企业人员数据每半小时更新</div>
+    <div
+      class="sjlz"
+      v-if="current != 2"
+    >数据来源：{{current != 3 ? `温州市新冠肺炎工作领导小组`: current!=4 ? `市大数据发展管理局`:`三返人员信息系统`}}</div>
     <div class="bottom" v-if="current != 2">
       <div class="float" v-show="logoshow">
         <span>技术支持:温州设计集团</span>
@@ -91,8 +95,8 @@ export default {
   components: { bl, fk, tb, pop, fx, sf },
   data() {
     return {
-      sfdate:"",
-      sftime:"",
+      sfdate: "",
+      sftime: "",
       toptab: [
         {
           label: "防控作战",
@@ -169,7 +173,7 @@ export default {
       // if (index == 4) {
       //   return alert("建设中,尽情期待!");
       // } else {
-        this.current = index;
+      this.current = index;
       // }
     },
     showLogo() {
