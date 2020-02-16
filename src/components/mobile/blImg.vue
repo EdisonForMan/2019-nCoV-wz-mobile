@@ -132,7 +132,13 @@ export default {
       );
       const bl = this.blxxList
         .filter(({ qx }) => qx.replace(/产业集聚区/g, "") == _xq_)
-        .sort(this.$util.compare("blxx"))
+        .map(item => {
+          return {
+            ...item,
+            time: +new Date("2020-" + item.blxx.split("日确诊")[0].split("月").join("-"))
+          };
+        })
+        .sort(this.$util.compare("time"))
         .reverse();
       this.xq = bl;
       //  病例小区合计

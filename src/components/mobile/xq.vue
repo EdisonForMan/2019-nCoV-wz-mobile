@@ -235,7 +235,13 @@ export default {
       const mapArr = [];
       const blList = this.blxxList
         .filter(({ qx }) => qx.replace(/产业集聚区/g, "") == _xq_)
-        .sort(this.$util.compare("blxx"))
+        .map(item => {
+          return {
+            ...item,
+            time: +new Date("2020-" + item.blxx.split("日确诊")[0].split("月").join("-"))
+          };
+        })
+        .sort(this.$util.compare("time"))
         .reverse();
       const xq = this.blList
         .filter(({ xq }) => xq.replace(/产业集聚区/g, "") == _xq_)

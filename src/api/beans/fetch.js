@@ -30,6 +30,7 @@ export const wz_qzjcysj = async () => {
 export const wz_blxxb = async () => {
   const axios = getDefaultAxios();
   const params = [
+    "id",
     "qx",
     "blxx",
     "gxsj",
