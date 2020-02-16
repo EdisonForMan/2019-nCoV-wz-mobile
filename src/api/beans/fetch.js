@@ -62,6 +62,26 @@ export const wz_sfxxbb = async (param) => {
 }
 
 /**
+ * [wz_blxxb]趋势数据
+ */
+export const view_qzcytjz = async () => {
+  const axios = getDefaultAxios();
+  const params = ['xq', 'date', '累计确诊人数', '治愈累积量', '当日新增确诊', '当日新增出院', '当日重症'];
+  const name = "view_qzcytjz";
+  return await axios.post("/dw/ds", option_concat(name, params));
+}
+
+/**
+ * [wz_blxxb]温州市区每日确诊治愈数
+ */
+export const view_zytj = async () => {
+  const axios = getDefaultAxios();
+  const params = ['date', '累计确诊人数', '治愈累积量', '治愈率'];
+  const name = "view_zytj";
+  return await axios.post("/dw/ds", option_concat(name, params));
+}
+
+/**
  * 配置
  * @param {*} name 
  * @param {*} cols 

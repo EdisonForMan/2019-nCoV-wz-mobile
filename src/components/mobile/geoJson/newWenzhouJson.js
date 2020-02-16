@@ -382,7 +382,7 @@ export const NEW_WENZHOU_JSON = {
         "type": "Feature",
         "properties": {
             "adcode": 330303,
-            "name": "浙聚区",
+            "name": "浙南",
             "center": [120.763469, 27.970254],
             "centroid": [120.815894, 27.890969],
             "childrenNum": 0,
