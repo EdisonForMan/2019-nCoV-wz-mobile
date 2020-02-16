@@ -102,7 +102,7 @@ export default {
       const mamReli = this.$store.state.mapReli;
       this.slots[0].values = mamReli.dateArr;
       this.mapDateArr = mamReli.dateArr;
-      this.$refs.current.innerText = this.mapDateArr[this.index].substr(5);
+      this.$refs.current.innerText = this.mapDateArr[this.index];
       this.reliData = mamReli.reliData;
       this.fetchQushiData().then(() => {
         this.mapData = this.$store.state.qushiData.mapData;
@@ -173,15 +173,15 @@ export default {
       };
       var heat = [];
       for (let i = 0; i <= this.index; i++) {
-        var mamReli = window.nCov_qushiData.mapReLi[this.mapDateArr[i]]
-          ? window.nCov_qushiData.mapReLi[this.mapDateArr[i]]
+        var mamReli = this.reliData[this.mapDateArr[i]]
+          ? this.reliData[this.mapDateArr[i]]
           : [];
         mamReli.map(item => {
           heat.push(item);
         });
       }
-      this.$refs.current.innerText = this.mapDateArr[this.index].substr(5);
-      let mapData = this.mapData[this.mapDateArr[this.index].substr(5)];
+      this.$refs.current.innerText = this.mapDateArr[this.index];
+      let mapData = this.mapData[this.mapDateArr[this.index]];
       // 后期加入数据
       let seriesData = Object.keys(mapData).map((item) => {
           return {
@@ -673,7 +673,7 @@ export default {
       const data = quxian.map((item) => {
         return {
           name: item,
-          value: this.mapData[lastDate][item]['qz']
+          value: this.mapData[lastDate][item]['srqz']
         };
       })
       this.chart.setOption({
@@ -779,7 +779,7 @@ export default {
       const data = quxian.map((item) => {
         return {
           name: item,
-          value: this.mapData[lastDate][item]['zy']
+          value: this.mapData[lastDate][item]['srzy']
         };
       })
       this.chart.setOption({
