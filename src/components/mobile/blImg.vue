@@ -13,7 +13,10 @@
             <span style="color:#ff4240">{{this.num}}</span>个
           </p>
         </div>
-        <img style="width:100%;" :src="`${this.server}${this.imgurl}/img/estate/${this.title}.png`" />
+        <img
+          style="width:100%;"
+          :src="`${this.server}${this.imgurl}/img/estate/${this.title}${$imgIndex?`_${$imgIndex}`:``}.png`"
+        />
         <div class="kind">
           <div class="t1">11~14</div>
           <div class="t2">6~10</div>
@@ -22,9 +25,9 @@
         </div>
         <img
           style="width:100%;"
-          :src="`${this.server}${this.imgurl}/img/estate/${this.title}1.png`"
+          :src="`${this.server}${this.imgurl}/img/estate/${this.title}1${$imgIndex?`_${$imgIndex}`:``}.png`"
         />
-         <!-- <div class="mapDiv" v-if="title=='永嘉县'">
+        <!-- <div class="mapDiv" v-if="title=='永嘉县'">
           <div id="bl-map"></div>
         </div>
         <div class="msg">
@@ -53,7 +56,7 @@
               </ul>
             </div>
           </div>
-        </div> -->
+        </div>-->
         <div class="bltitle">
           <img src="./img/blxq.png" />
           <p>病例信息</p>

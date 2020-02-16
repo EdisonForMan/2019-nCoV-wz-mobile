@@ -16,7 +16,7 @@ Vue.config.productionTip = false;
 Vue.prototype.$util = util;
 Vue.prototype.$ajax = $.ajax;
 Vue.prototype.$window = window;
-
+Vue.prototype.$imgIndex = ""; //  图片下标
 //路由跳转
 Vue.prototype.$goRoute = function (index) {
   this.$router.push({ name: index, params: { Jump: false } });

@@ -38,7 +38,7 @@ export default {
           textStyle: {
             color: "#fff"
           },
-          data: [{ name: "湖北籍人员(万)" }, { name: "其他籍贯人员(万)" }]
+          data: [{ name: "今日劝返人员(万)" }, { name: "累计劝返人员(万)" }]
         },
         xAxis: [
           {
@@ -101,7 +101,7 @@ export default {
         },
         series: [
           {
-            name: "湖北籍人员(万)",
+            name: "今日劝返人员(万)",
             type: "bar",
             stack: "one",
             label: {
@@ -123,7 +123,7 @@ export default {
             data: this.chartData.hb.map(item => (item / 10000).toFixed(1))
           },
           {
-            name: "其他籍贯人员(万)",
+            name: "累计劝返人员(万)",
             type: "bar",
             stack: "one",
             barWidth: 10,

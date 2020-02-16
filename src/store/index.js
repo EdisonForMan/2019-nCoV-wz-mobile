@@ -48,10 +48,10 @@ export default new Vuex.Store({
     updateFgList(state, val) {
       state.FgList = val;
     },
-    updatequshiData (state, val) {
+    updatequshiData(state, val) {
       state.qushiData = val;
     },
-    updateZyRateData (state, val) {
+    updateZyRateData(state, val) {
       state.zyRateData = val;
     }
   },
@@ -96,7 +96,7 @@ export default new Vuex.Store({
           mapData[data[i].date] = {};
           xqArr.map((item) => {
             const allDATA = data.filter((n) => {
-                return n.xq == item && n.date == data[i].date;
+              return n.xq == item && n.date == data[i].date;
             });
             let qz = 0,
               zz = 0,
@@ -154,11 +154,19 @@ export default new Vuex.Store({
     },
     async fetchQfList({ state, commit }) {
       const { data } = await wz_sfxxbb();
-      commit('updateQfList', data[0]["_"]);
+      const _data_ = data.map(item => {
+        const _item_ = item;
+        for (let v in _item_) {
+          ["id", "qx_name", "qx_order", "qx_id", "xz_name", "xz_order", "xz_id", "gxsj"].indexOf(v) < 0 &&
+            (_item_[v] = _item_[v] ? parseInt(_item_[v]) : 0)
+        }
+        return _item_;
+      })
+      commit('updateQfList', _data_);
       return Promise.resolve();
     },
     async fetchFgList({ state, commit }) {
-      const { data } = await wz_sfxxbb(['jhhw_cnt', 'jhhwhb_cnt', 'AREA1']);
+      const { data } = await wz_sfxxbb(['jhhw', 'jhhw_hb', 'qx_name']);
       commit('updateFgList', data);
       return Promise.resolve();
     },

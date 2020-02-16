@@ -5,27 +5,31 @@
       <div>
         <div>
           <p>
-            企业工地数
-            <i style="color:rgb(254,145,47)">{{qf_statistics[0]}}</i> 万家
+            意向复工企业数
+            <i style="color:rgb(21,181,160)">{{qf_statistics[0]}}</i> 家
           </p>
           <p>
             计划回温
-            <i style="color:rgb(21,181,160)">{{qf_statistics[2]}}</i> 万人
+            <i style="color:rgb(254,145,47)">{{qf_statistics[2]}}</i> 万人
           </p>
           <p>
             计划回温湖北籍
-            <br />
             <i>{{qf_statistics[3]}}</i> 万人
+          </p>
+          <p>
+            预期三日内回温人员
+            <i>{{qf_statistics[4]}}</i> 万人
           </p>
         </div>
       </div>
     </div>
     <div id="nyjj-map"></div>
+    <img src="../img/sftl.png" />
     <div class="kind">
-      <div class="t1">一类区域</div>
-      <div class="t2">二类区域</div>
-      <div class="t3">三类区域</div>
-      <div class="t4">四类区域</div>
+      <div class="t1">≥20万</div>
+      <div class="t2">≥10~＜20万</div>
+      <div class="t3">≥5~＜10万</div>
+      <div class="t4">＜5万</div>
     </div>
     <fg :chartData="fixed_fg" ref="fg_chart" />
     <qf :chartData="fixed_qf" ref="qf_chart" />
@@ -46,9 +50,11 @@ export default {
     return {
       chart: undefined,
       mapdata,
-      qf_statistics: [0, 0, 0, 0],
+      qf_statistics: [0, 0, 0, 0, 0],
       fixed_fg: { name: [], hb: [], rest: [] },
-      fixed_qf: { name: [], hb: [], rest: [] }
+      fixed_qf: { name: [], hb: [], rest: [] },
+      date: "",
+      time: ""
     };
   },
   components: { qf, fg, sfTop },
@@ -69,49 +75,60 @@ export default {
   methods: {
     qfDataFix() {
       if (!this.QfList.length) return;
+      this.date = this.QfList[0].gxsj.substring(8, 11);
+      this.time = this.QfList[0].gxsj.substring(11, 13);
+      console.log(this.QfList, this.date, this.time);
+      this.$parent.sfdate = this.QfList[0].gxsj.substring(8, 11);
+      this.$parent.sftime = this.QfList[0].gxsj.substring(11, 13);
       const xqObj = {};
+      const qyobj = {};
       const qfObj = {};
       const fgObj = {};
-      const qf_statistics = [0, 0, 0, 0];
+      const qf_statistics = [0, 0, 0, 0, 0];
       const all_back = 0;
       this.QfList.map(
         ({
           qy_cnt,
-          ry_cnt,
-          jhhw_cnt,
-          jhhwhb_cnt,
-          AREA1,
-          cgqf_cnt,
-          cgqfhb_cnt
+          sanfan_cnt,
+          jhhw,
+          jhhw_hb,
+          qx_name,
+          quanfan_cnt,
+          quanfan_today,
+          weilai3
         }) => {
           //  地图统计
-          const _xq_ = AREA1.replace(/产业集聚区/g, "");
+          const _xq_ = qx_name.replace(/产业集聚区/g, "");
           qf_statistics[0] += parseInt(qy_cnt);
-          qf_statistics[1] += parseInt(ry_cnt);
-          qf_statistics[2] += parseInt(jhhw_cnt);
-          qf_statistics[3] += parseInt(jhhwhb_cnt);
+          qf_statistics[1] += parseInt(sanfan_cnt);
+          qf_statistics[2] += parseInt(jhhw);
+          qf_statistics[3] += parseInt(jhhw_hb);
+          qf_statistics[4] += parseInt(weilai3);
           !xqObj[_xq_] && (xqObj[_xq_] = 0);
-          xqObj[_xq_] += parseInt(ry_cnt);
+          !qyobj[_xq_] && (qyobj[_xq_] = 0);
+          xqObj[_xq_] += parseInt(sanfan_cnt);
+          qyobj[_xq_] += parseInt(jhhw);
           if (["市本级", "其他区县"].indexOf(_xq_) < 0) {
             //  劝返人员统计
             !qfObj[_xq_] &&
               (qfObj[_xq_] = { name: _xq_, all: 0, hb: 0, rest: 0 });
-            qfObj[_xq_].all += parseInt(cgqf_cnt);
-            qfObj[_xq_].hb += parseInt(cgqfhb_cnt);
-            qfObj[_xq_].rest += parseInt(cgqf_cnt) - parseInt(cgqfhb_cnt);
+            qfObj[_xq_].all += parseInt(quanfan_cnt);
+            qfObj[_xq_].hb += parseInt(quanfan_today);
+            qfObj[_xq_].rest += parseInt(quanfan_cnt) - parseInt(quanfan_today);
             //  返工人员统计
             !fgObj[_xq_] &&
               (fgObj[_xq_] = { name: _xq_, all: 0, hb: 0, rest: 0 });
-            fgObj[_xq_].all += parseInt(jhhw_cnt);
-            fgObj[_xq_].hb += parseInt(jhhwhb_cnt);
-            fgObj[_xq_].rest += parseInt(jhhw_cnt) - parseInt(jhhwhb_cnt);
+            fgObj[_xq_].all += parseInt(jhhw);
+            fgObj[_xq_].hb += parseInt(jhhw_hb);
+            fgObj[_xq_].rest += parseInt(jhhw) - parseInt(jhhw_hb);
           }
         }
       );
       const _mapdata_ = this.$util.clone(this.mapdata).map(item => {
         return {
           ...item,
-          value: xqObj[item.name] ? (xqObj[item.name] / 10000).toFixed(1) : 0
+          value: xqObj[item.name] ? (xqObj[item.name] / 10000).toFixed(1) : 0,
+          qyvalue: qyobj[item.name] ? qyobj[item.name] : 0
         };
       });
       const _qf_ = [];
@@ -141,11 +158,13 @@ export default {
           fixed_fg.rest.push(rest);
         });
       this.qf_statistics = [
-        (qf_statistics[0] / 10000).toFixed(1),
+        parseInt(qf_statistics[0]),
         (qf_statistics[1] / 10000).toFixed(1),
         (qf_statistics[2] / 10000).toFixed(1),
-        (qf_statistics[3] / 10000).toFixed(1)
+        parseInt((qf_statistics[3] / 10000).toFixed(1)),
+        parseInt((qf_statistics[4] / 10000).toFixed(1))
       ];
+      console.log(fixed_fg);
       this.fixed_qf = fixed_qf;
       this.fixed_fg = fixed_fg;
       this.mapdata = _mapdata_;
@@ -183,14 +202,14 @@ export default {
             shadowColor: "#000"
           }
         },
-        // visualMap: {
-        //   show: false,
-        //   min: 0,
-        //   max: 5,
-        //   inRange: {
-        //     color: ["#FFFFFF", "#FFF2AC", "#FF912F", "#F72726"]
-        //   }
-        // },
+        visualMap: {
+          show: false,
+          min: 0,
+          max: 20,
+          inRange: {
+            color: ["#FFFFFF", "#FFF2AC", "#FF912F", "#F72726"]
+          }
+        },
         series: [
           {
             type: "map",
@@ -208,6 +227,7 @@ export default {
               return {
                 name: item.name,
                 value: item.value,
+                qyvalue: item.qyvalue,
                 itemStyle: {
                   color: item.color || "#fff"
                 },
@@ -219,37 +239,85 @@ export default {
               symbol: function(params, { name }) {
                 return name == "浙南" || name == "龙湾区" ? downurl : upurl;
               },
-              symbolSize: [78, 25],
+              symbolSize: [84, 40],
               label: {
                 normal: {
                   show: true,
-                  offset: [0, 1],
+                  //  offset: [0, 5],
+                  //     offset: function(params, { name }) {
+                  //   return name == "浙南" || name == "龙湾区" ? [0,1] : [0,-1];
+                  // },
                   textStyle: {
                     color: "#000"
                   },
                   position: "inside",
+                  align: "center",
                   formatter: function(params) {
-                    return (
-                      "{title|" +
-                      params.data.name
-                        .replace("县", "")
-                        .replace("区", "")
-                        .replace("市", "") +
-                      "}{num1|" +
-                      params.data.value +
-                      "}{e|万}"
-                    );
+                    return params.data.name != "龙湾区" ||
+                      params.data.name != "浙南"
+                      ? [
+                          "{title|" +
+                            params.data.name
+                              .replace("县", "")
+                              .replace("区", "")
+                              .replace("市", "") +
+                            "}",
+                          "{num2|" +
+                            params.data.qyvalue +
+                            "}/{num1|" +
+                            params.data.value +
+                            "}"
+                        ].join("\n")
+                      : [
+                          "{title1|" +
+                            params.data.name
+                              .replace("县", "")
+                              .replace("区", "")
+                              .replace("市", "") +
+                            "}",
+                          "{num3|" +
+                            params.data.qyvalue +
+                            "}/{num4|" +
+                            params.data.value +
+                            "}"
+                        ].join("\n");
                   },
                   rich: {
                     title: {
                       color: "black",
                       fontSize: 12,
-                      fontWeight: "bold"
+                      fontWeight: "bold",
+                      offset: [0, 1]
                     },
                     num1: {
                       color: "#FF4242",
                       fontSize: 12,
-                      fontWeight: "bold"
+                      fontWeight: "bold",
+                      offset: [0, 1]
+                    },
+                    num2: {
+                      color: "rgb(14,160,108)",
+                      fontSize: 12,
+                      fontWeight: "bold",
+                      offset: [0, 1]
+                    },
+                    title1: {
+                      color: "black",
+                      fontSize: 12,
+                      fontWeight: "bold",
+                      offset: [0, 5]
+                    },
+                    num3: {
+                      color: "#FF4242",
+                      fontSize: 12,
+                      fontWeight: "bold",
+                      offset: [0, 5]
+                    },
+                    num4: {
+                      color: "rgb(14,160,108)",
+                      fontSize: 12,
+                      fontWeight: "bold",
+                      offset: [0, 5]
                     },
                     e: {
                       color: "#FF4242",
@@ -269,7 +337,9 @@ export default {
           that.$router.push({
             path: "/sfDetail",
             query: {
-              label: that.mapdata[event.target.dataIndex].name
+              label: that.mapdata[event.target.dataIndex].name,
+              date: that.date,
+              time: that.time
             }
           });
         }
@@ -350,11 +420,12 @@ export default {
         p {
           text-align: left;
           font-weight: initial;
-          padding-left: 10px;
+          padding-left: 5px;
           font-size: 12px;
+          line-height: 19px;
           i {
             font-weight: bold;
-            font-size: 18px;
+            font-size: 14px;
           }
         }
         i {
@@ -381,6 +452,12 @@ export default {
         color: #d3ac12;
       }
     }
+  }
+  img {
+    width: 104px;
+    position: absolute;
+    bottom: 8%;
+    right: 1%;
   }
 }
 </style>

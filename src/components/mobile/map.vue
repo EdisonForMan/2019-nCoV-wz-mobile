@@ -50,15 +50,19 @@
       <div class="t3">三类区域</div>
       <div class="t4">四类区域</div>
     </div>
-    <div class="sjlz" v-if="current != 2">数据来源：{{current != 3 ? `温州市新冠肺炎工作领导小组`:`市大数据发展管理局`}}</div>
+    <div class="sjlz" style="bottom:7%;" v-if="current == 3">本页面返工企业人员数据每半小时更新</div>
+    <div
+      class="sjlz"
+      v-if="current != 2"
+    >数据来源：{{current != 3 ? `温州市新冠肺炎工作领导小组`: current!=4 ? `市大数据发展管理局`:`三返人员信息系统`}}</div>
     <div class="bottom" v-if="current != 2">
       <div class="float" v-show="logoshow">
         <span>技术支持:温州设计集团</span>
       </div>
       <p>
         <span class="text" style="margin-left:5px;">截至</span> 2020年 2月
-        <span class="time">{{date}}</span>日
-        <span class="time">24</span>时
+        <span class="time">{{current != 3 ?date:sfdate}}</span>日
+        <span class="time">{{current != 3 ?24:sftime}}</span>时
         <img style src="./img/logo.png" @click="showLogo()" />
       </p>
     </div>
@@ -91,6 +95,8 @@ export default {
   components: { bl, fk, tb, pop, fx, sf },
   data() {
     return {
+      sfdate: "",
+      sftime: "",
       toptab: [
         {
           label: "防控作战",
@@ -402,7 +408,7 @@ export default {
     position: absolute;
     width: 100%;
     text-align: center;
-    bottom: 5%;
+    bottom: 4%;
     font-size: 12px;
   }
   .qz {
@@ -448,7 +454,7 @@ export default {
     position: absolute;
     width: 100%;
     text-align: center;
-    bottom: 2%;
+    bottom: 1%;
     z-index: 2;
     .tips {
       width: 313px;

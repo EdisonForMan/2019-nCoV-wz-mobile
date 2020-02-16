@@ -10,7 +10,7 @@
         <li v-for="(item,index) in tabdata">
           <p>
             {{item.label}}
-            <span :style="{color:item.color}">{{item.value}}</span> 万
+            <span :style="{color:item.color}">{{item.value}}</span>
           </p>
         </li>
       </ul>
@@ -22,7 +22,10 @@
     <!-- 返工信息 -->
     <div class="bltitle" style="width:96%;margin-left: 2%;">
       <img src="../img/blxq.png" />
-      <p>返工信息<i style="color:#ccc;font-style:normal;">（左右可拖动查阅）</i></p>
+      <p>
+        返工信息
+        <i style="color:#ccc;font-style:normal;">（左右可拖动查阅）</i>
+      </p>
     </div>
     <div style="width: 96%;overflow: auto;margin-left: 2%;">
       <table style="width:900px;font-size:12px;" cellpadding="0" cellspacing="0">
@@ -33,36 +36,68 @@
               <br />街道
             </td>
             <td>
-              企业
-              <br />工地数
+              意向
+              <br />复工企业数(家)
             </td>
             <td>
               返工
-              <br />人员数
+              <br />员工数(人)
             </td>
             <td>
-              未返
-              <br />乡留温人数
+              湖北籍
+              <br />返工员工数(人)
+            </td>
+            <td>
+              留温
+              <br />员工数(人)
+            </td>
+            <td>
+              湖北籍
+              <br />留温员工数(人)
+            </td>
+            <td>
+              今日
+              <br />劝返数(人)
+            </td>
+            <td>
+              累计
+              <br />劝返数(人)
+            </td>
+            <td>
+              今日
+              <br />回温员工数(人)
+            </td>
+            <td>
+              湖北籍今日
+              <br />回温员工数(人)
+            </td>
+            <td>
+              今日
+              <br />回温隔离数(人)
+            </td>
+            <td>
+              回温员工
+              <br />累计数(人)
+            </td>
+            <td>
+              湖北籍
+              <br />回温员工累计数(人)
+            </td>
+            <td>
+              回温员工
+              <br />隔离累计数(人)
+            </td>
+            <td>
+              预期3天内
+              <br />回温人员(人)
             </td>
             <td>
               计划
-              <br />回温人数
+              <br />回温人员(人)
             </td>
             <td>
-              计划
-              <br />回温湖北人数
-            </td>
-            <td>
-              未来
-              <br />三天计划返工人数
-            </td>
-            <td>
-              成功
-              <br />劝返人数
-            </td>
-            <td>
-              成功
-              <br />劝返湖北人数
+              湖北籍
+              <br />计划回温人员(人)
             </td>
           </tr>
         </thead>
@@ -70,27 +105,36 @@
           <tr v-for="(item,key,index) in objData" :key="index">
             <td>{{key}}</td>
             <td>{{item.qy_cnt}}</td>
-            <td>{{item.ry_cnt}}</td>
-            <td>{{item.wfxlw_cnt}}</td>
-            <td>{{item.jhhw_cnt}}</td>
-            <td>{{item.jhhwhb_cnt}}</td>
-            <td>{{item.jhhw3_cnt}}</td>
-            <td>{{item.cgqf_cnt}}</td>
-            <td>{{item.cgqfhb_cnt}}</td>
+            <td>{{item.sanfan_cnt}}</td>
+            <td>{{item.sanfan_hb}}</td>
+            <td>{{item.liuwen_cnt}}</td>
+            <td>{{item.liuwen_hb}}</td>
+            <td>{{item.quanfan_today}}</td>
+            <td>{{item.quanfan_cnt}}</td>
+            <td>{{item.huiwen_today_cnt}}</td>
+            <td>{{item.huiwen_today_hb}}</td>
+            <td>{{item.huiwen_today_gl}}</td>
+            <td>{{item.huiwen_cnt}}</td>
+            <td>{{item.huiwen_hb}}</td>
+            <td>{{item.huiwen_gl}}</td>
+            <td>{{item.weilai3}}</td>
+            <td>{{item.jhhw}}</td>
+            <td>{{item.jhhw_hb}}</td>
           </tr>
         </tbody>
       </table>
     </div>
     <!-- 底部 -->
     <div class="bottom">
-      <div class="sjlz">数据来源：温州市新冠肺炎工作领导小组</div>
+      <div class="sjlz">本页面返工企业人员数据每半小时更新</div>
+      <div class="sjlz">数据来源：三返人员信息系统</div>
       <div class="float" v-show="logoshow">
         <span>技术支持:温州设计集团</span>
       </div>
       <p>
         <span class="text">截至</span> 2020年 2月
         <span class="time">{{date}}</span>日
-        <span class="time">24</span>时
+        <span class="time">{{time}}</span>时
         <img style src="../img/logo.png" @click="showLogo()" />
       </p>
     </div>
@@ -138,14 +182,16 @@ export default {
   data() {
     return {
       tabdata: [
-        { label: "企业工地数", value: 0, color: "#ff4142" },
+        { label: "意向复工企业数", value: 0, color: "#ff4142" },
         { label: "劝返人员数", value: 0, color: "#ff7d19" }
       ],
       xq: [],
       qz_flag: { red: 0, white: 0, rw: 0, wr: 0 },
       title: "",
       context,
-      date: window.date,
+      // date: window.date,
+      date: this.$route.query.date,
+      time: this.$route.query.time,
       server: "https://lysb.lucheng.gov.cn/other/",
       fk_imgtag: 9,
       logoshow: false,
@@ -183,7 +229,8 @@ export default {
       cur_map: null,
       cur_geo: null,
       cur_data: null,
-      objData: {}
+      objData: {},
+      fgnum: 0
     };
   },
   computed: {
@@ -208,42 +255,51 @@ export default {
       const mapData = {};
       const objData = {};
       const tabdata = [
-        { label: "企业工地数", value: 0, color: "#ff4142" },
+        { label: "意向复工企业数", value: 0, color: "#ff4142" },
         { label: "劝返人员数", value: 0, color: "#ff7d19" }
       ];
       let fgnum = 0;
       const xq = this.QfList.filter(
-        ({ AREA1 }) => AREA1.replace(/产业集聚区/g, "") == _xq_
+        ({ qx_name }) => qx_name.replace(/产业集聚区/g, "") == _xq_
       );
       xq.map(item => {
         //  地图
-        const xjjd = item.AREA2 == "灵昆街道" ? "瓯江口" : item.AREA2;
+        const xjjd = item.xz_name == "灵昆街道" ? "瓯江口" : item.xz_name;
         !mapData[xjjd] && (mapData[xjjd] = { name: xjjd, value: 0 });
-        mapData[xjjd].value += parseInt(item.ry_cnt);
+        mapData[xjjd].value += parseInt(item.sanfan_cnt);
         !objData[xjjd] &&
           (objData[xjjd] = {
             qy_cnt: 0,
-            ry_cnt: 0,
-            wfxlw_cnt: 0,
-            jhhw_cnt: 0,
-            jhhwhb_cnt: 0,
-            jhhw3_cnt: 0,
-            cgqf_cnt: 0,
-            cgqfhb_cnt: 0
+            sanfan_cnt: 0,
+            sanfan_hb: 0,
+            liuwen_cnt: 0,
+            liuwen_hb: 0,
+            quanfan_today: 0,
+            quanfan_cnt: 0,
+            huiwen_today_cnt: 0,
+            huiwen_today_hb: 0,
+            huiwen_today_gl: 0,
+            huiwen_cnt: 0,
+            huiwen_hb: 0,
+            huiwen_gl: 0,
+            weilai3: 0,
+            jhhw: 0,
+            jhhw_hb: 0
           });
         for (let v in objData[xjjd]) {
           objData[xjjd][v] += parseInt(item[v]);
         }
         tabdata[0].value += parseInt(item.qy_cnt);
-        tabdata[1].value += parseInt(item.cgqf_cnt);
-        fgnum += parseInt(item.ry_cnt);
+        tabdata[1].value += parseInt(item.quanfan_cnt);
+        fgnum += parseInt(item.sanfan_cnt);
       });
       this.xq = xq;
       this.cur_data = mapData;
       this.fgnum = (fgnum / 10000).toFixed(1);
       this.tabdata = tabdata.map(item => {
-        return { ...item, value: (item.value / 10000).toFixed(1) };
+        return { ...item, value: item.value };
       });
+      console.log(objData);
       this.objData = objData;
       //  地图初始化
       this.XQMap();
@@ -401,12 +457,11 @@ export default {
                   textBorderWidth: 1
                 },
                 formatter: params => {
-                  return (
-                    params.name.replace("街道", "") +
-                    (this.cur_data[params.name]
+                  return `${params.name.replace("街道", "")}${
+                    this.cur_data[params.name]
                       ? this.cur_data[params.name].value
-                      : 0)
-                  );
+                      : 0
+                  }人`;
                 },
                 position: "bottom"
               }
@@ -550,12 +605,11 @@ export default {
                   textBorderWidth: 1
                 },
                 formatter: params => {
-                  return (
-                    params.name.replace("街道", "") +
-                    (this.cur_data[params.name]
+                  return `${params.name.replace("街道", "")}${
+                    this.cur_data[params.name]
                       ? this.cur_data[params.name].value
-                      : 0)
-                  );
+                      : 0
+                  }人`;
                 },
                 position: "bottom"
               }
