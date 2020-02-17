@@ -231,7 +231,11 @@ export default {
       cur_geo: null,
       cur_data: null,
       objData: {},
-      fgnum: 0
+      fgnum: 0,
+      all: {
+        瓯江口: { name: "瓯江口", value: 0 },
+        龙港镇: { name: "龙港镇", value: 0 }
+      }
     };
   },
   computed: {
@@ -263,11 +267,17 @@ export default {
       const xq = this.QfList.filter(
         ({ qx_name }) => qx_name.replace(/产业集聚区/g, "") == _xq_
       );
+      const all = {
+        瓯江口: { name: "瓯江口", value: 0 },
+        龙港镇: { name: "龙港镇", value: 0 }
+      };
       xq.map(item => {
         //  地图
-        const xjjd = item.xz_name == "灵昆街道" ? "瓯江口" : item.xz_name;
+        const xjjd = item.xz_name;
         !mapData[xjjd] && (mapData[xjjd] = { name: xjjd, value: 0 });
         mapData[xjjd].value += parseInt(item.sanfan_cnt);
+        _xq_ == "瓯江口" && (all["瓯江口"].value += parseInt(item.sanfan_cnt));
+        _xq_ == "龙港市" && (all["龙港镇"].value += parseInt(item.sanfan_cnt));
         !objData[xjjd] &&
           (objData[xjjd] = {
             qy_cnt: 0,
@@ -297,10 +307,10 @@ export default {
       this.xq = xq;
       this.cur_data = mapData;
       this.fgnum = (fgnum / 10000).toFixed(1);
+      this.all = all;
       this.tabdata = tabdata.map(item => {
         return { ...item, value: item.value };
       });
-      console.log(objData);
       this.objData = objData;
       //  地图初始化
       this.XQMap();
@@ -458,10 +468,11 @@ export default {
                   textBorderWidth: 1
                 },
                 formatter: params => {
+                  let _data = this.cur_data;
+                  ~["龙港市", "瓯江口"].indexOf(this.title) &&
+                    (_data = this.all);
                   return `${params.name.replace("街道", "")}${
-                    this.cur_data[params.name]
-                      ? this.cur_data[params.name].value
-                      : 0
+                    _data[params.name] ? _data[params.name].value : 0
                   }人`;
                 },
                 position: "bottom"
