@@ -1,6 +1,6 @@
 <template>
   <div class="sf">
-    <sfTop title="全市" :num="qf_statistics[1]" :qynum="qf_statistics[0]"/>
+    <sfTop title="全市" :num="qf_statistics[1]" :qynum="qf_statistics[0]" />
     <div class="bottom">
       <p>
         <span class="text">截至</span> 2020年 2月
@@ -14,7 +14,7 @@
           <!-- <p>
             意向复工企业
             <i style="color:rgb(21,181,160)">{{qf_statistics[0]}}</i> 家
-          </p> -->
+          </p>-->
           <p>
             计划回温
             <i style="color:rgb(254,145,47)">{{qf_statistics[2]}}</i> 万人
@@ -43,17 +43,17 @@
     <qf :chartData="fixed_qf" ref="qf_chart" />
     <!-- 底部 -->
     <div class="bottom">
-      <div class="sjlz">本页面返工企业人员数据每半小时更新</div>
+      <!-- <div class="sjlz">本页面返工企业人员数据每半小时更新</div> -->
       <div class="sjlz">数据来源：三返人员信息系统</div>
       <div class="float" v-show="logoshow">
         <span>技术支持:温州设计集团</span>
       </div>
-      <p>
+      <!-- <p>
         <span class="text">截至</span> 2020年 2月
         <span class="time">{{date}}</span>日
         <span class="time">{{time}}</span>时数据，每30分钟更新数据
         <img style src="../img/logo.png" @click="showLogo()" />
-      </p>
+      </p> -->
     </div>
   </div>
 </template>
@@ -518,6 +518,8 @@ export default {
       margin: 0;
       display: inline-block;
       width: 100%;
+      position: relative;
+      top: -7px;
     }
     .float {
       position: fixed;

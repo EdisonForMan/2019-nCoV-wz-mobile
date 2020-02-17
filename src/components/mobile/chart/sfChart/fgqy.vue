@@ -1,6 +1,6 @@
 <template>
   <div class="fg-chart">
-    <div class="fg-chart-title">计划回温人员统计</div>
+    <div class="fg-chart-title">已提交复工申请企业分析</div>
     <div class="fg-chart-content" ref="fg"></div>
   </div>
 </template>

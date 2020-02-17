@@ -50,15 +50,15 @@
       <div class="t3">三类区域</div>
       <div class="t4">四类区域</div>
     </div>
-    <div
+    <!-- <div
       class="sjlz"
       v-if="current != 2 && current != 3"
-    >数据来源：{{current != 3 ? `温州市新冠肺炎工作领导小组`: current ==4 ? `市大数据发展管理局`:`三返人员信息系统`}}</div>
+    >数据来源：{{current != 3 ? `温州市新冠肺炎工作领导小组`: current ==4 ? `市大数据发展管理局`:`三返人员信息系统`}}</div> -->
     
-     <!-- <div
+     <div
       class="sjlz"
       v-if="current == 0 || current == 1"
-    >数据来源：温州市新冠肺炎工作领导小组</div> -->
+    >数据来源：温州市新冠肺炎工作领导小组</div>
     <div class="bottom" v-if="current == 0 || current == 1">
       <div class="float" v-show="logoshow">
         <span>技术支持:温州设计集团</span>
@@ -76,8 +76,8 @@
     <bl v-if="current == 1" ref="bl" />
     <tb v-if="current == 2" />
     <sf v-if="current == 3" />
-    <!-- <fg v-if="current == 4" /> -->
-    <fx v-if="current == 4" />
+    <fg v-if="current == 4" />
+    <!-- <fx v-if="current == 4" /> -->
   </div>
 </template>
 
@@ -124,16 +124,16 @@ export default {
           name: "Back",
           icon: require("./img/sf.png")
         },
-        // {
-        //   label: "复工复产",
-        //   name: "Restore",
-        //   icon: require("./img/fgfc.png")
-        // }
         {
-          label: "区域风险",
-          name: "Risk",
-          icon: require("./img/qy.png")
+          label: "复工复产",
+          name: "Restore",
+          icon: require("./img/fgfc.png")
         }
+        // {
+        //   label: "区域风险",
+        //   name: "Risk",
+        //   icon: require("./img/qy.png")
+        // }
       ],
       current: 0,
       reloadFlag: null,
@@ -188,11 +188,11 @@ export default {
       this.qz_num = qz_num;
     },
     goPage(index) {
-      if (index == 4) {
-        return alert("建设中,尽情期待!");
-       } else {
+      // if (index == 4) {
+      //   return alert("建设中,尽情期待!");
+      // } else {
       this.current = index;
-       }
+      // }
     },
     showLogo() {
       this.logoshow = true;

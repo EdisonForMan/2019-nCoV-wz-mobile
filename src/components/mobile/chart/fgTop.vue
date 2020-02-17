@@ -5,8 +5,15 @@
         <li>
           <img :src="person" alt />
           <p>
-            累计返工人数
-            <span>{{num}}</span> 万人
+            提交复工申请企业数总数
+            <span style="color:#ffbf13">{{num}}</span> 家
+          </p>
+        </li>
+        <li>
+          <img :src="person" alt />
+          <p>
+            通过复工申请企业数总数
+            <span style="color:#00cc6e">{{num}}</span> 家
           </p>
         </li>
       </ul>
@@ -19,7 +26,7 @@ export default {
   data: () => {
     return {
       fgxz: require("./img/fgxz.png"),
-      person: require("./img/person.png")
+      person: require("../img/fgtop.png")
     };
   },
   props: ["num", "title"]
@@ -33,14 +40,12 @@ export default {
   margin-bottom: 12px;
   p {
     color: #fff;
-    padding: 2px 0;
-    font-size: 13px;
+    font-size: 12px;
     padding-left: 5px;
     display: inline-block;
-    margin-left: 4px;
     span {
       color: #ff4242;
-      font-size: 18px;
+      font-size: 14px;
       font-weight: bold;
     }
   }
@@ -53,8 +58,8 @@ export default {
       background-image: linear-gradient(to right, #15005b, #4855d6, #15005b);
       padding: 8px;
       li {
-        height: 30px;
-        line-height: 30px;
+        height: 23px;
+        line-height: 23px;
         display: inline-block;
         text-align: center;
         * {
@@ -62,8 +67,8 @@ export default {
           vertical-align: top;
         }
         img {
-          height: 20px;
-          margin-top: 5px;
+          height: 14px;
+          margin-top: 4px;
         }
       }
     }

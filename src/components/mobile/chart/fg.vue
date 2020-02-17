@@ -1,52 +1,65 @@
 <template>
   <div class="sf">
-    <sfTop title="全市" :num="qf_statistics[1]" />
+    <fgTop title="全市" :num="qf_statistics[1]" />
+    <div class="bottom">
+      <p>
+        <span class="text">截至</span> 2020年 2月
+        <span class="time">{{date}}</span>日
+        <span class="time">{{time}}</span>时数据，每30分钟更新数据
+      </p>
+    </div>
     <div class="TOP_DATA">
+      <div>
+        <span style="font-size: 14px;position: relative;left: -15px;">已提交复工申请</span>
+        <div>
+          <p>
+            企业规(限)上
+            <i style="color:#a93fe0">{{qf_statistics[0]}}</i> 家
+          </p>
+          <p>
+            投资超1亿元工程
+            <i style="color:#a93fe0">{{qf_statistics[2]}}</i> 万人
+          </p>
+        </div>
+      </div>
       <div>
         <div>
           <p>
-            意向复工企业
-            <i style="color:rgb(21,181,160)">{{qf_statistics[0]}}</i> 家
+            市内返工员工
+            <i style="color:#15b5a0">{{qf_statistics[0]}}</i> 家
           </p>
           <p>
-            计划回温
-            <i style="color:rgb(254,145,47)">{{qf_statistics[2]}}</i> 万人
-          </p>
-          <p>
-            计划回温湖北籍
-            <i>{{qf_statistics[3]}}</i> 万人
-          </p>
-          <p>
-            预期三日内回温
-            <i>{{qf_statistics[4]}}</i> 万人
+            市外返工员工
+            <i style="color:#ff6000">{{qf_statistics[2]}}</i> 万人
           </p>
         </div>
       </div>
     </div>
     <div id="nyjj-map"></div>
-    <img class="sftl" src="../img/sftl.png" />
+    <img class="sftl" src="../img/fgtl.png" />
     <!-- <img class="down" :src="down" /> -->
     <div class="kind">
-      <div class="t1">≥20万</div>
-      <div class="t2">≥10~＜20万</div>
-      <div class="t3">≥5~＜10万</div>
-      <div class="t4">＜5万</div>
+      <p style="height: 23px;">提交复工申请企业总数</p>
+      <div class="t1">≥2万家</div>
+      <div class="t2">≥1~＜2万家</div>
+      <div class="t3">≥0.5~＜1万家</div>
+      <div class="t4">＜0.5万家</div>
     </div>
-    <fc :chartData="fixed_fg" ref="fg_chart" />
-    <fgfc :chartData="fixed_qf" ref="qf_chart" />
+    <fgqy :chartData="fixed_fg" ref="fg_chart" />
+    <fgyg :chartData="fixed_qf" ref="qf_chart" />
     <!-- 底部 -->
     <div class="bottom">
-      <div class="sjlz">本页面返工企业人员数据每半小时更新</div>
+      <!-- <div class="sjlz">本页面返工企业人员数据每半小时更新</div> -->
       <div class="sjlz">数据来源：三返人员信息系统</div>
       <div class="float" v-show="logoshow">
         <span>技术支持:温州设计集团</span>
       </div>
-      <p>
+      <!-- <p>
         <span class="text">截至</span> 2020年 2月
         <span class="time">{{date}}</span>日
         <span class="time">{{time}}</span>时
         <img style src="../img/logo.png" @click="showLogo()" />
-      </p>
+      </p>-->
     </div>
   </div>
 </template>
@@ -54,9 +67,9 @@
 <script>
 /* eslint-disable */
 import wenzhouMap from "../geoJson/WenZhou";
-import fc from "./sfChart/fc";
-import fgfc from "./sfChart/fgfc";
-import sfTop from "./sfTop";
+import fgqy from "./sfChart/fgqy";
+import fgyg from "./sfChart/fgyg";
+import fgTop from "./fgTop";
 import { mapdata } from "../mapdata";
 import { mapState } from "vuex";
 
@@ -74,7 +87,7 @@ export default {
       down: require("./img/down.png")
     };
   },
-  components: { fc, fgfc, sfTop },
+  components: { fgqy, fgyg, fgTop },
   computed: {
     ...mapState({
       QfList: state => state.QfList
@@ -393,7 +406,7 @@ export default {
     height: 80%;
   }
   .kind {
-    padding: 10px;
+    padding: 0px;
     width: 100%;
     box-sizing: border-box;
     font-size: 12px;
@@ -512,6 +525,8 @@ export default {
       margin: 0;
       display: inline-block;
       width: 100%;
+      position: relative;
+      top: -7px;
     }
     .float {
       position: fixed;

@@ -1,6 +1,6 @@
 <template>
   <div class="qf-chart">
-    <div class="qf-chart-title">成功劝返人员统计</div>
+    <div class="qf-chart-title">已提交复工申请员工分析</div>
     <div class="qf-chart-content" ref="qf"></div>
   </div>
 </template>

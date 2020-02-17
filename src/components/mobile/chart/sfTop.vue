@@ -40,7 +40,7 @@ export default {
     margin-left: 4px;
     span {
       color: #ff4242;
-      font-size: 18px;
+      font-size: 14px;
       font-weight: bold;
     }
   }
