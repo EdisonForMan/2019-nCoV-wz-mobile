@@ -25,7 +25,7 @@
     </div>
     <div id="nyjj-map"></div>
     <img class="sftl" src="../img/sftl.png" />
-    <img class="down" :src="down" />
+    <!-- <img class="down" :src="down" /> -->
     <div class="kind">
       <div class="t1">≥20万</div>
       <div class="t2">≥10~＜20万</div>
