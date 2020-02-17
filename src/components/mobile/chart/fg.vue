@@ -365,7 +365,7 @@ export default {
       that.chart.getZr().on("click", function(event) {
         if (event.target) {
           that.$router.push({
-            path: "/sfDetail",
+            path: "/fgDetail",
             query: {
               label: that.mapdata[event.target.dataIndex].name,
               date: that.date,

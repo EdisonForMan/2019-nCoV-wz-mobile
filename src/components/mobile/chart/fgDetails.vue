@@ -4,8 +4,22 @@
       <img src="../img/back.png" @click="back()" />
       <p>{{$route.query.label}}三返人员分布图</p>
     </div>
-    <sfTop :title="title" :num="fgnum" />
+    <!-- <fgtop :title="title" :num="fgnum" /> -->
+    <div class="qz">
+      <div class="qz_num">
+        <ul>
+          <li>
+            <img :src="person" alt />
+            <p>
+              提交复工申请企业数总数
+              <span style="color:#ffbf13">1378</span> 家
+            </p>
+          </li>
+        </ul>
+      </div>
+    </div>
     <div id="bl-head">
+      <p style="height: 20px;">已提交复工申请</p>
       <ul>
         <li v-for="(item,index) in tabdata">
           <p>
@@ -20,11 +34,18 @@
       <div id="xq-map"></div>
       <div id="xq-map2" v-if="title == '瑞安市' || title == '平阳县'"></div>
     </div>
+     <div class="kind">
+      <p style="height: 23px;">提交复工申请企业总数</p>
+      <div class="t1">≥2万家</div>
+      <div class="t2">≥1~＜2万家</div>
+      <div class="t3">≥0.5~＜1万家</div>
+      <div class="t4">＜0.5万家</div>
+    </div>
     <!-- 返工信息 -->
     <div class="bltitle" style="width:96%;margin-left: 2%;">
       <img src="../img/blxq.png" />
       <p>
-        返工信息
+        复工返工信息
         <i style="color:#ccc;font-style:normal;">（左右可拖动查阅）</i>
       </p>
     </div>
@@ -32,73 +53,57 @@
       <table style="width:900px;font-size:12px;" cellpadding="0" cellspacing="0">
         <thead>
           <tr>
-            <td style="width:60px;">
+            <td rowspan="2" style="width:60px;">
               乡镇
               <br />街道
             </td>
+            <td colspan="5">
+              已提交复工复产申请
+            </td>
+            <td colspan="5">
+              复工复产备案通过
+            </td>
+          </tr>
+          <tr>
             <td>
-              意向
-              <br />复工企业数(家)
+              企业
+              <br />总数
             </td>
             <td>
-              返工
-              <br />员工数(人)
+              规(限)
+              <br />上企业
             </td>
             <td>
-              湖北籍
-              <br />返工员工数(人)
+              超一亿
+              <br />项目
             </td>
             <td>
-              留温
-              <br />员工数(人)
+              市外
+              <br />员工
             </td>
             <td>
-              湖北籍
-              <br />留温员工数(人)
+              市内
+              <br />员工
             </td>
             <td>
-              今日
-              <br />劝返数(人)
+              企业
+              <br />总数
             </td>
             <td>
-              累计
-              <br />劝返数(人)
+              规(限)
+              <br />上企业
             </td>
             <td>
-              今日
-              <br />回温员工数(人)
+             超一亿
+              <br />项目
             </td>
             <td>
-              湖北籍今日
-              <br />回温员工数(人)
+              市内
+              <br />员工
             </td>
             <td>
-              今日
-              <br />回温隔离数(人)
-            </td>
-            <td>
-              回温员工
-              <br />累计数(人)
-            </td>
-            <td>
-              湖北籍
-              <br />回温员工累计数(人)
-            </td>
-            <td>
-              回温员工
-              <br />隔离累计数(人)
-            </td>
-            <td>
-              预期3天内
-              <br />回温人员(人)
-            </td>
-            <td>
-              计划
-              <br />回温人员(人)
-            </td>
-            <td>
-              湖北籍
-              <br />计划回温人员(人)
+              市外
+              <br />员工
             </td>
           </tr>
         </thead>
@@ -115,12 +120,12 @@
             <td>{{item.huiwen_today_cnt}}</td>
             <td>{{item.huiwen_today_hb}}</td>
             <td>{{item.huiwen_today_gl}}</td>
-            <td>{{item.huiwen_cnt}}</td>
+            <!-- <td>{{item.huiwen_cnt}}</td>
             <td>{{item.huiwen_hb}}</td>
             <td>{{item.huiwen_gl}}</td>
             <td>{{item.weilai3}}</td>
             <td>{{item.jhhw}}</td>
-            <td>{{item.jhhw_hb}}</td>
+            <td>{{item.jhhw_hb}}</td> -->
           </tr>
         </tbody>
       </table>
@@ -143,7 +148,7 @@
 </template>
 
 <script>
-import sfTop from "./sfTop";
+import fgtop from "./fgTop";
 import { mapState } from "vuex";
 import MAP_YONGJIA from "../geoJson/map_YongJia";
 import MAP_LUCHENG from "../geoJson/map_LuCheng";
@@ -179,13 +184,16 @@ import {
 } from "../data/geo_Data";
 
 export default {
-  components: { sfTop },
+  components: { fgtop },
   data() {
     return {
       tabdata: [
-        { label: "意向复工企业", value: 0, color: "#ff4142", unit: "家" },
-        { label: "劝返人员", value: 0, color: "#ff7d19", unit: "人" }
+        { label: "企业规(限)上", value: 0, color: "#a93fe0", unit: "家" },
+        { label: "市内返工员工", value: 0, color: "#15b5a0", unit: "人" },
+        { label: "投资额1亿元工程", value: 0, color: "#ff6000", unit: "家" },
+        { label: "市外返工员工", value: 0, color: "#a93fe0", unit: "人" }
       ],
+      person: require("../img/fgtop.png"),
       xq: [],
       qz_flag: { red: 0, white: 0, rw: 0, wr: 0 },
       title: "",
@@ -260,8 +268,10 @@ export default {
       const mapData = {};
       const objData = {};
       const tabdata = [
-        { label: "意向复工企业", value: 0, color: "#ff4142", unit: "家" },
-        { label: "劝返人员", value: 0, color: "#ff7d19", unit: "人" }
+        { label: "企业规(限)上", value: 0, color: "#a93fe0", unit: "家" },
+        { label: "市内返工员工", value: 0, color: "#15b5a0", unit: "人" },
+        { label: "投资额1亿元工程", value: 0, color: "#ff6000", unit: "家" },
+        { label: "市外返工员工", value: 0, color: "#a93fe0", unit: "人" }
       ];
       let fgnum = 0;
       const xq = this.QfList.filter(
@@ -302,6 +312,8 @@ export default {
         }
         tabdata[0].value += parseInt(item.qy_cnt);
         tabdata[1].value += parseInt(item.quanfan_cnt);
+        tabdata[2].value += parseInt(item.qy_cnt);
+        tabdata[3].value += parseInt(item.quanfan_cnt);
         fgnum += parseInt(item.sanfan_cnt);
       });
       this.xq = xq;
@@ -651,6 +663,14 @@ export default {
 </script>
 
 <style lang="less" scoped>
+@MaxHeight: 36px;
+.topLine(@height:100%,@block:inline-block) {
+  display: @block;
+  vertical-align: top;
+  height: @height;
+  line-height: @height;
+  text-align: center;
+}
 .sfDetails {
   background-image: url("../img/bg.jpg");
   width: 100%;
@@ -681,6 +701,46 @@ export default {
       padding-top: 15px;
     }
   }
+  .qz {
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    p {
+      color: #fff;
+      font-size: 12px;
+      padding-left: 5px;
+      display: inline-block;
+      span {
+        color: #ff4242;
+        font-size: 14px;
+        font-weight: bold;
+      }
+    }
+    .qz_num {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 0px 10px;
+      ul {
+        list-style: none;
+        background-image: linear-gradient(to right, #15005b, #4855d6, #15005b);
+        padding: 8px;
+        li {
+          height: 23px;
+          line-height: 23px;
+          display: inline-block;
+          text-align: center;
+          * {
+            display: inline-block;
+            vertical-align: top;
+          }
+          img {
+            height: 14px;
+            margin-top: 4px;
+          }
+        }
+      }
+    }
+  }
 }
 
 html,
@@ -696,21 +756,51 @@ body {
 }
 #bl-head {
   position: relative;
-  width: 90%;
-  background-color: rgba(12, 16, 67, 0.8);
-  left: 5%;
-  border-radius: 20px;
-  padding: 6px 0px;
+  width: 100%;
   font-size: 12px;
   li {
     list-style: none;
-    width: 44%;
+    width: 45%;
     display: inline-block;
     border-left: 3px solid #298ceb;
+    padding: 4px;
     span {
       font-size: 14px;
       font-weight: bold;
     }
+  }
+}
+.kind {
+  padding: 0px;
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 12px;
+  margin-bottom: 10px;
+  > div {
+     .topLine(@MaxHeight);
+    width: 23%;
+    position: relative;
+    margin: 0 2px;
+  }
+  > div:before {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 4px;
+    position: absolute;
+    top: 0;
+  }
+  .t1:before {
+    background-color: rgb(247, 39, 38);
+  }
+  .t2:before {
+    background-color: rgb(255, 145, 47);
+  }
+  .t3:before {
+    background-color: rgb(255, 242, 172);
+  }
+  .t4:before {
+    background-color: rgb(255, 255, 255);
   }
 }
 .mapDiv {

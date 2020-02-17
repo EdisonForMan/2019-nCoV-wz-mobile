@@ -11,6 +11,7 @@ import MobileXq from "./components/mobile/xq.vue"
 import MobileGK from "./components/mobile/gk.vue"
 import BlImg from "./components/mobile/blImg.vue"
 import sfDetail from "./components/mobile/chart/sfDetails.vue"
+import fgDetail from "./components/mobile/chart/fgDetails.vue"
 
 Vue.use(Router);
 
@@ -44,6 +45,11 @@ export default new Router({
         path: "/sfDetail",
         name: "sfDetail",
         component: sfDetail
+      },
+      {
+        path: "/fgDetail",
+        name: "fgDetail",
+        component: fgDetail
       },
       {
         path: "/monitor",
