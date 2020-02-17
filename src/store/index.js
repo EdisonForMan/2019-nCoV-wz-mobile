@@ -25,7 +25,8 @@ export default new Vuex.Store({
       reliMapData: []
     },
     QfList: {},
-    FgList: {}
+    FgList: {},
+    FgSpList:{}
   },
   mutations: {
     updateBlList(state, val) {
@@ -51,6 +52,9 @@ export default new Vuex.Store({
     },
     updateFgList(state, val) {
       state.FgList = val;
+    },
+    updateFgSpList(state, val) {
+      state.FgSpList = val;
     },
     updatequshiData(state, val) {
       state.qushiData = val;

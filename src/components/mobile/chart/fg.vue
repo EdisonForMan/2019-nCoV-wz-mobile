@@ -26,11 +26,11 @@
         <div>
           <p>
             市内返工员工
-            <i style="color:#15b5a0">{{qf_statistics[0]}}</i> 家
+            <i style="color:#15b5a0">{{qf_statistics[3]}}</i> 家
           </p>
           <p>
             市外返工员工
-            <i style="color:#ff6000">{{qf_statistics[2]}}</i> 万人
+            <i style="color:#ff6000">{{qf_statistics[4]}}</i> 万人
           </p>
         </div>
       </div>
