@@ -54,7 +54,12 @@
       class="sjlz"
       v-if="current != 2 && current != 3"
     >数据来源：{{current != 3 ? `温州市新冠肺炎工作领导小组`: current ==4 ? `市大数据发展管理局`:`三返人员信息系统`}}</div>
-    <div class="bottom" v-if="current != 2 && current != 3">
+    
+     <!-- <div
+      class="sjlz"
+      v-if="current == 0 || current == 1"
+    >数据来源：温州市新冠肺炎工作领导小组</div> -->
+    <div class="bottom" v-if="current == 0 || current == 1">
       <div class="float" v-show="logoshow">
         <span>技术支持:温州设计集团</span>
       </div>
@@ -71,6 +76,7 @@
     <bl v-if="current == 1" ref="bl" />
     <tb v-if="current == 2" />
     <sf v-if="current == 3" />
+    <!-- <fg v-if="current == 4" /> -->
     <fx v-if="current == 4" />
   </div>
 </template>
@@ -83,6 +89,7 @@ import fk from "./chart/fk";
 import tb from "./chart/tb";
 import fx from "./chart/fx";
 import sf from "./chart/sf";
+import fg from "./chart/fg";
 import pop from "./chart/popDiv"; //阵地详情弹框
 import wx from "weixin-js-sdk";
 // import dd from "dingtalk-jsapi";
@@ -91,7 +98,7 @@ import { mapState, mapActions } from "vuex";
 
 export default {
   name: "Mobile",
-  components: { bl, fk, tb, pop, fx, sf },
+  components: { bl, fk, tb, pop, fx, sf, fg },
   data() {
     return {
       sfdate: "",
@@ -117,6 +124,11 @@ export default {
           name: "Back",
           icon: require("./img/sf.png")
         },
+        // {
+        //   label: "复工复产",
+        //   name: "Restore",
+        //   icon: require("./img/fgfc.png")
+        // }
         {
           label: "区域风险",
           name: "Risk",
@@ -178,9 +190,9 @@ export default {
     goPage(index) {
       if (index == 4) {
         return alert("建设中,尽情期待!");
-      } else {
-        this.current = index;
-      }
+       } else {
+      this.current = index;
+       }
     },
     showLogo() {
       this.logoshow = true;

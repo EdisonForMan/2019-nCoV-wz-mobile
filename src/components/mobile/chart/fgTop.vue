@@ -5,7 +5,7 @@
         <li>
           <img :src="person" alt />
           <p>
-            <span style="color:rgb(21,181,160)">{{qynum}}</span>家企业累计填报返工人数
+            累计返工人数
             <span>{{num}}</span> 万人
           </p>
         </li>
@@ -22,7 +22,7 @@ export default {
       person: require("./img/person.png")
     };
   },
-  props: ["num", "title","qynum"]
+  props: ["num", "title"]
 };
 </script>
 
@@ -34,7 +34,7 @@ export default {
   p {
     color: #fff;
     padding: 2px 0;
-    font-size: 12px;
+    font-size: 13px;
     padding-left: 5px;
     display: inline-block;
     margin-left: 4px;

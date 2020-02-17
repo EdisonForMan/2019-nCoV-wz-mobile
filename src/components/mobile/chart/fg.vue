@@ -1,20 +1,13 @@
 <template>
   <div class="sf">
-    <sfTop title="全市" :num="qf_statistics[1]" :qynum="qf_statistics[0]"/>
-    <div class="bottom">
-      <p>
-        <span class="text">截至</span> 2020年 2月
-        <span class="time">{{date}}</span>日
-        <span class="time">{{time}}</span>时数据，每30分钟更新数据
-      </p>
-    </div>
+    <sfTop title="全市" :num="qf_statistics[1]" />
     <div class="TOP_DATA">
       <div>
         <div>
-          <!-- <p>
+          <p>
             意向复工企业
             <i style="color:rgb(21,181,160)">{{qf_statistics[0]}}</i> 家
-          </p> -->
+          </p>
           <p>
             计划回温
             <i style="color:rgb(254,145,47)">{{qf_statistics[2]}}</i> 万人
@@ -39,8 +32,8 @@
       <div class="t3">≥5~＜10万</div>
       <div class="t4">＜5万</div>
     </div>
-    <fg :chartData="fixed_fg" ref="fg_chart" />
-    <qf :chartData="fixed_qf" ref="qf_chart" />
+    <fc :chartData="fixed_fg" ref="fg_chart" />
+    <fgfc :chartData="fixed_qf" ref="qf_chart" />
     <!-- 底部 -->
     <div class="bottom">
       <div class="sjlz">本页面返工企业人员数据每半小时更新</div>
@@ -51,7 +44,7 @@
       <p>
         <span class="text">截至</span> 2020年 2月
         <span class="time">{{date}}</span>日
-        <span class="time">{{time}}</span>时数据，每30分钟更新数据
+        <span class="time">{{time}}</span>时
         <img style src="../img/logo.png" @click="showLogo()" />
       </p>
     </div>
@@ -61,8 +54,8 @@
 <script>
 /* eslint-disable */
 import wenzhouMap from "../geoJson/WenZhou";
-import qf from "./sfChart/qf";
-import fg from "./sfChart/fg";
+import fc from "./sfChart/fc";
+import fgfc from "./sfChart/fgfc";
 import sfTop from "./sfTop";
 import { mapdata } from "../mapdata";
 import { mapState } from "vuex";
@@ -81,7 +74,7 @@ export default {
       down: require("./img/down.png")
     };
   },
-  components: { qf, fg, sfTop },
+  components: { fc, fgfc, sfTop },
   computed: {
     ...mapState({
       QfList: state => state.QfList
@@ -188,6 +181,7 @@ export default {
         parseInt((qf_statistics[3] / 10000).toFixed(1)),
         parseInt((qf_statistics[4] / 10000).toFixed(1))
       ];
+      console.log(fixed_fg);
       this.fixed_qf = fixed_qf;
       this.fixed_fg = fixed_fg;
       this.mapdata = _mapdata_;
