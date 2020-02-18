@@ -2,7 +2,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 Vue.use(Vuex);
-import { wz_qzjcysj, wz_blxxb, wz_bqztb, wz_jdqdhbqb, wz_qzkjhzbb, wz_sfxxbb, view_qzcytjz, view_zytj } from "@/api/beans/fetch";
+import { wz_qzjcysj, wz_blxxb, wz_bqztb, wz_jdqdhbqb, wz_qzkjhzbb, wz_sfxxbb, view_qzcytjz, view_zytj, wz_fgfcxx } from "@/api/beans/fetch";
 export default new Vuex.Store({
   state: {
     /** 首页病例 */
@@ -26,7 +26,7 @@ export default new Vuex.Store({
     },
     QfList: {},
     FgList: {},
-    FgSpList:{}
+    FgfcList: {}
   },
   mutations: {
     updateBlList(state, val) {
@@ -53,8 +53,8 @@ export default new Vuex.Store({
     updateFgList(state, val) {
       state.FgList = val;
     },
-    updateFgSpList(state, val) {
-      state.FgSpList = val;
+    updateFgfcList(state, val) {
+      state.FgfcList = val;
     },
     updatequshiData(state, val) {
       state.qushiData = val;
@@ -181,6 +181,14 @@ export default new Vuex.Store({
       const { data } = await wz_sfxxbb(['jhhw', 'jhhw_hb', 'qx_name']);
       commit('updateFgList', data);
       return Promise.resolve();
+    },
+    /**
+     * 复工复产信息
+     * @param {*} param0 
+     */
+    async fetchFgfcList({ state, commit }) {
+      const { data } = await wz_fgfcxx();
+      commit('updateFgfcList', data);
     },
   }
 });
