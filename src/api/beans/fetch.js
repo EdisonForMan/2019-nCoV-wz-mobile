@@ -112,9 +112,9 @@ export const wz_sfxxbb = async () => {
 };
 
 /**
- * [wz_fgspb]复工
+ * [wz_fgfcxx]复工
  */
-export const wz_fgspb = async () => {
+export const wz_fgfcxx = async () => {
   const axios = getDefaultAxios();
   // const option = { "res": "sql_wzxgfy", "ds": [{ "dsid": "_", "schema": { "tables": [{ "alias": "a", "name": "wz_sfrxx", "x": "0", "y": "0" }], "join": [], "cols": [{ "name": "id", "field": "a.id", "type": "int" }, { "name": "qx_name", "field": "a.qx_name", "type": "string(50)" }, { "name": "qx_order", "field": "a.qx_order", "type": "string(50)" }, { "name": "qx_id", "field": "a.qx_id", "type": "string(50)" }, { "name": "xz_name", "field": "a.xz_name", "type": "string(50)" }, { "name": "xz_order", "field": "a.xz_order", "type": "string(50)" }, { "name": "xz_id", "field": "a.xz_id", "type": "string(50)" }, { "name": "qy_cnt", "field": "a.qy_cnt", "type": "string(50)" }, { "name": "sanfan_cnt", "field": "a.sanfan_cnt", "type": "string(50)" }, { "name": "sanfan_hb", "field": "a.sanfan_hb", "type": "string(50)" }, { "name": "liuwen_cnt", "field": "a.liuwen_cnt", "type": "string(50)" }, { "name": "liuwen_hb", "field": "a.liuwen_hb", "type": "string(50)" }, { "name": "quanfan_today", "field": "a.quanfan_today", "type": "string(50)" }, { "name": "quanfan_cnt", "field": "a.quanfan_cnt", "type": "string(50)" }, { "name": "huiwen_today_cnt", "field": "a.huiwen_today_cnt", "type": "string(50)" }, { "name": "huiwen_today_hb", "field": "a.huiwen_today_hb", "type": "string(50)" }, { "name": "huiwen_today_gl", "field": "a.huiwen_today_gl", "type": "string(50)" }, { "name": "huiwen_cnt", "field": "a.huiwen_cnt", "type": "string(50)" }, { "name": "huiwen_hb", "field": "a.huiwen_hb", "type": "string(50)" }, { "name": "huiwen_gl", "field": "a.huiwen_gl", "type": "string(50)" }, { "name": "weilai3", "field": "a.weilai3", "type": "string(50)" }, { "name": "gxsj", "field": "a.gxsj", "type": "datetime" }, { "name": "jhhw", "field": "a.jhhw", "type": "string(50)" }, { "name": "jhhw_hb", "field": "a.jhhw_hb", "type": "string(50)" }], "wherejson": [{ "index": 1, "field": "a.id", "comp": "$eq", "param": "id" }, { "index": 2, "field": "a.qx_name", "comp": "$like", "value": "", "param": "qx_name" }, { "index": 3, "field": "a.xz_name", "comp": "$like", "value": "", "param": "xz_name" }], "groupby": [], "orderby": [{ "index": 1, "field": "a.id", "order": "asc" }], "update": {}, "params": [{ "name": "qx_name", "type": "", "info": "" }, { "name": "xz_name", "type": "", "info": "" }] }, "editor": {}, "params": {} }] };
   // return await axios.post("/dw/datastores", option);
@@ -137,7 +137,7 @@ export const wz_fgspb = async () => {
     "batg_ygqs_cnt",//备案通过返工员工数员工亲属
     "gxsj"//更新时间
   ];
-  const name = "wz_fgspb";
+  const name = "view_latsestfgspb";
   return await axios.post("/dw/ds", option_concat(name, params));
 };
 
