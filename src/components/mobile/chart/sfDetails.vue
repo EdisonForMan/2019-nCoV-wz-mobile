@@ -2,9 +2,9 @@
   <div class="sfDetails">
     <div class="head">
       <img src="../img/back.png" @click="back()" />
-      <p>{{$route.query.label}}三返人员分布图</p>
+      <p>{{$route.query.label}}预期返工分布图</p>
     </div>
-    <sfTop :title="title" :num="fgnum" :qynum="yxqy"/>
+    <sfTop :title="title" :num="fgnum" :qynum="yxqy" />
     <div id="bl-head">
       <ul>
         <li v-for="(item,index) in tabdata">
@@ -38,7 +38,7 @@
             </td>
             <td>
               填报
-              <br />企业
+              <br />企业(家)
             </td>
             <td>
               返工
@@ -236,7 +236,7 @@ export default {
         瓯江口: { name: "瓯江口", value: 0 },
         龙港镇: { name: "龙港镇", value: 0 }
       },
-      yxqy:0
+      yxqy: 0
     };
   },
   computed: {
@@ -332,6 +332,24 @@ export default {
     XQMap() {
       const that = this;
       this.chart.setOption({
+        tooltip: {
+          //提示框组件。
+          formatter: function(param) {
+            const _obj_ = that.objData[param.name] || {};
+            return [
+              param.name,
+              "填报返工企业总数: " + (_obj_.qy_cnt || 0) + "家",
+              "返工员工数: " + (_obj_.sanfan_cnt || 0) + "家",
+              "湖北籍返工员工数: " + (_obj_.sanfan_hb || 0) + "个",
+              "留温员工数: " + (_obj_.liuwen_cnt || 0) + "人",
+              "湖北籍留温员工数: " + (_obj_.liuwen_hb || 0) + "人"
+            ].join("\n");
+          },
+          extraCssText: "white-space:pre-wrap;text-align:left;",
+          textStyle: {
+            fontSize: "14"
+          }
+        },
         geo: {
           map: "wenzhou",
           aspectScale: 1,
@@ -473,7 +491,10 @@ export default {
                   let _data = this.cur_data;
                   ~["龙港市", "瓯江口"].indexOf(this.title) &&
                     (_data = this.all);
-                  return `${params.name.replace("街道", "")}${
+                  return `${params.name
+                    .replace("街道", "")
+                    .replace("镇", "")
+                    .replace("乡", "")}${
                     _data[params.name] ? _data[params.name].value : 0
                   }人`;
                 },
@@ -500,6 +521,24 @@ export default {
     XQMap2() {
       const that = this;
       this.chart2.setOption({
+        tooltip: {
+          //提示框组件。
+          formatter: function(param) {
+            const _obj_ = that.objData[param.name] || {};
+            return [
+              param.name,
+              "填报返工企业总数: " + (_obj_.qy_cnt || 0) + "家",
+              "返工员工数: " + (_obj_.sanfan_cnt || 0) + "家",
+              "湖北籍返工员工数: " + (_obj_.sanfan_hb || 0) + "个",
+              "留温员工数: " + (_obj_.liuwen_cnt || 0) + "人",
+              "湖北籍留温员工数: " + (_obj_.liuwen_hb || 0) + "人"
+            ].join("\n");
+          },
+          extraCssText: "white-space:pre-wrap;text-align:left;",
+          textStyle: {
+            fontSize: "14"
+          }
+        },
         geo: {
           map: "wenzhou2",
           aspectScale: 1,
@@ -619,7 +658,10 @@ export default {
                   textBorderWidth: 1
                 },
                 formatter: params => {
-                  return `${params.name.replace("街道", "")}${
+                  return `${params.name
+                    .replace("街道", "")
+                    .replace("镇", "")
+                    .replace("乡", "")}${
                     this.cur_data[params.name]
                       ? this.cur_data[params.name].value
                       : 0

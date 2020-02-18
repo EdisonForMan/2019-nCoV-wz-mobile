@@ -30,7 +30,7 @@
       </div>
     </div>
     <div id="nyjj-map"></div>
-    <img class="sftl" src="../img/sftl.png" />
+    <img class="sftl" src="../img/sftl_new.png" />
     <!-- <img class="down" :src="down" /> -->
     <div class="kind">
       <div class="t1">≥20万</div>
@@ -100,7 +100,6 @@ export default {
       if (!this.QfList.length) return;
       this.date = this.QfList[0].gxsj.substring(8, 10);
       this.time = this.QfList[0].gxsj.substring(11, 16);
-      console.log(this.QfList, this.date, this.time);
       this.$parent.sfdate = this.QfList[0].gxsj.substring(8, 10);
       this.$parent.sftime = this.QfList[0].gxsj.substring(11, 16);
       const xqObj = {};

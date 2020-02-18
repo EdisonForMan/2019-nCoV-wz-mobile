@@ -2,18 +2,12 @@
   <div class="qz">
     <div class="qz_num">
       <ul>
-        <li>
-          <img :src="person" alt />
+        <li v-for="(item,index) in num" :key="index">
+          <img :src="fgtop" alt />
           <p>
-            提交复工申请企业数总数
-            <span style="color:#ffbf13">{{num}}</span> 家
-          </p>
-        </li>
-        <li>
-          <img :src="person" alt />
-          <p>
-            通过复工申请企业数总数
-            <span style="color:#00cc6e">{{num}}</span> 家
+            {{item.title}}
+            <span :style="`color:#${item.color}`">{{item.value}}</span>
+            {{item.unit}}
           </p>
         </li>
       </ul>
@@ -25,11 +19,10 @@
 export default {
   data: () => {
     return {
-      fgxz: require("./img/fgxz.png"),
-      person: require("../img/fgtop.png")
+      fgtop: require("../img/fgtop.png")
     };
   },
-  props: ["num", "title"]
+  props: ["num"]
 };
 </script>
 
@@ -58,9 +51,9 @@ export default {
       background-image: linear-gradient(to right, #15005b, #4855d6, #15005b);
       padding: 8px;
       li {
-        height: 23px;
+        min-height: 23px;
         line-height: 23px;
-        display: inline-block;
+        display: block;
         text-align: center;
         * {
           display: inline-block;

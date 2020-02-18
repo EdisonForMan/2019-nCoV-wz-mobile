@@ -8,7 +8,7 @@
         <li
           v-for="(item,index) in toptab"
           :key="index"
-          :class="{top_active:index==current}"
+          :class="{top_active:index==current,top_force:item.force}"
           @click="goPage(index)"
         >
           <span>
@@ -18,7 +18,7 @@
         </li>
       </ul>
     </header>
-    <div class="qz" v-if="current == 0">
+    <div class="qz" v-if="current == 2">
       <div class="qz_num">
         <ul>
           <li>
@@ -44,7 +44,7 @@
     <!-- <div class="isGk isGkActive" @click="gkChange" v-if="current == 0">
       <img style="vertical-align: sub;width: 15px;" src="./img/gkl.png" /> 管控力
     </div>-->
-    <div class="kind" v-show="current ==0 || current == 1">
+    <div class="kind" v-show="current ==2 || current == 3">
       <div class="t1">一类区域</div>
       <div class="t2">二类区域</div>
       <div class="t3">三类区域</div>
@@ -53,13 +53,10 @@
     <!-- <div
       class="sjlz"
       v-if="current != 2 && current != 3"
-    >数据来源：{{current != 3 ? `温州市新冠肺炎工作领导小组`: current ==4 ? `市大数据发展管理局`:`三返人员信息系统`}}</div> -->
-    
-     <div
-      class="sjlz"
-      v-if="current == 0 || current == 1"
-    >数据来源：温州市新冠肺炎工作领导小组</div>
-    <div class="bottom" v-if="current == 0 || current == 1">
+    >数据来源：{{current != 3 ? `温州市新冠肺炎工作领导小组`: current ==4 ? `市大数据发展管理局`:`三返人员信息系统`}}</div>-->
+
+    <div class="sjlz" v-if="current == 2 || current == 3">数据来源：温州市新冠肺炎工作领导小组</div>
+    <div class="bottom" v-if="current == 2 || current == 3">
       <div class="float" v-show="logoshow">
         <span>技术支持:温州设计集团</span>
       </div>
@@ -72,11 +69,11 @@
     </div>
     <!-- 弹框 -->
     <pop ref="pop" />
-    <fk v-if="current == 0" ref="fk" />
-    <bl v-if="current == 1" ref="bl" />
-    <tb v-if="current == 2" />
-    <sf v-if="current == 3" />
-    <fg v-if="current == 4" />
+    <fg v-if="current == 0" />
+    <sf v-if="current == 1" />
+    <fk v-if="current == 2" ref="fk" />
+    <bl v-if="current == 3" ref="bl" />
+    <tb v-if="current == 4" />
     <!-- <fx v-if="current == 4" /> -->
   </div>
 </template>
@@ -105,6 +102,16 @@ export default {
       sftime: "",
       toptab: [
         {
+          label: "复工复产",
+          name: "Restore",
+          icon: require("./img/fgfc_new.png")
+        },
+        {
+          label: "三返人员",
+          name: "Back",
+          icon: require("./img/sf_new.png")
+        },
+        {
           label: "防控作战",
           name: "Map",
           icon: require("./img/fk.png")
@@ -118,16 +125,6 @@ export default {
           label: "疫情趋势",
           name: "Analyze",
           icon: require("./img/yq.png")
-        },
-        {
-          label: "三返人员",
-          name: "Back",
-          icon: require("./img/sf.png")
-        },
-        {
-          label: "复工复产",
-          name: "Restore",
-          icon: require("./img/fgfc.png")
         }
         // {
         //   label: "区域风险",
@@ -399,6 +396,9 @@ export default {
       }
       .top_active {
         opacity: 1 !important;
+      }
+      .top_force {
+        opacity: 0.8 !important;
       }
     }
   }

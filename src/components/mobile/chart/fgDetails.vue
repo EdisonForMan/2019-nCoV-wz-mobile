@@ -2,26 +2,12 @@
   <div class="sfDetails">
     <div class="head">
       <img src="../img/back.png" @click="back()" />
-      <p>{{$route.query.label}}三返人员分布图</p>
+      <p>{{$route.query.label}}复工复产分布图</p>
     </div>
-    <!-- <fgtop :title="title" :num="fgnum" /> -->
-    <div class="qz">
-      <div class="qz_num">
-        <ul>
-          <li>
-            <img :src="person" alt />
-            <p>
-              提交复工申请企业数总数
-              <span style="color:#ffbf13">1378</span> 家
-            </p>
-          </li>
-        </ul>
-      </div>
-    </div>
+    <fgtop :num="num" />
     <div id="bl-head">
-      <p style="height: 20px;">已提交复工申请</p>
       <ul>
-        <li v-for="(item,index) in tabdata">
+        <li v-for="(item,index) in tabdata" :key="index">
           <p>
             {{item.label}}
             <span :style="{color:item.color}">{{item.value}}</span>
@@ -34,13 +20,13 @@
       <div id="xq-map"></div>
       <div id="xq-map2" v-if="title == '瑞安市' || title == '平阳县'"></div>
     </div>
-     <div class="kind">
+    <!-- <div class="kind">
       <p style="height: 23px;">提交复工申请企业总数</p>
       <div class="t1">≥2万家</div>
       <div class="t2">≥1~＜2万家</div>
       <div class="t3">≥0.5~＜1万家</div>
       <div class="t4">＜0.5万家</div>
-    </div>
+    </div>-->
     <!-- 返工信息 -->
     <div class="bltitle" style="width:96%;margin-left: 2%;">
       <img src="../img/blxq.png" />
@@ -50,82 +36,48 @@
       </p>
     </div>
     <div style="width: 96%;overflow: auto;margin-left: 2%;">
-      <table style="width:900px;font-size:12px;" cellpadding="0" cellspacing="0">
+      <table style="width:500px;font-size:12px;" cellpadding="0" cellspacing="0">
         <thead>
           <tr>
             <td rowspan="2" style="width:60px;">
               乡镇
               <br />街道
             </td>
-            <td colspan="5">
-              已提交复工复产申请
-            </td>
-            <td colspan="5">
-              复工复产备案通过
-            </td>
-          </tr>
-          <tr>
             <td>
               企业
-              <br />总数
+              <br />总数(家)
             </td>
             <td>
               规(限)
-              <br />上企业
+              <br />上企业(家)
             </td>
             <td>
               超一亿
-              <br />项目
+              <br />项目(个)
             </td>
             <td>
-              市外
-              <br />员工
+              温州籍
+              <br />返工(人)
             </td>
             <td>
-              市内
-              <br />员工
-            </td>
-            <td>
-              企业
-              <br />总数
-            </td>
-            <td>
-              规(限)
-              <br />上企业
-            </td>
-            <td>
-             超一亿
-              <br />项目
-            </td>
-            <td>
-              市内
-              <br />员工
-            </td>
-            <td>
-              市外
-              <br />员工
+              非温州籍
+              <br />返工(人)
             </td>
           </tr>
         </thead>
         <tbody>
           <tr v-for="(item,key,index) in objData" :key="index">
             <td>{{key}}</td>
-            <td>{{item.qy_cnt}}</td>
-            <td>{{item.sanfan_cnt}}</td>
-            <td>{{item.sanfan_hb}}</td>
-            <td>{{item.liuwen_cnt}}</td>
-            <td>{{item.liuwen_hb}}</td>
-            <td>{{item.quanfan_today}}</td>
-            <td>{{item.quanfan_cnt}}</td>
-            <td>{{item.huiwen_today_cnt}}</td>
-            <td>{{item.huiwen_today_hb}}</td>
-            <td>{{item.huiwen_today_gl}}</td>
-            <!-- <td>{{item.huiwen_cnt}}</td>
-            <td>{{item.huiwen_hb}}</td>
-            <td>{{item.huiwen_gl}}</td>
-            <td>{{item.weilai3}}</td>
-            <td>{{item.jhhw}}</td>
-            <td>{{item.jhhw_hb}}</td> -->
+            <td>{{item.ysq_qy_cnt}}</td>
+            <td>{{item.ysq_gsqy_cnt}}</td>
+            <td>{{item.ysq_tzyygc_cnt}}</td>
+            <td>{{item.ysq_snfgrs_cnt}}</td>
+            <td>{{item.ysq_swfgrs_cnt}}</td>
+            <!-- <td>{{item.batg_qy_cnt}}</td>
+            <td>{{item.batg_gsqy_cnt}}</td>
+            <td>{{item.batg_tzyygc_cnt}}</td>
+            <td>{{item.batg_snfgrs_cnt}}</td>
+            <td>{{item.batg_swfgrs_cnt}}</td>-->
           </tr>
         </tbody>
       </table>
@@ -189,15 +141,20 @@ export default {
     return {
       tabdata: [
         { label: "企业规(限)上", value: 0, color: "#a93fe0", unit: "家" },
-        { label: "市内返工员工", value: 0, color: "#15b5a0", unit: "人" },
+        { label: "温州籍返工", value: 0, color: "#15b5a0", unit: "人" },
         { label: "投资额1亿元工程", value: 0, color: "#ff6000", unit: "家" },
-        { label: "市外返工员工", value: 0, color: "#a93fe0", unit: "人" }
+        { label: "非温州籍返工", value: 0, color: "#a93fe0", unit: "人" }
       ],
-      person: require("../img/fgtop.png"),
       xq: [],
-      qz_flag: { red: 0, white: 0, rw: 0, wr: 0 },
       title: "",
-      context,
+      num: [
+        {
+          title: "复工复产备案企业",
+          value: 0,
+          unit: "家",
+          color: "ffbf13"
+        }
+      ],
       // date: window.date,
       date: this.$route.query.date,
       time: this.$route.query.time,
@@ -239,7 +196,6 @@ export default {
       cur_geo: null,
       cur_data: null,
       objData: {},
-      fgnum: 0,
       all: {
         瓯江口: { name: "瓯江口", value: 0 },
         龙港镇: { name: "龙港镇", value: 0 }
@@ -248,7 +204,7 @@ export default {
   },
   computed: {
     ...mapState({
-      QfList: state => state.QfList
+      FgfcList: state => state.FgfcList
     })
   },
   mounted() {
@@ -258,68 +214,63 @@ export default {
     this.cur_geo = geo;
     this.XQMapInit();
     this.$nextTick(() => {
-      this.xqxx();
+      this.fgfcDataFix();
       $("#mapDiv").scrollLeft(document.body.clientWidth / 12);
     });
   },
   methods: {
-    xqxx() {
+    fgfcDataFix() {
       const _xq_ = this.$route.query.label.replace(/产业集聚区/g, "");
       const mapData = {};
       const objData = {};
+      let num = 0;
       const tabdata = [
         { label: "企业规(限)上", value: 0, color: "#a93fe0", unit: "家" },
-        { label: "市内返工员工", value: 0, color: "#15b5a0", unit: "人" },
+        { label: "温州籍返工", value: 0, color: "#15b5a0", unit: "人" },
         { label: "投资额1亿元工程", value: 0, color: "#ff6000", unit: "家" },
-        { label: "市外返工员工", value: 0, color: "#a93fe0", unit: "人" }
+        { label: "非温州籍返工", value: 0, color: "#a93fe0", unit: "人" }
       ];
-      let fgnum = 0;
-      const xq = this.QfList.filter(
-        ({ qx_name }) => qx_name.replace(/产业集聚区/g, "") == _xq_
+      const xq = this.FgfcList.filter(
+        ({ area1 }) => area1.replace(/产业集聚区/g, "") == _xq_
       );
       const all = {
         瓯江口: { name: "瓯江口", value: 0 },
         龙港镇: { name: "龙港镇", value: 0 }
       };
       xq.map(item => {
+        //  头部
+        num += parseInt(item.ysq_qy_cnt);
         //  地图
-        const xjjd = item.xz_name;
+        const xjjd = item.area2;
         !mapData[xjjd] && (mapData[xjjd] = { name: xjjd, value: 0 });
-        mapData[xjjd].value += parseInt(item.sanfan_cnt);
-        _xq_ == "瓯江口" && (all["瓯江口"].value += parseInt(item.sanfan_cnt));
-        _xq_ == "龙港市" && (all["龙港镇"].value += parseInt(item.sanfan_cnt));
+        mapData[xjjd].value += parseInt(item.ysq_qy_cnt);
+        _xq_ == "瓯江口" && (all["瓯江口"].value += parseInt(item.ysq_qy_cnt));
+        _xq_ == "龙港市" && (all["龙港镇"].value += parseInt(item.ysq_qy_cnt));
         !objData[xjjd] &&
           (objData[xjjd] = {
-            qy_cnt: 0,
-            sanfan_cnt: 0,
-            sanfan_hb: 0,
-            liuwen_cnt: 0,
-            liuwen_hb: 0,
-            quanfan_today: 0,
-            quanfan_cnt: 0,
-            huiwen_today_cnt: 0,
-            huiwen_today_hb: 0,
-            huiwen_today_gl: 0,
-            huiwen_cnt: 0,
-            huiwen_hb: 0,
-            huiwen_gl: 0,
-            weilai3: 0,
-            jhhw: 0,
-            jhhw_hb: 0
+            ysq_qy_cnt: 0,
+            ysq_tzyygc_cnt: 0,
+            ysq_gsqy_cnt: 0,
+            ysq_snfgrs_cnt: 0,
+            ysq_swfgrs_cnt: 0,
+            batg_qy_cnt: 0,
+            batg_tzyygc_cnt: 0,
+            batg_gsqy_cnt: 0,
+            batg_snfgrs_cnt: 0,
+            batg_swfgrs_cnt: 0
           });
         for (let v in objData[xjjd]) {
           objData[xjjd][v] += parseInt(item[v]);
         }
-        tabdata[0].value += parseInt(item.qy_cnt);
-        tabdata[1].value += parseInt(item.quanfan_cnt);
-        tabdata[2].value += parseInt(item.qy_cnt);
-        tabdata[3].value += parseInt(item.quanfan_cnt);
-        fgnum += parseInt(item.sanfan_cnt);
+        tabdata[0].value += parseInt(item.ysq_gsqy_cnt);
+        tabdata[1].value += parseInt(item.ysq_snfgrs_cnt);
+        tabdata[2].value += parseInt(item.ysq_tzyygc_cnt);
+        tabdata[3].value += parseInt(item.ysq_swfgrs_cnt);
       });
       this.xq = xq;
       this.cur_data = mapData;
-      this.fgnum = (fgnum / 10000).toFixed(1);
       this.all = all;
+      this.num[0].value = num;
       this.tabdata = tabdata.map(item => {
         return { ...item, value: item.value };
       });
@@ -342,6 +293,24 @@ export default {
     XQMap() {
       const that = this;
       this.chart.setOption({
+        tooltip: {
+          //提示框组件。
+          formatter: function(param) {
+            const _obj_ = that.objData[param.name] || {};
+            return [
+              param.name,
+              "备案企业总数: " + (_obj_.ysq_qy_cnt || 0) + "家",
+              "规(限)上企业数: " + (_obj_.ysq_gsqy_cnt || 0) + "家",
+              "投资额1亿元工程: " + (_obj_.ysq_tzyygc_cnt || 0) + "个",
+              "温州籍返工: " + (_obj_.ysq_snfgrs_cnt || 0) + "人",
+              "非温州籍返工: " + (_obj_.ysq_swfgrs_cnt || 0) + "人"
+            ].join("\n");
+          },
+          extraCssText: "white-space:pre-wrap;text-align:left;",
+          textStyle: {
+            fontSize: "14"
+          }
+        },
         geo: {
           map: "wenzhou",
           aspectScale: 1,
@@ -483,9 +452,12 @@ export default {
                   let _data = this.cur_data;
                   ~["龙港市", "瓯江口"].indexOf(this.title) &&
                     (_data = this.all);
-                  return `${params.name.replace("街道", "")}${
+                  return `${params.name
+                    .replace("街道", "")
+                    .replace("镇", "")
+                    .replace("乡", "")}${
                     _data[params.name] ? _data[params.name].value : 0
-                  }人`;
+                  }家`;
                 },
                 position: "bottom"
               }
@@ -510,6 +482,24 @@ export default {
     XQMap2() {
       const that = this;
       this.chart2.setOption({
+        tooltip: {
+          //提示框组件。
+          formatter: function(param) {
+            const _obj_ = that.objData[param.name] || {};
+            return [
+              param.name,
+              "备案企业总数: " + (_obj_.ysq_qy_cnt || 0) + "家",
+              "规(限)企业数: " + (_obj_.ysq_tzyygc_cnt || 0) + "家",
+              "投资额1亿元工程: " + (_obj_.ysq_gsqy_cnt || 0) + "个",
+              "温州籍返工: " + (_obj_.ysq_snfgrs_cnt || 0) + "人",
+              "非温州籍返工: " + (_obj_.ysq_swfgrs_cnt || 0) + "人"
+            ].join("\n");
+          },
+          extraCssText: "white-space:pre-wrap;text-align:left;",
+          textStyle: {
+            fontSize: "14"
+          }
+        },
         geo: {
           map: "wenzhou2",
           aspectScale: 1,
@@ -629,11 +619,14 @@ export default {
                   textBorderWidth: 1
                 },
                 formatter: params => {
-                  return `${params.name.replace("街道", "")}${
+                  return `${params.name
+                    .replace("街道", "")
+                    .replace("镇", "")
+                    .replace("乡", "")}${
                     this.cur_data[params.name]
                       ? this.cur_data[params.name].value
                       : 0
-                  }人`;
+                  }家`;
                 },
                 position: "bottom"
               }
@@ -777,7 +770,7 @@ body {
   font-size: 12px;
   margin-bottom: 10px;
   > div {
-     .topLine(@MaxHeight);
+    .topLine(@MaxHeight);
     width: 23%;
     position: relative;
     margin: 0 2px;

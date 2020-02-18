@@ -234,11 +234,21 @@ export default {
       const mapData = {};
       const mapArr = [];
       const blList = this.blxxList
-        .filter(({ qx }) => qx.replace(/产业集聚区/g, "") == _xq_)
+        .filter(({ qx }) =>
+          qx == "经开区"
+            ? _xq_ == "浙南"
+            : qx.replace(/产业集聚区/g, "") == _xq_
+        )
         .map(item => {
           return {
             ...item,
-            time: +new Date("2020-" + item.blxx.split("日确诊")[0].split("月").join("-"))
+            time: +new Date(
+              "2020-" +
+                item.blxx
+                  .split("日确诊")[0]
+                  .split("月")
+                  .join("-")
+            )
           };
         })
         .sort(this.$util.compare("time"))
