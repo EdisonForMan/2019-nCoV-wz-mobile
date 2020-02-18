@@ -5,7 +5,7 @@
         <li>
           <img :src="person" alt />
           <p>
-            <span style="color:rgb(21,181,160)">{{qynum}}</span>家企业累计填报返工人数
+            <span style="color:rgb(21,181,160)">{{qynum}}</span>家企业累计填报返工
             <span>{{num}}</span> 万人
           </p>
         </li>

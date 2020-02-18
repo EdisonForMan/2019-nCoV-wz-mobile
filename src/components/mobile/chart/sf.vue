@@ -1,10 +1,9 @@
 <template>
   <div class="sf">
-    <sfTop title="全市" :num="qf_statistics[1]" :qynum="qf_statistics[0]" />
+    <sfTop title="全市" :num="qf_statistics[1]" :qynum="qf_statistics[0]"/>
     <div class="bottom">
       <p>
-        <span class="text">截至</span> 2020年 2月
-        <span class="time">{{date}}</span>日
+        <span class="text">截至</span> 2020-2-<span class="time">{{date}}</span>&nbsp;
         <span class="time">{{time}}</span>时数据，每30分钟更新数据
       </p>
     </div>
@@ -14,7 +13,7 @@
           <!-- <p>
             意向复工企业
             <i style="color:rgb(21,181,160)">{{qf_statistics[0]}}</i> 家
-          </p>-->
+          </p> -->
           <p>
             计划回温
             <i style="color:rgb(254,145,47)">{{qf_statistics[2]}}</i> 万人
@@ -99,11 +98,11 @@ export default {
   methods: {
     qfDataFix() {
       if (!this.QfList.length) return;
-      this.date = this.QfList[0].gxsj.substring(8, 11);
-      this.time = this.QfList[0].gxsj.substring(11, 13);
+      this.date = this.QfList[0].gxsj.substring(8, 10);
+      this.time = this.QfList[0].gxsj.substring(11, 16);
       console.log(this.QfList, this.date, this.time);
-      this.$parent.sfdate = this.QfList[0].gxsj.substring(8, 11);
-      this.$parent.sftime = this.QfList[0].gxsj.substring(11, 13);
+      this.$parent.sfdate = this.QfList[0].gxsj.substring(8, 10);
+      this.$parent.sftime = this.QfList[0].gxsj.substring(11, 16);
       const xqObj = {};
       const qyobj = {};
       const qfObj = {};
@@ -519,7 +518,7 @@ export default {
       display: inline-block;
       width: 100%;
       position: relative;
-      top: -7px;
+      top:-7px;
     }
     .float {
       position: fixed;

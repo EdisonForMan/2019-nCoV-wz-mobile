@@ -4,7 +4,7 @@
       <img src="../img/back.png" @click="back()" />
       <p>{{$route.query.label}}三返人员分布图</p>
     </div>
-    <sfTop :title="title" :num="fgnum" />
+    <sfTop :title="title" :num="fgnum" :qynum="yxqy"/>
     <div id="bl-head">
       <ul>
         <li v-for="(item,index) in tabdata">
@@ -37,8 +37,8 @@
               <br />街道
             </td>
             <td>
-              意向
-              <br />复工企业数(家)
+              填报
+              <br />企业
             </td>
             <td>
               返工
@@ -183,8 +183,8 @@ export default {
   data() {
     return {
       tabdata: [
-        { label: "意向复工企业", value: 0, color: "#ff4142", unit: "家" },
-        { label: "劝返人员", value: 0, color: "#ff7d19", unit: "人" }
+        { label: "计划回温", value: 0, color: "rgb(254,145,47)", unit: "人" },
+        { label: "劝返人员", value: 0, color: "#a83fe1", unit: "人" }
       ],
       xq: [],
       qz_flag: { red: 0, white: 0, rw: 0, wr: 0 },
@@ -235,7 +235,8 @@ export default {
       all: {
         瓯江口: { name: "瓯江口", value: 0 },
         龙港镇: { name: "龙港镇", value: 0 }
-      }
+      },
+      yxqy:0
     };
   },
   computed: {
@@ -260,8 +261,8 @@ export default {
       const mapData = {};
       const objData = {};
       const tabdata = [
-        { label: "意向复工企业", value: 0, color: "#ff4142", unit: "家" },
-        { label: "劝返人员", value: 0, color: "#ff7d19", unit: "人" }
+        { label: "计划回温", value: 0, color: "rgb(254,145,47)", unit: "人" },
+        { label: "劝返人员", value: 0, color: "#a83fe1", unit: "人" }
       ];
       let fgnum = 0;
       const xq = this.QfList.filter(
@@ -300,7 +301,8 @@ export default {
         for (let v in objData[xjjd]) {
           objData[xjjd][v] += parseInt(item[v]);
         }
-        tabdata[0].value += parseInt(item.qy_cnt);
+        this.yxqy += parseInt(item.qy_cnt);
+        tabdata[0].value += parseInt(item.jhhw);
         tabdata[1].value += parseInt(item.quanfan_cnt);
         fgnum += parseInt(item.sanfan_cnt);
       });
