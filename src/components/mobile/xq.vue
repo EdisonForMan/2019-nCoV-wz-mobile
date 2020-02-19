@@ -135,7 +135,8 @@ export default {
       qz_flag: { red: 0, white: 0, rw: 0, wr: 0 },
       title: "",
       context,
-      date: window.date,
+      //date: window.date,
+      date:"",
       server: "https://lysb.lucheng.gov.cn/other/",
       fk_imgtag: 9,
       show: true,
@@ -192,6 +193,7 @@ export default {
   },
   mounted() {
     this.title = this.$route.query.label;
+    this.date = this.$date();
     this.$nextTick(() => {
       const [map, geo] = this.mapHash[this.$route.query.label];
       this.cur_map = map;
@@ -234,11 +236,21 @@ export default {
       const mapData = {};
       const mapArr = [];
       const blList = this.blxxList
-        .filter(({ qx }) => qx.replace(/产业集聚区/g, "") == _xq_)
+        .filter(({ qx }) =>
+          qx == "经开区"
+            ? _xq_ == "浙南"
+            : qx.replace(/产业集聚区/g, "") == _xq_
+        )
         .map(item => {
           return {
             ...item,
-            time: +new Date("2020-" + item.blxx.split("日确诊")[0].split("月").join("-"))
+            time: +new Date(
+              "2020-" +
+                item.blxx
+                  .split("日确诊")[0]
+                  .split("月")
+                  .join("-")
+            )
           };
         })
         .sort(this.$util.compare("time"))

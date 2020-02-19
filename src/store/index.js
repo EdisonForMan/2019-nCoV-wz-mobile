@@ -188,7 +188,15 @@ export default new Vuex.Store({
      */
     async fetchFgfcList({ state, commit }) {
       const { data } = await wz_fgfcxx();
-      commit('updateFgfcList', data);
+      const _data_ = data.map(item => {
+        const _item_ = item;
+        for (let v in _item_) {
+          ["id", "dept_id", "area1", "area2", "gxsj"].indexOf(v) < 0 &&
+            (_item_[v] = _item_[v] ? parseInt(_item_[v]) : 0)
+        }
+        return _item_;
+      })
+      commit('updateFgfcList', _data_);
     },
   }
 });

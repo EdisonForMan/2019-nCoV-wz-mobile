@@ -13,16 +13,14 @@
             <span style="color:#ff4240">{{this.num}}</span>个
           </p>
         </div>
-        <img
-          style="width:100%;"
-          :src="`${this.server}${this.imgurl}/img/estate/${this.title}.png`"
-        />
-        <div class="kind">
+        <img style="width:100%;" :src="`${this.server}${this.imgurl}/img/estate/${this.title}.png`" />
+        <img style="width:100%;" :src="`${this.server}${this.imgurl}/img/tl/${this.title}-T.png`" />
+        <!-- <div class="kind">
           <div class="t1">11~14</div>
           <div class="t2">6~10</div>
           <div class="t3">1~5</div>
           <div class="t4">0</div>
-        </div>
+        </div>-->
         <img
           style="width:100%;"
           :src="`${this.server}${this.imgurl}/img/estate/${this.title}1.png`"
@@ -108,7 +106,8 @@ export default {
       DATA_YONGJIA,
       TEST_DATA_YONGJIA,
       num: 0,
-      date: window.date,
+      //date: window.date,
+      date:"",
       logoshow: false,
       imgIndex: ""
     };
@@ -120,6 +119,7 @@ export default {
     })
   },
   mounted() {
+    this.date = this.$date();
     this.imgIndex = this.$imgIndex;
     this.xqxx();
   },
@@ -131,11 +131,21 @@ export default {
         ({ xq }) => xq.replace(/产业集聚区/g, "") == _xq_
       );
       const bl = this.blxxList
-        .filter(({ qx }) => qx.replace(/产业集聚区/g, "") == _xq_)
+        .filter(({ qx }) =>
+          qx == "经开区"
+            ? _xq_ == "浙南"
+            : qx.replace(/产业集聚区/g, "") == _xq_
+        )
         .map(item => {
           return {
             ...item,
-            time: +new Date("2020-" + item.blxx.split("日确诊")[0].split("月").join("-"))
+            time: +new Date(
+              "2020-" +
+                item.blxx
+                  .split("日确诊")[0]
+                  .split("月")
+                  .join("-")
+            )
           };
         })
         .sort(this.$util.compare("time"))

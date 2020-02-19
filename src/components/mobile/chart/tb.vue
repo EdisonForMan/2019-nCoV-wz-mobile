@@ -97,7 +97,7 @@ export default {
     };
   },
   mounted() {
-    this.$echarts.registerMap('qushiWZ', NEW_WENZHOU_JSON);
+    this.$echarts.registerMap("qushiWZ", NEW_WENZHOU_JSON);
     this.fetchReliXYList().then(() => {
       const mamReli = this.$store.state.mapReli;
       this.slots[0].values = mamReli.dateArr;
@@ -128,8 +128,8 @@ export default {
     this.cleartimeoutFlag();
   },
   methods: {
-    ...mapActions(['fetchReliXYList', 'fetchZyRateData', 'fetchQushiData']),
-    playHandler () {
+    ...mapActions(["fetchReliXYList", "fetchZyRateData", "fetchQushiData"]),
+    playHandler() {
       if (this.playFlag) {
         this.cleartimeoutFlag();
         this.playFlag = false;
@@ -156,20 +156,20 @@ export default {
     mapqushiChart() {
       this.chart = this.$echarts.init(document.getElementById("mapqushi"));
       const geoCoordMap = {
-          "鹿城": [120.489894, 28.082536], 
-          "龙湾": [120.853894, 27.910969], 
-          "瓯海": [120.501369, 27.996593],  
-          "洞头": [121.113762, 27.832626], 
-          "瑞安": [120.365572, 27.901998], 
-          "乐清": [120.978579, 28.220666], 
-          "永嘉": [120.642158, 28.330733], 
-          "文成": [119.982316, 27.807567], 
-          "平阳": [120.280537, 27.623857], 
-          "泰顺": [119.877783, 27.481151], 
-          "苍南": [120.452814, 27.381237], 
-          "龙港": [120.6099323, 27.52166944], 
-          "浙南": [120.770894, 27.830969], 
-          "瓯江口": [120.9299323, 27.98166944]
+        鹿城: [120.489894, 28.082536],
+        龙湾: [120.853894, 27.910969],
+        瓯海: [120.501369, 27.996593],
+        洞头: [121.113762, 27.832626],
+        瑞安: [120.365572, 27.901998],
+        乐清: [120.978579, 28.220666],
+        永嘉: [120.642158, 28.330733],
+        文成: [119.982316, 27.807567],
+        平阳: [120.280537, 27.623857],
+        泰顺: [119.877783, 27.481151],
+        苍南: [120.452814, 27.381237],
+        龙港: [120.6099323, 27.52166944],
+        浙南: [120.770894, 27.830969],
+        瓯江口: [120.9299323, 27.98166944]
       };
       var heat = [];
       for (let i = 0; i <= this.index; i++) {
@@ -183,11 +183,11 @@ export default {
       this.$refs.current.innerText = this.mapDateArr[this.index];
       let mapData = this.mapData[this.mapDateArr[this.index]];
       // 后期加入数据
-      let seriesData = Object.keys(mapData).map((item) => {
-          return {
-              name: item,
-              value: mapData[item].qz
-          }
+      let seriesData = Object.keys(mapData).map(item => {
+        return {
+          name: item,
+          value: mapData[item].qz
+        };
       });
       let convertData = function(data) {
         let scatterData = [];
@@ -258,40 +258,40 @@ export default {
                 label: {
                   show: false
                 }
-              },
+              }
             }
           },
           {
-            name: '',
-            type: 'scatter',
-            coordinateSystem: 'geo',
+            name: "",
+            type: "scatter",
+            coordinateSystem: "geo",
             symbolSize: 1,
-            symbol: 'circle',
+            symbol: "circle",
             tooltip: {
-                show: true
+              show: true
             },
             label: {
-                normal: {
-                    formatter: function (param) {
-                        return param.name + ' ' + param.value[2];
-                    },
-                    show: true,
-                    position: 'inside',
-                    textStyle: {
-                        color: 'rgb(194, 53, 49)',
-                        fontSize: 11,
-                        fontWeight: 'bold',
-                        padding: [0,0,0,3]
-                    }
+              normal: {
+                formatter: function(param) {
+                  return param.name + " " + param.value[2];
+                },
+                show: true,
+                position: "inside",
+                textStyle: {
+                  color: "rgb(194, 53, 49)",
+                  fontSize: 11,
+                  fontWeight: "bold",
+                  padding: [0, 0, 0, 3]
                 }
+              }
             },
             itemStyle: {
-                normal: {
-                    color: 'rgb(0,254,5)', //标志颜色
-                }
+              normal: {
+                color: "rgb(0,254,5)" //标志颜色
+              }
             },
             zlevel: 1,
-            data: convertData(seriesData),
+            data: convertData(seriesData)
           }
         ]
       });
@@ -303,20 +303,21 @@ export default {
     },
     zxtmrzyChart() {
       this.chart = this.$echarts.init(document.getElementById("zxt"));
-      var data = this.chartDateArr.map((item) => {
+      var data = this.chartDateArr.map(item => {
         const totalObj = this.mapData[item];
-        let srqzTotal = 0, srzyTotal = 0;
+        let srqzTotal = 0,
+          srzyTotal = 0;
         for (let key in totalObj) {
           if (totalObj.hasOwnProperty(key)) {
-            srqzTotal += totalObj[key]['srqz'];
-            srzyTotal += totalObj[key]['srzy'];
+            srqzTotal += totalObj[key]["srqz"];
+            srzyTotal += totalObj[key]["srzy"];
           }
         }
         return {
           name: item,
           qz: srqzTotal,
           zy: srzyTotal
-        }
+        };
       });
       this.chart.setOption({
         // backgroundColor: "rgb(13,25,49)",
@@ -343,6 +344,7 @@ export default {
         },
         xAxis: {
           // boundaryGap: true, //默认，坐标轴留白策略
+          splitNumber: 2,
           axisLine: {
             show: true,
             lineStyle: {
@@ -360,9 +362,11 @@ export default {
             alignWithLabel: true
           },
           axisLabel: {
-            // margin: 13,
-            // rotate: 45
+             rotate: 45,
+            showMaxLabel:true
+            //interval: 3
           },
+
           data: data.map(item => item.name)
         },
         yAxis: {
@@ -426,14 +430,29 @@ export default {
     zztChart() {
       this.chart = this.$echarts.init(document.getElementById("zzt"));
       const lastDate = this.chartDateArr[this.chartDateArr.length - 1];
-      const quxian = ['鹿城', '龙湾', '瓯海', '洞头', '瑞安', '乐清', '永嘉', '文成', '平阳', '泰顺', '苍南', '龙港', '浙南', '瓯江口'];
-      const data = quxian.map((item) => {
+      const quxian = [
+        "鹿城",
+        "龙湾",
+        "瓯海",
+        "洞头",
+        "瑞安",
+        "乐清",
+        "永嘉",
+        "文成",
+        "平阳",
+        "泰顺",
+        "苍南",
+        "龙港",
+        "浙南",
+        "瓯江口"
+      ];
+      const data = quxian.map(item => {
         return {
           name: item,
-          qz: this.mapData[lastDate][item]['qz'],
-          zy: this.mapData[lastDate][item]['zy']
+          qz: this.mapData[lastDate][item]["qz"],
+          zy: this.mapData[lastDate][item]["zy"]
         };
-      })
+      });
       this.chart.setOption({
         tooltip: {
           trigger: "axis",
@@ -669,13 +688,28 @@ export default {
     mrqxqzChart() {
       this.chart = this.$echarts.init(document.getElementById("mrqxqz"));
       const lastDate = this.chartDateArr[this.chartDateArr.length - 1];
-      const quxian = ['鹿城', '龙湾', '瓯海', '洞头', '瑞安', '乐清', '永嘉', '文成', '平阳', '泰顺', '苍南', '龙港', '浙南', '瓯江口'];
-      const data = quxian.map((item) => {
+      const quxian = [
+        "鹿城",
+        "龙湾",
+        "瓯海",
+        "洞头",
+        "瑞安",
+        "乐清",
+        "永嘉",
+        "文成",
+        "平阳",
+        "泰顺",
+        "苍南",
+        "龙港",
+        "浙南",
+        "瓯江口"
+      ];
+      const data = quxian.map(item => {
         return {
           name: item,
-          value: this.mapData[lastDate][item]['srqz']
+          value: this.mapData[lastDate][item]["srqz"]
         };
-      })
+      });
       this.chart.setOption({
         grid: {
           top: "30%",
@@ -767,7 +801,8 @@ export default {
               color: "#F9B87C"
             },
             barWidth: 11,
-            data: data.map(item => item.value)
+             data: data.map(item => item.value)
+            // data: [0,0,0,0,0,0,0,0,0,0,0,0,0,0]
           }
         ]
       });
@@ -775,13 +810,28 @@ export default {
     mrqxzyChart() {
       this.chart = this.$echarts.init(document.getElementById("mrqxzy"));
       const lastDate = this.chartDateArr[this.chartDateArr.length - 1];
-      const quxian = ['鹿城', '龙湾', '瓯海', '洞头', '瑞安', '乐清', '永嘉', '文成', '平阳', '泰顺', '苍南', '龙港', '浙南', '瓯江口'];
-      const data = quxian.map((item) => {
+      const quxian = [
+        "鹿城",
+        "龙湾",
+        "瓯海",
+        "洞头",
+        "瑞安",
+        "乐清",
+        "永嘉",
+        "文成",
+        "平阳",
+        "泰顺",
+        "苍南",
+        "龙港",
+        "浙南",
+        "瓯江口"
+      ];
+      const data = quxian.map(item => {
         return {
           name: item,
-          value: this.mapData[lastDate][item]['srzy']
+          value: this.mapData[lastDate][item]["srzy"]
         };
-      })
+      });
       this.chart.setOption({
         // backgroundColor: "rgb(13,25,49)",
         grid: {
@@ -873,7 +923,9 @@ export default {
               fontWeight: 800,
               color: "#48E7EA"
             },
-            data: data.map(item => item.value)
+             data: data.map(item => item.value)
+            // data:[0,1,1,0,0,6,1,0,3,1,1,0,0,0]
+            
           }
         ]
       });
@@ -953,7 +1005,8 @@ export default {
           },
           axisLabel: {
             // margin: 13,
-            // rotate: 45
+             rotate: 45,
+              showMaxLabel:true
           },
           data: window.nCov_qushiData.mrqxxz.dateArr
         },
@@ -988,12 +1041,27 @@ export default {
     mrqxljChart() {
       this.chart = this.$echarts.init(document.getElementById("mrqxlj"));
       var series = [];
-      var legendData = ['鹿城', '龙湾', '瓯海', '洞头', '瑞安', '乐清', '永嘉', '文成', '平阳', '泰顺', '苍南', '龙港', '浙南', '瓯江口'];
+      var legendData = [
+        "鹿城",
+        "龙湾",
+        "瓯海",
+        "洞头",
+        "瑞安",
+        "乐清",
+        "永嘉",
+        "文成",
+        "平阳",
+        "泰顺",
+        "苍南",
+        "龙港",
+        "浙南",
+        "瓯江口"
+      ];
       const dateArr = this.chartDateArr;
-      series = legendData.map((quxian) => {
+      series = legendData.map(quxian => {
         const data = [];
-        dateArr.map((n) => {
-          data.push(this.mapData[n][quxian]['qz']);
+        dateArr.map(n => {
+          data.push(this.mapData[n][quxian]["qz"]);
         });
         return {
           name: quxian,
@@ -1004,7 +1072,7 @@ export default {
             show: false
           },
           data: data
-        }
+        };
       });
       this.chart.setOption({
         color: [
@@ -1064,7 +1132,8 @@ export default {
           },
           axisLabel: {
             // margin: 13,
-            // rotate: 45
+             rotate: 45,
+              showMaxLabel:true
           },
           data: dateArr
         },
@@ -1171,7 +1240,8 @@ export default {
           },
           axisLabel: {
             // margin: 13,
-            // rotate: 45
+             rotate: 45,
+              showMaxLabel:true
           },
           data: window.nCov_qushiData.mrqxxzzy.dateArr
         },
@@ -1206,12 +1276,27 @@ export default {
     mrqxljzyChart() {
       this.chart = this.$echarts.init(document.getElementById("mrqxljzy"));
       var series = [];
-      var legendData = ['鹿城', '龙湾', '瓯海', '洞头', '瑞安', '乐清', '永嘉', '文成', '平阳', '泰顺', '苍南', '龙港', '浙南', '瓯江口'];
+      var legendData = [
+        "鹿城",
+        "龙湾",
+        "瓯海",
+        "洞头",
+        "瑞安",
+        "乐清",
+        "永嘉",
+        "文成",
+        "平阳",
+        "泰顺",
+        "苍南",
+        "龙港",
+        "浙南",
+        "瓯江口"
+      ];
       const dateArr = this.chartDateArr;
-      series = legendData.map((quxian) => {
+      series = legendData.map(quxian => {
         const data = [];
-        dateArr.map((n) => {
-          data.push(this.mapData[n][quxian]['zy']);
+        dateArr.map(n => {
+          data.push(this.mapData[n][quxian]["zy"]);
         });
         return {
           name: quxian,
@@ -1222,7 +1307,7 @@ export default {
             show: false
           },
           data: data
-        }
+        };
       });
       this.chart.setOption({
         color: [
@@ -1282,7 +1367,8 @@ export default {
           },
           axisLabel: {
             // margin: 13,
-            // rotate: 45
+             rotate: 45,
+              showMaxLabel:true
           },
           data: dateArr
         },
@@ -1368,7 +1454,8 @@ export default {
           },
           axisLabel: {
             // margin: 13,
-            // rotate: 45
+             rotate: 45,
+              showMaxLabel:true
           },
           data: this.$store.state.zyRateData.dateArr
         },
@@ -1437,7 +1524,9 @@ export default {
                 )
               }
             },
-            data: this.$store.state.zyRateData.value.map((item) => item.toFixed(2))
+            data: this.$store.state.zyRateData.value.map(item =>
+              item.toFixed(2)
+            )
           }
         ]
       });

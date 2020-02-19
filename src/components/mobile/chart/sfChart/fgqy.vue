@@ -1,6 +1,6 @@
 <template>
   <div class="fg-chart">
-    <div class="fg-chart-title">已提交复工申请企业分析</div>
+    <div class="fg-chart-title">复工复产备案企业分析</div>
     <div class="fg-chart-content" ref="fg"></div>
   </div>
 </template>
@@ -27,7 +27,7 @@ export default {
           }
         },
         grid: {
-          top: "10%",
+          top: "20%",
           left: "0",
           right: "4%",
           bottom: "5%",
@@ -35,12 +35,17 @@ export default {
         },
         legend: {
           show: true,
-          left: "center",
-          top: "1%",
+          right: "10%",
+          orient:"vertical",
+          top: "10%",
           textStyle: {
             color: "#fff"
           },
-          data: [{ name: "计划回温人员(万)" }, { name: "湖北计划回温人数(万)" }]
+          data: [
+            { name: "其他企业/工程" },
+            { name: "规(限)上企业" },
+            { name: "投资超过一亿工程" }
+          ]
         },
         xAxis: [
           {
@@ -103,17 +108,13 @@ export default {
         },
         series: [
           {
-            name: "湖北计划回温人数(万)",
+            name: "投资超过一亿工程",
             type: "bar",
             stack: "one",
             barWidth: 10,
             label: {
-              position: "top",
-              show: false,
-              color: "#fff",
-              formatter: function(param) {
-                return param.value;
-              }
+              position: "inside",
+              show: false
             },
             itemStyle: {
               color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [
@@ -121,10 +122,26 @@ export default {
                 { offset: 1, color: "#F3C4B7" }
               ])
             },
-            data: this.chartData.hb.map(item => Math.round(item / 100) / 100)
+            data: this.chartData.yy
           },
           {
-            name: "计划回温人员(万)",
+            name: "规(限)上企业",
+            type: "bar",
+            stack: "one",
+            label: {
+              position: "inside",
+              show: false
+            },
+            itemStyle: {
+              color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                { offset: 0, color: "#DAA520" },
+                { offset: 1, color: "#FFFF00" }
+              ])
+            },
+            data: this.chartData.gs
+          },
+          {
+            name: "其他企业/工程",
             type: "bar",
             stack: "one",
             label: {
@@ -132,22 +149,16 @@ export default {
               show: true,
               color: "#fff",
               formatter: ({ dataIndex }) => {
-                return (
-                  Math.round(
-                    (this.chartData.hb[dataIndex] +
-                      this.chartData.rest[dataIndex]) /
-                      1000
-                  ) / 10
-                );
+                return this.chartData.all[dataIndex];
               }
             },
             itemStyle: {
               color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                { offset: 0, color: "#4E9BE9" },
-                { offset: 1, color: "#89E2FF" }
+                { offset: 0, color: "#A93FE0" },
+                { offset: 1, color: "#CF72FF" }
               ])
             },
-            data: this.chartData.rest.map(item => Math.round(item / 100) / 100)
+            data: this.chartData.rest
           }
         ]
       });

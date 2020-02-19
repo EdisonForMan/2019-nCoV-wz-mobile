@@ -1,6 +1,6 @@
 <template>
   <div class="qf-chart">
-    <div class="qf-chart-title">已提交复工申请员工分析</div>
+    <div class="qf-chart-title">复工复产备案员工分析</div>
     <div class="qf-chart-content" ref="qf"></div>
   </div>
 </template>
@@ -33,12 +33,13 @@ export default {
         },
         legend: {
           show: true,
-          left: "center",
-          top: "1%",
+          right: "10%",
+          orient: "vertical",
+          top: "10%",
           textStyle: {
             color: "#fff"
           },
-          data: [{ name: "今日劝返人员(万)" }, { name: "累计劝返人员(万)" }]
+          data: [{ name: "非温州籍返工(万)" }, { name: "温州籍返工(万)" }]
         },
         xAxis: [
           {
@@ -101,53 +102,42 @@ export default {
         },
         series: [
           {
-            name: "今日劝返人员(万)",
+            name: "非温州籍返工(万)",
             type: "bar",
             stack: "one",
+            barWidth: 10,
             label: {
               position: "inside",
-              distance: 12,
-              show: false,
-              color: "#fff",
-              formatter: function(param) {
-                return param.value;
-              }
+              show: false
             },
             itemStyle: {
               color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                { offset: 0, color: "#FFFEB1" },
-                { offset: 1, color: "#FFDE00" }
+                { offset: 0, color: "#FF8C00" },
+                { offset: 1, color: "#FFE4B5" }
               ])
             },
-            barWidth: 10,
-            data: this.chartData.hb.map(item => Math.round(item / 1000) / 10)
+            data: this.chartData.sw.map(item => Math.round(item / 100) / 100)
           },
           {
-            name: "累计劝返人员(万)",
+            name: "温州籍返工(万)",
             type: "bar",
             stack: "one",
-            barWidth: 10,
             label: {
               position: "top",
               show: true,
               color: "#fff",
               formatter: ({ dataIndex }) => {
-                return (
-                  Math.round(
-                    (this.chartData.hb[dataIndex] +
-                      this.chartData.rest[dataIndex]) /
-                      1000
-                  ) / 10
-                );
+                return Math.round(this.chartData.all[dataIndex] / 1000) / 10;
               }
             },
             itemStyle: {
               color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                { offset: 0, color: "#A93FE0" },
-                { offset: 1, color: "#CF72FF" }
+                { offset: 0, color: "#00CED1" },
+                { offset: 1, color: "#40E0D0" }
               ])
             },
-            data: this.chartData.rest.map(item => Math.round(item / 1000) / 10)
+            barWidth: 10,
+            data: this.chartData.sn.map(item => Math.round(item / 100) / 100)
           }
         ]
       });

@@ -1,52 +1,50 @@
 <template>
   <div class="sf">
-    <fgTop title="全市" :num="qf_statistics[1]" />
+    <fgTop title="全市" :num="num" />
     <div class="bottom">
       <p>
-        <span class="text">截至</span> 2020年 2月
-        <span class="time">{{date}}</span>日
+        <span class="text">截至</span> 2020-2-<span class="time">{{date}}</span>&nbsp;
         <span class="time">{{time}}</span>时数据，每30分钟更新数据
       </p>
     </div>
     <div class="TOP_DATA">
       <div>
-        <span style="font-size: 14px;position: relative;left: -15px;">已提交复工申请</span>
         <div>
           <p>
-            企业规(限)上
-            <i style="color:#a93fe0">{{qf_statistics[0]}}</i> 家
+            温州籍返工
+            <i style="color:#15b5a0">{{(staticNum[2]/10000).toFixed(1)}}</i> 万人
           </p>
           <p>
-            投资超1亿元工程
-            <i style="color:#a93fe0">{{qf_statistics[2]}}</i> 万人
+            非温州籍返工
+            <i style="color:#ff6000">{{(staticNum[3]/10000).toFixed(1)}}</i> 万人
           </p>
         </div>
       </div>
       <div>
         <div>
           <p>
-            市内返工员工
-            <i style="color:#15b5a0">{{qf_statistics[3]}}</i> 家
+            企业规(限)上
+            <i style="color:#a93fe0">{{staticNum[0]}}</i> 家
           </p>
           <p>
-            市外返工员工
-            <i style="color:#ff6000">{{qf_statistics[4]}}</i> 万人
+            投资超1亿元工程
+            <i style="color:#a93fe0">{{staticNum[1]}}</i> 个
           </p>
         </div>
       </div>
     </div>
     <div id="nyjj-map"></div>
-    <img class="sftl" src="../img/fgtl.png" />
+    <img class="sftl" src="../img/fgtl_new.png" />
     <!-- <img class="down" :src="down" /> -->
     <div class="kind">
-      <p style="height: 23px;">提交复工申请企业总数</p>
-      <div class="t1">≥2万家</div>
-      <div class="t2">≥1~＜2万家</div>
-      <div class="t3">≥0.5~＜1万家</div>
-      <div class="t4">＜0.5万家</div>
+      <p>复工复产备案员工总数</p>
+      <div class="t1">≥1万</div>
+      <div class="t2">≥5千~＜1万</div>
+      <div class="t3">≥1千~＜5千</div>
+      <div class="t4">＜1千</div>
     </div>
-    <fgqy :chartData="fixed_fg" ref="fg_chart" />
-    <fgyg :chartData="fixed_qf" ref="qf_chart" />
+    <fgqy :chartData="fixed_qy" ref="qf_chart" />
+    <fgyg :chartData="fixed_yg" ref="fg_chart" />
     <!-- 底部 -->
     <div class="bottom">
       <!-- <div class="sjlz">本页面返工企业人员数据每半小时更新</div> -->
@@ -71,16 +69,30 @@ import fgqy from "./sfChart/fgqy";
 import fgyg from "./sfChart/fgyg";
 import fgTop from "./fgTop";
 import { mapdata } from "../mapdata";
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 
 export default {
   data() {
     return {
       chart: undefined,
       mapdata,
-      qf_statistics: [0, 0, 0, 0, 0],
-      fixed_fg: { name: [], hb: [], rest: [] },
-      fixed_qf: { name: [], hb: [], rest: [] },
+      num: [
+        {
+          title: "复工复产备案企业",
+          value: 0,
+          unit: "家",
+          color: "ffbf13"
+        },
+        {
+          title: "复工复产备案员工",
+          value: 0,
+          unit: "人",
+          color: "FF4242"
+        }
+      ],
+      staticNum: [0, 0, 0, 0],
+      fixed_yg: { name: [], hb: [], rest: [] },
+      fixed_qy: { name: [], hb: [], rest: [] },
       date: "",
       time: "",
       logoshow: false,
@@ -90,113 +102,111 @@ export default {
   components: { fgqy, fgyg, fgTop },
   computed: {
     ...mapState({
-      QfList: state => state.QfList
+      FgfcList: state => state.FgfcList
     })
   },
   watch: {
-    blList() {
-      this.qfDataFix();
+    FgfcList() {
+      this.fgfcDataFix();
     }
   },
   mounted() {
     this.NYJJMapInit(); //调用地图
-    this.qfDataFix();
+    !this.FgfcList.length && this.fetchFgfcList();
+    this.fgfcDataFix();
   },
   methods: {
-    qfDataFix() {
-      if (!this.QfList.length) return;
-      this.date = this.QfList[0].gxsj.substring(8, 11);
-      this.time = this.QfList[0].gxsj.substring(11, 13);
-      console.log(this.QfList, this.date, this.time);
-      this.$parent.sfdate = this.QfList[0].gxsj.substring(8, 11);
-      this.$parent.sftime = this.QfList[0].gxsj.substring(11, 13);
-      const xqObj = {};
-      const qyobj = {};
-      const qfObj = {};
-      const fgObj = {};
-      const qf_statistics = [0, 0, 0, 0, 0];
-      const all_back = 0;
-      this.QfList.map(
-        ({
-          qy_cnt,
-          sanfan_cnt,
-          jhhw,
-          jhhw_hb,
-          qx_name,
-          quanfan_cnt,
-          quanfan_today,
-          weilai3
-        }) => {
-          //  地图统计
-          const _xq_ = qx_name.replace(/产业集聚区/g, "");
-          qf_statistics[0] += parseInt(qy_cnt);
-          qf_statistics[1] += parseInt(sanfan_cnt);
-          qf_statistics[2] += parseInt(jhhw);
-          qf_statistics[3] += parseInt(jhhw_hb);
-          qf_statistics[4] += parseInt(weilai3);
-          !xqObj[_xq_] && (xqObj[_xq_] = 0);
-          !qyobj[_xq_] && (qyobj[_xq_] = 0);
-          xqObj[_xq_] += parseInt(sanfan_cnt);
-          qyobj[_xq_] += parseInt(qy_cnt);
-          if (["市本级", "其他区县"].indexOf(_xq_) < 0) {
-            //  劝返人员统计
-            !qfObj[_xq_] &&
-              (qfObj[_xq_] = { name: _xq_, all: 0, hb: 0, rest: 0 });
-            qfObj[_xq_].all += parseInt(quanfan_cnt);
-            qfObj[_xq_].hb += parseInt(quanfan_today);
-            qfObj[_xq_].rest += parseInt(quanfan_cnt) - parseInt(quanfan_today);
-            //  返工人员统计
-            !fgObj[_xq_] &&
-              (fgObj[_xq_] = { name: _xq_, all: 0, hb: 0, rest: 0 });
-            fgObj[_xq_].all += parseInt(jhhw);
-            fgObj[_xq_].hb += parseInt(jhhw_hb);
-            fgObj[_xq_].rest += parseInt(jhhw) - parseInt(jhhw_hb);
-          }
+    ...mapActions(["fetchFgfcList"]),
+    fgfcDataFix() {
+      if (!this.FgfcList.length) return;
+      this.date = this.FgfcList[0].gxsj.substring(8, 10);
+      this.time = this.FgfcList[0].gxsj.substring(11, 16);
+      this.$parent.sfdate = this.FgfcList[0].gxsj.substring(8, 10);
+      this.$parent.sftime = this.FgfcList[0].gxsj.substring(11, 16);
+      const mapqyObj = {};
+      const mapygObj = {};
+      const qyObj = {};
+      const ygObj = {};
+      const num = [0, 0];
+      const staticNum = [0, 0, 0, 0];
+      this.FgfcList.map(item => {
+        const _xq_ = item.area1.replace(/产业集聚区/g, "");
+        //  头部
+        num[0] += parseInt(item.ysq_qy_cnt); //  复工申请企业数
+        num[1] += parseInt(item.ysq_snfgrs_cnt) + parseInt(item.ysq_swfgrs_cnt); //  复工申请员工数(市内市外)
+        //  地图统计
+        staticNum[0] += parseInt(item.ysq_gsqy_cnt);
+        staticNum[1] += parseInt(item.ysq_tzyygc_cnt);
+        staticNum[2] += parseInt(item.ysq_snfgrs_cnt);
+        staticNum[3] += parseInt(item.ysq_swfgrs_cnt);
+        //  地图
+        !mapqyObj[_xq_] && (mapqyObj[_xq_] = 0);
+        !mapygObj[_xq_] && (mapygObj[_xq_] = 0);
+        mapqyObj[_xq_] += parseInt(item.ysq_qy_cnt);
+        mapygObj[_xq_] +=
+          parseInt(item.ysq_snfgrs_cnt) + parseInt(item.ysq_swfgrs_cnt);
+        //  企业分析
+        if (["市本级", "其他区县"].indexOf(_xq_) < 0) {
+          !qyObj[_xq_] &&
+            (qyObj[_xq_] = { name: _xq_, all: 0, yy: 0, gs: 0, rest: 0 });
+          qyObj[_xq_].gs += parseInt(item.ysq_gsqy_cnt);
+          qyObj[_xq_].yy += parseInt(item.ysq_tzyygc_cnt);
+          qyObj[_xq_].all += parseInt(item.ysq_qy_cnt);
+          qyObj[_xq_].rest +=
+            parseInt(item.ysq_qy_cnt) -
+            parseInt(item.ysq_tzyygc_cnt) -
+            parseInt(item.ysq_gsqy_cnt);
+          //  员工分析
+          !ygObj[_xq_] && (ygObj[_xq_] = { name: _xq_, all: 0, sn: 0, sw: 0 });
+          ygObj[_xq_].sn += parseInt(item.ysq_snfgrs_cnt);
+          ygObj[_xq_].sw += parseInt(item.ysq_swfgrs_cnt);
+          ygObj[_xq_].all +=
+            parseInt(item.ysq_snfgrs_cnt) + parseInt(item.ysq_swfgrs_cnt);
         }
-      );
+      });
+      //  数据处理
       const _mapdata_ = this.$util.clone(this.mapdata).map(item => {
         return {
           ...item,
-          value: xqObj[item.name] ? (xqObj[item.name] / 10000).toFixed(1) : 0,
-          qyvalue: qyobj[item.name] ? qyobj[item.name] : 0
+          ygvalue: mapygObj[item.name] || 0,
+          value: mapqyObj[item.name] || 0
         };
       });
-      const _qf_ = [];
-      const fixed_qf = { name: [], hb: [], rest: [] };
-      for (let v in qfObj) {
-        _qf_.push(qfObj[v]);
+      const _qy_ = [];
+      const fixed_qy = { name: [], all: [], yy: [], gs: [], rest: [] };
+      for (let v in qyObj) {
+        _qy_.push(qyObj[v]);
       }
-      _qf_
+      _qy_
         .sort(this.$util.compare("all"))
         .reverse()
-        .map(({ name, hb, rest }) => {
-          fixed_qf.name.push(name);
-          fixed_qf.hb.push(hb);
-          fixed_qf.rest.push(rest);
+        .map(({ name, yy, gs, rest, all }) => {
+          fixed_qy.name.push(name);
+          fixed_qy.yy.push(yy);
+          fixed_qy.gs.push(gs);
+          fixed_qy.rest.push(rest);
+          fixed_qy.all.push(all);
         });
-      const _fg_ = [];
-      const fixed_fg = { name: [], hb: [], rest: [] };
-      for (let v in fgObj) {
-        _fg_.push(fgObj[v]);
+      const _yg_ = [];
+      const fixed_yg = { name: [], all: [], sn: [], sw: [] };
+      for (let v in ygObj) {
+        _yg_.push(ygObj[v]);
       }
-      _fg_
+      _yg_
         .sort(this.$util.compare("all"))
         .reverse()
-        .map(({ name, hb, rest }) => {
-          fixed_fg.name.push(name);
-          fixed_fg.hb.push(hb);
-          fixed_fg.rest.push(rest);
+        .map(({ name, sn, sw, all }) => {
+          fixed_yg.name.push(name);
+          fixed_yg.sn.push(sn);
+          fixed_yg.sw.push(sw);
+          fixed_yg.all.push(all);
         });
-      this.qf_statistics = [
-        parseInt(qf_statistics[0]),
-        (qf_statistics[1] / 10000).toFixed(1),
-        (qf_statistics[2] / 10000).toFixed(1),
-        parseInt((qf_statistics[3] / 10000).toFixed(1)),
-        parseInt((qf_statistics[4] / 10000).toFixed(1))
-      ];
-      console.log(fixed_fg);
-      this.fixed_qf = fixed_qf;
-      this.fixed_fg = fixed_fg;
+      this.num = this.num.map((item, index) => {
+        return { ...item, value: num[index] };
+      });
+      this.staticNum = staticNum;
+      this.fixed_qy = fixed_qy;
+      this.fixed_yg = fixed_yg;
       this.mapdata = _mapdata_;
       this.$nextTick(() => {
         this.NYJJMap(); //调用地图
@@ -234,10 +244,15 @@ export default {
         },
         visualMap: {
           show: false,
-          min: 0,
-          max: 20,
+          min: 1000,
+          max: 10000,
           inRange: {
-            color: ["#FFFFFF", "#FFF2AC", "#FF912F", "#F72726"]
+            color: [
+              "rgb(230, 241, 216)",
+              "rgb(200, 226, 177)",
+              "rgb(172, 212, 74)",
+              "rgb(104, 156, 32)"
+            ]
           }
         },
         series: [
@@ -256,8 +271,8 @@ export default {
             data: this.mapdata.map(item => {
               return {
                 name: item.name,
-                value: item.value,
-                qyvalue: item.qyvalue,
+                value: item.ygvalue,
+                qyvalue: item.value,
                 itemStyle: {
                   color: item.color || "#fff"
                 },
@@ -293,9 +308,9 @@ export default {
                               .replace("市", "") +
                             "}",
                           "{num2|" +
-                            params.data.qyvalue +
-                            "}/{num1|" +
                             params.data.value +
+                            "}/{num1|" +
+                            params.data.ygvalue +
                             "}"
                         ].join("\n")
                       : [
@@ -306,9 +321,9 @@ export default {
                               .replace("市", "") +
                             "}",
                           "{num3|" +
-                            params.data.qyvalue +
-                            "}/{num4|" +
                             params.data.value +
+                            "}/{num4|" +
+                            params.data.ygvalue +
                             "}"
                         ].join("\n");
                   },
@@ -326,7 +341,7 @@ export default {
                       offset: [0, 1]
                     },
                     num2: {
-                      color: "rgb(14,160,108)",
+                      color: "#ffbf13",
                       fontSize: 12,
                       fontWeight: "bold",
                       offset: [0, 1]
@@ -338,13 +353,13 @@ export default {
                       offset: [0, 5]
                     },
                     num3: {
-                      color: "#FF4242",
+                      color: "#ffbf13",
                       fontSize: 12,
                       fontWeight: "bold",
                       offset: [0, 5]
                     },
                     num4: {
-                      color: "rgb(14,160,108)",
+                      color: "#FF4242",
                       fontSize: 12,
                       fontWeight: "bold",
                       offset: [0, 5]
@@ -411,6 +426,12 @@ export default {
     box-sizing: border-box;
     font-size: 12px;
     margin-bottom: 10px;
+    position: relative;
+    > p {
+      position: absolute;
+      left: 10px;
+      top: -25px;
+    }
     > div {
       .topLine(@MaxHeight);
       width: 23%;
@@ -426,16 +447,16 @@ export default {
       top: 0;
     }
     .t1:before {
-      background-color: rgb(247, 39, 38);
+      background-color: rgb(104, 156, 32);
     }
     .t2:before {
-      background-color: rgb(255, 145, 47);
+      background-color: rgb(172, 212, 74);
     }
     .t3:before {
-      background-color: rgb(255, 242, 172);
+      background-color: rgb(200, 226, 177);
     }
     .t4:before {
-      background-color: rgb(255, 255, 255);
+      background-color: rgb(230, 241, 216);
     }
   }
   .TOP_DATA {
@@ -491,7 +512,7 @@ export default {
     }
   }
   > .sftl {
-    width: 104px;
+    width: 120px;
     position: absolute;
     bottom: 12%;
     right: 1%;
