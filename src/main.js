@@ -17,6 +17,10 @@ Vue.prototype.$util = util;
 Vue.prototype.$ajax = $.ajax;
 Vue.prototype.$window = window;
 Vue.prototype.$imgIndex = "0217"; //  图片下标
+Vue.prototype.$date = function(){
+  const time = new Date();
+  return time.getDate()-1;
+}; 
 //路由跳转
 Vue.prototype.$goRoute = function (index) {
   this.$router.push({ name: index, params: { Jump: false } });

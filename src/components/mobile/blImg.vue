@@ -106,7 +106,8 @@ export default {
       DATA_YONGJIA,
       TEST_DATA_YONGJIA,
       num: 0,
-      date: window.date,
+      //date: window.date,
+      date:"",
       logoshow: false,
       imgIndex: ""
     };
@@ -118,6 +119,7 @@ export default {
     })
   },
   mounted() {
+    this.date = this.$date();
     this.imgIndex = this.$imgIndex;
     this.xqxx();
   },

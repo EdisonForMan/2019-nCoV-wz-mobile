@@ -135,7 +135,8 @@ export default {
       qz_flag: { red: 0, white: 0, rw: 0, wr: 0 },
       title: "",
       context,
-      date: window.date,
+      //date: window.date,
+      date:"",
       server: "https://lysb.lucheng.gov.cn/other/",
       fk_imgtag: 9,
       show: true,
@@ -192,6 +193,7 @@ export default {
   },
   mounted() {
     this.title = this.$route.query.label;
+    this.date = this.$date();
     this.$nextTick(() => {
       const [map, geo] = this.mapHash[this.$route.query.label];
       this.cur_map = map;

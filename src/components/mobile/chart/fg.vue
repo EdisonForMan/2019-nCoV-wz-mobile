@@ -3,8 +3,7 @@
     <fgTop title="全市" :num="num" />
     <div class="bottom">
       <p>
-        <span class="text">截至</span> 2020-2-
-        <span class="time">{{date}}</span>&nbsp;
+        <span class="text">截至</span> 2020-2-<span class="time">{{date}}</span>&nbsp;
         <span class="time">{{time}}</span>时数据，每30分钟更新数据
       </p>
     </div>

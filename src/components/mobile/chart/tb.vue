@@ -804,7 +804,8 @@ export default {
               color: "#F9B87C"
             },
             barWidth: 11,
-            data: data.map(item => item.value)
+             data: data.map(item => item.value)
+            // data: [0,0,0,0,0,0,0,0,0,0,0,0,0,0]
           }
         ]
       });
@@ -925,7 +926,9 @@ export default {
               fontWeight: 800,
               color: "#48E7EA"
             },
-            data: data.map(item => item.value)
+             data: data.map(item => item.value)
+            // data:[0,1,1,0,0,6,1,0,3,1,1,0,0,0]
+            
           }
         ]
       });

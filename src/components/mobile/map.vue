@@ -62,8 +62,8 @@
       </div>
       <p>
         <span class="text" style="margin-left:5px;">截至</span> 2020年 2月
-        <span class="time">{{current != 3 ?date:sfdate}}</span>日
-        <span class="time">{{current != 3 ?24:sftime}}</span>时
+        <span class="time">{{current == 3 || current == 2 ?date:sfdate}}</span>日
+        <span class="time">{{current == 3 || current == 2 ?24:sftime}}</span>时
         <img style src="./img/logo.png" @click="showLogo()" />
       </p>
     </div>
@@ -134,7 +134,8 @@ export default {
       ],
       current: 0,
       reloadFlag: null,
-      date: window.date,
+      // date: window.date,
+      date:"",
       token: "",
       access_token: "",
       ticketString: "",
@@ -147,6 +148,7 @@ export default {
     };
   },
   async mounted() {
+    this.date = this.$date();
     !this.blList.length && this.fetchBlList();
     !this.flagList.length && this.fetchFlagList();
     !this.QfList.length && this.fetchQfList();
