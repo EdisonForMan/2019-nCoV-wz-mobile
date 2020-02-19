@@ -491,10 +491,7 @@ export default {
                   let _data = this.cur_data;
                   ~["龙港市", "瓯江口"].indexOf(this.title) &&
                     (_data = this.all);
-                  return `${params.name
-                    .replace("街道", "")
-                    .replace("镇", "")
-                    .replace("乡", "")}${
+                  return `${this.$util.nameFixed(params.name)}${
                     _data[params.name] ? _data[params.name].value : 0
                   }人`;
                 },
@@ -658,10 +655,7 @@ export default {
                   textBorderWidth: 1
                 },
                 formatter: params => {
-                  return `${params.name
-                    .replace("街道", "")
-                    .replace("镇", "")
-                    .replace("乡", "")}${
+                  return `${this.$util.nameFixed(params.name)}${
                     this.cur_data[params.name]
                       ? this.cur_data[params.name].value
                       : 0

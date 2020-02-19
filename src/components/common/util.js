@@ -10,6 +10,9 @@
  * @param {*} url  arcgis portal url
  */
 export default {
+  nameFixed(name) {
+    return name.length > 2 ? name.replace(/[街镇|街道|镇|乡|市]/g, "") : name
+  },
   fetchQuerys() {
     const querys = window.location.search.substring(1).split("&");
     const obj = {};

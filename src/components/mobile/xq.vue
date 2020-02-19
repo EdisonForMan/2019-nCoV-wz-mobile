@@ -440,11 +440,7 @@ export default {
                     );
                   } else {
                     return (
-                      params.name
-                        .replace("街道", "")
-                        .replace("乡", "")
-                        .replace("镇", "")
-                        .replace("市", "") +
+                      this.$util.nameFixed(params.name) +
                       (this.cur_data[params.name]
                         ? this.cur_data[params.name].value
                         : 0)
@@ -494,12 +490,8 @@ export default {
                     );
                   } else {
                     return (
-                      params.name
-                        .replace("街道", "")
-                        .replace("乡", "")
-                        .replace("镇", "")
-                        .replace("市", "") +
-                      (this.cur_data[params.name]
+                      this.$util.nameFixed(params.name) +
+                      +(this.cur_data[params.name]
                         ? this.cur_data[params.name].value
                         : 0)
                     );
@@ -660,11 +652,7 @@ export default {
                     );
                   } else {
                     return (
-                      params.name
-                        .replace("街道", "")
-                        .replace("乡", "")
-                        .replace("镇", "")
-                        .replace("市", "") +
+                      this.$util.nameFixed(params.name) +
                       (this.cur_data[params.name]
                         ? this.cur_data[params.name].value
                         : 0)
@@ -714,11 +702,7 @@ export default {
                     );
                   } else {
                     return (
-                      params.name
-                        .replace("街道", "")
-                        .replace("乡", "")
-                        .replace("镇", "")
-                        .replace("市", "") +
+                      this.$util.nameFixed(params.name) +
                       (this.cur_data[params.name]
                         ? this.cur_data[params.name].value
                         : 0)

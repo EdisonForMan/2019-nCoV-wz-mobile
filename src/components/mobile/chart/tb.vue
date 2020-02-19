@@ -321,6 +321,10 @@ export default {
       });
       this.chart.setOption({
         // backgroundColor: "rgb(13,25,49)",
+        //  dataZoom: [{
+        //     startValue: data.length-23, //数据窗口范围的起始数值
+        //     endValue: data.length-1
+        //   }],
         grid: {
           top: "30%",
           bottom: "15%",
