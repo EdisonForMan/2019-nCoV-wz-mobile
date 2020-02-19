@@ -370,7 +370,6 @@ export default {
             showMaxLabel:true
             //interval: 3
           },
-
           data: data.map(item => item.name)
         },
         yAxis: {

@@ -146,11 +146,15 @@ export default {
       logoshow: false
     };
   },
-  mounted() {
+  async mounted() {
     !this.blList.length && this.fetchBlList();
     !this.flagList.length && this.fetchFlagList();
     !this.QfList.length && this.fetchQfList();
     !this.blxxList.length && this.fetchBlxxList();
+    //  压力太大注销掉
+    await this.fetchReliXYList();
+    await this.fetchQushiData();
+    await this.fetchZyRateData();
   },
   computed: {
     ...mapState({
@@ -173,7 +177,11 @@ export default {
       "fetchBlList",
       "fetchFlagList",
       "fetchQfList",
-      "fetchBlxxList"
+      "fetchBlxxList",
+      //  压力太大注销掉
+      "fetchReliXYList",
+      "fetchQushiData",
+      "fetchZyRateData"
     ]),
     fixFlagData() {
       const qz_num = { red: 0, white: 0, rw: 0, wr: 0 };
