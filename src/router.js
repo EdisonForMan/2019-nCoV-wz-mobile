@@ -5,14 +5,13 @@
 import Vue from "vue";
 import Router from "vue-router";
 // pages modules
-import Macroscopic from "./components/macroscopic/Macroscopic.vue";
-import Control from "./components/control/Control.vue";
 import Monitor from "./components/monitor/Monitor.vue";
 import Mobile from "./components/mobile/map.vue"
 import MobileXq from "./components/mobile/xq.vue"
 import MobileGK from "./components/mobile/gk.vue"
 import BlImg from "./components/mobile/blImg.vue"
-// import tb from "./components/mobile/tb.vue";
+import sfDetail from "./components/mobile/chart/sfDetails.vue"
+import fgDetail from "./components/mobile/chart/fgDetails.vue"
 
 Vue.use(Router);
 
@@ -43,14 +42,19 @@ export default new Router({
         component: BlImg,
       },
       {
+        path: "/sfDetail",
+        name: "sfDetail",
+        component: sfDetail
+      },
+      {
+        path: "/fgDetail",
+        name: "fgDetail",
+        component: fgDetail
+      },
+      {
         path: "/monitor",
         name: "monitor",
         component: Monitor
       },
-      // {
-      //   path: "/tb",
-      //   name: "tb",
-      //   component: tb
-      // }
     ]
 });

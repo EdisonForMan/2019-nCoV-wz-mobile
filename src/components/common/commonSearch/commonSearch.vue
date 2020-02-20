@@ -34,7 +34,6 @@
   </div>
 </template>
 <script>
-import commonApi from "@/api/beans/u_common";
 import { loadModules } from "esri-loader";
 import { type, JumpActive } from "./type.js";
 import ToggleSwitch from "./Switch";

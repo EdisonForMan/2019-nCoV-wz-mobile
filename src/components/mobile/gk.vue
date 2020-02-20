@@ -1,13 +1,12 @@
 <template>
   <div class="xq">
-    <div class="redFlag">
-      <div class="head">
-        <p>管控力指标</p>
-        <span @click="back()"><<&nbsp&nbsp返回</span>
-      </div>
-      <!--<span v-else style="font-size:10px;line-height:15px">表中病例信息来源“健康温州”公众号于2020年1月28日起至今公布的信息，且并无删减出院病例。</span> -->
+    <div class="head">
+      <img src="./img/back.png" @click="back()" />
+      <p>管控力指标</p>
     </div>
-    <img :src="imgSrc" style="width:100%;"/>
+    <div class="redFlag">
+      <img :src="`${this.server}${this.imgurl}/img/map/gk.jpg`" style="width:100%;" />
+    </div>
   </div>
 </template>
 
@@ -16,8 +15,12 @@ export default {
   name: "gk",
   data() {
     return {
-      imgSrc: require("./img/gk.jpg")
+      server: "https://lysb.lucheng.gov.cn/other/"
     };
+  },
+  created() {
+    const imgurl = window.imgurl;
+    this.imgurl = imgurl;
   },
   methods: {
     back() {
@@ -37,53 +40,12 @@ export default {
   background-repeat: no-repeat;
   background-size: 100% 100%;
   overflow-y: auto;
-  padding: 10px;
-  .Flagbl {
-    ul {
-      li {
-        img {
-          width: 20px;
-          padding-right: 10px;
-        }
-      }
-    }
-  }
   .head {
     display: block;
     width: 100%;
-    height: 50px;
-    box-sizing: border-box;
-    padding: 10px 20px;
-    cursor: pointer;
-    .red {
-      float: unset !important;
-      font-size: 20px !important;
-      background-image: -webkit-gradient(
-        linear,
-        0 0,
-        0 bottom,
-        from(#f44336),
-        to(#f44336)
-      );
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .white {
-      float: unset !important;
-      font-size: 20px !important;
-      background-image: -webkit-gradient(
-        linear,
-        0 0,
-        0 bottom,
-        from(#fff),
-        to(#fff)
-      );
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
+    height: 35px;
     p {
-      float: left;
-      text-align: left;
+      text-align: center;
       font-size: 20px;
       font-weight: bolder;
       background-image: -webkit-gradient(
@@ -95,12 +57,24 @@ export default {
       );
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+      padding: 15px;
     }
-    span:nth-child(2) {
-      float: right;
-      font-size: 14px;
-      color: #fff;
-      line-height: 28px;
+    img {
+      width: 45px;
+      height: 25px;
+      float: left;
+      padding-top: 15px;
+    }
+  }
+  .redFlag {
+    padding: 10px;
+    ul {
+      li {
+        img {
+          width: 20px;
+          padding-right: 10px;
+        }
+      }
     }
   }
   .img {

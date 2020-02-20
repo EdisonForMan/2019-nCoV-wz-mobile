@@ -382,7 +382,7 @@ export default {
         "type": "Feature",
         "properties": {
             "adcode": 330303,
-            "name": "浙南产业集聚区",
+            "name": "浙南",
             "center": [120.763469, 27.970254],
             "centroid": [120.815894, 27.890969],
             "childrenNum": 0,
@@ -763,7 +763,7 @@ export default {
         "type": "Feature",
         "properties": {
             "adcode": 330305,
-            "name": "瓯江口产业集聚区",
+            "name": "瓯江口",
             "center": [121.156181, 27.836057],
             "centroid": [121.033762, 27.892626],
             "childrenNum": 0,

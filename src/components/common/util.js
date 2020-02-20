@@ -10,6 +10,9 @@
  * @param {*} url  arcgis portal url
  */
 export default {
+  nameFixed(name) {
+    return name.length > 2 ? name.replace(/[街镇|街道|镇|乡|市]/g, "") : name
+  },
   fetchQuerys() {
     const querys = window.location.search.substring(1).split("&");
     const obj = {};
@@ -114,20 +117,41 @@ export default {
   removeStorage(key, ) {
     window.localStorage.removeItem(key);
   },
-  getNowFormatDate() {
-    var date = new Date();
-    var seperator1 = "_";
+  /**
+   * 获取昨日时间
+   */
+  getTime() {
+    var date = new Date(+new Date() - 1000 * 3600 * 24);
+    var seperator1 = "-";
+    var seperator2 = ":";
+    //以下代码依次是获取当前时间的年月日时分秒
     var year = date.getFullYear();
     var month = date.getMonth() + 1;
     var strDate = date.getDate();
+    var minute = date.getMinutes();
+    var hour = date.getHours();
+    var second = date.getSeconds();
+    //固定时间格式
     if (month >= 1 && month <= 9) {
       month = "0" + month;
     }
     if (strDate >= 0 && strDate <= 9) {
       strDate = "0" + strDate;
     }
-    var currentdate = year + seperator1 + month + seperator1 + strDate;
-    return currentdate;
+    if (hour >= 0 && hour <= 9) {
+      hour = "0" + hour;
+    }
+    if (minute >= 0 && minute <= 9) {
+      minute = "0" + minute;
+    }
+    if (second >= 0 && second <= 9) {
+      second = "0" + second;
+    }
+    return year +
+      seperator1 +
+      month +
+      seperator1 +
+      strDate;
   }
 };
 

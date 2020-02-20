@@ -10,7 +10,7 @@ module.exports = {
     proxy: {
       //配置跨域
       "/api": {
-        target: "http://172.20.89.88:5001/api",
+        target: "http://lysb.lucheng.gov.cn/api",
         changOrigin: true,
         pathRewrite: {
           "^/api": ""

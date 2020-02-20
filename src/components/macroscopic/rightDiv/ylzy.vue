@@ -48,7 +48,6 @@ import Vue from "vue";
 import util from "../util";
 import { loadModules } from "esri-loader";
 import { OPTION } from "@/components/common/Tmap";
-import Test from "@/api/beans/u_common";
 
 export default {
   data() {
