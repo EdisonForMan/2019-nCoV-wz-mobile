@@ -55,15 +55,15 @@
       v-if="current != 2 && current != 3"
     >数据来源：{{current != 3 ? `温州市新冠肺炎工作领导小组`: current ==4 ? `市大数据发展管理局`:`三返人员信息系统`}}</div>-->
 
-    <div class="sjlz" v-if="current == 2 || current == 3">数据来源：温州市新冠肺炎工作领导小组</div>
-    <div class="bottom" v-if="current == 2 || current == 3">
+    <div class="sjlz" v-if="current == 2 || current == 3 || current == 4">数据来源：温州市新冠肺炎工作领导小组</div>
+    <div class="bottom" v-if="current == 2 || current == 3 || current == 4">
       <div class="float" v-show="logoshow">
         <span>技术支持:温州设计集团</span>
       </div>
       <p>
         <span class="text" style="margin-left:5px;">截至</span> 2020年 2月
-        <span class="time">{{current == 3 || current == 2 ?date:sfdate}}</span>日
-        <span class="time">{{current == 3 || current == 2 ?24:sftime}}</span>时
+        <span class="time">{{date}}</span>日
+        <span class="time">24</span>时
         <img style src="./img/logo.png" @click="showLogo()" />
       </p>
     </div>

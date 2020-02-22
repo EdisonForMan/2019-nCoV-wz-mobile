@@ -226,7 +226,7 @@ export default {
         visualMap: {
           show: false,
           min: 0,
-          max: 20,
+          max: 22,
           inRange: {
             color: ["#FFFFFF", "#FFF2AC", "#FF912F", "#F72726"]
           }

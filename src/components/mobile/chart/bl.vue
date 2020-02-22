@@ -210,7 +210,7 @@ export default {
                       height: 12
                     },
                     num2: {
-                      color: "#0068ff",
+                      color: "#19cfe7",
                       fontSize: 12,
                       fontWeight: "bold",
                       height: 12,

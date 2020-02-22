@@ -211,7 +211,7 @@ export default {
             if (params.seriesIndex == 1) {
               const ds = that.TEST_DATA_YONGJIA[params.dataIndex];
               return [
-                `<span style='color: #0eade0; font-weight: bolder;'>${ds.name}（<span style='color: #b2ac88;'>${ds.value.length}</span>）</span>`,
+                `<span style='color: #0eade0; font-weight: bolder;'>${ds.name}（<span style='color: #19cfe7;'>${ds.value.length}</span>）</span>`,
                 ds.value.join("<br />")
               ].join("<br />");
             }

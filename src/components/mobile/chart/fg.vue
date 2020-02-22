@@ -32,16 +32,23 @@
           </p>
         </div>
       </div>
+      <div class="jkm">
+        <p>备案员工健康码(人数)：</p>
+        <span style="color:rgb(255, 66, 66)">{{snfg[2]}}</span>/
+        <span style="color:rgb(255, 191, 19)">{{snfg[1]}}</span>/
+        <span style="color:#24dd50">{{snfg[0]}}</span>
+      </div>
     </div>
+
     <div id="nyjj-map"></div>
     <img class="sftl" src="../img/fgtl_new.png" />
     <!-- <img class="down" :src="down" /> -->
     <div class="kind">
       <p>复工复产备案员工总数</p>
-      <div class="t1">≥1万</div>
-      <div class="t2">≥5千~＜1万</div>
-      <div class="t3">≥1千~＜5千</div>
-      <div class="t4">＜1千</div>
+      <div class="t1">≥10万</div>
+      <div class="t2">≥5万~＜10万</div>
+      <div class="t3">≥2万~＜5万</div>
+      <div class="t4">＜2万</div>
     </div>
     <fgqy :chartData="fixed_qy" ref="qf_chart" />
     <fgyg :chartData="fixed_yg" ref="fg_chart" />
@@ -96,7 +103,8 @@ export default {
       date: "",
       time: "",
       logoshow: false,
-      down: require("./img/down.png")
+      down: require("./img/down.png"),
+      snfg: [0, 0, 0]
     };
   },
   components: { fgqy, fgyg, fgTop },
@@ -134,6 +142,10 @@ export default {
         //  头部
         num[0] += parseInt(item.ysq_qy_cnt); //  复工申请企业数
         num[1] += parseInt(item.ysq_snfgrs_cnt) + parseInt(item.ysq_swfgrs_cnt); //  复工申请员工数(市内市外)
+        //市内健康码统计
+        this.snfg[0] += parseInt(item.ysq_snfg_green_cnt);
+        this.snfg[1] += parseInt(item.ysq_snfg_yellow_cnt);
+        this.snfg[2] += parseInt(item.ysq_snfg_red_cnt);
         //  地图统计
         staticNum[0] += parseInt(item.ysq_gsqy_cnt);
         staticNum[1] += parseInt(item.ysq_tzyygc_cnt);
@@ -245,7 +257,7 @@ export default {
         visualMap: {
           show: false,
           min: 1000,
-          max: 10000,
+          max: 100000,
           inRange: {
             color: [
               "rgb(230, 241, 216)",
@@ -459,9 +471,19 @@ export default {
       background-color: rgb(230, 241, 216);
     }
   }
+
   .TOP_DATA {
     position: absolute;
     z-index: 2;
+    .jkm {
+      display: inline-block;
+      font-size: 12px;
+      position: absolute;
+      z-index: 2;
+      left: 6%;
+      margin-top: 6px;
+      font-weight: normal;
+    }
     > p {
       font-size: 12px;
       display: block;
