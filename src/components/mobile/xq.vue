@@ -39,7 +39,7 @@
           <li v-for="(bitem,bindex) in bl" :key="bindex">
             <div :class="`${bitem.imgurl}`"></div>
             <span>{{bitem.label}}</span>
-            <span :style="`color:${bitem.color};font-size: 23px;font-weight: bold;`">{{bitem.value}}</span>
+            <span :style="`color:${bitem.color};font-size: 21px;font-weight: bold;`">{{bitem.value}}</span>
             <span>例</span>
           </li>
         </ul>
@@ -1043,11 +1043,11 @@ export default {
         height: 14px;
         margin-bottom: 7px;
         width: 100%;
-        li:nth-child(1) {
-          width: 35%;
-        }
+        // li:nth-child(1) {
+        //   width: 33%;
+        // }
         li {
-          width: 30%;
+          width: 33%;
           height: 100%;
           float: left;
           box-sizing: border-box;

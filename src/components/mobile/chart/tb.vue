@@ -64,6 +64,18 @@
       </div>
       <mt-picker :slots="slots" style="height: auto;" ref="picker"></mt-picker>
     </mt-popup>
+    <div class="sjlz">数据来源：温州市新冠肺炎工作领导小组</div>
+    <div class="bottom">
+      <div class="float" v-show="logoshow">
+        <span>技术支持:温州设计集团</span>
+      </div>
+      <p>
+        <span class="text" style="margin-left:5px;">截至</span> 2020年 2月
+        <span class="time">{{date}}</span>日
+        <span class="time">24</span>时
+        <img style src="../img/logo.png" @click="showLogo()" />
+      </p>
+    </div>
   </div>
 </template>
 
@@ -93,10 +105,13 @@ export default {
       reliData: [],
       mapData: {},
       chartDateArr: [],
-      timeoutFlag: null
+      timeoutFlag: null,
+       date:"",
+       logoshow:false
     };
   },
   mounted() {
+    this.date = this.$date();
     this.$echarts.registerMap("qushiWZ", NEW_WENZHOU_JSON);
     this.fetchReliXYList().then(() => {
       const mamReli = this.$store.state.mapReli;
@@ -463,17 +478,17 @@ export default {
             type: "shadow"
           }
         },
-        tooltip: {
-          trigger: "axis",
-          formatter: function(param) {
-            let name = param[0].name;
-            let param1 = "累计确诊：" + param[0].value;
-            let param2 = "累计治愈：" + param[1].value;
-            // let param3 = "确诊存量：" + (param[0].value - param[1].value);
-            return [name, param1, param2].join("\n");
-          },
-          extraCssText: "white-space:pre-wrap;text-align:left;"
-        },
+        // tooltip: {
+        //   trigger: "axis",
+        //   formatter: function(param) {
+        //     let name = param[0].name;
+        //     let param1 = "累计确诊：" + param[0].value;
+        //     let param2 = "累计治愈：" + param[1].value;
+        //     // let param3 = "确诊存量：" + (param[0].value - param[1].value);
+        //     return [name, param1, param2].join("\n");
+        //   },
+        //   extraCssText: "white-space:pre-wrap;text-align:left;"
+        // },
         grid: {
           top: "30%",
           left: "4%",
@@ -1533,6 +1548,13 @@ export default {
           }
         ]
       });
+    },
+    showLogo(){
+      this.logoshow = true;
+      const that = this;
+      setTimeout(function() {
+        that.logoshow = false;
+      }, 3000);
     }
   }
 };
@@ -1635,4 +1657,55 @@ export default {
   background: url(./img/zanting.png) center no-repeat;
   background-size: 100% 100%;
 }
+.tb div.sjlz{
+  //  position: absolute;
+    width: 100%;
+    text-align: center;
+    // bottom: 4%;
+    font-size: 12px;
+}
+.tb div.bottom {
+    // position: absolute;
+    width: 100%;
+    text-align: center;
+    // bottom: 1%;
+    z-index: 2;
+    .tips {
+      width: 313px;
+      font-size: 14px;
+    }
+    p {
+      color: #fff;
+      font-size: 12px;
+      font-weight: bolder;
+      margin: 0;
+      display: inline-block;
+      width: 100%;
+    }
+    .float {
+      position: fixed;
+      right: 32%;
+      color: #000;
+      width: 160px;
+      display: block;
+      background-color: rgb(255, 255, 255);
+      box-sizing: border-box;
+      padding: 5px;
+      border-radius: 10px;
+       bottom: 3%;
+           height: unset;
+      span {
+        font-size: 12px;
+      }
+    }
+    img {
+      font-size: 12px;
+      width: 14px;
+      position: relative;
+      top: 2px;
+      background-color: #fff;
+      border-radius: 3px;
+      margin-left: 4px;
+    }
+  }
 </style>

@@ -36,19 +36,20 @@ export default {
         legend: {
           show: true,
           right: "10%",
-          orient:"vertical",
+          orient: "vertical",
           top: "10%",
           textStyle: {
             color: "#fff"
           },
           data: [
-            { name: "其他企业/工程" },
-            { name: "规(限)上企业" },
-            { name: "投资超过一亿工程" }
+            { name: "投资超过一亿工程(家)" },
+            { name: "其他企业/工程(家)" },
+            { name: "规(限)上企业(家)" }
           ]
         },
         xAxis: [
           {
+            
             boundaryGap: true,
             type: "category",
             axisTick: {
@@ -108,28 +109,12 @@ export default {
         },
         series: [
           {
-            name: "投资超过一亿工程",
+            name: "规(限)上企业(家)",
             type: "bar",
             stack: "one",
-            barWidth: 10,
+             barWidth: 10,
             label: {
-              position: "inside",
-              show: false
-            },
-            itemStyle: {
-              color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                { offset: 0, color: "#DF1502" },
-                { offset: 1, color: "#F3C4B7" }
-              ])
-            },
-            data: this.chartData.yy
-          },
-          {
-            name: "规(限)上企业",
-            type: "bar",
-            stack: "one",
-            label: {
-              position: "inside",
+              position: "top",
               show: false
             },
             itemStyle: {
@@ -141,9 +126,10 @@ export default {
             data: this.chartData.gs
           },
           {
-            name: "其他企业/工程",
+            name: "其他企业/工程(家)",
             type: "bar",
             stack: "one",
+             barWidth: 10,
             label: {
               position: "top",
               show: true,
@@ -159,6 +145,23 @@ export default {
               ])
             },
             data: this.chartData.rest
+          },
+          {
+            name: "投资超过一亿工程(家)",
+            type: "bar",
+            stack: "one",
+            barWidth: 10,
+            label: {
+              position: "top",
+              show: false
+            },
+            itemStyle: {
+              color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                { offset: 0, color: "#DF1502" },
+                { offset: 1, color: "#F3C4B7" }
+              ])
+            },
+            data: this.chartData.yy
           }
         ]
       });

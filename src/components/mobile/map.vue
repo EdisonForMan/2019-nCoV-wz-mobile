@@ -55,8 +55,8 @@
       v-if="current != 2 && current != 3"
     >数据来源：{{current != 3 ? `温州市新冠肺炎工作领导小组`: current ==4 ? `市大数据发展管理局`:`三返人员信息系统`}}</div>-->
 
-    <div class="sjlz" v-if="current == 2 || current == 3 || current == 4">数据来源：温州市新冠肺炎工作领导小组</div>
-    <div class="bottom" v-if="current == 2 || current == 3 || current == 4">
+    <div class="sjlz" v-if="current == 2 || current == 3 ">数据来源：温州市新冠肺炎工作领导小组</div>
+    <div class="bottom" v-if="current == 2 || current == 3 ">
       <div class="float" v-show="logoshow">
         <span>技术支持:温州设计集团</span>
       </div>
@@ -203,9 +203,6 @@ export default {
     },
     showLogo() {
       this.logoshow = true;
-      this.timeOut();
-    },
-    timeOut() {
       const that = this;
       setTimeout(function() {
         that.logoshow = false;

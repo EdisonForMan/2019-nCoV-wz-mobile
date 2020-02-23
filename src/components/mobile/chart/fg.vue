@@ -4,7 +4,8 @@
     <div class="bottom">
       <p>
         <span class="text">截至</span> 2020-2-<span class="time">{{date}}</span>&nbsp;
-        <span class="time">{{time}}</span>时数据，每30分钟更新数据
+        <span class="time">{{time}}</span>时，数据每30分钟更新
+        <img style src="../img/logo.png" @click="showLogo()" />
       </p>
     </div>
     <div class="TOP_DATA">
@@ -254,19 +255,19 @@ export default {
             shadowColor: "#000"
           }
         },
-        visualMap: {
-          show: false,
-          min: 1000,
-          max: 100000,
-          inRange: {
-            color: [
-              "rgb(230, 241, 216)",
-              "rgb(200, 226, 177)",
-              "rgb(172, 212, 74)",
-              "rgb(104, 156, 32)"
-            ]
-          }
-        },
+        // visualMap: {
+        //   show: false,
+        //   min: 1000,
+        //   max: 100000,
+        //   inRange: {
+        //     color: [
+        //       "rgb(230, 241, 216)",
+        //       "rgb(200, 226, 177)",
+        //       "rgb(172, 212, 74)",
+        //       "rgb(104, 156, 32)"
+        //     ]
+        //   }
+        // },
         series: [
           {
             type: "map",
@@ -285,9 +286,18 @@ export default {
                 name: item.name,
                 value: item.ygvalue,
                 qyvalue: item.value,
-                itemStyle: {
-                  color: item.color || "#fff"
-                },
+                itemStyle: {
+                  // color: item.color || "#fff"
+                  // 根据备案员工人数判断颜色
+                  color:
+                    item.ygvalue >= 100000
+                      ? "#689c20"
+                      : item.ygvalue >= 50000
+                      ? "#acd44a"
+                      : item.ygvalue >= 20000
+                      ? "#c8e2b1"
+                      : "#e6f1d8"
+                },
                 coord: item.coord
               };
             }),
@@ -573,15 +583,15 @@ export default {
     }
     .float {
       position: fixed;
-      right: 32%;
+      right: 10%;
       color: #000;
       width: 160px;
       display: block;
-      background-color: rgb(255, 255, 255);
+      background-color: #ffffff;
       box-sizing: border-box;
       padding: 5px;
       border-radius: 10px;
-      bottom: 2%;
+      top: 21%;
       z-index: 2;
       span {
         font-size: 12px;

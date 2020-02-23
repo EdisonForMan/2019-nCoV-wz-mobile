@@ -303,6 +303,7 @@ export default {
         }
         this.yxqy += parseInt(item.qy_cnt);
         tabdata[0].value += parseInt(item.jhhw);
+        console.log(tabdata[0])
         tabdata[1].value += parseInt(item.quanfan_cnt);
         fgnum += parseInt(item.sanfan_cnt);
       });

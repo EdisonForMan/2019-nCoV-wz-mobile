@@ -1,10 +1,11 @@
 <template>
   <div class="sf">
-    <sfTop title="全市" :num="qf_statistics[1]" :qynum="qf_statistics[0]"/>
+    <sfTop title="全市" :num="qf_statistics[1]" :qynum="qf_statistics[0]" />
     <div class="bottom">
       <p>
         <span class="text">截至</span> 2020-2-<span class="time">{{date}}</span>&nbsp;
-        <span class="time">{{time}}</span>时数据，每30分钟更新数据
+        <span class="time">{{time}}</span>时，数据每30分钟更新
+        <img style src="../img/logo.png" @click="showLogo()" />
       </p>
     </div>
     <div class="TOP_DATA">
@@ -13,7 +14,7 @@
           <!-- <p>
             意向复工企业
             <i style="color:rgb(21,181,160)">{{qf_statistics[0]}}</i> 家
-          </p> -->
+          </p>-->
           <p>
             计划回温
             <i style="color:rgb(254,145,47)">{{qf_statistics[2]}}</i> 万人
@@ -52,7 +53,7 @@
         <span class="time">{{date}}</span>日
         <span class="time">{{time}}</span>时数据，每30分钟更新数据
         <img style src="../img/logo.png" @click="showLogo()" />
-      </p> -->
+      </p>-->
     </div>
   </div>
 </template>
@@ -142,7 +143,9 @@ export default {
               (fgObj[_xq_] = { name: _xq_, all: 0, hb: 0, rest: 0 });
             fgObj[_xq_].all += parseInt(jhhw);
             fgObj[_xq_].hb += parseInt(jhhw_hb);
-            fgObj[_xq_].rest += parseInt(jhhw) - parseInt(jhhw_hb);
+            // fgObj[_xq_].rest += parseInt(jhhw) - parseInt(jhhw_hb);
+            fgObj[_xq_].rest += parseInt(jhhw) ;
+
           }
         }
       );
@@ -223,14 +226,14 @@ export default {
             shadowColor: "#000"
           }
         },
-        visualMap: {
-          show: false,
-          min: 0,
-          max: 22,
-          inRange: {
-            color: ["#FFFFFF", "#FFF2AC", "#FF912F", "#F72726"]
-          }
-        },
+        // visualMap: {
+        //   show: false,
+        //   min: 0,
+        //   max: 20,
+        //   inRange: {
+        //     color: ["#FFFFFF", "#FFF2AC", "#FF912F", "#F72726"]
+        //   }
+        // },
         series: [
           {
             type: "map",
@@ -249,9 +252,18 @@ export default {
                 name: item.name,
                 value: item.value,
                 qyvalue: item.qyvalue,
-                itemStyle: {
-                  color: item.color || "#fff"
-                },
+                itemStyle: {
+                  // color: item.color || "#fff"
+                  // 根据返工人数判断颜色
+                  color:
+                    item.value >= 20
+                      ? "#f72726"
+                      : item.value >= 10
+                      ? "#ff912f"
+                      : item.value >= 5
+                      ? "#fff2ac"
+                      : "#ffffff"
+                },
                 coord: item.coord
               };
             }),
@@ -313,32 +325,12 @@ export default {
                     num1: {
                       color: "#FF4242",
                       fontSize: 12,
-                      fontWeight: "bold",
-                      offset: [0, 1]
+                      fontWeight: "bold"
                     },
                     num2: {
                       color: "rgb(14,160,108)",
                       fontSize: 12,
-                      fontWeight: "bold",
-                      offset: [0, 1]
-                    },
-                    title1: {
-                      color: "black",
-                      fontSize: 12,
-                      fontWeight: "bold",
-                      offset: [0, 5]
-                    },
-                    num3: {
-                      color: "#FF4242",
-                      fontSize: 12,
-                      fontWeight: "bold",
-                      offset: [0, 5]
-                    },
-                    num4: {
-                      color: "rgb(14,160,108)",
-                      fontSize: 12,
-                      fontWeight: "bold",
-                      offset: [0, 5]
+                      fontWeight: "bold"
                     },
                     e: {
                       color: "#FF4242",
@@ -517,20 +509,20 @@ export default {
       display: inline-block;
       width: 100%;
       position: relative;
-      top:-7px;
+      top: -7px;
     }
     .float {
-      position: fixed;
-      right: 32%;
-      color: #000;
-      width: 160px;
-      display: block;
-      background-color: rgb(255, 255, 255);
-      box-sizing: border-box;
-      padding: 5px;
-      border-radius: 10px;
-      bottom: 2%;
-      z-index: 2;
+    position: fixed;
+    right: 10%;
+    color: #000;
+    width: 160px;
+    display: block;
+    background-color: #ffffff;
+    box-sizing: border-box;
+    padding: 5px;
+    border-radius: 10px;
+    top: 18%;
+    z-index: 2;
       span {
         font-size: 12px;
       }
