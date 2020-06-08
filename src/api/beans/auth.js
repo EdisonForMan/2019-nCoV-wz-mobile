@@ -11,7 +11,7 @@ export async function auth_token(username = "admin", axios) {
   axios = axios || getDefaultAxios();
   const { data } = await axios.post("/au/token", {
     username,
-    password: "123",
+    password: "11111",
     noToken: true
   });
   //    对外招商token

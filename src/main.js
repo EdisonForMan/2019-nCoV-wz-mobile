@@ -49,7 +49,7 @@ const app = async fn => {
     sessionStorage.setItem("shallRefresh", true);
     location.reload();
   }
-  await auth_token("admin");
+  await auth_token("jinj");
   fn && fn();
 };
 app(() => {
